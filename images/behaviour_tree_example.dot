@@ -1,0 +1,16 @@
+digraph {
+    node [shape=box style=filled fillcolor=lightblue fontname="Roboto Condensed"];
+
+    start        [ shape=ellipse                            label="►"                ];
+    inrange      [ shape=diamond height=1.2 fillcolor=gold2 label="Player in range?" ];
+    attack       [                                          label="Attack Player"    ];
+    movedback    [ shape=diamond height=1.2 fillcolor=gold2 label="Moved back?"      ];
+    moveforward  [                                          label="Move forward"     ];
+    movebackward [                                          label="Move backward"    ];
+
+    start       -> inrange:n;
+    inrange:s   -> attack:n;
+    start       -> movedback:n;
+    movedback:s -> moveforward:n;
+    start       -> movebackward:n;
+}
