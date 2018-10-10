@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
-set(CMAKE_BUILD_TYPE "Release")
 project(app CXX)
 
 
-
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
 
 add_executable("${PROJECT_NAME}" "")
 
@@ -24,10 +24,5 @@ target_sources(
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PRIVATE
-		libBar-library
-		libBaz-library
-		libFoo-library
-		
+		"${SDL2_LIBRARIES}"
 )
-
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
