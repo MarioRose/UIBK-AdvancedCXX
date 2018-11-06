@@ -13,7 +13,19 @@ const int SCREEN_HEIGHT = 480;
 
 //Paths to files
 const std::string backgroundPath = "../../images/background/plx-1.png";
-const std::string backgroundPath2 = "../../images/background/plx-5.png";
+const std::string backgroundPath2 = "../../images/background/plx-2.png";
+const std::string backgroundPath3 = "../../images/background/plx-3.png";
+const std::string backgroundPath4 = "../../images/background/plx-4.png";
+const std::string backgroundPath5 = "../../images/background/plx-5.png";
+
+//The frames per second
+const int FRAMES_PER_SECOND = 30;
+
+//External Force (Gravitation)
+const float GRAVITATION = 0.3;
+
+//Max Velocity downwards
+const int MAX_VELOCITY_DOWN = 5;
 
 //Texture wrapper class
 class LTexture
@@ -93,35 +105,139 @@ private:
 	bool mStarted;
 };
 
-//The dot that will move around on the screen
-class Dot
+LTimer::LTimer()
+{
+	//Initialize the variables
+	mStartTicks = 0;
+	mPausedTicks = 0;
+
+	mPaused = false;
+	mStarted = false;
+}
+
+void LTimer::start()
+{
+	//Start the timer
+	mStarted = true;
+
+	//Unpause the timer
+	mPaused = false;
+
+	//Get the current clock time
+	mStartTicks = SDL_GetTicks();
+	mPausedTicks = 0;
+}
+
+void LTimer::stop()
+{
+	//Stop the timer
+	mStarted = false;
+
+	//Unpause the timer
+	mPaused = false;
+
+	//Clear tick variables
+	mStartTicks = 0;
+	mPausedTicks = 0;
+}
+
+void LTimer::pause()
+{
+	//If the timer is running and isn't already paused
+	if( mStarted && !mPaused )
+	{
+		//Pause the timer
+		mPaused = true;
+
+		//Calculate the paused ticks
+		mPausedTicks = SDL_GetTicks() - mStartTicks;
+		mStartTicks = 0;
+	}
+}
+
+void LTimer::unpause() {
+	//If the timer is running and paused
+	if (mStarted && mPaused) {
+		//Unpause the timer
+		mPaused = false;
+
+		//Reset the starting ticks
+		mStartTicks = SDL_GetTicks() - mPausedTicks;
+
+		//Reset the paused ticks
+		mPausedTicks = 0;
+	}
+}
+
+Uint32 LTimer::getTicks()
+{
+	//The actual timer time
+	Uint32 time = 0;
+
+	//If the timer is running
+	if( mStarted )
+	{
+		//If the timer is paused
+		if( mPaused )
+		{
+			//Return the number of ticks when the timer was paused
+			time = mPausedTicks;
+		}
+		else
+		{
+			//Return the current time minus the start time
+			time = SDL_GetTicks() - mStartTicks;
+		}
+	}
+
+	return time;
+}
+
+//The character that will move around on the screen
+class Character
 {
 public:
-	//The dimensions of the dot
-	static const int DOT_WIDTH = 20;
-	static const int DOT_HEIGHT = 20;
+	//The dimensions of the Character
+	static const int CHAR_WIDTH = 20;
+	static const int CHAR_HEIGHT = 32;
 
-	//Maximum axis velocity of the dot
-	static const int DOT_VEL = 1;
+	//Maximum axis velocity of the Character
+	static const int CHAR_VEL = 5;
 
-	//Initializes the variables
-	Dot();
+    //Initializes the variables
+    Character();
 
-	//Takes key presses and adjusts the dot's velocity
+	//Takes key presses and adjusts the Character's velocity
 	void handleEvent( SDL_Event& e );
 
-	//Moves the dot
+	//Moves the Character
 	void move();
 
-	//Shows the dot on the screen
+	//Lets the Character jump
+	void jump();
+
+	//Shows the Character on the screen
 	void render();
 
-private:
-	//The X and Y offsets of the dot
-	int mPosX, mPosY;
+    //Shows the Character on the screen
+    void render(int spriteNumber);
 
-	//The velocity of the dot
-	int mVelX, mVelY;
+    int getStatus();
+
+
+private:
+	//The X and Y offsets of the Character
+	double mPosX, mPosY;
+
+	//The velocity of the Character
+	double mVelX, mVelY;
+
+	//The force of the Character
+	double mForceY;
+
+    /*TODO: add enum of stati*/
+    //Status (e.g. idle or running) the Character
+    int status;
 };
 
 //Starts up SDL and creates window
@@ -142,12 +258,25 @@ SDL_Texture* background_texture = NULL;
 SDL_Surface* background_surface2 = NULL;
 SDL_Texture* background_texture2 = NULL;
 
+SDL_Surface* background_surface3 = NULL;
+SDL_Texture* background_texture3 = NULL;
+
+SDL_Surface* background_surface4 = NULL;
+SDL_Texture* background_texture4 = NULL;
+
+SDL_Surface* background_surface5 = NULL;
+SDL_Texture* background_texture5 = NULL;
+
 
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
 //Scene textures
-LTexture gDotTexture;
+LTexture gCharacterTexture;
+
+LTexture gIdleCharacterTextures[11];
+LTexture gRunningCharacterTextures[8];
+
 
 LTexture::LTexture()
 {
@@ -298,7 +427,7 @@ int LTexture::getHeight()
 }
 
 
-Dot::Dot()
+Character::Character()
 {
 	//Initialize the offsets
 	mPosX = 0;
@@ -307,9 +436,15 @@ Dot::Dot()
 	//Initialize the velocity
 	mVelX = 0;
 	mVelY = 0;
+
+	//Initialize the force
+	mForceY = 0;
+
+	//Initialize status of character
+	status = 0;
 }
 
-void Dot::handleEvent( SDL_Event& e )
+void Character::handleEvent( SDL_Event& e )
 {
 	//If a key was pressed
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
@@ -317,11 +452,14 @@ void Dot::handleEvent( SDL_Event& e )
 		//Adjust the velocity
 		switch( e.key.keysym.sym )
 		{
-			case SDLK_UP: mVelY -= DOT_VEL; break;
-			case SDLK_DOWN: mVelY += DOT_VEL; break;
-			case SDLK_LEFT: mVelX -= DOT_VEL; break;
-			case SDLK_RIGHT: mVelX += DOT_VEL; break;
+			//case SDLK_UP: mVelY -= CHAR_VEL; break;
+			case SDLK_UP: jump(); break;
+			case SDLK_DOWN: mVelY += CHAR_VEL; break;
+			case SDLK_LEFT: mVelX -= CHAR_VEL; break;
+			case SDLK_RIGHT: mVelX += CHAR_VEL; break;
+			default: break;
 		}
+		status = 1;
 	}
 		//If a key was released
 	else if( e.type == SDL_KEYUP && e.key.repeat == 0 )
@@ -329,41 +467,91 @@ void Dot::handleEvent( SDL_Event& e )
 		//Adjust the velocity
 		switch( e.key.keysym.sym )
 		{
-			case SDLK_UP: mVelY += DOT_VEL; break;
-			case SDLK_DOWN: mVelY -= DOT_VEL; break;
-			case SDLK_LEFT: mVelX += DOT_VEL; break;
-			case SDLK_RIGHT: mVelX -= DOT_VEL; break;
+			//case SDLK_UP: mVelY += DOT_VEL; break;
+			case SDLK_DOWN: mVelY -= CHAR_VEL; break;
+			case SDLK_LEFT: mVelX += CHAR_VEL; break;
+			case SDLK_RIGHT: mVelX -= CHAR_VEL; break;
+			default: break;
 		}
+		status = 0;
 	}
 }
 
-void Dot::move()
+void Character::jump(){
+	mForceY = -1;
+}
+
+void Character::move()
 {
-	//Move the dot left or right
+	//Move the character left or right
 	mPosX += mVelX;
 
-	//If the dot went too far to the left or right
-	if( ( mPosX < 0 ) || ( mPosX + DOT_WIDTH > SCREEN_WIDTH ) )
+	//If the character went too far to the left or right
+	if( ( mPosX < 0 ) || ( mPosX + CHAR_WIDTH > SCREEN_WIDTH ) )
 	{
 		//Move back
 		mPosX -= mVelX;
 	}
 
-	//Move the dot up or down
-	mPosY += mVelY;
 
-	//If the dot went too far up or down
-	if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > SCREEN_HEIGHT ) )
-	{
-		//Move back
-		mPosY -= mVelY;
+	//Jumping of Falling
+	if(mForceY != 0 || mPosY != SCREEN_HEIGHT - CHAR_HEIGHT){
+
+
+		//Calculate Force
+		if( mPosY + CHAR_HEIGHT < SCREEN_HEIGHT ){
+			mForceY = mForceY + GRAVITATION + ((SCREEN_HEIGHT - CHAR_HEIGHT) - mPosY)/4.5;
+		}
+
+		//Calculate acceleration
+		float a = mForceY + mVelY;
+
+		//Calculate velocity
+		mVelY = mVelY + a;
+
+		//Move the character up or down
+		mPosY += mVelY;
+
+
+		//Maximum Velocity downwards
+		if(mVelY >= MAX_VELOCITY_DOWN){
+			mVelY = MAX_VELOCITY_DOWN;
+		}
+
+		//If the character went too far up or down
+		if( ( mPosY < 0 ) || ( mPosY + CHAR_HEIGHT >= SCREEN_HEIGHT ) )
+		{
+			//Move back
+			//mPosY -= mVelY;
+			mVelY = 0;
+			mPosY = SCREEN_HEIGHT - CHAR_HEIGHT;
+		}
+
+		mForceY = 0;
 	}
 }
 
-void Dot::render()
+int Character::getStatus()
 {
-	//Show the dot
-	gDotTexture.render( mPosX, mPosY );
+    return status;
+}
+
+
+void Character::render()
+{
+	//Show the Character
+    gCharacterTexture.render( mPosX, mPosY );
+}
+
+void Character::render(int spriteNumber)
+{
+    //Show the Character
+    switch (status){
+        case 1: gRunningCharacterTextures[spriteNumber].render( mPosX, mPosY );
+                break;
+        default: gIdleCharacterTextures[spriteNumber].render( mPosX, mPosY );
+                break;
+    }
 }
 
 bool init()
@@ -386,7 +574,7 @@ bool init()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		gWindow = SDL_CreateWindow( "Uncharted - PC Version", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -410,6 +598,12 @@ bool init()
                 background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 				background_surface2 = IMG_Load(backgroundPath2.c_str());
 				background_texture2 = SDL_CreateTextureFromSurface(gRenderer, background_surface2);
+                background_surface3 = IMG_Load(backgroundPath3.c_str());
+                background_texture3 = SDL_CreateTextureFromSurface(gRenderer, background_surface3);
+                background_surface4 = IMG_Load(backgroundPath4.c_str());
+                background_texture4 = SDL_CreateTextureFromSurface(gRenderer, background_surface4);
+                background_surface5 = IMG_Load(backgroundPath5.c_str());
+                background_texture5 = SDL_CreateTextureFromSurface(gRenderer, background_surface5);
 
 
                 //Initialize PNG loading
@@ -431,12 +625,28 @@ bool loadMedia()
 	//Loading success flag
 	bool success = true;
 
-	//Load dot texture
-	if( !gDotTexture.loadFromFile( "../../images/dot.bmp" ) )
+	//Load Character texture
+	if( !gCharacterTexture.loadFromFile("../../images/character/idle/1.png" ))
 	{
-		printf( "Failed to load dot texture!\n" );
+		printf( "Failed to load character texture!\n" );
 		success = false;
 	}
+
+	for(int i = 1; i <= 12; i++){
+        if( !gIdleCharacterTextures[i-1].loadFromFile("../../images/character/idle/" + std::to_string(i) +".png"))
+        {
+            printf( "Failed to load idle character texture nr: %d!\n", i );
+            success = false;
+        }
+	}
+
+    for(int i = 0; i < 8; i++){
+        if( !gRunningCharacterTextures[i].loadFromFile("../../images/character/running/" + std::to_string(i) +".png"))
+        {
+            printf( "Failed to load running character texture nr: %d!\n", i );
+            success = false;
+        }
+    }
 
 	return success;
 }
@@ -444,7 +654,15 @@ bool loadMedia()
 void close()
 {
 	//Free loaded images
-	gDotTexture.free();
+	gCharacterTexture.free();
+
+	for(int i = 0; i < 11; i++){
+        gIdleCharacterTextures[i].free();
+    }
+
+    for(int i = 0; i < 8; i++){
+        gRunningCharacterTextures[i].free();
+    }
 
 	//Destroy window
 	SDL_DestroyRenderer( gRenderer );
@@ -479,12 +697,28 @@ int main( int argc, char* args[] )
 			//Event handler
 			SDL_Event e;
 
-			//The dot that will be moving around on the screen
-			Dot dot;
+			//The Character that will be moving around on the screen
+            Character character;
+
+			//Keep track of the current frame
+			int frame = 0;
+
+			//Whether or not to cap the frame rate
+			bool cap = true;
+
+			//The frame rate regulator
+			LTimer fps;
+
+            int spriteNumber = 1;
+            int oldStatus = character.getStatus();
+            int numberOfSprites = 11;
 
 			//While application is running
 			while( !quit )
 			{
+				//Start the frame timer
+				fps.start();
+
 				//Handle events on queue
 				while( SDL_PollEvent( &e ) != 0 )
 				{
@@ -494,12 +728,12 @@ int main( int argc, char* args[] )
 						quit = true;
 					}
 
-					//Handle input for the dot
-					dot.handleEvent( e );
+					//Handle input for the character
+                    character.handleEvent( e );
 				}
 
-				//Move the dot
-				dot.move();
+				//Move the character
+                character.move();
 
 				//Clear screen
 				SDL_RenderClear(gRenderer);
@@ -507,13 +741,43 @@ int main( int argc, char* args[] )
 				//SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderCopy(gRenderer, background_texture, NULL, NULL);
 				SDL_RenderCopy(gRenderer, background_texture2, NULL, NULL);
+                SDL_RenderCopy(gRenderer, background_texture3, NULL, NULL);
+                SDL_RenderCopy(gRenderer, background_texture4, NULL, NULL);
+                SDL_RenderCopy(gRenderer, background_texture5, NULL, NULL);
 
 
 				//Render objects
-				dot.render();
+                /*TODO: this Solution is only for testing, i'll find a better one */
+                if(frame % 2 == 0){
+                    if(oldStatus != character.getStatus()){
+                        spriteNumber = 0;
+                        numberOfSprites == 11 ? numberOfSprites = 7 : numberOfSprites = 11;
+                    }
+                    else{
+                        if(spriteNumber == numberOfSprites)
+                            spriteNumber = 0;
+                        else{
+                            spriteNumber++;
+                        }
+                    }
+                    oldStatus = character.getStatus();
+
+                }
+
+                character.render(spriteNumber);
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
+
+				//Increment the frame counter
+				frame++;
+
+				//If we want to cap the frame rate
+				if( ( cap == true ) && ( fps.getTicks() < 1000 / FRAMES_PER_SECOND ) )
+				{
+					//Sleep the remaining frame time
+					SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - fps.getTicks() );
+				}
 			}
 		}
 	}
