@@ -11,6 +11,10 @@ and may not be redistributed without written permission.*/
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+//Paths to files
+const std::string backgroundPath = "../../images/background/plx-1.png";
+const std::string backgroundPath2 = "../../images/background/plx-5.png";
+
 //Texture wrapper class
 class LTexture
 {
@@ -98,7 +102,7 @@ public:
 	static const int DOT_HEIGHT = 20;
 
 	//Maximum axis velocity of the dot
-	static const int DOT_VEL = 10;
+	static const int DOT_VEL = 1;
 
 	//Initializes the variables
 	Dot();
@@ -131,6 +135,13 @@ void close();
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
+
+SDL_Surface* background_surface = NULL;
+SDL_Texture* background_texture = NULL;
+
+SDL_Surface* background_surface2 = NULL;
+SDL_Texture* background_texture2 = NULL;
+
 
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
@@ -384,7 +395,7 @@ bool init()
 		else
 		{
 			//Create vsynced renderer for window
-			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
 			if( gRenderer == NULL )
 			{
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -393,9 +404,15 @@ bool init()
 			else
 			{
 				//Initialize renderer color
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				//SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
-				//Initialize PNG loading
+                background_surface = IMG_Load(backgroundPath.c_str());
+                background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
+				background_surface2 = IMG_Load(backgroundPath2.c_str());
+				background_texture2 = SDL_CreateTextureFromSurface(gRenderer, background_surface2);
+
+
+                //Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
 				if( !( IMG_Init( imgFlags ) & imgFlags ) )
 				{
@@ -485,8 +502,12 @@ int main( int argc, char* args[] )
 				dot.move();
 
 				//Clear screen
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-				SDL_RenderClear( gRenderer );
+				SDL_RenderClear(gRenderer);
+
+				//SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_RenderCopy(gRenderer, background_texture, NULL, NULL);
+				SDL_RenderCopy(gRenderer, background_texture2, NULL, NULL);
+
 
 				//Render objects
 				dot.render();
