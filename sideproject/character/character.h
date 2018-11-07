@@ -27,10 +27,10 @@ public:
 	void jump();
 
 	//Shows the Character on the screen
-	void render();
+	void render(SDL_Renderer* gRenderer);
 
   //Shows the Character on the screen
-  void render(int spriteNumber);
+  void render(int spriteNumber, SDL_Renderer* gRenderer);
 
   int getStatus();
 

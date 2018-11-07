@@ -262,7 +262,7 @@ int main( int argc, char* args[] )
 
         }
 
-        character.render(spriteNumber);
+        character.render(spriteNumber, gRenderer);
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );

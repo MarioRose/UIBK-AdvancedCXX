@@ -123,19 +123,19 @@ int Character::getStatus()
 }
 
 
-void Character::render()
+void Character::render(SDL_Renderer* gRenderer)
 {
 	 //Show the Character
-   gCharacterTexture.render( mPosX, mPosY );
+   gCharacterTexture.render( mPosX, mPosY, gRenderer );
 }
 
-void Character::render(int spriteNumber)
+void Character::render(int spriteNumber, SDL_Renderer* gRenderer)
 {
     //Show the Character
     switch (status){
-        case 1: gRunningCharacterTextures[spriteNumber].render( mPosX, mPosY );
+        case 1: gRunningCharacterTextures[spriteNumber].render( mPosX, mPosY, gRenderer );
                 break;
-        default: gIdleCharacterTextures[spriteNumber].render( mPosX, mPosY );
+        default: gIdleCharacterTextures[spriteNumber].render( mPosX, mPosY, gRenderer );
                 break;
     }
 }
