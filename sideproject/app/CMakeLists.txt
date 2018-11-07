@@ -33,4 +33,5 @@ target_link_libraries(
 		"${SDL2IMAGE_LIBRARIES}"
 		sub::timer
 		sub::texture
+		sub::character
 )

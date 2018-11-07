@@ -8,7 +8,7 @@ and may not be redistributed without written permission.*/
 
 #include "timer.h"
 #include "texture.h"
-#include "../character/character.h"
+#include "character.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
