@@ -33,4 +33,5 @@ target_link_libraries(
 		sub::timer
 		sub::texture
 		sub::character
+		sub::settings
 )

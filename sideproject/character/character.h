@@ -2,6 +2,7 @@
 #define CHARACTER_H
 
 #include <SDL.h>
+#include <texture.h>
 //The character that will move around on the screen
 class Character
 {
@@ -28,10 +29,10 @@ public:
 	//Shows the Character on the screen
 	void render();
 
-    //Shows the Character on the screen
-    void render(int spriteNumber);
+  //Shows the Character on the screen
+  void render(int spriteNumber);
 
-    int getStatus();
+  int getStatus();
 
 
 private:
@@ -44,9 +45,16 @@ private:
 	//The force of the Character
 	double mForceY;
 
-    /*TODO: add enum of stati*/
-    //Status (e.g. idle or running) the Character
-    int status;
+  /*TODO: add enum of stati*/
+  //Status (e.g. idle or running) the Character
+  int status;
+
+public:
+		//Scene textures
+		LTexture gCharacterTexture;
+
+		LTexture gIdleCharacterTextures[11];
+		LTexture gRunningCharacterTextures[8];
 };
 
 #endif
