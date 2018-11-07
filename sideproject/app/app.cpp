@@ -2,10 +2,13 @@
 and may not be redistributed without written permission.*/
 
 //Using SDL, SDL_image, standard IO, and strings
-#include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+
+#include "timer.h"
+#include "texture.h"
+#include "../character/character.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -26,219 +29,6 @@ const float GRAVITATION = 0.3;
 
 //Max Velocity downwards
 const int MAX_VELOCITY_DOWN = 5;
-
-//Texture wrapper class
-class LTexture
-{
-public:
-	//Initializes variables
-	LTexture();
-
-	//Deallocates memory
-	~LTexture();
-
-	//Loads image at specified path
-	bool loadFromFile( std::string path );
-
-#ifdef _SDL_TTF_H
-	//Creates image from font string
-		bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
-#endif
-
-	//Deallocates texture
-	void free();
-
-	//Set color modulation
-	void setColor( Uint8 red, Uint8 green, Uint8 blue );
-
-	//Set blending
-	void setBlendMode( SDL_BlendMode blending );
-
-	//Set alpha modulation
-	void setAlpha( Uint8 alpha );
-
-	//Renders texture at given point
-	void render( int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
-
-	//Gets image dimensions
-	int getWidth();
-	int getHeight();
-
-private:
-	//The actual hardware texture
-	SDL_Texture* mTexture;
-
-	//Image dimensions
-	int mWidth;
-	int mHeight;
-};
-
-//The application time based timer
-class LTimer
-{
-public:
-	//Initializes variables
-	LTimer();
-
-	//The various clock actions
-	void start();
-	void stop();
-	void pause();
-	void unpause();
-
-	//Gets the timer's time
-	Uint32 getTicks();
-
-	//Checks the status of the timer
-	bool isStarted();
-	bool isPaused();
-
-private:
-	//The clock time when the timer started
-	Uint32 mStartTicks;
-
-	//The ticks stored when the timer was paused
-	Uint32 mPausedTicks;
-
-	//The timer status
-	bool mPaused;
-	bool mStarted;
-};
-
-LTimer::LTimer()
-{
-	//Initialize the variables
-	mStartTicks = 0;
-	mPausedTicks = 0;
-
-	mPaused = false;
-	mStarted = false;
-}
-
-void LTimer::start()
-{
-	//Start the timer
-	mStarted = true;
-
-	//Unpause the timer
-	mPaused = false;
-
-	//Get the current clock time
-	mStartTicks = SDL_GetTicks();
-	mPausedTicks = 0;
-}
-
-void LTimer::stop()
-{
-	//Stop the timer
-	mStarted = false;
-
-	//Unpause the timer
-	mPaused = false;
-
-	//Clear tick variables
-	mStartTicks = 0;
-	mPausedTicks = 0;
-}
-
-void LTimer::pause()
-{
-	//If the timer is running and isn't already paused
-	if( mStarted && !mPaused )
-	{
-		//Pause the timer
-		mPaused = true;
-
-		//Calculate the paused ticks
-		mPausedTicks = SDL_GetTicks() - mStartTicks;
-		mStartTicks = 0;
-	}
-}
-
-void LTimer::unpause() {
-	//If the timer is running and paused
-	if (mStarted && mPaused) {
-		//Unpause the timer
-		mPaused = false;
-
-		//Reset the starting ticks
-		mStartTicks = SDL_GetTicks() - mPausedTicks;
-
-		//Reset the paused ticks
-		mPausedTicks = 0;
-	}
-}
-
-Uint32 LTimer::getTicks()
-{
-	//The actual timer time
-	Uint32 time = 0;
-
-	//If the timer is running
-	if( mStarted )
-	{
-		//If the timer is paused
-		if( mPaused )
-		{
-			//Return the number of ticks when the timer was paused
-			time = mPausedTicks;
-		}
-		else
-		{
-			//Return the current time minus the start time
-			time = SDL_GetTicks() - mStartTicks;
-		}
-	}
-
-	return time;
-}
-
-//The character that will move around on the screen
-class Character
-{
-public:
-	//The dimensions of the Character
-	static const int CHAR_WIDTH = 20;
-	static const int CHAR_HEIGHT = 32;
-
-	//Maximum axis velocity of the Character
-	static const int CHAR_VEL = 5;
-
-    //Initializes the variables
-    Character();
-
-	//Takes key presses and adjusts the Character's velocity
-	void handleEvent( SDL_Event& e );
-
-	//Moves the Character
-	void move();
-
-	//Lets the Character jump
-	void jump();
-
-	//Shows the Character on the screen
-	void render();
-
-    //Shows the Character on the screen
-    void render(int spriteNumber);
-
-    int getStatus();
-
-
-private:
-	//The X and Y offsets of the Character
-	double mPosX, mPosY;
-
-	//The velocity of the Character
-	double mVelX, mVelY;
-
-	//The force of the Character
-	double mForceY;
-
-    /*TODO: add enum of stati*/
-    //Status (e.g. idle or running) the Character
-    int status;
-};
 
 //Starts up SDL and creates window
 bool init();
@@ -698,7 +488,7 @@ int main( int argc, char* args[] )
 			SDL_Event e;
 
 			//The Character that will be moving around on the screen
-            Character character;
+      Character character;
 
 			//Keep track of the current frame
 			int frame = 0;
@@ -709,9 +499,9 @@ int main( int argc, char* args[] )
 			//The frame rate regulator
 			LTimer fps;
 
-            int spriteNumber = 1;
-            int oldStatus = character.getStatus();
-            int numberOfSprites = 11;
+      int spriteNumber = 1;
+      int oldStatus = character.getStatus();
+      int numberOfSprites = 11;
 
 			//While application is running
 			while( !quit )
