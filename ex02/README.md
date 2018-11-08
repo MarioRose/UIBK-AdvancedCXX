@@ -56,3 +56,11 @@ Use the following subject and file name, where `XX` is your team number with lea
 You can use the following link:
 
 📧 [send email](mailto:alexander.hirsch@uibk.ac.at?subject=703807%20-%20Team%20XX%20Specification)
+
+## Additional Resources
+
+- 🎥 [CppCon 2018 – *Simplicity: Not Just For Beginners*](https://www.youtube.com/watch?v=n0Ak6xtVXno)
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+![A Good Read](images/a_good_read.png)

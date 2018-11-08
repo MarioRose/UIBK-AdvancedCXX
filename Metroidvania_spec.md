@@ -46,7 +46,7 @@ If you are not familiar with games falling into the Metroidvania genre – or si
 
 After playing some gam-… ehh… doing some research, you should be familiar with the core game concepts and mechanics of the genre.
 
-Before continuing reading, I want you to make up your minds about the setting your game takes place in.
+Before moving on, I want you to make up your minds about the setting your game takes place in.
 While a medieval fantasy world with demons and vampires sounds straight forward, don't overlook other possibilities like cyberpunk, steampunk, post apocalypse and so on.
 Determine upfront whether you are going for a more serious or a more humorous tone – whether things should be realistic or over the top with crazy anime effects everywhere.
 
