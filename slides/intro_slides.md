@@ -2,6 +2,8 @@
 % Alex Hirsch
 % 5 October 2018
 
+# Welcome to C++
+
 ## About Me
 
 Alex Hirsch
@@ -15,78 +17,27 @@ Alex Hirsch
 - GitHub: <https://github.com/W4RH4WK>
 - now, enough with that…
 
-# Welcome to C++
+## Semester-opening BBQ
 
-- - -
-
-which is…
-
-- notorious for being *hard*
-- looks easy at first glance
-- easy to get wrong / fail completely
-
-> "If your program segfaults, consider yourself lucky."
-
-- - -
-
-, but over time you will…
-
-- learn useful techniques
-- learn how to prevent errors & pitfalls
-- better understand its internals
-- be able to overcome challenges
-
-- - -
-
-Sounds tough. Why'd I do that?
-
-- succeeding feels extremely rewarding
-- learned techniques can be applied elsewhere
-- it's not for everyone, hence you are special ❤️
-
-- - -
-
-C++ is used where the real shit happens:
-
-- high performance computing (HPC)
-- compiler research
-- game engines
-- low-level robotics
-- …
-
-- - -
-
-![LLVM Compiler](images/llvm_dragon.png)
-
-- - -
-
-![](images/unreal_engine.jpg)
-
-- - -
-
-![](images/cryengine.png)
-
-- - -
-
-![Runtime](images/unity_engine.png)
+Since it already started, and I like to minimise the TTB (*time to beer*), I'll keep this introduction short.
 
 # This Proseminar
-
-## Content
-
-- supporting the lecture via weekly exercises
-- discussing paradigms
-- learning coding techniques to prevent errors
 
 ## Structure
 
 - teams between 1–4
-- exercise sheets
-    - with presentations
+- weekly exercise sheets
+    - with presentations (first hour of the PS)
 - side project
-    - with QA sessions
+    - with QA sessions (second hour of the PS)
 
 more details in the course README
+
+## Exercise Sheets
+
+- small, focused exercises
+- very little redundancy
+- there will be bonus exercises
 
 ## Side Project
 
@@ -105,9 +56,7 @@ Available on UIBK GitLab:
 
 <https://git.uibk.ac.at/c7031162/703807-Advanced-CXX>
 
-# Any Questions?
-
-## Then
+## Any Questions?
 
 - read through the course README
 - come to me regarding custom side projects
@@ -117,3 +66,4 @@ Available on UIBK GitLab:
     - with the subject `703807 - Team Composition`
     - no mail needed for working solo
 - I'll stay here for further questions
+- You may also find me at the BBQ

@@ -1,13 +1,15 @@
-
 #ifndef TIMER_H
 #define TIMER_H
 
 
 #include <SDL.h>
 
+
+
+
+
 //The application time based timer
-class LTimer
-{
+class LTimer {
 public:
 	//Initializes variables
 	LTimer();

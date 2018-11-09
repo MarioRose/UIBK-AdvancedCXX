@@ -4,8 +4,11 @@
 #include <stdio.h>
 #include <string>
 
-LTimer::LTimer()
-{
+
+
+
+
+LTimer::LTimer() {
 	//Initialize the variables
 	mStartTicks = 0;
 	mPausedTicks = 0;
@@ -14,8 +17,7 @@ LTimer::LTimer()
 	mStarted = false;
 }
 
-void LTimer::start()
-{
+void LTimer::start() {
 	//Start the timer
 	mStarted = true;
 
@@ -27,8 +29,7 @@ void LTimer::start()
 	mPausedTicks = 0;
 }
 
-void LTimer::stop()
-{
+void LTimer::stop() {
 	//Stop the timer
 	mStarted = false;
 
@@ -40,11 +41,9 @@ void LTimer::stop()
 	mPausedTicks = 0;
 }
 
-void LTimer::pause()
-{
+void LTimer::pause() {
 	//If the timer is running and isn't already paused
-	if( mStarted && !mPaused )
-	{
+	if( mStarted && !mPaused ) {
 		//Pause the timer
 		mPaused = true;
 
@@ -68,22 +67,18 @@ void LTimer::unpause() {
 	}
 }
 
-Uint32 LTimer::getTicks()
-{
+Uint32 LTimer::getTicks() {
 	//The actual timer time
 	Uint32 time = 0;
 
 	//If the timer is running
-	if( mStarted )
-	{
+	if( mStarted ) {
 		//If the timer is paused
-		if( mPaused )
-		{
+		if( mPaused ) {
 			//Return the number of ticks when the timer was paused
 			time = mPausedTicks;
 		}
-		else
-		{
+		else {
 			//Return the current time minus the start time
 			time = SDL_GetTicks() - mStartTicks;
 		}

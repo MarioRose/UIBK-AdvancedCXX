@@ -13,11 +13,11 @@ and may not be redistributed without written permission.*/
 #include "settings.h"
 
 //Paths to files
-const std::string backgroundPath = "../../images/background/plx-1.png";
-const std::string backgroundPath2 = "../../images/background/plx-2.png";
-const std::string backgroundPath3 = "../../images/background/plx-3.png";
-const std::string backgroundPath4 = "../../images/background/plx-4.png";
-const std::string backgroundPath5 = "../../images/background/plx-5.png";
+const std::string backgroundPath = "images/background/plx-1.png";
+const std::string backgroundPath2 = "images/background/plx-2.png";
+const std::string backgroundPath3 = "images/background/plx-3.png";
+const std::string backgroundPath4 = "images/background/plx-4.png";
+const std::string backgroundPath5 = "images/background/plx-5.png";
 
 //Starts up SDL and creates window
 bool init();
@@ -50,43 +50,37 @@ SDL_Surface* background_surface5 = NULL;
 SDL_Texture* background_texture5 = NULL;
 
 
-bool init()
-{
+bool init() {
 	//Initialization flag
 	bool success = true;
 
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-	{
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
 	}
-	else
-	{
+	else {
 		//Set texture filtering to linear
-		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
-		{
+		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) ) {
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow( "Uncharted - PC Version", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-		if( gWindow == NULL )
-		{
+		gWindow = SDL_CreateWindow( "Uncharted - PC Version", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+
+		if( gWindow == NULL ) {
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
 			success = false;
 		}
-		else
-		{
+		else {
 			//Create vsynced renderer for window
 			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
-			if( gRenderer == NULL )
-			{
+			if( gRenderer == NULL ) {
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
 				success = false;
 			}
-			else
-			{
+			else {
 				//Initialize renderer color
 				//SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
@@ -102,10 +96,9 @@ bool init()
 				background_texture5 = SDL_CreateTextureFromSurface(gRenderer, background_surface5);
 
 
-                //Initialize PNG loading
+                		//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
-				if( !( IMG_Init( imgFlags ) & imgFlags ) )
-				{
+				if( !( IMG_Init( imgFlags ) & imgFlags ) ) {
 					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
 				}
@@ -116,48 +109,43 @@ bool init()
 	return success;
 }
 
-bool loadMedia(Character *character)
-{
+bool loadMedia(Character *character) {
 	//Loading success flag
 	bool success = true;
 
 	//Load Character texture
-	if( !character->gCharacterTexture.loadFromFile("../../images/character/idle/1.png", gRenderer ))
-	{
+	if( !character->gCharacterTexture.loadFromFile("images/character/idle/1.png", gRenderer )) {
 		success = false;
 	}
 
 	for(int i = 1; i <= 12; i++){
-        if( !character->gIdleCharacterTextures[i-1].loadFromFile("../../images/character/idle/" + std::to_string(i) +".png", gRenderer))
-        {
-            printf( "Failed to load idle character texture nr: %d!\n", i );
-            success = false;
-        }
+        	if( !character->gIdleCharacterTextures[i-1].loadFromFile("images/character/idle/" + std::to_string(i) +".png", gRenderer)) {
+        		printf( "Failed to load idle character texture nr: %d!\n", i );
+            		success = false;
+        	}
 	}
 
-    for(int i = 0; i < 8; i++){
-        if( !character->gRunningCharacterTextures[i].loadFromFile("../../images/character/running/" + std::to_string(i) +".png", gRenderer))
-        {
-            printf( "Failed to load running character texture nr: %d!\n", i );
-            success = false;
-        }
-    }
+    	for(int i = 0; i < 8; i++) {
+    		if( !character->gRunningCharacterTextures[i].loadFromFile("images/character/running/" + std::to_string(i) +".png", gRenderer)) {
+        		printf( "Failed to load running character texture nr: %d!\n", i );
+            		success = false;
+       		}
+    	}
 
-	return success;
+    	return success;
 }
 
-void close(Character *character)
-{
+void close(Character *character) {
 	//Free loaded images
 	character->gCharacterTexture.free();
 
 	for(int i = 0; i < 11; i++){
-        character->gIdleCharacterTextures[i].free();
-    }
+        	character->gIdleCharacterTextures[i].free();
+    	}
 
-    for(int i = 0; i < 8; i++){
-        character->gRunningCharacterTextures[i].free();
-    }
+    	for(int i = 0; i < 8; i++){
+        	character->gRunningCharacterTextures[i].free();
+    	}
 
 	//Destroy window
 	SDL_DestroyRenderer( gRenderer );
@@ -170,28 +158,21 @@ void close(Character *character)
 	SDL_Quit();
 }
 
-int main( int argc, char* args[] )
-{
+int main( int argc, char* args[] ) {
 
 	//The Character that will be moving around on the screen
 	Character character;
 
 	//Start up SDL and create window
-	if( !init() )
-	{
+	if( !init() ) {
 		printf( "Failed to initialize!\n" );
 	}
-	else
-	{
-
-
+	else {
 		//Load media
-		if( !loadMedia(&character) )
-		{
+		if( !loadMedia(&character) ) {
 			printf( "Failed to load media!\n" );
 		}
-		else
-		{
+		else {
 			//Main loop flag
 			bool quit = false;
 
@@ -207,31 +188,28 @@ int main( int argc, char* args[] )
 			//The frame rate regulator
 			LTimer fps;
 
-      int spriteNumber = 1;
-      int oldStatus = character.getStatus();
-      int numberOfSprites = 11;
+     			int spriteNumber = 1;
+     			int oldStatus = character.getStatus();
+      			int numberOfSprites = 11;
 
 			//While application is running
-			while( !quit )
-			{
+			while( !quit ) {
 				//Start the frame timer
 				fps.start();
 
 				//Handle events on queue
-				while( SDL_PollEvent( &e ) != 0 )
-				{
+				while( SDL_PollEvent( &e ) != 0 ) {
 					//User requests quit
-					if( e.type == SDL_QUIT )
-					{
+					if( e.type == SDL_QUIT ) {
 						quit = true;
 					}
 
 					//Handle input for the character
-          character.handleEvent( e );
+					character.handleEvent( e );
 				}
 
 				//Move the character
-        character.move();
+        			character.move();
 
 				//Clear screen
 				SDL_RenderClear(gRenderer);
@@ -239,30 +217,29 @@ int main( int argc, char* args[] )
 				//SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderCopy(gRenderer, background_texture, NULL, NULL);
 				SDL_RenderCopy(gRenderer, background_texture2, NULL, NULL);
-        SDL_RenderCopy(gRenderer, background_texture3, NULL, NULL);
-        SDL_RenderCopy(gRenderer, background_texture4, NULL, NULL);
-        SDL_RenderCopy(gRenderer, background_texture5, NULL, NULL);
+        			SDL_RenderCopy(gRenderer, background_texture3, NULL, NULL);
+        			SDL_RenderCopy(gRenderer, background_texture4, NULL, NULL);
+       				SDL_RenderCopy(gRenderer, background_texture5, NULL, NULL);
 
 
 				//Render objects
-        /*TODO: this Solution is only for testing, i'll find a better one */
-        if(frame % 2 == 0){
-            if(oldStatus != character.getStatus()){
-                spriteNumber = 0;
-                numberOfSprites == 11 ? numberOfSprites = 7 : numberOfSprites = 11;
-            }
-            else{
-                if(spriteNumber == numberOfSprites)
-                    spriteNumber = 0;
-                else{
-                    spriteNumber++;
-                }
-            }
-            oldStatus = character.getStatus();
+        			/*TODO: this Solution is only for testing, i'll find a better one */
+        			if(frame % 2 == 0) {
+            				if(oldStatus != character.getStatus()) {
+                				spriteNumber = 0;
+                				numberOfSprites == 11 ? numberOfSprites = 7 : numberOfSprites = 11;
+            				}
+            				else {
+                				if(spriteNumber == numberOfSprites)
+                    					spriteNumber = 0;
+                				else {
+                    					spriteNumber++;
+                				}
+            				}
+            			oldStatus = character.getStatus();
+        			}
 
-        }
-
-        character.render(spriteNumber, gRenderer);
+        			character.render(spriteNumber, gRenderer);
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
@@ -271,8 +248,7 @@ int main( int argc, char* args[] )
 				frame++;
 
 				//If we want to cap the frame rate
-				if( ( cap == true ) && ( fps.getTicks() < 1000 / FRAMES_PER_SECOND ) )
-				{
+				if( ( cap == true ) && ( fps.getTicks() < 1000 / FRAMES_PER_SECOND ) ) {
 					//Sleep the remaining frame time
 					SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - fps.getTicks() );
 				}

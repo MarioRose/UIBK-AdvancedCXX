@@ -1,22 +1,23 @@
 ![Advanced C++ Programming](images/banner.png)
 
-|    Date    | Topic / Exercise |
-| ---------- | ---------------- |
-| 2018-10-05 | Welcome          |
-| 2018-10-12 | [Infrastructure] |
-| 2018-11-09 | [A Good Read]    |
-| 2018-11-16 |                  |
-| 2018-11-23 |                  |
-| 2018-11-30 |                  |
-| 2018-12-07 |                  |
-| 2018-12-14 |                  |
-| 2019-01-11 |                  |
-| 2019-01-18 |                  |
-| 2019-01-25 |                  |
-| 2019-02-01 |                  |
+|    Date    |         Topic / Exercise          |
+| ---------- | --------------------------------- |
+| 2018-10-05 | Welcome                           |
+| 2018-10-12 | [Infrastructure]                  |
+| 2018-11-09 | [A Good Read]                     |
+| 2018-11-16 | [New Tools in a Familiar Context] |
+| 2018-11-23 |                                   |
+| 2018-11-30 |                                   |
+| 2018-12-07 |                                   |
+| 2018-12-14 |                                   |
+| 2019-01-11 |                                   |
+| 2019-01-18 |                                   |
+| 2019-01-25 |                                   |
+| 2019-02-01 |                                   |
 
 [Infrastructure]: ex01
 [A Good Read]: ex02
+[New Tools in a Familiar Context]: ex03
 
 The lab takes place in [rr15](https://www.uibk.ac.at/zid/raeume/architekturgebaeude/rr15.html).
 
@@ -75,7 +76,7 @@ The goal of the side project is to become more fluent with the C++ programming l
 There are two options:
 (a) create a Metroidvania-like side-scroller following the provided specification; or
 (b) come up with your own idea for a side project and ask me for confirmation.
-The second option will require you to write a specification upfront, explaining details and establishing objectives.
+The second option requires you to write a specification upfront, explaining details and establishing objectives.
 
 How much you get out of the side project is entirely up to you.
 If you feel like you are learning more from the regular exercises, you are probably not pushing yourself hard enough.

@@ -11,6 +11,10 @@ PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
+add_custom_command(TARGET sidescroller POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_directory
+			${CMAKE_SOURCE_DIR}/images $<TARGET_FILE_DIR:sidescroller>/images)
+
 target_compile_options(
 	"${PROJECT_NAME}"
 	PRIVATE
