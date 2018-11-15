@@ -1,0 +1,25 @@
+The problem is in the for loop in method contains(). It accesses array[5] which is out of bounds.
+Array out of bounds is undefined behaviour in the c++ standard and not an error! Therefor no compiler error. No out of array out of bounds checks for g++ (arrays are still from C [raw data]).
+
+Different optimization levels (with flag -Ox where x is from 0 to 3) lead to different assembler code:
+
+	O0 or no flag: Compiles the code as it is and risks undefined behaviour (unknow data at array[5]
+	O1: leads to segmentation fault
+	O2 and upwards: function just returns 1; 
+		assembler code: 
+			.LFB1878:
+			.cfi_startproc
+			movl	$1, %eax
+			ret
+			.cfi_endproc
+
+Maybe this optimization flag is responsible for reducing the function to just return 1 from optimization level 2 onwards:
+
+-faggressive-loop-optimizations
+This option tells the loop optimizer to use language constraints to derive bounds for the number of iterations of a loop. This assumes that loop code does not invoke undefined behavior by for example causing signed integer overflows or out-of-bound array accesses. The bounds for the number of iterations of a loop are used to guide loop unrolling and peeling and loop exit test optimizations. This option is enabled by default. 
+
+
+Clang++ (with all flags -O0, -O1, -O2, -O3, -Ofast, Os, Oz) has same output as g++ -o0 -> always risks undefined behaviour.
+
+Check for out of bounds arrays with:
+cppcheck --enable=all strange.cpp
