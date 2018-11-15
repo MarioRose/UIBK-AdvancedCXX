@@ -31,11 +31,10 @@ public:
         return vec;
     }
 
-private:
-    //Copy assignment
-    unique_ptr_to_vec2& operator= (const unique_ptr_to_vec2& rhs) {}
-    //Copy constructor
-    unique_ptr_to_vec2(const unique_ptr_to_vec2& u) {}
+    //copy assignment operator
+    unique_ptr_to_vec2& operator= (const unique_ptr_to_vec2& rhs) = delete;
+    //copy constructor
+    unique_ptr_to_vec2(const unique_ptr_to_vec2& u) = delete;
 
 };
 
