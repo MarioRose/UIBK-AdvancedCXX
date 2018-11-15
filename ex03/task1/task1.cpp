@@ -8,9 +8,26 @@ struct Vec2 {
     }
 };
 
+class ReferenceCount {
+private:
+    int refCount{0};
+public:
+    void increment(){
+        refCount++;
+    }
+
+    void decrement(){
+        refCount--;
+    }
+
+    int getCount(){
+        return refCount;
+    }
+};
+
 class unique_ptr_to_vec2 {
 
-    Vec2* vec;
+    Vec2* vec{nullptr};
 
 public:
     unique_ptr_to_vec2() {
@@ -19,7 +36,8 @@ public:
     }
 
     ~unique_ptr_to_vec2() {
-        vec->~Vec2();
+        delete vec;
+        vec = nullptr;
         std::cout << "unique pointer destroyed\n";
     }
 
@@ -40,27 +58,29 @@ public:
 
 class shared_ptr_to_vec2 {
 
-    Vec2* vec;
-    int* counter;
+    Vec2* vec{nullptr};
+    ReferenceCount* counter{nullptr};
 
 public:
-    shared_ptr_to_vec2() {
+    shared_ptr_to_vec2() : vec{new Vec2(0, 0)}, counter{new ReferenceCount()} {
         std::cout << "shared pointer created\n";
-        vec = new Vec2(0, 0);
-        counter = new int(1);
+        counter->increment();
     }
 
     //Copy constructor
     shared_ptr_to_vec2(const shared_ptr_to_vec2& u) {
         vec = u.vec;
         counter = u.counter;
-        *counter++;
+        counter->increment();
     }
 
     ~shared_ptr_to_vec2() {
-        *counter--;
-        if(*counter == 0){
-            vec->~Vec2();
+        counter->decrement();
+        if(counter->getCount() == 0){
+            delete vec;
+            delete counter;
+            vec = nullptr;
+            counter = nullptr;
             std::cout << "shared pointer destroyed\n";
         }
     }
