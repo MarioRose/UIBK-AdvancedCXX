@@ -25,20 +25,39 @@ public:
     }
 };
 
+
+
 class unique_ptr_to_vec2 {
 
     Vec2* vec{nullptr};
 
 public:
-    unique_ptr_to_vec2() {
+    unique_ptr_to_vec2() : vec{new Vec2{0,0}} {
         std::cout << "unique pointer created\n";
-        vec = new Vec2(0, 0);
     }
 
     ~unique_ptr_to_vec2() {
         delete vec;
         vec = nullptr;
         std::cout << "unique pointer destroyed\n";
+    }
+
+    //copy assignment operator
+    unique_ptr_to_vec2& operator= (const unique_ptr_to_vec2& rhs) = delete;
+    //copy constructor
+    unique_ptr_to_vec2(const unique_ptr_to_vec2& u) = delete;
+
+    //move constructor
+    unique_ptr_to_vec2(unique_ptr_to_vec2&& other) : vec{other.operator->()} {
+        // other.operator->() = nullptr;
+    }
+
+    //move assignment operator
+    unique_ptr_to_vec2& operator=(unique_ptr_to_vec2&& other) {
+    	if(this != &other) {
+    		vec = other.operator->();
+    		return *this;
+    	}
     }
 
     Vec2& operator * (){
@@ -49,12 +68,12 @@ public:
         return vec;
     }
 
-    //copy assignment operator
-    unique_ptr_to_vec2& operator= (const unique_ptr_to_vec2& rhs) = delete;
-    //copy constructor
-    unique_ptr_to_vec2(const unique_ptr_to_vec2& u) = delete;
-
 };
+
+unique_ptr_to_vec2 generatePointer() {
+    unique_ptr_to_vec2 ptr;
+    return ptr;
+}
 
 class shared_ptr_to_vec2 {
 
@@ -62,7 +81,7 @@ class shared_ptr_to_vec2 {
     ReferenceCount* counter{nullptr};
 
 public:
-    shared_ptr_to_vec2() : vec{new Vec2(0, 0)}, counter{new ReferenceCount()} {
+    shared_ptr_to_vec2() : vec{new Vec2{0, 0}}, counter{new ReferenceCount()} {
         std::cout << "shared pointer created\n";
         counter->increment();
     }
@@ -101,10 +120,10 @@ public:
 
 };
 
-
 int main(int argc, char * argv[]){
 
     unique_ptr_to_vec2 testPointer;
+    testPointer = generatePointer();
     shared_ptr_to_vec2 sharedTestPointer;
 
     shared_ptr_to_vec2 sharedTestPointer2 = sharedTestPointer;
