@@ -2,7 +2,7 @@
 
 struct Vec2 {
     int x, y;
-    Vec2(double x, double y) : x(x), y(y) {}
+    Vec2(int x, int y) : x{x}, y{y} {}
     ~Vec2(){
         std::cout << "Vec2 destroyed\n";
     }
