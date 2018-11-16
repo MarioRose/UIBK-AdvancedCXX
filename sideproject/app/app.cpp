@@ -12,6 +12,7 @@ and may not be redistributed without written permission.*/
 #include "settings.h"
 #include "texture.h"
 #include "timer.h"
+#include "room.h"
 
 // Paths to files
 const std::string backgroundPath = "images/background/plx-1.png";

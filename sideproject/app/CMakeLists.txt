@@ -40,4 +40,5 @@ target_link_libraries(
 		sub::texture
 		sub::character
 		sub::settings
+		sub::room
 )
