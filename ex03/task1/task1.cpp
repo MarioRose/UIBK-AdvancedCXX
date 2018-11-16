@@ -49,12 +49,14 @@ public:
 
     //move constructor
     unique_ptr_to_vec2(unique_ptr_to_vec2&& other) : vec{other.operator->()} {
-        // other.operator->() = nullptr;
     }
 
     //move assignment operator
     unique_ptr_to_vec2& operator=(unique_ptr_to_vec2&& other) {
     	if(this != &other) {
+            delete vec;
+            vec = nullptr;
+
     		vec = other.operator->();
     		return *this;
     	}
@@ -70,10 +72,6 @@ public:
 
 };
 
-unique_ptr_to_vec2 generatePointer() {
-    unique_ptr_to_vec2 ptr;
-    return ptr;
-}
 
 class shared_ptr_to_vec2 {
 
@@ -83,13 +81,6 @@ class shared_ptr_to_vec2 {
 public:
     shared_ptr_to_vec2() : vec{new Vec2{0, 0}}, counter{new ReferenceCount()} {
         std::cout << "shared pointer created\n";
-        counter->increment();
-    }
-
-    //Copy constructor
-    shared_ptr_to_vec2(const shared_ptr_to_vec2& u) {
-        vec = u.vec;
-        counter = u.counter;
         counter->increment();
     }
 
@@ -104,6 +95,38 @@ public:
         }
     }
 
+    //Copy constructor
+    shared_ptr_to_vec2(const shared_ptr_to_vec2& u) {
+        vec = u.vec;
+        counter = u.counter;
+        counter->increment();
+    }
+
+    //Copy assignment
+    shared_ptr_to_vec2& operator= (const shared_ptr_to_vec2& rhs) {
+        return *this;
+    }
+
+    //move constructor
+    shared_ptr_to_vec2(shared_ptr_to_vec2&& other) : vec{other.operator->()}, counter{other.getCounterPointer()} {
+        counter->increment();
+    }
+
+    //move assignment operator
+    shared_ptr_to_vec2& operator=(shared_ptr_to_vec2&& other) {
+        if(this != &other) {
+            delete vec;
+            delete counter;
+            vec = nullptr;
+            counter = nullptr;
+
+            vec = other.operator->();
+            counter = other.getCounterPointer();
+            counter->increment();
+            return *this;
+        }
+    }
+
     Vec2& operator * (){
         return *vec;
     }
@@ -112,19 +135,29 @@ public:
         return vec;
     }
 
-    //Copy assignment
-    shared_ptr_to_vec2& operator= (const shared_ptr_to_vec2& rhs) {
-        return *this;
+    ReferenceCount* getCounterPointer() {
+        return counter;
     }
-
 
 };
 
+unique_ptr_to_vec2 generateUniquePointer() {
+    unique_ptr_to_vec2 ptr;
+    return ptr;
+}
+
+
+shared_ptr_to_vec2 generateSharedPointer() {
+    shared_ptr_to_vec2 ptr;
+    return ptr;
+}
+
 int main(int argc, char * argv[]){
 
-    unique_ptr_to_vec2 testPointer;
-    testPointer = generatePointer();
+    // unique_ptr_to_vec2 testPointer;
+    unique_ptr_to_vec2 testPointer = generateUniquePointer();
     shared_ptr_to_vec2 sharedTestPointer;
+    sharedTestPointer = generateSharedPointer();
 
     shared_ptr_to_vec2 sharedTestPointer2 = sharedTestPointer;
 
