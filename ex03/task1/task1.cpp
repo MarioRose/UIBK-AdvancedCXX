@@ -58,6 +58,7 @@ public:
             vec = nullptr;
 
     		vec = other.operator->();
+            other.setVecNull();
     		return *this;
     	}
     }
@@ -68,6 +69,10 @@ public:
 
     Vec2* operator->(){
         return vec;
+    }
+
+    void setVecNull(){
+        vec = nullptr;
     }
 
 };
@@ -123,6 +128,7 @@ public:
             vec = other.operator->();
             counter = other.getCounterPointer();
             counter->increment();
+            other.setPointersNull();
             return *this;
         }
     }
@@ -137,6 +143,11 @@ public:
 
     ReferenceCount* getCounterPointer() {
         return counter;
+    }
+
+    void setPointersNull() {
+        vec = nullptr;
+        counter = nullptr;
     }
 
 };
@@ -154,8 +165,8 @@ shared_ptr_to_vec2 generateSharedPointer() {
 
 int main(int argc, char * argv[]){
 
-    // unique_ptr_to_vec2 testPointer;
-    unique_ptr_to_vec2 testPointer = generateUniquePointer();
+    unique_ptr_to_vec2 testPointer;
+    testPointer = generateUniquePointer();
     shared_ptr_to_vec2 sharedTestPointer;
     sharedTestPointer = generateSharedPointer();
 
