@@ -109,6 +109,7 @@ public:
 
     //Copy assignment
     shared_ptr_to_vec2& operator= (const shared_ptr_to_vec2& rhs) {
+        counter->increment();
         return *this;
     }
 
