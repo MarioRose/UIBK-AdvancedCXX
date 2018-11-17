@@ -6,7 +6,7 @@
 | 2018-10-12 | [Infrastructure]                  |
 | 2018-11-09 | [A Good Read]                     |
 | 2018-11-16 | [New Tools in a Familiar Context] |
-| 2018-11-23 |                                   |
+| 2018-11-23 | [Same Same but Different]         |
 | 2018-11-30 |                                   |
 | 2018-12-07 |                                   |
 | 2018-12-14 |                                   |
@@ -18,6 +18,7 @@
 [Infrastructure]: ex01
 [A Good Read]: ex02
 [New Tools in a Familiar Context]: ex03
+[Same Same but Different]: ex04
 
 The lab takes place in [rr15](https://www.uibk.ac.at/zid/raeume/architekturgebaeude/rr15.html).
 
