@@ -128,7 +128,7 @@ bool Character::loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* r
 
 	for(auto path : paths) {
 
-		auto texture = new LTexture;
+		auto texture = new Texture;
 
 		if(texture->loadFromFile(path, renderer))
 		{
@@ -150,7 +150,7 @@ bool Character::loadRunningTextures(std::vector<std::string> paths, SDL_Renderer
 
 	for(auto path : paths) {
 
-		auto texture = new LTexture;
+		auto texture = new Texture;
 
 		if(texture->loadFromFile(path, renderer))
 		{
@@ -177,16 +177,16 @@ void Character::render(int spriteNumber, SDL_Renderer* renderer) {
 	switch (status){
 
     	case 1:
-				//runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-				//std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
-				runningTextures[spriteNumber]->render( mPosX, mPosY, renderer );
+    		//runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+		//std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
+		runningTextures[spriteNumber]->render( mPosX, mPosY, renderer );
         break;
 
     	default:
-				//idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-				//std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-				idleTextures[spriteNumber]->render( mPosX, mPosY, renderer );
-				break;
+		//idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+		//std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
+		idleTextures[spriteNumber]->render( mPosX, mPosY, renderer );
+		break;
 	}
 }
 
@@ -200,8 +200,8 @@ void Character::free() {
 	{
 		if ((*texture) != NULL)
 		{
-				(*texture)->free();
-				delete (*texture);
+			(*texture)->free();
+			delete (*texture);
 		}
 	}
 
@@ -209,8 +209,8 @@ void Character::free() {
 	{
 		if ((*texture) != NULL)
 		{
-				(*texture)->free();
-				delete (*texture);
+			(*texture)->free();
+			delete (*texture);
 		}
 	}
 }

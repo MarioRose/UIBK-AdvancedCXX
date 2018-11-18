@@ -195,7 +195,7 @@ int main(int argc, char *args[])
 			bool cap = true;
 
 			// The frame rate regulator
-			LTimer fps;
+			Timer fps;
 
 			int spriteNumber = 1;
 			int oldStatus = character.getStatus();
@@ -256,7 +256,7 @@ int main(int argc, char *args[])
 				frame++;
 
 				// If we want to cap the frame rate
-				if ((cap == true) && (fps.getTicks() < 1000 / FRAMES_PER_SECOND)) {
+				if (cap && (fps.getTicks() < 1000 / FRAMES_PER_SECOND)) {
 					// Sleep the remaining frame time
 					SDL_Delay((1000 / FRAMES_PER_SECOND) - fps.getTicks());
 				}

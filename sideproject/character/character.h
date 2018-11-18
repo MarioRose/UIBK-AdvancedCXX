@@ -51,10 +51,10 @@ public:
 	void free();
 
 	//Scene textures
-	LTexture cTexture;
+	Texture cTexture;
 
-	std::vector<LTexture *> idleTextures;
-	std::vector<LTexture *> runningTextures;
+	std::vector<Texture *> idleTextures;
+	std::vector<Texture *> runningTextures;
 
 private:
 	//The X and Y offsets of the Character
