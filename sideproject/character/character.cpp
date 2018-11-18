@@ -5,10 +5,8 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
-
-
-
-
+#include <vector>
+#include <iostream>
 
 Character::Character() {
 	//Initialize the offsets
@@ -25,11 +23,10 @@ Character::Character() {
 	//Initialize status of character
 	status = 0;
 
-  	//Scene textures
-  	gCharacterTexture;
+}
 
- 	gIdleCharacterTextures[11];
-  	gRunningCharacterTextures[8];
+Character::~Character() {
+	free();
 }
 
 void Character::handleEvent( SDL_Event& e ) {
@@ -115,18 +112,105 @@ int Character::getStatus() {
     return status;
 }
 
+bool Character::loadTexture(std::string path, SDL_Renderer* renderer) {
 
-void Character::render(SDL_Renderer* gRenderer) {
-	//Show the Character
-	gCharacterTexture.render( mPosX, mPosY, gRenderer );
+	// Load Character texture
+	if (!cTexture.loadFromFile(path, renderer)) {
+		return false;
+	}
+
+	return true;
 }
 
-void Character::render(int spriteNumber, SDL_Renderer* gRenderer) {
+bool Character::loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer) {
+	// Loading success flag
+	bool success = true;
+
+	for(auto path : paths) {
+
+		auto texture = new LTexture;
+
+		if(texture->loadFromFile(path, renderer))
+		{
+			idleTextures.push_back(texture);
+		}
+		else
+		{
+			success = false;
+			break;
+		}
+	}
+
+	return success;
+}
+
+bool Character::loadRunningTextures(std::vector<std::string> paths, SDL_Renderer* renderer) {
+	// Loading success flag
+	bool success = true;
+
+	for(auto path : paths) {
+
+		auto texture = new LTexture;
+
+		if(texture->loadFromFile(path, renderer))
+		{
+			runningTextures.push_back(texture);
+		}
+		else
+		{
+			success = false;
+			break;
+		}
+	}
+
+	return success;
+}
+
+
+void Character::render(SDL_Renderer* renderer) {
+	//Show the Character
+	cTexture.render( mPosX, mPosY, renderer );
+}
+
+void Character::render(int spriteNumber, SDL_Renderer* renderer) {
 	//Show the Character
 	switch (status){
-        	case 1: gRunningCharacterTextures[spriteNumber].render( mPosX, mPosY, gRenderer );
-                	break;
-        	default: gIdleCharacterTextures[spriteNumber].render( mPosX, mPosY, gRenderer );
-                	break;
-    	}
+
+    	case 1:
+				//runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+				//std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
+				runningTextures[spriteNumber]->render( mPosX, mPosY, renderer );
+        break;
+
+    	default:
+				//idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+				//std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
+				idleTextures[spriteNumber]->render( mPosX, mPosY, renderer );
+				break;
+	}
+}
+
+void Character::free() {
+	// Free loaded images
+	//if(cTexture != NULL) {
+		cTexture.free();
+	//}
+
+	for (auto texture = idleTextures.begin(); texture != idleTextures.end(); ++texture)
+	{
+		if ((*texture) != NULL)
+		{
+				(*texture)->free();
+				delete (*texture);
+		}
+	}
+
+	for (auto texture = runningTextures.begin(); texture != runningTextures.end(); ++texture)
+	{
+		if ((*texture) != NULL)
+		{
+				(*texture)->free();
+				delete (*texture);
+		}
+	}
 }

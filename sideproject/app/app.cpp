@@ -33,9 +33,6 @@ void close();
 // The window we'll be rendering to
 SDL_Window *gWindow = NULL;
 
-//The music that will be played
-Mix_Music *gMusic = NULL;
-
 // The window renderer
 SDL_Renderer *gRenderer = NULL;
 
@@ -128,55 +125,31 @@ bool loadMedia(Character *character)
 {
 	// Loading success flag
 	bool success = true;
-
-	// Load Character texture
-	if (!character->gCharacterTexture.loadFromFile("images/character/idle/1.png", gRenderer)) {
-		success = false;
-	}
-
+	character->loadTexture("images/character/idle/1.png", gRenderer);
+	std::vector<std::string> pathsIdleTextures;
 	for (int i = 1; i <= 12; i++) {
-		if (!character->gIdleCharacterTextures[i - 1].loadFromFile(
-		        "images/character/idle/" + std::to_string(i) + ".png", gRenderer)) {
-			printf("Failed to load idle character texture nr: %d!\n", i);
-			success = false;
-		}
+		pathsIdleTextures.push_back("images/character/idle/" + std::to_string(i) + ".png");
 	}
+	character->loadIdleTextures(pathsIdleTextures, gRenderer);
+	//std::cout << "idle Textures" << character->idleTextures.size() << '\n';
 
+	std::vector<std::string> pathsRunningTextures;
 	for (int i = 0; i < 8; i++) {
-		if (!character->gRunningCharacterTextures[i].loadFromFile(
-		        "images/character/running/" + std::to_string(i) + ".png", gRenderer)) {
-			printf("Failed to load running character texture nr: %d!\n", i);
-			success = false;
-		}
+		pathsRunningTextures.push_back("images/character/running/" + std::to_string(i) + ".png");
 	}
-
-	//Load music
-	gMusic = Mix_LoadMUS( "../../sound/172561_45941-lq.mp3" );
-
-	if( gMusic == NULL ) {
-		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
-		success = false;
-	}
+	character->loadRunningTextures(pathsRunningTextures, gRenderer);
+	//std::cout << "idle Textures" << character->runningTextures.size() << '\n';
 
 	return success;
 }
 
-void close(Character *character)
+void close(Character *character, Room *room)
 {
 	// Free loaded images
-	character->gCharacterTexture.free();
+	character->free();
 
-	for (int i = 0; i < 11; i++) {
-		character->gIdleCharacterTextures[i].free();
-	}
-
-	for (int i = 0; i < 8; i++) {
-		character->gRunningCharacterTextures[i].free();
-	}
-
-	//Free the music
-	Mix_FreeMusic(gMusic);
-	gMusic = NULL;
+	//Free Room
+	room->free();
 
 	// Destroy window
 	SDL_DestroyRenderer(gRenderer);
@@ -196,6 +169,8 @@ int main(int argc, char *args[])
 	// The Character that will be moving around on the screen
 	Character character;
 
+	Room room;
+
 	// Start up SDL and create window
 	if (!init()) {
 		printf("Failed to initialize!\n");
@@ -208,8 +183,7 @@ int main(int argc, char *args[])
 			bool quit = false;
 
 			// Music
-			Mix_VolumeMusic(MIX_MAX_VOLUME);
-			Mix_PlayMusic( gMusic, -1 );
+			room.playMusic();
 
 			// Event handler
 			SDL_Event e;
@@ -271,8 +245,9 @@ int main(int argc, char *args[])
 					}
 					oldStatus = character.getStatus();
 				}
-
+				//std::cout << "spriteNumber: " << spriteNumber << "\n";
 				character.render(spriteNumber, gRenderer);
+				//character.render(gRenderer);
 
 				// Update screen
 				SDL_RenderPresent(gRenderer);
@@ -290,7 +265,7 @@ int main(int argc, char *args[])
 	}
 
 	// Free resources and close SDL
-	close(&character);
+	close(&character, &room);
 
 	return 0;
 }

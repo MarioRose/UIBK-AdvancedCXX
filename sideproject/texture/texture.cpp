@@ -6,9 +6,6 @@
 #include <string>
 
 
-
-
-
 LTexture::LTexture() {
 	//Initialize
 	mTexture = NULL;
@@ -24,6 +21,9 @@ LTexture::~LTexture() {
 bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer ) {
 	//Get rid of preexisting texture
 	free();
+
+	//TODO Debug only
+	filePath = path;
 
 	//The final texture
 	SDL_Texture* newTexture = NULL;

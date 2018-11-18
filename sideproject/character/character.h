@@ -4,6 +4,7 @@
 
 #include <SDL.h>
 #include <texture.h>
+#include <vector>
 //The character that will move around on the screen
 
 
@@ -19,8 +20,10 @@ public:
 	//Maximum axis velocity of the Character
 	static const int CHAR_VEL = 5;
 
-    	//Initializes the variables
-    	Character();
+	//Initializes the variables
+	Character();
+
+	~Character();
 
 	//Takes key presses and adjusts the Character's velocity
 	void handleEvent( SDL_Event& e );
@@ -34,11 +37,24 @@ public:
 	//Shows the Character on the screen
 	void render(SDL_Renderer* gRenderer);
 
-  	//Shows the Character on the screen
-  	void render(int spriteNumber, SDL_Renderer* gRenderer);
+	//Shows the Character on the screen
+	void render(int spriteNumber, SDL_Renderer* gRenderer);
 
-  	int getStatus();
+	int getStatus();
 
+	bool loadTexture(std::string path, SDL_Renderer* renderer);
+	bool loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
+	bool loadIdleTextures(SDL_Renderer* renderer);
+	bool loadRunningTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
+	bool loadRunningTextures(SDL_Renderer* renderer);
+
+	void free();
+
+	//Scene textures
+	LTexture cTexture;
+
+	std::vector<LTexture *> idleTextures;
+	std::vector<LTexture *> runningTextures;
 
 private:
 	//The X and Y offsets of the Character
@@ -50,16 +66,10 @@ private:
 	//The force of the Character
 	double mForceY;
 
-  	/*TODO: add enum of stati*/
-  	//Status (e.g. idle or running) the Character
-  	int status;
+	/*TODO: add enum of static*/
+	//Status (e.g. idle or running) the Character
+	int status;
 
-public:
-	//Scene textures
-	LTexture gCharacterTexture;
-
-	LTexture gIdleCharacterTextures[11];
-	LTexture gRunningCharacterTextures[8];
 };
 
 #endif

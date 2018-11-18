@@ -4,10 +4,6 @@
 #include <SDL.h>
 #include <string>
 
-
-
-
-
 //Texture wrapper class
 class LTexture {
 public:
@@ -44,6 +40,9 @@ public:
 	//Gets image dimensions
 	int getWidth();
 	int getHeight();
+
+	//TODO Debug only
+	std::string filePath;
 
 private:
 	//Image dimensions
