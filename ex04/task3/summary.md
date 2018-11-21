@@ -127,10 +127,111 @@ This is an "Entity/Component" framework (sometimes confusingly called an "Entity
 
 4. Even though the goal of the ```Component``` class is to enable composition, it's doing so via inheritance, which is a [Composite reuse principle](#lsp-rule) violation.
 
-All the code can be deleted.
-
 ###C++ code
 
 Before:  https://github.com/hodgman/dod-playground/blob/3529f232510c95f53112bbfff87df6bbc6aa1fae/source/game.cpp
 
 After: https://github.com/hodgman/dod-playground/blob/f42290d0217d700dea2ed002f2f3b1dc45e8c27c/source/game.cpp
+
+####Comparison
+
+Instead of this:
+~~~
+// create regular objects that move
+for (auto i = 0; i < kObjectCount; ++i)
+{
+    GameObject* go = new GameObject("object");
+
+    // position it within world bounds
+    PositionComponent* pos = new PositionComponent();
+    pos->x = RandomFloat(bounds->xMin, bounds->xMax);
+    pos->y = RandomFloat(bounds->yMin, bounds->yMax);
+    go->AddComponent(pos);
+
+    // setup a sprite for it (random sprite index from first 5),
+    // and initial white color
+    SpriteComponent* sprite = new SpriteComponent();
+    sprite->colorR = 1.0f;
+    sprite->colorG = 1.0f;
+    sprite->colorB = 1.0f;
+    sprite->spriteIndex = rand() % 5;
+    sprite->scale = 1.0f;
+    go->AddComponent(sprite);
+
+    // make it move
+    MoveComponent* move = new MoveComponent(0.5f, 0.7f);
+    go->AddComponent(move);
+
+    // make it avoid the bubble things
+    AvoidComponent* avoid = new AvoidComponent();
+    go->AddComponent(avoid);
+
+    s_Objects.emplace_back(go);
+}
+~~~
+
+We now have this:
+
+~~~
+struct RegularObject
+{
+	PositionComponent pos;
+	SpriteComponent sprite;
+	MoveComponent move;
+	AvoidComponent avoid;
+
+    RegularObject(const WorldBoundsComponent& bounds)
+		: move(0.5f, 0.7f)
+		// position it within world bounds,
+    // pos(RandomFloat(bounds.xMin, bounds.xMax),
+		//     RandomFloat(bounds.yMin, bounds.yMax))
+		// setup a sprite for it
+    // (random sprite index from first 5),
+    // and initial white color
+		, sprite(1.0f,
+		         1.0f,
+		         1.0f,
+		         rand() % 5,
+		         1.0f)
+	{
+	}
+};
+
+...
+
+// create regular objects that move
+regularObject.reserve(kObjectCount);
+for (auto i = 0; i < kObjectCount; ++i)
+	regularObject.emplace_back(bounds);
+~~~
+
+The original code has a main loop algorithm that consists of just:
+~~~
+// go through all objects
+for (auto go : s_Objects)
+{
+    // Update all their components
+    go->Update(time, deltaTime);
+~~~
+
+It's completely obfuscating both the flow of control and the flow of data within the game. Better:
+
+~~~
+// Update all positions
+for (auto& go : s_game->regularObject)
+{
+	UpdatePosition(deltaTime, go, s_game->bounds.wb);
+}
+for (auto& go : s_game->avoidThis)
+{
+	UpdatePosition(deltaTime, go, s_game->bounds.wb);
+}
+
+// Resolve all collisions
+for (auto& go : s_game->regularObject)
+{
+	ResolveCollisions(deltaTime, go, s_game->avoidThis);
+}
+~~~
+
+The downside of this style is that for every single new object type that we add to the game, we have to add a few lines to our main loop.
