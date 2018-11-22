@@ -1,6 +1,6 @@
 
 #include <iostream>
-
+#include <vector>
 template<typename StackType>
 class Stack {
 
@@ -89,21 +89,34 @@ public:
 
 int main(){
     Stack<int> stackTestInt(3);
-    stackTestInt.push(1);
-    stackTestInt.push(2);
-    stackTestInt.push(3);
-    stackTestInt.push(4);
-
-    stackTestInt.print();
-
     Stack<double> stackTestDouble(3);
-    stackTestDouble.push(1.5);
-    stackTestDouble.push(2.668);
-    stackTestDouble.push(3.25);
-    double test = stackTestDouble.pop();
-    stackTestDouble.push(4.455);
 
-    std::cout << test << "\n";
+    Stack<char> stackTestInt2(3);
+    Stack<float> stackTestDouble2(3);
 
-    stackTestDouble.print();
+    Stack<bool> stackTestInt3(3);
+    Stack<std::string> stackTestDouble3(3);
+
+    Stack<std::vector<int>> stackTestInt4(3);
+    Stack<std::vector<double>> stackTestDouble4(3);
+
+    Stack<std::vector<float>> stackTestDouble22(3);
+    Stack<std::vector<char>> stackTestDouble32(3);
+
+
+//    stackTestInt.push(1);
+//    stackTestInt.push(2);
+//    stackTestInt.push(3);
+//    stackTestInt.push(4);
+//
+//    stackTestInt.print();
+//    stackTestDouble.push(1.5);
+//    stackTestDouble.push(2.668);
+//    stackTestDouble.push(3.25);
+//    double test = stackTestDouble.pop();
+//    stackTestDouble.push(4.455);
+//
+//    std::cout << test << "\n";
+//
+//    stackTestDouble.print();
 }

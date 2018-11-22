@@ -1,0 +1,19 @@
+1: 
+user	0m0,301s
+sys	0m0,044s
+
+2:
+user	0m0,345s
+sys	0m0,048s
+
+4:
+user	0m0,370s
+sys	0m0,051s
+
+6:
+user	0m0,391s
+sys	0m0,061s
+
+10:
+user	0m0,457s
+sys	0m0,075s
