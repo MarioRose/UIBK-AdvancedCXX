@@ -2,17 +2,19 @@
 and may not be redistributed without written permission.*/
 
 // Using SDL, SDL_image, standard IO, and strings
+
+#include <CharacterStatus.h>
+#include <Character.h>
+#include <iostream>
+#include <Room.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
-#include <iostream>
+#include <Settings.h>
 #include <stdio.h>
 #include <string>
+#include <Texture.h>
+#include <Timer.h>
 
-#include "character.h"
-#include "settings.h"
-#include "texture.h"
-#include "timer.h"
-#include "room.h"
 
 // Paths to files
 const std::string backgroundPath = "images/background/plx-1.png";
@@ -198,7 +200,7 @@ int main(int argc, char *args[])
 			Timer fps;
 
 			int spriteNumber = 1;
-			int oldStatus = character.getStatus();
+			CharacterStatus oldStatus = character.getStatus();
 			int numberOfSprites = 11;
 
 			// While application is running

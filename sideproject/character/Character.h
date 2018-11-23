@@ -2,8 +2,9 @@
 #define CHARACTER_H
 
 
+#include <CharacterStatus.h>
 #include <SDL.h>
-#include <texture.h>
+#include <Texture.h>
 #include <vector>
 //The character that will move around on the screen
 
@@ -40,7 +41,7 @@ public:
 	//Shows the Character on the screen
 	void render(int spriteNumber, SDL_Renderer* gRenderer);
 
-	int getStatus();
+	CharacterStatus getStatus();
 
 	bool loadTexture(std::string path, SDL_Renderer* renderer);
 	bool loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
@@ -66,9 +67,8 @@ private:
 	//The force of the Character
 	double mForceY;
 
-	/*TODO: add enum of static*/
 	//Status (e.g. idle or running) the Character
-	int status;
+	CharacterStatus status;
 
 };
 

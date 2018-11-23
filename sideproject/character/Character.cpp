@@ -1,12 +1,14 @@
-#include "character.h"
+#include <Character.h>
 
-#include "settings.h"
+#include <exception>
+#include <iostream>
+#include <Settings.h>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <iostream>
+
 
 Character::Character() {
 	//Initialize the offsets
@@ -21,7 +23,7 @@ Character::Character() {
 	mForceY = 0;
 
 	//Initialize status of character
-	status = 0;
+	status = CharacterStatus::IDLE;
 
 }
 
@@ -41,7 +43,7 @@ void Character::handleEvent( SDL_Event& e ) {
 			case SDLK_RIGHT: mVelX += CHAR_VEL; break;
 			default: break;
 		}
-		status = 1;
+		status = CharacterStatus::RUNNING;
 	}
 	//If a key was released
 	else if( e.type == SDL_KEYUP && e.key.repeat == 0 ) {
@@ -53,7 +55,7 @@ void Character::handleEvent( SDL_Event& e ) {
 			case SDLK_RIGHT: mVelX -= CHAR_VEL; break;
 			default: break;
 		}
-		status = 0;
+		status = CharacterStatus::IDLE;
 	}
 }
 
@@ -108,7 +110,7 @@ void Character::move() {
 	}
 }
 
-int Character::getStatus() {
+CharacterStatus Character::getStatus() {
     return status;
 }
 
@@ -176,17 +178,20 @@ void Character::render(int spriteNumber, SDL_Renderer* renderer) {
 	//Show the Character
 	switch (status){
 
-    	case 1:
+    		case CharacterStatus::RUNNING:
     		//runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		//std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
-		runningTextures[spriteNumber]->render( mPosX, mPosY, renderer );
-        break;
+			runningTextures[spriteNumber]->render( mPosX, mPosY, renderer );
+        		break;
 
-    	default:
+    		case CharacterStatus::IDLE:
 		//idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		//std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		idleTextures[spriteNumber]->render( mPosX, mPosY, renderer );
-		break;
+			idleTextures[spriteNumber]->render( mPosX, mPosY, renderer );
+			break;
+
+		default:
+			throw std::exception{};
 	}
 }
 

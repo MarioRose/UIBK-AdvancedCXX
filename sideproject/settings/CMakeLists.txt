@@ -9,7 +9,7 @@ project (settings)
 #include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
 # Add a library with the above sources
-add_library(${PROJECT_NAME} settings.cpp)
+add_library(${PROJECT_NAME} Settings.cpp)
 add_library(sub::settings ALIAS ${PROJECT_NAME})
 
 target_include_directories( ${PROJECT_NAME}
