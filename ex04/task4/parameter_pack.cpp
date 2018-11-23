@@ -12,6 +12,16 @@ void append(std::vector<T> &vector, T t, Elements... elements){
     append(vector, elements...);
 };
 
+template<typename T, class C>
+void append2(std::vector<T> &vector, std::initializer_list<C> list){
+
+    for( auto t : list )
+    {
+        vector.push_back(t);
+    }
+
+};
+
 int main(){
     std::vector<int> xs{1, 2, 3};
 
@@ -24,11 +34,28 @@ int main(){
     append(ys, 6.0f, 7.0f, 8.0f);
 
 
+    std::cout << "xs: ";
     for(auto &element : xs){
-        std::cout << element << "\n";
+        std::cout << element << ",\t";
     }
+    std::cout << "\n";
 
+    std::cout << "ys: ";
     for(auto &element : ys){
-        std::cout << element << "\n";
+        std::cout << element << ",\t";
     }
+    std::cout << "\n";
+
+    /*** ALTERNATIVE SOLUTION ***/
+    std::vector<double> zs{1, 2, 3};
+
+    append2(zs, {4.2f, 5.0f});
+    append2(zs, {6.0f, 7.0f, 8.0f});
+
+    std::cout << "zs: ";
+    for(auto &element : zs){
+        std::cout << element << ",\t";
+    }
+    std::cout << "\n";
+
 }
