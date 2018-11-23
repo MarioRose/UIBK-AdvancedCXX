@@ -133,105 +133,135 @@ Before:  https://github.com/hodgman/dod-playground/blob/3529f232510c95f53112bbff
 
 After: https://github.com/hodgman/dod-playground/blob/f42290d0217d700dea2ed002f2f3b1dc45e8c27c/source/game.cpp
 
-####Comparison
+##Summary
 
-Instead of this:
+Hodgman first improves the understandability of the code which was completely obfuscating both the flow of control and the flow of data within the game.
+
+Aras had a base class ``Component`` from which ```PositionComponent```, ```SpriteComponent```, ```MoveComponent``` inherited. But this forces him them to use templates. Hodgman removed this implementation-inheritance and added constructors:
+
 ~~~
+struct PositionComponent : public Component
+{
+  float x, y;
+};
+~~~
+
+becomes:
+
+~~~
+struct PositionComponent
+{
+    float x, y;
+
+    PositionComponent(float x, float y)
+		: x(x)
+		, y(y)
+    {
+	}
+};
+~~~
+
+He removes the three hard-coded blocks of code that resemble a template/prefab -- code that creates a ```GameObject``` containing specific Component types, and replace it with three C++ classes:
+
+~~~
+// create "world bounds" object
+WorldBoundsComponent bounds;
+{
+    EntityID go = s_Objects.AddEntity("bounds");
+    s_Objects.m_WorldBounds[go].xMin = -80.0f;
+    s_Objects.m_WorldBounds[go].xMax =  80.0f;
+    s_Objects.m_WorldBounds[go].yMin = -50.0f;
+    s_Objects.m_WorldBounds[go].yMax =  50.0f;
+    bounds = s_Objects.m_WorldBounds[go];
+    s_Objects.m_Flags[go] |= Entities::kFlagWorldBounds;
+    s_MoveSystem.SetBounds(go);
+}
+
 // create regular objects that move
 for (auto i = 0; i < kObjectCount; ++i)
 {
-    GameObject* go = new GameObject("object");
+    EntityID go = s_Objects.AddEntity("object");
 
     // position it within world bounds
-    PositionComponent* pos = new PositionComponent();
-    pos->x = RandomFloat(bounds->xMin, bounds->xMax);
-    pos->y = RandomFloat(bounds->yMin, bounds->yMax);
-    go->AddComponent(pos);
+    s_Objects.m_Positions[go].x =
+        RandomFloat(bounds.xMin, bounds.xMax);
+    s_Objects.m_Positions[go].y =
+        RandomFloat(bounds.yMin, bounds.yMax);
+    s_Objects.m_Flags[go] |= Entities::kFlagPosition;
 
     // setup a sprite for it (random sprite index from first 5),
     // and initial white color
-    SpriteComponent* sprite = new SpriteComponent();
-    sprite->colorR = 1.0f;
-    sprite->colorG = 1.0f;
-    sprite->colorB = 1.0f;
-    sprite->spriteIndex = rand() % 5;
-    sprite->scale = 1.0f;
-    go->AddComponent(sprite);
+    s_Objects.m_Sprites[go].colorR = 1.0f;
+    s_Objects.m_Sprites[go].colorG = 1.0f;
+    s_Objects.m_Sprites[go].colorB = 1.0f;
+    s_Objects.m_Sprites[go].spriteIndex = rand() % 5;
+    s_Objects.m_Sprites[go].scale = 1.0f;
+    s_Objects.m_Flags[go] |= Entities::kFlagSprite;
 
     // make it move
-    MoveComponent* move = new MoveComponent(0.5f, 0.7f);
-    go->AddComponent(move);
+    s_Objects.m_Moves[go].Initialize(0.5f, 0.7f);
+    s_Objects.m_Flags[go] |= Entities::kFlagMove;
+    s_MoveSystem.AddObjectToSystem(go);
 
-    // make it avoid the bubble things
-    AvoidComponent* avoid = new AvoidComponent();
-    go->AddComponent(avoid);
-
-    s_Objects.emplace_back(go);
-}
-~~~
-
-We now have this:
-
-~~~
-struct RegularObject
-{
-	PositionComponent pos;
-	SpriteComponent sprite;
-	MoveComponent move;
-	AvoidComponent avoid;
-
-    RegularObject(const WorldBoundsComponent& bounds)
-		: move(0.5f, 0.7f)
-		// position it within world bounds,
-    // pos(RandomFloat(bounds.xMin, bounds.xMax),
-		//     RandomFloat(bounds.yMin, bounds.yMax))
-		// setup a sprite for it
-    // (random sprite index from first 5),
-    // and initial white color
-		, sprite(1.0f,
-		         1.0f,
-		         1.0f,
-		         rand() % 5,
-		         1.0f)
-	{
-	}
-};
-
-...
-
-// create regular objects that move
-regularObject.reserve(kObjectCount);
-for (auto i = 0; i < kObjectCount; ++i)
-	regularObject.emplace_back(bounds);
-~~~
-
-The original code has a main loop algorithm that consists of just:
-~~~
-// go through all objects
-for (auto go : s_Objects)
-{
-    // Update all their components
-    go->Update(time, deltaTime);
-~~~
-
-It's completely obfuscating both the flow of control and the flow of data within the game. Better:
-
-~~~
-// Update all positions
-for (auto& go : s_game->regularObject)
-{
-	UpdatePosition(deltaTime, go, s_game->bounds.wb);
-}
-for (auto& go : s_game->avoidThis)
-{
-	UpdatePosition(deltaTime, go, s_game->bounds.wb);
+    // make it avoid the bubble things,
+    // by adding to the avoidance system
+    s_AvoidanceSystem.AddObjectToSystem(go);
 }
 
-// Resolve all collisions
-for (auto& go : s_game->regularObject)
+// create objects that should be avoided
+for (auto i = 0; i < kAvoidCount; ++i)
 {
-	ResolveCollisions(deltaTime, go, s_game->avoidThis);
+    EntityID go = s_Objects.AddEntity("toavoid");
+
+    // position it in small area near center of world bounds
+    s_Objects.m_Positions[go].x =
+          RandomFloat(bounds.xMin, bounds.xMax) * 0.2f;
+    s_Objects.m_Positions[go].y =
+          RandomFloat(bounds.yMin, bounds.yMax) * 0.2f;
+    s_Objects.m_Flags[go] |= Entities::kFlagPosition;
+
+    // setup a sprite for it (6th one), and a random color
+    s_Objects.m_Sprites[go].colorR = RandomFloat(0.5f, 1.0f);
+    s_Objects.m_Sprites[go].colorG = RandomFloat(0.5f, 1.0f);
+    s_Objects.m_Sprites[go].colorB = RandomFloat(0.5f, 1.0f);
+    s_Objects.m_Sprites[go].spriteIndex = 5;
+    s_Objects.m_Sprites[go].scale = 2.0f;
+    s_Objects.m_Flags[go] |= Entities::kFlagSprite;
+
+    // make it move, slowly
+    s_Objects.m_Moves[go].Initialize(0.1f, 0.2f);
+    s_Objects.m_Flags[go] |= Entities::kFlagMove;
+    s_MoveSystem.AddObjectToSystem(go);
+
+    // add to avoidance this as "Avoid This" object
+    s_AvoidanceSystem.AddAvoidThisObjectToSystem(go, 1.3f);
 }
+
 ~~~
 
-The downside of this style is that for every single new object type that we add to the game, we have to add a few lines to our main loop.
+becomes:
+
+~~~
+WorldBounds bounds;
+std::vector<AvoidThis> avoidThis;
+std::vector<RegularObject> regularObject;
+~~~
+
+because Hodgman uses classes. He therefore also don't need Templates for distinguishing between the different Components, for example this function:
+
+~~~
+// get a component of type T,
+// or null if it does not exist on this game object
+template <typename T>
+T* GetComponent ()    
+{
+  for ( auto i : m_Components)
+  {
+    T* c = dynamic_cast<T*>(i);
+    if (c != nullptr)
+      return c;
+  }
+
+  return nullptr;
+}
+~~~
