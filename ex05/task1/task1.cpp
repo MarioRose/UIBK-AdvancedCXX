@@ -1,5 +1,6 @@
 #include <iostream>
 #include <set>
+#include <tuple>
 
 struct Person {
     std::string first_name;
@@ -20,47 +21,20 @@ struct Person {
     }
 
     bool operator< (const Person& rhs ) const{
-        if(this == &rhs)
-            return false;
-
-        if(last_name < rhs.last_name)
-            return true;
-        if(last_name == rhs.last_name && first_name < rhs.first_name)
-            return true;
-        if(last_name == rhs.last_name && first_name == rhs.first_name && age < rhs.age)
-            return true;
-
-        return false;
+        return std::tie(last_name, first_name, age) < std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
     bool operator<= (const Person& rhs ) const{
-        if(this == &rhs)
-            return true;
-
-        if(last_name <= rhs.last_name)
-            return true;
-        if(last_name == rhs.last_name && first_name <= rhs.first_name)
-            return true;
-        if(last_name == rhs.last_name && first_name == rhs.first_name && age <= rhs.age)
-            return true;
-
-        return false;
+        return std::tie(last_name, first_name, age) <= std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
     bool operator> (const Person& rhs) const{
-        if(this == &rhs)
-            return false;
-        if(this < &rhs)
-            return false;
-        return true;
+
+        return std::tie(last_name, first_name, age) > std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
     bool operator>= (const Person& rhs) const{
-        if(this == &rhs)
-            return true;
-        if(this < &rhs)
-            return false;
-        return true;
+        return std::tie(last_name, first_name, age) >= std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
     friend std::ostream& operator<< (std::ostream& out, const Person& person) {
@@ -77,7 +51,7 @@ int main(){
     Person p1{"A", "Bb", 15};
     Person p2{"B", "Bb", 1};
     Person p3{"B", "Bb", 15};
-    Person p4{"A", "Aa", 15};
+    Person p4{"A", "Ab", 15};
     Person p5{"A", "Aa", 15};
 
     std::set<Person> person_set;
@@ -92,5 +66,5 @@ int main(){
     for(auto cb : person_set) {
         std::cout << cb << std::endl;
     }
-    
+
 }
