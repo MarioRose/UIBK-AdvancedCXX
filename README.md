@@ -7,7 +7,7 @@
 | 2018-11-09 | [A Good Read]                     |
 | 2018-11-16 | [New Tools in a Familiar Context] |
 | 2018-11-23 | [Same Same but Different]         |
-| 2018-11-30 |                                   |
+| 2018-11-30 | [Boxes and Computations]          |
 | 2018-12-07 |                                   |
 | 2018-12-14 |                                   |
 | 2019-01-11 |                                   |
@@ -19,6 +19,7 @@
 [A Good Read]: ex02
 [New Tools in a Familiar Context]: ex03
 [Same Same but Different]: ex04
+[Boxes and Computations]: ex05
 
 The lab takes place in [rr15](https://www.uibk.ac.at/zid/raeume/architekturgebaeude/rr15.html).
 

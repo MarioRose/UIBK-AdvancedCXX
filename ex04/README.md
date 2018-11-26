@@ -1,6 +1,6 @@
 # Exercise Sheet 4 – Same Same but Different
 
-*due on 16 November 2018*
+*due on 23 November 2018*
 
 This exercise sheet is about critical thinking.
 The C++ language provides a lot of tools, each of them suited for different use cases.
