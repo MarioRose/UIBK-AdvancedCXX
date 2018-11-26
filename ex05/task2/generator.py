@@ -114,7 +114,7 @@ elif(sys.argv[1] == "vector"):
         f.write("   person_vector.push_back(p"+str(i)+");\n")
 
     r = random.randint(0,int(sys.argv[2])-1)
-    f.write("\n //std::find(person_vector.begin(), person_vector.end(), p"+str(r)+");\n")
+    f.write("\n //std::find(person_vector.begin(), person_vector.end(), p"+str(r)+");\n}")
 
 elif(sys.argv[1] == "set"):
     f.write("   std::map<Person, int> person_map;\n");
