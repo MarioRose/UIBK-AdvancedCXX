@@ -117,7 +117,7 @@ elif(sys.argv[1] == "vector"):
     f.write("\n //std::find(person_vector.begin(), person_vector.end(), p"+str(r)+");\n}")
 
 elif(sys.argv[1] == "set"):
-    f.write("   std::map<Person, int> person_map;\n");
+    f.write("   std::set<Person> person_set;\n");
     for i in range(0, int(sys.argv[2])):
         f.write("   person_set.insert(p"+str(i)+");\n")
 
