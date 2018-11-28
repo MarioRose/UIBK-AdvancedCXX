@@ -84,17 +84,9 @@ int main()
 
 	std::unordered_set<Person> person_uset;
 
-	Person p1{"A", "Bb", 15};
-	Person p2{"B", "Bb", 1};
-	Person p3{"B", "Bb", 15};
-	Person p4{"A", "Ab", 15};
-	Person p5{"A", "Aa", 15};
+	for( int i = 0; i < 4000; ++i ) {
+		person_uset.insert(Person{"A", "Aa", 15});
+	}
 
-	person_uset.insert(p1);
-	person_uset.insert(p2);
-	person_uset.insert(p3);
-	person_uset.insert(p4);
-	person_uset.insert(p5);
-
-	//std::find(person_uset.begin(), person_uset.end(), p5);
+	std::find(person_uset.begin(), person_uset.end(), Person{"A", "Aa", 15});
 }
