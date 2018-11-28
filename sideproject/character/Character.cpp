@@ -21,7 +21,7 @@ Character::Character() {
     velY = 0;
 
     //Initialize the force
-    mForceY = 0;
+    forceY = 0;
 
     //Initialize status of character
     status = CharacterStatus::IDLE;
@@ -62,7 +62,7 @@ void Character::control( SDL_Event& e ) {
 }
 
 void Character::jump() {
-	mForceY = -1;
+	forceY = 15;
 }
 
 

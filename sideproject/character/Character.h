@@ -43,7 +43,7 @@ public:
 
 private:
 	//The force of the Character
-	double mForceY;
+	//double forceY;
 
 	//Status (e.g. idle or running) the Character
 	CharacterStatus status;

@@ -11,10 +11,6 @@ public:
 
     void move();
 
-private:
-    //The velocity of the moveable Object
-    double forceY;
-
 protected:
     //The velocity of the moveable Object
     double velX;
@@ -22,6 +18,8 @@ protected:
 double velY;
 //Max velocity of moveable Object
 const double max_vel = 5;
+//The velocity of the moveable Object
+double forceY;
 };
 
 
