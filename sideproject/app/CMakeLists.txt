@@ -41,4 +41,6 @@ target_link_libraries(
 		sub::character
 		sub::settings
 		sub::room
+        sub::gameobjects
+        sub::moveable
 )

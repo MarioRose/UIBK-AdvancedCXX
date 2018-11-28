@@ -216,7 +216,7 @@ int main(int argc, char *args[])
 					}
 
 					// Handle input for the character
-					character.handleEvent(e);
+					character.control(e);
 				}
 
 				// Move the character
