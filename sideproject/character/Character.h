@@ -42,6 +42,7 @@ private:
 	//The force of the Character
 	//double forceY;
 
+	int keypressCount = 0;
 	//Status (e.g. idle or running) the Character
 	CharacterStatus status;
 

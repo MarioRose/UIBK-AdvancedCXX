@@ -3,17 +3,17 @@ and may not be redistributed without written permission.*/
 
 // Using SDL, SDL_image, standard IO, and strings
 
-#include <CharacterStatus.h>
 #include <Character.h>
-#include <iostream>
+#include <CharacterStatus.h>
 #include <Room.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <Settings.h>
-#include <stdio.h>
-#include <string>
 #include <Texture.h>
 #include <Timer.h>
+#include <iostream>
+#include <stdio.h>
+#include <string>
 
 // Starts up SDL and creates window
 bool init();
@@ -41,8 +41,8 @@ bool init()
 		success = false;
 	} else {
 
-		//Initialize SDL_mixer
-		if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0){
+		// Initialize SDL_mixer
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 			printf("Mix_OpenAudio: %s\n", Mix_GetError());
 		}
 		Mix_Volume(-1, MIX_MAX_VOLUME);
@@ -87,7 +87,7 @@ void close(Character *character, Room *room)
 	// Free loaded images
 	character->free();
 
-	//Free Room
+	// Free Room
 	room->free();
 
 	// Destroy window
@@ -164,22 +164,25 @@ int main(int argc, char *args[])
 
 			// Render objects
 			/*TODO: this Solution is only for testing, i'll find a better one */
-			if (frame % 2 == 0) {
-				if (oldStatus != character.getStatus()) {
-					spriteNumber = 0;
-					numberOfSprites == 11 ? numberOfSprites = 7 : numberOfSprites = 11;
+			if (oldStatus != character.getStatus()) {
+				spriteNumber = 0;
+				if (character.getStatus() == CharacterStatus::IDLE) {
+					numberOfSprites = 11;
 				} else {
-					if (spriteNumber == numberOfSprites)
-						spriteNumber = 0;
-					else {
-						spriteNumber++;
-					}
+					numberOfSprites = 7;
 				}
-				oldStatus = character.getStatus();
+			} else {
+				if (spriteNumber == numberOfSprites)
+					spriteNumber = 0;
+				else {
+					spriteNumber++;
+				}
 			}
-			//std::cout << "spriteNumber: " << spriteNumber << "\n";
+			oldStatus = character.getStatus();
+
+			// std::cout << "spriteNumber: " << spriteNumber << "\n";
 			character.render(spriteNumber, gRenderer);
-			//character.render(gRenderer);
+			// character.render(gRenderer);
 
 			// Update screen
 			SDL_RenderPresent(gRenderer);
