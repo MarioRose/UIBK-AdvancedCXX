@@ -93,20 +93,9 @@ struct Person {
     std::string to_string() {
         std::cout << "Operator ==" << std::endl;
         return last_name + " " + first_name + " " + std::to_string(age);}
-
-    void swap(Person& person) {
-        first_name.swap(person.first_name);
-        last_name.swap(person.last_name);
-    }
-
 };
 
-void swap(Person& p1, Person& p2) {
-    p1.swap(p2);
-//    Person temp(p1);
-//    p1 = p2;
-//    p2 = temp;
-}
+
 
 int main(){
 
@@ -140,29 +129,39 @@ int main(){
     std::cout << std::endl;
 
 
+    std::cout << "========================" << std::endl;
+
     std::cout << "Set: " << std::endl;
+    std::cout << std::endl;
     std::cout << "Find: " << std::endl;
     std::find(person_set.begin(), person_set.end(), p3);
-    std::cout << "Partition: " << std::endl;
-    //std::partition(person_set.begin(), person_set.end(), [](Person p){return 0;});
     std::cout << std::endl;
+//    std::cout << "Partition: " << std::endl;
+    //std::partition(person_set.begin(), person_set.end(), [](Person p){return 0;});
+//    std::cout << std::endl;
     std::cout << "For Each: " << std::endl;
     std::for_each(person_set.begin(), person_set.end(), [](Person p){ p.age++; });
     std::cout << std::endl;
     std::cout << "All of: " << std::endl;
     std::for_each(person_set.begin(), person_set.end(), [](Person p){ p.age > 10; });
     std::cout << std::endl;
-    std::cout << "Copy Backward: " << std::endl;
-    std::set<Person> to_person_set;
-    std::copy_backward(person_set.begin(), person_set.end(), to_person_set.end());
+    std::cout << "Max Element: " << std::endl;
+    std::max_element(person_set.begin(), person_set.end());
     std::cout << std::endl;
+    std::cout << "MinMax Element: " << std::endl;
+    std::minmax_element(person_set.begin(), person_set.end());
+    std::cout << std::endl;
+
+    std::cout << "========================" << std::endl;
 
 
     std::cout << "Vector: " << std::endl;
+    std::cout << std::endl;
     std::cout << "Find: " << std::endl;
     std::find(person_vector.begin(), person_vector.end(), p3);
+    std::cout << std::endl;
     std::cout << "Partition: " << std::endl;
-//    std::partition(person_vector.begin(), person_vector.end(), [](){return 0;});
+    std::partition(person_vector.begin(), person_vector.end(), [](Person p){return p.age%2 == 0;});
     std::cout << std::endl;
     std::cout << "For Each: " << std::endl;
     std::for_each(person_vector.begin(), person_vector.end(), [](Person p){ p.age++; });
@@ -170,19 +169,35 @@ int main(){
     std::cout << "All of: " << std::endl;
     std::for_each(person_vector.begin(), person_vector.end(), [](Person p){ p.age > 10; });
     std::cout << std::endl;
+    std::cout << "Max Element: " << std::endl;
+    std::max_element(person_vector.begin(), person_vector.end());
+    std::cout << std::endl;
+    std::cout << "MinMax Element: " << std::endl;
+    std::minmax_element(person_vector.begin(), person_vector.end());
+    std::cout << std::endl;
+
+    std::cout << "========================" << std::endl;
 
 
     std::cout << "Map: " << std::endl;
+    std::cout << std::endl;
     std::cout << "Find: " << std::endl;
     std::find(person_map.begin(), person_map.end(), std::pair<const Person, int>(p5, 5));
-    std::cout << "Partition: " << std::endl;
-//    std::partition(person_map.begin(), person_map.end(), [](){return 0;});
     std::cout << std::endl;
+//    std::cout << "Partition: " << std::endl;
+//    std::partition(person_map.begin(), person_map.end(), [](std::pair<Person, int> p){return p.first.age%2 == 0;});
+//    std::cout << std::endl;
     std::cout << "For Each: " << std::endl;
     std::for_each(person_map.begin(), person_map.end(), [](std::pair<Person, int> p){ p.first.age++; });
     std::cout << std::endl;
     std::cout << "All of: " << std::endl;
     std::for_each(person_map.begin(), person_map.end(), [](std::pair<Person, int> p){ p.first.age > 10; });
+    std::cout << std::endl;
+    std::cout << "Max Element: " << std::endl;
+    std::max_element(person_map.begin(), person_map.end());
+    std::cout << std::endl;
+    std::cout << "MinMax Element: " << std::endl;
+    std::minmax_element(person_map.begin(), person_map.end());
     std::cout << std::endl;
 
 
