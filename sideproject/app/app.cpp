@@ -135,7 +135,7 @@ int main(int argc, char *args[])
 
 		int spriteNumber = 1;
 		CharacterStatus oldStatus = character.getStatus();
-		int numberOfSprites = 7;
+		int numberOfSprites = 11;
 
 		// While application is running
 		while (!quit) {
