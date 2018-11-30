@@ -11,58 +11,102 @@ struct Person {
     std::string last_name;
     int age;
 
+    Person(std::string first, std::string last, int age) : first_name(first),
+                                                           last_name(last),
+                                                           age(age) {}
 
-    bool operator== (const Person& rhs ) const{
+    Person( Person& person) : first_name(person.first_name),
+                                   last_name(person.last_name),
+                                   age(person.age) {}
+
+    Person(const Person& person) : first_name(person.first_name),
+                                   last_name(person.last_name),
+                                   age(person.age) {}
+
+    Person (Person&& person) {
+        first_name = person.first_name;
+        last_name = person.last_name;
+        age = person.age;
+    }
+
+    Person& operator= ( Person&& person) {
+
+        if(this != &person){
+            first_name = person.first_name;
+            last_name = person.last_name;
+            age = person.age;
+        }
+
+        return *this;
+    }
+
+    Person& operator= ( Person const& person) {
+
+        if(this != &person){
+            first_name = person.first_name;
+            last_name = person.last_name;
+            age = person.age;
+        }
+
+        return *this;
+    }
+
+    bool operator== (const Person& rhs ) const {
         std::cout << "Operator ==" << std::endl;
         if(first_name == rhs.first_name && last_name == rhs.last_name && age == rhs.age)
             return true;
         return false;
     }
 
-    bool operator== (Person& rhs ) const{
-        std::cout << "Operator ==" << std::endl;
-        if(first_name == rhs.first_name && last_name == rhs.last_name && age == rhs.age)
-            return true;
-        return false;
-    }
-
-    bool operator!= (const Person& rhs ) const{
+    bool operator!= (const Person& rhs ) const {
         std::cout << "Operator !=" << std::endl;
         if(first_name == rhs.first_name && last_name == rhs.last_name && age == rhs.age)
             return false;
         return true;
     }
 
-    bool operator< (const Person& rhs ) const{
+    bool operator< (const Person& rhs ) const {
         std::cout << "Operator <" << std::endl;
         return std::tie(last_name, first_name, age) < std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
-    bool operator<= (const Person& rhs ) const{
+    bool operator<= (const Person& rhs ) const {
         std::cout << "Operator <=" << std::endl;
         return std::tie(last_name, first_name, age) <= std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
-    bool operator> (const Person& rhs) const{
+    bool operator> (const Person& rhs) const {
         std::cout << "Operator >" << std::endl;
         return std::tie(last_name, first_name, age) > std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
-    bool operator>= (const Person& rhs) const{
+    bool operator>= (const Person& rhs) const {
         std::cout << "Operator >=" << std::endl;
         return std::tie(last_name, first_name, age) >= std::tie(rhs.last_name, rhs.first_name, rhs.age);
     }
 
-    friend std::ostream& operator<< (std::ostream& out, const Person& person) {
+    friend std::ostream& operator<< (std::ostream& out, Person& person) {
         out << "Person(" << person.last_name << ", " << person.first_name << ", " << person.age << ")";
         return out;
     }
 
-    std::string to_string() const {
+    std::string to_string() {
         std::cout << "Operator ==" << std::endl;
         return last_name + " " + first_name + " " + std::to_string(age);}
+
+    void swap(Person& person) {
+        first_name.swap(person.first_name);
+        last_name.swap(person.last_name);
+    }
+
 };
 
+void swap(Person& p1, Person& p2) {
+    p1.swap(p2);
+//    Person temp(p1);
+//    p1 = p2;
+//    p2 = temp;
+}
 
 int main(){
 
@@ -100,7 +144,17 @@ int main(){
     std::cout << "Find: " << std::endl;
     std::find(person_set.begin(), person_set.end(), p3);
     std::cout << "Partition: " << std::endl;
-//    std::partition(person_set.begin(), person_set.end(), [](){return 0;});
+    //std::partition(person_set.begin(), person_set.end(), [](Person p){return 0;});
+    std::cout << std::endl;
+    std::cout << "For Each: " << std::endl;
+    std::for_each(person_set.begin(), person_set.end(), [](Person p){ p.age++; });
+    std::cout << std::endl;
+    std::cout << "All of: " << std::endl;
+    std::for_each(person_set.begin(), person_set.end(), [](Person p){ p.age > 10; });
+    std::cout << std::endl;
+    std::cout << "Copy Backward: " << std::endl;
+    std::set<Person> to_person_set;
+    std::copy_backward(person_set.begin(), person_set.end(), to_person_set.end());
     std::cout << std::endl;
 
 
@@ -110,6 +164,12 @@ int main(){
     std::cout << "Partition: " << std::endl;
 //    std::partition(person_vector.begin(), person_vector.end(), [](){return 0;});
     std::cout << std::endl;
+    std::cout << "For Each: " << std::endl;
+    std::for_each(person_vector.begin(), person_vector.end(), [](Person p){ p.age++; });
+    std::cout << std::endl;
+    std::cout << "All of: " << std::endl;
+    std::for_each(person_vector.begin(), person_vector.end(), [](Person p){ p.age > 10; });
+    std::cout << std::endl;
 
 
     std::cout << "Map: " << std::endl;
@@ -117,6 +177,12 @@ int main(){
     std::find(person_map.begin(), person_map.end(), std::pair<const Person, int>(p5, 5));
     std::cout << "Partition: " << std::endl;
 //    std::partition(person_map.begin(), person_map.end(), [](){return 0;});
+    std::cout << std::endl;
+    std::cout << "For Each: " << std::endl;
+    std::for_each(person_map.begin(), person_map.end(), [](std::pair<Person, int> p){ p.first.age++; });
+    std::cout << std::endl;
+    std::cout << "All of: " << std::endl;
+    std::for_each(person_map.begin(), person_map.end(), [](std::pair<Person, int> p){ p.first.age > 10; });
     std::cout << std::endl;
 
 
