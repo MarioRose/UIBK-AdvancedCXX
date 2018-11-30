@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <fstream>
 
 
 
@@ -78,6 +80,48 @@ bool Character::loadTexture(std::string path, SDL_Renderer* renderer) {
 	}
 
 	return false;
+}
+
+void Character::loadFromFile(std::string path, SDL_Renderer *renderer) {
+
+	std::ifstream file(path);
+
+	if(file.is_open()){
+
+    std::vector<std::string> pathsIdleTextures;
+    std::vector<std::string> pathsRunningTextures;
+
+		std::string line;
+		while (std::getline(file, line))
+		{
+		    std::istringstream iss(line);
+		    std::string key, value;
+		    if (!(iss >> key >> value)) { continue; } // error
+		    //std::cout << key << ": " << value << std::endl;
+
+				if(key == "MAIN_IDLE")
+				{
+						loadTexture(value, renderer);
+				}
+				else if(key == "IDLE")
+				{
+						pathsIdleTextures.push_back(value);
+				}
+        else if(key == "RUNNING")
+				{
+						pathsRunningTextures.push_back(value);
+				}
+		}
+
+    loadIdleTextures(pathsIdleTextures, renderer);
+    loadRunningTextures(pathsRunningTextures, renderer);
+
+		file.close();
+	}
+	else {
+		std::cout << "Error loading file " << path << std::endl;
+	}
+
 }
 
 bool Character::loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer) {

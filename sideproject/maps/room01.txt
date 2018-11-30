@@ -1,5 +1,5 @@
 MAP Room01
-BACKGROUND images/background/plx-2.png
+BACKGROUND images/background/plx-5.png
 MUSIC ../../sound/172561_45941-lq.mp3
 TILES
   . = none

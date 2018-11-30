@@ -82,28 +82,6 @@ bool init()
 	return success;
 }
 
-bool loadMedia(Character *character)
-{
-	// Loading success flag
-	bool success = true;
-	character->loadTexture("images/character/idle/1.png", gRenderer);
-	std::vector<std::string> pathsIdleTextures;
-	for (int i = 1; i <= 12; i++) {
-		pathsIdleTextures.push_back("images/character/idle/" + std::to_string(i) + ".png");
-	}
-	character->loadIdleTextures(pathsIdleTextures, gRenderer);
-	//std::cout << "idle Textures" << character->idleTextures.size() << '\n';
-
-	std::vector<std::string> pathsRunningTextures;
-	for (int i = 0; i < 8; i++) {
-		pathsRunningTextures.push_back("images/character/running/" + std::to_string(i) + ".png");
-	}
-	character->loadRunningTextures(pathsRunningTextures, gRenderer);
-	//std::cout << "idle Textures" << character->runningTextures.size() << '\n';
-
-	return success;
-}
-
 void close(Character *character, Room *room)
 {
 	// Free loaded images
@@ -136,86 +114,83 @@ int main(int argc, char *args[])
 	if (!init()) {
 		printf("Failed to initialize!\n");
 	} else {
-		// Load media
-		if (!loadMedia(&character)) {
-			printf("Failed to load media!\n");
-		} else {
-			// Main loop flag
-			bool quit = false;
 
-			room.loadFromFile("../../maps/room01.txt", gRenderer);
+		// Main loop flag
+		bool quit = false;
 
-			// Event handler
-			SDL_Event e;
+		character.loadFromFile("../../character/profiles/main.txt", gRenderer);
+		room.loadFromFile("../../maps/room01.txt", gRenderer);
 
-			// Keep track of the current frame
-			int frame = 0;
+		// Event handler
+		SDL_Event e;
 
-			// Whether or not to cap the frame rate
-			bool cap = true;
+		// Keep track of the current frame
+		int frame = 0;
 
-			// The frame rate regulator
-			Timer fps;
+		// Whether or not to cap the frame rate
+		bool cap = true;
 
-			int spriteNumber = 1;
-			CharacterStatus oldStatus = character.getStatus();
-			int numberOfSprites = 11;
+		// The frame rate regulator
+		Timer fps;
 
-			// While application is running
-			while (!quit) {
-				// Start the frame timer
-				fps.start();
+		int spriteNumber = 1;
+		CharacterStatus oldStatus = character.getStatus();
+		int numberOfSprites = 11;
 
-				// Handle events on queue
-				while (SDL_PollEvent(&e) != 0) {
-					// User requests quit
-					if (e.type == SDL_QUIT) {
-						quit = true;
-					}
+		// While application is running
+		while (!quit) {
+			// Start the frame timer
+			fps.start();
 
-					// Handle input for the character
-					character.control(e);
+			// Handle events on queue
+			while (SDL_PollEvent(&e) != 0) {
+				// User requests quit
+				if (e.type == SDL_QUIT) {
+					quit = true;
 				}
 
-				// Move the character
-				character.move();
+				// Handle input for the character
+				character.control(e);
+			}
 
-				// Clear screen
-				SDL_RenderClear(gRenderer);
+			// Move the character
+			character.move();
 
-				// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-				SDL_RenderCopy(gRenderer, room.background_texture, NULL, NULL);
+			// Clear screen
+			SDL_RenderClear(gRenderer);
 
-				// Render objects
-				/*TODO: this Solution is only for testing, i'll find a better one */
-				if (frame % 2 == 0) {
-					if (oldStatus != character.getStatus()) {
+			// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+			SDL_RenderCopy(gRenderer, room.background_texture, NULL, NULL);
+
+			// Render objects
+			/*TODO: this Solution is only for testing, i'll find a better one */
+			if (frame % 2 == 0) {
+				if (oldStatus != character.getStatus()) {
+					spriteNumber = 0;
+					numberOfSprites == 11 ? numberOfSprites = 7 : numberOfSprites = 11;
+				} else {
+					if (spriteNumber == numberOfSprites)
 						spriteNumber = 0;
-						numberOfSprites == 11 ? numberOfSprites = 7 : numberOfSprites = 11;
-					} else {
-						if (spriteNumber == numberOfSprites)
-							spriteNumber = 0;
-						else {
-							spriteNumber++;
-						}
+					else {
+						spriteNumber++;
 					}
-					oldStatus = character.getStatus();
 				}
-				//std::cout << "spriteNumber: " << spriteNumber << "\n";
-				character.render(spriteNumber, gRenderer);
-				//character.render(gRenderer);
+				oldStatus = character.getStatus();
+			}
+			//std::cout << "spriteNumber: " << spriteNumber << "\n";
+			character.render(spriteNumber, gRenderer);
+			//character.render(gRenderer);
 
-				// Update screen
-				SDL_RenderPresent(gRenderer);
+			// Update screen
+			SDL_RenderPresent(gRenderer);
 
-				// Increment the frame counter
-				frame++;
+			// Increment the frame counter
+			frame++;
 
-				// If we want to cap the frame rate
-				if (cap && (fps.getTicks() < 1000 / FRAMES_PER_SECOND)) {
-					// Sleep the remaining frame time
-					SDL_Delay((1000 / FRAMES_PER_SECOND) - fps.getTicks());
-				}
+			// If we want to cap the frame rate
+			if (cap && (fps.getTicks() < 1000 / FRAMES_PER_SECOND)) {
+				// Sleep the remaining frame time
+				SDL_Delay((1000 / FRAMES_PER_SECOND) - fps.getTicks());
 			}
 		}
 	}
