@@ -135,7 +135,7 @@ int main(int argc, char *args[])
 
 		int spriteNumber = 1;
 		CharacterStatus oldStatus = character.getStatus();
-		int numberOfSprites = 11;
+		int numberOfSprites = 7;
 
 		// While application is running
 		while (!quit) {
@@ -167,7 +167,11 @@ int main(int argc, char *args[])
 			if (frame % 2 == 0) {
 				if (oldStatus != character.getStatus()) {
 					spriteNumber = 0;
-					numberOfSprites == 11 ? numberOfSprites = 7 : numberOfSprites = 11;
+					if(character.getStatus() == CharacterStatus::IDLE) {
+						numberOfSprites = 11;
+					} else {
+						numberOfSprites = 7;
+					}
 				} else {
 					if (spriteNumber == numberOfSprites)
 						spriteNumber = 0;
