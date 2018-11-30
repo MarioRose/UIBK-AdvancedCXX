@@ -11,10 +11,9 @@
 #include <fstream>
 
 Room::Room() {
-	SDL_Surface *background_surface = NULL;
-	SDL_Texture *background_texture = NULL;
-	SDL_Renderer *renderer;
-	Mix_Music *music = NULL;
+	SDL_Surface *background_surface = nullptr;
+	SDL_Texture *background_texture = nullptr;
+	Mix_Music *music = nullptr;
 
 }
 
@@ -76,8 +75,8 @@ Room::~Room(){
 
 void Room::free() {
 	//Free the music
-	if( music != NULL ) {
-		Mix_FreeMusic(music);
-		music = NULL;
-	}
+	//if( music != nullptr ) {
+	//	Mix_FreeMusic(music);
+	//	music = NULL;
+	//}
 }
