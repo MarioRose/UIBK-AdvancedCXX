@@ -18,10 +18,7 @@ public:
 
 	void free();
 
-	void playMusic();
-
-	//Loads image at specified path
-	bool loadTeture( std::string path, SDL_Renderer* renderer );
+	void loadFromFile(std::string path, SDL_Renderer* renderer);
 
 	//The music that will be played
 	Mix_Music *music;
@@ -31,6 +28,10 @@ public:
 
 	SDL_Renderer *renderer;
 	//std::vector<LTexture *> backgroundTextures;
+private:
+
+		void playMusic(std::string path);
+		void loadBackground(std::string path, SDL_Renderer *renderer);
 
 };
 

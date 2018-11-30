@@ -1,0 +1,22 @@
+MAP Room01
+BACKGROUND images/background/plx-2.png
+MUSIC ../../sound/172561_45941-lq.mp3
+TILES
+  . = none
+  w = Wall01
+  c = Ceiling01
+  f = Floor01
+  p = Platform01
+LAYOUT
+  wcccccccccccccccccw
+  w.................w
+  w.................w
+  w..........ppp....w
+  w.................w
+  w.................w
+  fffffffffffffffffff
+ENTITIES
+  ( 2, 5) Player()
+  ( 8, 5) Enemy_BookTossingRedneck()
+  (12, 2) SmallHealthPotion()
+  (18, 5) Door01_right(Room01_exit, Room02_entry)
