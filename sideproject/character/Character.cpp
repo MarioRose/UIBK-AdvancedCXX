@@ -26,6 +26,8 @@ Character::Character()
 
 	// Initialize status of character
 	status = CharacterStatus::IDLE;
+
+    flipType = SDL_FLIP_NONE;
 }
 
 Character::~Character()
@@ -48,10 +50,12 @@ void Character::control(SDL_Event &e)
 			velY += max_vel;
 			break;
 		case SDLK_LEFT:
+		    flipType = SDL_FLIP_HORIZONTAL;
 			velX -= max_vel;
 			break;
 		case SDLK_RIGHT:
-			velX += max_vel;
+            flipType = SDL_FLIP_NONE;
+            velX += max_vel;
 			break;
 		default:
 			break;
@@ -190,13 +194,13 @@ void Character::render(int spriteNumber, SDL_Renderer *renderer)
 	case CharacterStatus::RUNNING:
 		// runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
-		runningTextures[spriteNumber]->render(posX, posY, renderer);
+		runningTextures[spriteNumber]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::IDLE:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		idleTextures[spriteNumber]->render(posX, posY, renderer);
+		idleTextures[spriteNumber]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
 		break;
 
 	default:
