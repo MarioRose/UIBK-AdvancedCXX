@@ -98,17 +98,6 @@ CharacterStatus Character::getStatus()
 	return status;
 }
 
-bool Character::loadTexture(std::string path, SDL_Renderer *renderer)
-{
-
-	// Load Character texture
-	if (cTexture.loadFromFile(path, renderer)) {
-		return true;
-	}
-
-	return false;
-}
-
 void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
 
@@ -128,9 +117,7 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 			} // error
 			  // std::cout << key << ": " << value << std::endl;
 
-			if (key == "MAIN_IDLE") {
-				loadTexture(value, renderer);
-			} else if (key == "IDLE") {
+			if (key == "IDLE") {
 				pathsIdleTextures.push_back(value);
 			} else if (key == "RUNNING") {
 				pathsRunningTextures.push_back(value);
@@ -210,11 +197,6 @@ void Character::render(int spriteNumber, SDL_Renderer *renderer)
 
 void Character::free()
 {
-	// Free loaded images
-	// if(cTexture != NULL) {
-	cTexture.free();
-	//}
-
 	for (auto texture = idleTextures.begin(); texture != idleTextures.end(); ++texture) {
 		if ((*texture) != NULL) {
 			(*texture)->free();

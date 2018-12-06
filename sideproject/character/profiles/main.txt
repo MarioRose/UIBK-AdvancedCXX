@@ -1,5 +1,4 @@
 CHARACTER Main
-MAIN_IDLE images/character/idle/1.png
 IDLE images/character/idle/1.png
 IDLE images/character/idle/2.png
 IDLE images/character/idle/3.png

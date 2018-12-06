@@ -33,8 +33,6 @@ public:
 
 
 	//Scene textures
-	Texture cTexture;
-
 	std::vector<Texture *> idleTextures;
 	std::vector<Texture *> runningTextures;
 
@@ -46,7 +44,6 @@ private:
 	//Status (e.g. idle or running) the Character
 	CharacterStatus status;
 
-	bool loadTexture(std::string path, SDL_Renderer* renderer);
 	bool loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
 	bool loadRunningTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
 };
