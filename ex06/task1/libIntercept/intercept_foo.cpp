@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <dlfcn.h>
+#include <cstring>
 
 
 namespace foo {
@@ -11,34 +12,20 @@ int random_number()
 	return 4;
 }
 
-void print_before()
-{
-	std::cout << "some text before\n";
-}
-
 void just_a_print()
 {
 	std::cout << "some text before\n";
 
-	void *handle;
+	typedef void (*handle)();
 
-	handle = dlopen("./libfoo.so", RTLD_NOW | RTLD_GLOBAL);
-	    if (!handle) {
-		fprintf(stderr, "%s\n", dlerror());
-		exit(EXIT_FAILURE);
-	    }
+	static handle origMethod = 0;
+	if(origMethod == 0) {
+		void *tmpPtr = dlsym(RTLD_NEXT, "_ZN3foo12just_a_printEv");
 
-	void (*real_print)() = (void(*)())dlsym(handle, "just_a_print");
-
-	if (!real_print){
-		std::cerr << dlerror() << std::endl;
-		return;
+		std::memcpy(&origMethod, &tmpPtr, sizeof(void*));
 	}
 
-	if(real_print == NULL){
-		std::cout << "some text before\n";
-	}
-	real_print();
+	(*origMethod)();
 
 	std::cout << "some text after\n";
 }
