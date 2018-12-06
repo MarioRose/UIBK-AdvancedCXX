@@ -1,10 +1,17 @@
-#ifndef SIDESCROLLER_ENEMY_H
-#define SIDESCROLLER_ENEMY_H
+#ifndef ENEMY_H
+#define ENEMY_H
 
+#include "Character.h"
 
-class Enemy {
+class Enemy: public Character {
+public:
 
+	//Initializes the variables
+	Enemy();
+
+	~Enemy();
 };
 
 
-#endif //SIDESCROLLER_ENEMY_H
+
+#endif //ENEMY_H

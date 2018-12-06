@@ -39,8 +39,9 @@ target_link_libraries(
 		sub::timer
 		sub::texture
 		sub::character
+    sub::player
 		sub::settings
 		sub::room
-        sub::gameobjects
-        sub::moveable
+    sub::gameobjects
+    sub::moveable
 )

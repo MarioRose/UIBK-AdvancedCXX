@@ -1,0 +1,3 @@
+CHARACTER Devil
+IDLE images/character/devil/idle/01.png
+RUNNING images/character/devil/idle/01.png

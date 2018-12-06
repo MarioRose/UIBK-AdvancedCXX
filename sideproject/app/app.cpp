@@ -4,7 +4,7 @@ and may not be redistributed without written permission.*/
 // Using SDL, SDL_image, standard IO, and strings
 
 #include <Character.h>
-#include <CharacterStatus.h>
+#include <Player.h>
 #include <Room.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -82,10 +82,10 @@ bool init()
 	return success;
 }
 
-void close(Character *character, Room *room)
+void close(Player *player, Room *room)
 {
 	// Free loaded images
-	character->free();
+	player->free();
 
 	// Free Room
 	room->free();
@@ -106,7 +106,7 @@ int main(int argc, char *args[])
 {
 
 	// The Character that will be moving around on the screen
-	Character character;
+	Player player;
 
 	Room room;
 
@@ -118,7 +118,7 @@ int main(int argc, char *args[])
 		// Main loop flag
 		bool quit = false;
 
-		character.loadFromFile("../../character/profiles/main.txt", gRenderer);
+		player.loadFromFile("../../character/profiles/main.txt", gRenderer);
 		room.loadFromFile("../../maps/room01.txt", gRenderer);
 
 		// Event handler
@@ -134,7 +134,7 @@ int main(int argc, char *args[])
 		Timer fps;
 
 		int spriteNumber = 1;
-		CharacterStatus oldStatus = character.getStatus();
+		CharacterStatus oldStatus = player.getStatus();
 		int numberOfSprites = 11;
 
 		// While application is running
@@ -150,11 +150,11 @@ int main(int argc, char *args[])
 				}
 
 				// Handle input for the character
-				character.control(e);
+				player.control(e);
 			}
 
 			// Move the character
-			character.move();
+			player.move();
 
 			// Clear screen
 			SDL_RenderClear(gRenderer);
@@ -164,9 +164,9 @@ int main(int argc, char *args[])
 
 			// Render objects
 			/*TODO: this Solution is only for testing, i'll find a better one */
-			if (oldStatus != character.getStatus()) {
+			if (oldStatus != player.getStatus()) {
 				spriteNumber = 0;
-				if (character.getStatus() == CharacterStatus::IDLE) {
+				if (player.getStatus() == CharacterStatus::IDLE) {
 					numberOfSprites = 11;
 				} else {
 					numberOfSprites = 7;
@@ -178,10 +178,10 @@ int main(int argc, char *args[])
 					spriteNumber++;
 				}
 			}
-			oldStatus = character.getStatus();
+			oldStatus = player.getStatus();
 
 			// std::cout << "spriteNumber: " << spriteNumber << "\n";
-			character.render(spriteNumber, gRenderer);
+			player.render(spriteNumber, gRenderer);
 			// character.render(gRenderer);
 
 			// Update screen
@@ -199,7 +199,7 @@ int main(int argc, char *args[])
 	}
 
 	// Free resources and close SDL
-	close(&character, &room);
+	close(&player, &room);
 
 	return 0;
 }

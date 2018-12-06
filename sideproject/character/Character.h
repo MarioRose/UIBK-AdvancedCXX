@@ -1,12 +1,17 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "../moveable/Moveable.h"
-#include <CharacterStatus.h>
 #include <SDL.h>
-#include <Texture.h>
 #include <vector>
+#include "Texture.h"
+#include "Moveable.h"
 //The character that will move around on the screen
+
+enum class CharacterStatus {
+	IDLE,
+	RUNNING
+};
+
 
 class Character: public Moveable {
 public:
@@ -36,7 +41,7 @@ public:
 	std::vector<Texture *> idleTextures;
 	std::vector<Texture *> runningTextures;
 
-private:
+protected:
 	//The force of the Character
 	//double forceY;
 

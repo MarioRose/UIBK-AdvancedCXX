@@ -1,5 +1,5 @@
 # Set the project name
-project (character)
+project (enemy)
 
 include(FindPkgConfig)
 
@@ -9,11 +9,13 @@ PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 include_directories(
   ${SDL2_INCLUDE_DIRS}
   ${SDL2IMAGE_INCLUDE_DIRS}
+  ../character
+  ../moveable
 )
 
 # Add a library with the above sources
-add_library(${PROJECT_NAME} Character.cpp)
-add_library(sub::character ALIAS ${PROJECT_NAME})
+add_library(${PROJECT_NAME} Enemy.cpp)
+add_library(sub::enemy ALIAS ${PROJECT_NAME})
 
 target_include_directories( ${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}
@@ -24,5 +26,4 @@ target_link_libraries(
 	PRIVATE
 		sub::settings
     sub::texture
-    sub::moveable
 )

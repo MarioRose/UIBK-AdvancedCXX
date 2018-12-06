@@ -32,6 +32,7 @@ private:
 
 		void playMusic(std::string path);
 		void loadBackground(std::string path, SDL_Renderer *renderer);
+		void addEnemy(std::string path, SDL_Renderer *renderer);
 
 };
 

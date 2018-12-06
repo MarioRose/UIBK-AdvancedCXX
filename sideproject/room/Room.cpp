@@ -10,11 +10,12 @@
 #include <sstream>
 #include <fstream>
 
+#include "Enemy.h"
+
 Room::Room() {
 	SDL_Surface *background_surface = nullptr;
 	SDL_Texture *background_texture = nullptr;
 	Mix_Music *music = nullptr;
-
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer) {
@@ -40,9 +41,14 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer) {
 				{
 						loadBackground(value, renderer);
 				}
+				else if(key == "ENEMY")
+				{
+						addEnemy(value, renderer);
+				}
 		}
 
 		map.close();
+
 	}
 	else {
 		std::cout << "Error loading map " << path << std::endl;
@@ -66,6 +72,11 @@ void Room::playMusic(std::string path) {
 void Room::loadBackground(std::string path, SDL_Renderer *renderer) {
 	background_surface = IMG_Load(path.c_str());
 	background_texture = SDL_CreateTextureFromSurface(renderer, background_surface);
+}
+
+void Room::addEnemy(std::string path, SDL_Renderer *renderer){
+
+	std::cout << "TO ADD ENEMY" << '\n';
 }
 
 Room::~Room(){

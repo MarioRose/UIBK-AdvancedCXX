@@ -1,6 +1,7 @@
 MAP Room01
 BACKGROUND images/background/plx.png
 MUSIC ../../sound/172561_45941-lq.mp3
+ENEMY ../../character/profiles/evil.txt
 TILES
   . = none
   w = Wall01
