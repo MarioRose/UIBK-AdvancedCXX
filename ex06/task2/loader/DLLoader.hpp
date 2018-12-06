@@ -1,28 +1,23 @@
 #ifndef DLLOADER_HPP
 #define DLLOADER_HPP
 
-#include <iostream>
-#include <dlfcn.h>
 #include "IDLLoader.hpp"
+#include <dlfcn.h>
+#include <iostream>
 
-namespace dlloader
-{
+namespace dlloader {
+
 	template <class T>
-	class DLLoader : public IDLLoader<T>
-	{
+	class DLLoader : public IDLLoader<T> {
 
 	private:
-
-		void			*_handle;
-		std::string		_pathToLib;
-		std::string		_allocClassSymbol;
+		void *_handle;
+		std::string _pathToLib;
+		std::string _allocClassSymbol;
 
 	public:
-
-		DLLoader(std::string const &pathToLib,
-			std::string const &allocClassSymbol) :
-			_handle(nullptr), _pathToLib(pathToLib),
-			_allocClassSymbol(allocClassSymbol)
+		DLLoader(std::string const &pathToLib, std::string const &allocClassSymbol)
+		    : _handle(nullptr), _pathToLib(pathToLib), _allocClassSymbol(allocClassSymbol)
 		{
 		}
 
@@ -39,8 +34,7 @@ namespace dlloader
 		{
 			using allocClass = T *(*)();
 
-			auto allocFunc = reinterpret_cast<allocClass>(
-					dlsym(_handle, _allocClassSymbol.c_str()));
+			auto allocFunc = reinterpret_cast<allocClass>(dlsym(_handle, _allocClassSymbol.c_str()));
 
 			if (!allocFunc) {
 				DLCloseLib();
@@ -56,8 +50,8 @@ namespace dlloader
 				std::cerr << dlerror() << std::endl;
 			}
 		}
-
 	};
-}
+
+} // namespace dlloader
 
 #endif

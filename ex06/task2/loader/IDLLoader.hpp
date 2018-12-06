@@ -6,7 +6,6 @@
 
 namespace dlloader
 {
-
 	/*
 	** Interface for Dynamic Library Loading (DLLoader)
 	*/
@@ -18,9 +17,6 @@ namespace dlloader
 
 		virtual ~IDLLoader() = default;
 
-		/*
-		**
-		*/
 		virtual void DLOpenLib() = 0;
 
 		/*
