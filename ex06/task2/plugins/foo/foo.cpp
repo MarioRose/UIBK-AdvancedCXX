@@ -6,11 +6,6 @@ extern "C"
 	{
 		return new Foo();
 	}
-
-	void deleter(Foo *ptr)
-	{
-		delete ptr;
-	}
 }
 
 void Foo::run()

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IDLLOADER_HPP
+#define IDLLOADER_HPP
 
 #include <memory>
 #include <string>
@@ -35,3 +36,5 @@ namespace dlloader
 
 	};
 }
+
+#endif

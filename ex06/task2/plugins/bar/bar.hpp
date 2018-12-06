@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BAR_HPP
+#define BAR_HPP
 
 #include <iostream>
 #include "plugin.hpp"
@@ -17,3 +18,5 @@ public:
 
 	void run() override;
 };
+
+#endif

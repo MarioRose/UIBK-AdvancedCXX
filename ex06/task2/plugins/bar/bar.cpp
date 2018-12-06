@@ -6,11 +6,6 @@ extern "C"
 	{
 		return new Bar();
 	}
-
-	void deleter(Bar *ptr)
-	{
-		delete ptr;
-	}
 }
 
 void Bar::run()

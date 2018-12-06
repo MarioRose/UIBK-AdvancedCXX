@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FOO_HPP
+#define FOO_HPP
 
 #include <iostream>
 #include "plugin.hpp"
@@ -16,3 +17,5 @@ public:
 
 	void run() override;
 };
+
+#endif
