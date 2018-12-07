@@ -2,29 +2,38 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include "DLLoader.hpp"
+#include <dlfcn.h>
 #include "plugin.hpp"
 
-/*
-** Using the smart pointer directly in an inner function because
-** the reference to its destructor contained in the dll is lost before
-** going out of the caller function's scope.
-*/
-void runPlugin(dlloader::DLLoader<Plugin>& dlloader)
-{
-	std::shared_ptr<Plugin> plugin = dlloader.DLGetInstance();
 
-	plugin->run();
+void runPlugin(const std::string& path)
+{
+	// load the triangle library
+  void* plugin = dlopen(path.c_str(), RTLD_LAZY);
+  if (!plugin) {
+      std::cerr << "Cannot load library: " << path.c_str() << dlerror() << '\n';
+      return;
+  }
+
+  // reset errors
+  dlerror();
+
+  // load the symbols
+  create_t* create_plugin = (create_t*) dlsym(plugin, PLUGIN_CONSTRUCTOR);
+  const char* dlsym_error = dlerror();
+  if (dlsym_error) {
+      std::cerr << "Cannot load symbol create: " << PLUGIN_CONSTRUCTOR << dlsym_error << '\n';
+      return;
+  }
+
+  // create an instance of the class
+  std::unique_ptr<Plugin> p = create_plugin();
+	p->run();
+  p.reset();
+	dlclose(plugin);
+
 }
 
-void run(const std::string& path)
-{
-	dlloader::DLLoader<Plugin> dlloader(path, PLUGIN_CONSTRUCTOR);
-
-	dlloader.DLOpenLib();
-	runPlugin(dlloader);
-	dlloader.DLCloseLib();
-}
 
 int main(int argc, char *argv[])
 {
@@ -37,7 +46,7 @@ int main(int argc, char *argv[])
 	std::vector<std::string> arguments(argv + 1, argv + argc);
 
 	for(std::string& s : arguments) {
-	    run(s);
+	    runPlugin(s);
 	}
 
 	return 0;

@@ -9,19 +9,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_OUTPUT_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_OUTPUT_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_OUTPUT_DIR})
 
-## Sources ##
-set(DLLOADER_SRC
-	loader/DLLoader.hpp
-)
-
-include_directories(
-	loader/
-)
 
 set (CMAKE_CXX_FLAGS "-W -Wall -Wextra")
 
 include_directories(
-	loader/
 	plugins/
 )
 

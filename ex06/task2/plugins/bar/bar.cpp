@@ -1,8 +1,11 @@
 #include "bar.hpp"
 
-extern "C" Bar *create_plugin()
+extern "C"
 {
-	return new Bar();
+	std::unique_ptr<Bar> create_plugin()
+	{
+		return std::unique_ptr<Bar>(new Bar());
+	}
 }
 
 void Bar::run()

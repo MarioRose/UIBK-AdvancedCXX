@@ -1,8 +1,11 @@
 #include "foo.hpp"
 
-extern "C" Foo *create_plugin()
+extern "C"
 {
-	return new Foo();
+	std::unique_ptr<Foo> create_plugin()
+	{
+		return std::unique_ptr<Foo>(new Foo());
+	}
 }
 
 void Foo::run()
