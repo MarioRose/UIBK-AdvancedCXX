@@ -30,6 +30,9 @@ SDL_Window *gWindow = NULL;
 // The window renderer
 SDL_Renderer *gRenderer = NULL;
 
+//pause
+bool pause = false;
+
 bool init()
 {
 	// Initialization flag
@@ -102,6 +105,19 @@ void close(Player *player, Room *room)
 	SDL_Quit();
 }
 
+void input(SDL_Event &event) {
+
+    if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.sym) {
+            case SDLK_ESCAPE:
+                pause = !pause;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 int main(int argc, char *args[])
 {
 
@@ -139,13 +155,24 @@ int main(int argc, char *args[])
 
 		// While application is running
 		while (!quit) {
-			// Start the frame timer
+
+		    while(pause) {
+		        //show pause screen
+                while (SDL_PollEvent(&e) != 0) {
+                    // User requests quit
+                    input(e);
+                }
+            }
+
+		    // Start the frame timer
 			fps.start();
 
 			// Handle events on queue
 			while (SDL_PollEvent(&e) != 0) {
 				// User requests quit
-				if (e.type == SDL_QUIT) {
+                input(e);
+
+                if (e.type == SDL_QUIT) {
 					quit = true;
 				}
 
