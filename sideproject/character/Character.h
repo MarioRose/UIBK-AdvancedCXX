@@ -19,7 +19,9 @@ public:
 	//Initializes the variables
 	Character();
 
-	~Character();
+    Character(double x, double y);
+
+    ~Character();
 
 	//Takes key presses and adjusts the Character's velocity
 	void control( SDL_Event& e );
@@ -51,6 +53,7 @@ protected:
 
 	bool loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
 	bool loadRunningTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
+
 };
 
 #endif

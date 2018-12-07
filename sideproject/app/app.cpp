@@ -135,7 +135,6 @@ int main(int argc, char *args[])
 		bool quit = false;
 
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
-		enemy.loadFromFile("../../assets/profiles/evil.txt", gRenderer);
 		room.loadFromFile("../../assets/maps/room01.txt", gRenderer);
 
 		// Event handler

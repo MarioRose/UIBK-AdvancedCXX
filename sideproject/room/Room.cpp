@@ -73,7 +73,10 @@ void Room::loadBackground(std::string path, SDL_Renderer *renderer) {
 }
 
 void Room::addEnemy(std::string path, SDL_Renderer *renderer) {
-	enemy.loadFromFile(path, renderer);
+    enemy.loadFromFile(path, renderer);
+    enemy.setPosY(SCREEN_HEIGHT-54);
+    enemy.setPosX(350);
+
 }
 
 Room::~Room(){

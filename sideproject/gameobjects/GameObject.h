@@ -21,6 +21,9 @@ public:
     //Scene textures
     Texture cTexture;
 
+    void setPosY(double y);
+    void setPosX(double x);
+
 protected:
     //The X and Y offsets of the Object
     double posX;
@@ -29,6 +32,8 @@ protected:
     int object_width = 19;
     //The dimensions of the Object
     int object_height = 34;
+
+
 };
 
 

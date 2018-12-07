@@ -30,6 +30,25 @@ Character::Character()
   flipType = SDL_FLIP_NONE;
 }
 
+Character::Character(double x, double y)
+{
+    // Initialize the offsets
+    posX = x;
+    posY = y;
+
+    // Initialize the velocity
+    velX = 0;
+    velY = 0;
+
+    // Initialize the force
+    forceY = 0;
+
+    // Initialize status of character
+    status = CharacterStatus::IDLE;
+
+    flipType = SDL_FLIP_NONE;
+}
+
 Character::~Character()
 {
 	free();
