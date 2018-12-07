@@ -1,11 +1,8 @@
 #include "bar.hpp"
 
-extern "C"
+extern "C" Bar *create_plugin()
 {
-	Bar *create_plugin()
-	{
-		return new Bar();
-	}
+	return new Bar();
 }
 
 void Bar::run()

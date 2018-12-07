@@ -1,11 +1,8 @@
 #include "foo.hpp"
 
-extern "C"
+extern "C" Foo *create_plugin()
 {
-	Foo *create_plugin()
-	{
-		return new Foo();
-	}
+	return new Foo();
 }
 
 void Foo::run()
