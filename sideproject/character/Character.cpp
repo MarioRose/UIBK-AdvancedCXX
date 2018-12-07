@@ -49,7 +49,6 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
 
 	std::ifstream file(path);
-
 	if (file.is_open()) {
 
 		std::vector<std::string> pathsIdleTextures;

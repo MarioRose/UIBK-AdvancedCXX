@@ -107,7 +107,7 @@ int main(int argc, char *args[])
 
 	// The Character that will be moving around on the screen
 	Player player;
-
+	Enemy enemy;
 	Room room;
 
 	// Start up SDL and create window
@@ -119,6 +119,7 @@ int main(int argc, char *args[])
 		bool quit = false;
 
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
+		enemy.loadFromFile("../../assets/profiles/evil.txt", gRenderer);
 		room.loadFromFile("../../assets/maps/room01.txt", gRenderer);
 
 		// Event handler
@@ -182,6 +183,7 @@ int main(int argc, char *args[])
 
 			// std::cout << "spriteNumber: " << spriteNumber << "\n";
 			player.render(spriteNumber, gRenderer);
+			room.enemy.render(0, gRenderer);
 			// character.render(gRenderer);
 
 			// Update screen

@@ -10,8 +10,6 @@
 #include <sstream>
 #include <fstream>
 
-#include "Enemy.h"
-
 Room::Room() {
 	SDL_Surface *background_surface = nullptr;
 	SDL_Texture *background_texture = nullptr;
@@ -74,9 +72,8 @@ void Room::loadBackground(std::string path, SDL_Renderer *renderer) {
 	background_texture = SDL_CreateTextureFromSurface(renderer, background_surface);
 }
 
-void Room::addEnemy(std::string path, SDL_Renderer *renderer){
-
-	std::cout << "TO ADD ENEMY" << '\n';
+void Room::addEnemy(std::string path, SDL_Renderer *renderer) {
+	enemy.loadFromFile(path, renderer);
 }
 
 Room::~Room(){
