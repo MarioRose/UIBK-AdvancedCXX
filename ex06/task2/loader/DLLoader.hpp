@@ -30,7 +30,7 @@ namespace dlloader {
 			}
 		}
 
-		std::shared_ptr<T> DLGetInstance() override
+		std::unique_ptr<T> DLGetInstance() override
 		{
 			using allocClass = T *(*)();
 
@@ -41,7 +41,7 @@ namespace dlloader {
 				std::cerr << dlerror() << std::endl;
 			}
 
-			return std::shared_ptr<T>(allocFunc());
+			return std::unique_ptr<T>(allocFunc());
 		}
 
 		void DLCloseLib() override
