@@ -1,7 +1,7 @@
 MAP Room01
-BACKGROUND room/images/plx.png
-MUSIC room/sounds/172561_45941-lq.mp3
-ENEMY character/profiles/evil.txt
+BACKGROUND assets/images/rooms/plx.png
+MUSIC assets/music/172561_45941-lq.mp3
+ENEMY assets/profiles/evil.txt
 TILES
   . = none
   w = Wall01

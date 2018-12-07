@@ -118,8 +118,8 @@ int main(int argc, char *args[])
 		// Main loop flag
 		bool quit = false;
 
-		player.loadFromFile("../../character/profiles/main.txt", gRenderer);
-		room.loadFromFile("../../room/maps/room01.txt", gRenderer);
+		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
+		room.loadFromFile("../../assets/maps/room01.txt", gRenderer);
 
 		// Event handler
 		SDL_Event e;
