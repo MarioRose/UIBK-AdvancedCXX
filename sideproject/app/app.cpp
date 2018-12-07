@@ -119,7 +119,7 @@ int main(int argc, char *args[])
 		bool quit = false;
 
 		player.loadFromFile("../../character/profiles/main.txt", gRenderer);
-		room.loadFromFile("../../maps/room01.txt", gRenderer);
+		room.loadFromFile("../../room/maps/room01.txt", gRenderer);
 
 		// Event handler
 		SDL_Event e;

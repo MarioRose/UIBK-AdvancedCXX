@@ -14,7 +14,9 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2MIXER_I
 
 add_custom_command(TARGET sidescroller POST_BUILD
 			COMMAND ${CMAKE_COMMAND} -E copy_directory
-			${CMAKE_SOURCE_DIR}/images $<TARGET_FILE_DIR:sidescroller>/images)
+			${CMAKE_SOURCE_DIR}/character/images $<TARGET_FILE_DIR:sidescroller>/character/images
+			${CMAKE_SOURCE_DIR}/room $<TARGET_FILE_DIR:sidescroller>/room
+)
 
 target_compile_options(
 	"${PROJECT_NAME}"
