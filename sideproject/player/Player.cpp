@@ -23,21 +23,24 @@ void Player::control(SDL_Event &e)
 {
 	// If a key was pressed
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-		keypressCount++;
 		// Adjust the velocity
 		switch (e.key.keysym.sym) {
 		// case SDLK_UP: mVelY -= CHAR_VEL; break;
 		case SDLK_UP:
-			jump();
+            keypressCount++;
+            jump();
 			break;
 		case SDLK_DOWN:
-			velY += max_vel;
+            keypressCount++;
+            velY += max_vel;
 			break;
 		case SDLK_LEFT:
-		    flipType = SDL_FLIP_HORIZONTAL;
+            keypressCount++;
+            flipType = SDL_FLIP_HORIZONTAL;
 			velX -= max_vel;
 			break;
 		case SDLK_RIGHT:
+            keypressCount++;
             flipType = SDL_FLIP_NONE;
             velX += max_vel;
 			break;
@@ -50,21 +53,25 @@ void Player::control(SDL_Event &e)
 	}
 	// If a key was released
 	else if (e.type == SDL_KEYUP && e.key.repeat == 0) {
-		keypressCount--;
 		// Adjust the velocity
 		switch (e.key.keysym.sym) {
-		// case SDLK_UP: mVelY += DOT_VEL; break;
-		case SDLK_DOWN:
-			velY -= max_vel;
-			break;
-		case SDLK_LEFT:
-			velX += max_vel;
-			break;
-		case SDLK_RIGHT:
-			velX -= max_vel;
-			break;
-		default:
-			break;
+		    case SDLK_UP:
+                keypressCount--;
+                break;
+		    case SDLK_DOWN:
+                keypressCount--;
+                velY -= max_vel;
+                break;
+			case SDLK_LEFT:
+                keypressCount--;
+                velX += max_vel;
+			    break;
+            case SDLK_RIGHT:
+                keypressCount--;
+                velX -= max_vel;
+                break;
+            default:
+                break;
 		}
 		if (keypressCount == 0) {
 			status = CharacterStatus::IDLE;
@@ -82,8 +89,6 @@ void Player::collisionDetection(Enemy &enemy) {
                 posX -= 50;
         }
     }
-
-
 }
 
 
