@@ -21,8 +21,11 @@ public:
     //Scene textures
     Texture cTexture;
 
-    void setPosY(double y);
     void setPosX(double x);
+    void setPosY(double y);
+
+    double getPosX();
+    double getPosY();
 
 protected:
     //The X and Y offsets of the Object

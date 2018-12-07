@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Character.h"
+#include "../enemy/Enemy.h"
 //The player that will move around on the screen
 
 class Player: public Character {
@@ -15,12 +16,16 @@ public:
 	//Takes key presses and adjusts the Character's velocity
 	void control( SDL_Event& e );
 
+    void collisionDetection(Enemy &enemy);
+
+	void takeDamage();
+
+	int getLifeCount();
 
 private:
-	//The force of the Character
-	//double forceY;
-
 	int keypressCount = 0;
+	int lifeCount = 3;
+
 };
 
 #endif

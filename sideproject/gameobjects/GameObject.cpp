@@ -22,3 +22,11 @@ void GameObject::setPosX(double x) {
 void GameObject::setPosY(double y) {
     this->posY = y;
 }
+
+double GameObject::getPosX() {
+    return posX;
+}
+
+double GameObject::getPosY() {
+    return posY;
+}

@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include "../enemy/Enemy.h"
 
 Player::Player()
 { }
@@ -69,4 +70,28 @@ void Player::control(SDL_Event &e)
 			status = CharacterStatus::IDLE;
 		}
 	}
+}
+
+void Player::collisionDetection(Enemy &enemy) {
+    if(abs(posX - enemy.getPosX()) < 20) {
+        if (abs(posY - enemy.getPosY()) < 35) {
+            takeDamage();
+            if (posX > enemy.getPosX())
+                posX += 50;
+            else
+                posX -= 50;
+        }
+    }
+
+
+}
+
+
+void Player::takeDamage(){
+    lifeCount--;
+    std::cout << "Health: " <<  lifeCount << std::endl;
+}
+
+int Player::getLifeCount() {
+    return lifeCount;
 }

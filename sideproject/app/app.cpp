@@ -183,6 +183,12 @@ int main(int argc, char *args[])
 			// Move the character
 			player.move();
 
+			player.collisionDetection(room.enemy);
+			if(player.getLifeCount() == 0){
+			    std::cout << "You Lost!!!!" << std::endl;
+			    quit = true;
+			}
+
 			// Clear screen
 			SDL_RenderClear(gRenderer);
 
