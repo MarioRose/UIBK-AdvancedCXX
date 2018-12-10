@@ -123,7 +123,6 @@ int main(int argc, char *args[])
 
 	// The Character that will be moving around on the screen
 	Player player;
-	Enemy enemy;
 	Room room;
 
 	// Start up SDL and create window
