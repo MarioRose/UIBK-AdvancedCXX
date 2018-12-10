@@ -81,8 +81,11 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				continue;
 			} // error
 			  // std::cout << key << ": " << value << std::endl;
-
-			if (key == "IDLE") {
+            if(key == "HEIGHT") {
+                this->setHeight(std::stoi(value));
+            } else if(key == "WIDTH") {
+                this->setWidth(std::stoi(value));
+            } else if (key == "IDLE") {
 				pathsIdleTextures.push_back(value);
 			} else if (key == "RUNNING") {
 				pathsRunningTextures.push_back(value);
@@ -158,6 +161,26 @@ void Character::render(int spriteNumber, SDL_Renderer *renderer)
 	default:
 		throw std::exception{};
 	}
+}
+
+void Character::setHeight(int px)
+{
+    this->height = px;
+}
+
+void Character::setWidth(int px)
+{
+    this->width = px;
+}
+
+int Character::getHeight()
+{
+    return this->height;
+}
+
+int Character::getWidth()
+{
+    return this->width;
 }
 
 void Character::free()

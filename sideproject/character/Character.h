@@ -43,6 +43,9 @@ public:
 	std::vector<Texture *> idleTextures;
 	std::vector<Texture *> runningTextures;
 
+    int getHeight();
+    int getWidth();
+
 protected:
 	//The force of the Character
 	//double forceY;
@@ -50,6 +53,11 @@ protected:
 	int keypressCount = 0;
 	//Status (e.g. idle or running) the Character
 	CharacterStatus status;
+
+    int height, width = 0;
+
+    void setHeight(int px);
+    void setWidth(int px);
 
 	bool loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
 	bool loadRunningTextures(std::vector<std::string> paths, SDL_Renderer* renderer);

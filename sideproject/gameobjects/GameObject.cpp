@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Settings.h"
 
 GameObject::GameObject(int x, int y, int height, int width): posX(x),
                                                  posY(y),
@@ -20,7 +21,7 @@ void GameObject::setPosX(double x) {
 }
 
 void GameObject::setPosY(double y) {
-    this->posY = y;
+    this->posY = SCREEN_HEIGHT - y;
 }
 
 double GameObject::getPosX() {

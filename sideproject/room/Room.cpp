@@ -8,13 +8,11 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include <fstream>
 
-Room::Room() {
-	SDL_Surface *background_surface = nullptr;
-	SDL_Texture *background_texture = nullptr;
-	Mix_Music *music = nullptr;
-}
+Room::Room():background_surface(nullptr), background_texture(nullptr), music(nullptr)
+{}
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer) {
 
@@ -42,6 +40,10 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer) {
 				else if(key == "ENEMY")
 				{
 						addEnemy(value, renderer);
+				}
+                else if(key == "ENEMY_POS")
+				{
+						setEnemyPos(value);
 				}
 		}
 
@@ -74,9 +76,21 @@ void Room::loadBackground(std::string path, SDL_Renderer *renderer) {
 
 void Room::addEnemy(std::string path, SDL_Renderer *renderer) {
     enemy.loadFromFile(path, renderer);
-    enemy.setPosY(SCREEN_HEIGHT-54);
-    enemy.setPosX(350);
+}
 
+void Room::setEnemyPos(std::string value){
+    std::stringstream ss(value);
+    std::vector<std::string> result;
+
+    while( ss.good() )
+    {
+        std::string substr;
+        getline( ss, substr, ',' );
+        result.push_back( substr );
+    }
+
+    enemy.setPosX(std::stoi(result.at(0)));
+    enemy.setPosY(std::stoi(result.at(1)) - enemy.getHeight());
 }
 
 Room::~Room(){
