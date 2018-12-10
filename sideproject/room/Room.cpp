@@ -93,6 +93,10 @@ void Room::setEnemyPos(std::string value){
     enemy.setPosY(std::stoi(result.at(1)) + enemy.getHeight());
 }
 
+void Room::renderEnemies(SDL_Renderer *renderer) {
+    this->enemy.render(this->enemy.nextSpriteIndex(), renderer);
+}
+
 Room::~Room(){
 	//Free the music
 	free();

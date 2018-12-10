@@ -166,6 +166,20 @@ void Character::render(int spriteNumber, SDL_Renderer *renderer)
 	}
 }
 
+int Character::nextSpriteIndex(){
+    switch(status)
+    {
+        case CharacterStatus::RUNNING:
+            spriteIndex =  ++spriteIndex % runningTextures.size();
+            break;
+        case CharacterStatus::IDLE:
+            spriteIndex =  ++spriteIndex % runningTextures.size();
+            break;
+    }
+    return spriteIndex;
+
+}
+
 void Character::free()
 {
 	for (auto texture = idleTextures.begin(); texture != idleTextures.end(); ++texture) {

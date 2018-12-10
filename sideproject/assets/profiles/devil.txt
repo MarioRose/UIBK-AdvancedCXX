@@ -2,4 +2,7 @@ CHARACTER Devil
 HEIGHT 54
 WIDTH 30
 IDLE assets/images/characters/devil/idle/01.png
-RUNNING assets/images/characters/devil/idle/01.png
+RUNNING assets/images/characters/devil/running/01.png
+RUNNING assets/images/characters/devil/running/02.png
+RUNNING assets/images/characters/devil/running/01.png
+RUNNING assets/images/characters/devil/running/04.png

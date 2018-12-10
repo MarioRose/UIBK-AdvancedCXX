@@ -216,7 +216,7 @@ int main(int argc, char *args[])
             room.enemy.moveAI(&player);
 			// std::cout << "spriteNumber: " << spriteNumber << "\n";
 			player.render(spriteNumber, gRenderer);
-			room.enemy.render(0, gRenderer);
+			room.renderEnemies(gRenderer);
 			// character.render(gRenderer);
 
 			// Update screen

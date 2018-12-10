@@ -42,12 +42,15 @@ public:
 	std::vector<Texture *> idleTextures;
 	std::vector<Texture *> runningTextures;
 
+    int nextSpriteIndex();
+
 
 protected:
 	//The force of the Character
 	//double forceY;
 
 	int keypressCount = 0;
+    int spriteIndex = 0;
 	//Status (e.g. idle or running) the Character
 	CharacterStatus status;
 

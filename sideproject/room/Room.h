@@ -29,6 +29,7 @@ public:
 	SDL_Renderer *renderer;
 
 	Enemy enemy;
+    void renderEnemies(SDL_Renderer *renderer);
 	//std::vector<LTexture *> backgroundTextures;
 private:
 	void playMusic(std::string path);

@@ -10,6 +10,8 @@ Enemy::~Enemy()
 void Enemy::moveAI(Character *character)
 {
 
+    this->status = CharacterStatus::RUNNING;
+
     if(this->posX < 0) {
         this->direction = Direction::RIGHT;
     }
