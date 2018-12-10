@@ -163,26 +163,6 @@ void Character::render(int spriteNumber, SDL_Renderer *renderer)
 	}
 }
 
-void Character::setHeight(int px)
-{
-    this->height = px;
-}
-
-void Character::setWidth(int px)
-{
-    this->width = px;
-}
-
-int Character::getHeight()
-{
-    return this->height;
-}
-
-int Character::getWidth()
-{
-    return this->width;
-}
-
 void Character::free()
 {
 	for (auto texture = idleTextures.begin(); texture != idleTextures.end(); ++texture) {

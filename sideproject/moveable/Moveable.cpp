@@ -30,6 +30,7 @@ void Moveable::move() {
         posY = SCREEN_HEIGHT - object_height;
     }
 
+
     //Jumping or Falling
 //    if(forceY != 0 || posY != SCREEN_HEIGHT - object_height) {
 //

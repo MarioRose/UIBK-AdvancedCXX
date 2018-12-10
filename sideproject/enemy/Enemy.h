@@ -10,6 +10,8 @@ public:
 	Enemy();
 
 	~Enemy();
+
+    void moveAI(Character *character);
 };
 
 

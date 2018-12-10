@@ -212,6 +212,8 @@ int main(int argc, char *args[])
 			}
 			oldStatus = player.getStatus();
 
+
+            room.enemy.moveAI(&player);
 			// std::cout << "spriteNumber: " << spriteNumber << "\n";
 			player.render(spriteNumber, gRenderer);
 			room.enemy.render(0, gRenderer);

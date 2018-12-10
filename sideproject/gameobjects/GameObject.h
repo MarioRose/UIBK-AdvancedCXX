@@ -27,6 +27,13 @@ public:
     double getPosX();
     double getPosY();
 
+
+    void setHeight(int px);
+    void setWidth(int px);
+
+    int getHeight();
+    int getWidth();    
+
 protected:
     //The X and Y offsets of the Object
     double posX;

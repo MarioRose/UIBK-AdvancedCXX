@@ -90,7 +90,7 @@ void Room::setEnemyPos(std::string value){
     }
 
     enemy.setPosX(std::stoi(result.at(0)));
-    enemy.setPosY(std::stoi(result.at(1)) - enemy.getHeight());
+    enemy.setPosY(std::stoi(result.at(1)) + enemy.getHeight());
 }
 
 Room::~Room(){

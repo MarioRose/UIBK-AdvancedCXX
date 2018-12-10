@@ -2,7 +2,7 @@ MAP Room01
 BACKGROUND assets/images/rooms/plx.png
 MUSIC assets/music/172561_45941-lq.mp3
 ENEMY assets/profiles/evil.txt
-ENEMY_POS 100,200
+ENEMY_POS 200,0
 TILES
   . = none
   w = Wall01

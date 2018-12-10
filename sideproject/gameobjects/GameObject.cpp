@@ -31,3 +31,23 @@ double GameObject::getPosX() {
 double GameObject::getPosY() {
     return posY;
 }
+
+void GameObject::setHeight(int px)
+{
+    this->object_height = px;
+}
+
+void GameObject::setWidth(int px)
+{
+    this->object_width = px;
+}
+
+int GameObject::getHeight()
+{
+    return this->object_height;
+}
+
+int GameObject::getWidth()
+{
+    return this->object_width;
+}
