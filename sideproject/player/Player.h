@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "Character.h"
-#include "../enemy/Enemy.h"
+#include "Enemy.h"
 //The player that will move around on the screen
 
 class Player: public Character {

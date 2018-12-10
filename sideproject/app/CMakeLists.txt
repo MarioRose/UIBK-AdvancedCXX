@@ -37,12 +37,13 @@ target_link_libraries(
 		"${SDL2_LIBRARIES}"
 		"${SDL2IMAGE_LIBRARIES}"
 		"${SDL2MIXER_LIBRARIES}"
-		sub::timer
-		sub::texture
-		sub::character
-    sub::player
-		sub::settings
-		sub::room
-    sub::gameobjects
-    sub::moveable
+        sub::timer
+        sub::texture
+        sub::character
+        sub::player
+        sub::enemy
+        sub::settings
+        sub::room
+        sub::gameobjects
+        sub::moveable
 )

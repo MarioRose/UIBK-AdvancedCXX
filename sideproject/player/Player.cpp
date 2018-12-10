@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include "../enemy/Enemy.h"
+#include "Enemy.h"
 
 Player::Player()
 { }

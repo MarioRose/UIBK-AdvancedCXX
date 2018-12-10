@@ -1,5 +1,5 @@
 #include "Moveable.h"
-#include "../settings/Settings.h"
+#include "Settings.h"
 
 
 Moveable::Moveable(int x, int y, int height, int width) : GameObject(x, y, height, width) {}

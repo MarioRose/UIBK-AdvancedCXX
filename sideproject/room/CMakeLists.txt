@@ -20,8 +20,9 @@ target_link_libraries(
 	"${PROJECT_NAME}"
 	PRIVATE
 		sub::settings
-  	sub::character
-  	sub::enemy
-    sub::moveable
-    sub::texture
+      	sub::character
+      	sub::enemy
+        sub::moveable
+        sub::texture
+        sub::gameobjects
 )

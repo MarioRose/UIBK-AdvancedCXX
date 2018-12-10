@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <string>
-#include "../enemy/Enemy.h"
+#include "Enemy.h"
 
 class Room {
 

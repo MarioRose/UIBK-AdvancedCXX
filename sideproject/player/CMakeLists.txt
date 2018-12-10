@@ -25,5 +25,7 @@ target_link_libraries(
 	"${PROJECT_NAME}"
 	PRIVATE
 		sub::settings
-    		sub::texture
+    	sub::texture
+        sub::gameobjects
+        sub::enemy
 )

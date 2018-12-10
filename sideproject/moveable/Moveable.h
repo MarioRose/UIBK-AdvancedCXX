@@ -1,7 +1,7 @@
 #ifndef SIDESCROLLER_MOVEABLE_H
 #define SIDESCROLLER_MOVEABLE_H
 
-#include "../gameobjects/GameObject.h"
+#include "GameObject.h"
 
 class Moveable : public GameObject {
 

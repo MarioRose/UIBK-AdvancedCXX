@@ -3,8 +3,8 @@
 
 
 #include <SDL_render.h>
-#include <../texture/Texture.h>
 #include <vector>
+#include "Texture.h"
 
 class GameObject {
 
