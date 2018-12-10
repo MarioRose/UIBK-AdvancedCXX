@@ -6,6 +6,11 @@
 #include <vector>
 #include "Texture.h"
 
+enum class Direction {
+    LEFT,
+    RIGHT
+};
+
 class GameObject {
 
 public:
@@ -32,7 +37,9 @@ public:
     void setWidth(int px);
 
     int getHeight();
-    int getWidth();    
+    int getWidth();
+
+	Direction direction = Direction::RIGHT;
 
 protected:
     //The X and Y offsets of the Object

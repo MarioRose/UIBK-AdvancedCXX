@@ -12,7 +12,6 @@ enum class CharacterStatus {
 	RUNNING
 };
 
-
 class Character: public Moveable {
 public:
 

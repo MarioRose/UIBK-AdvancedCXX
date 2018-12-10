@@ -46,6 +46,9 @@ Character::Character(double x, double y)
     // Initialize status of character
     status = CharacterStatus::IDLE;
 
+
+    direction = Direction::RIGHT;
+
     flipType = SDL_FLIP_NONE;
 }
 
