@@ -152,7 +152,7 @@ void Character::render(SDL_Renderer *renderer)
 {
 	// Show the Character
     this->nextSpriteIndex();
-    
+
 	switch (status) {
 
 	case CharacterStatus::RUNNING:
@@ -177,14 +177,12 @@ void Character::free()
 	for (auto texture = idleTextures.begin(); texture != idleTextures.end(); ++texture) {
 		if ((*texture) != NULL) {
 			(*texture)->free();
-			delete (*texture);
 		}
 	}
 
 	for (auto texture = runningTextures.begin(); texture != runningTextures.end(); ++texture) {
 		if ((*texture) != NULL) {
 			(*texture)->free();
-			delete (*texture);
 		}
 	}
 }

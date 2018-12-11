@@ -103,6 +103,7 @@ Room::~Room(){
 }
 
 void Room::free() {
+    this->enemy.free();
 	//Free the music
 	//if( music != nullptr ) {
 	//	Mix_FreeMusic(music);

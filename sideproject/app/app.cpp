@@ -148,10 +148,6 @@ int main(int argc, char *args[])
 		// The frame rate regulator
 		Timer fps;
 
-		int spriteNumber = 1;
-		CharacterStatus oldStatus = player.getStatus();
-		int numberOfSprites = 11;
-
 		// While application is running
 		while (!quit) {
 
