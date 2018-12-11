@@ -143,41 +143,33 @@ bool Character::loadRunningTextures(std::vector<std::string> paths, SDL_Renderer
 
 	return success;
 }
+void Character::nextSpriteIndex(){
+    spriteIndexRunning =  ++spriteIndexRunning % runningTextures.size();
+    spriteIndexIdle =  ++spriteIndexIdle % idleTextures.size();
+}
 
-void Character::render(int spriteNumber, SDL_Renderer *renderer)
+void Character::render(SDL_Renderer *renderer)
 {
 	// Show the Character
+    this->nextSpriteIndex();
+    
 	switch (status) {
 
 	case CharacterStatus::RUNNING:
 		// runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
-		runningTextures[spriteNumber]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		runningTextures[spriteIndexRunning]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::IDLE:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		idleTextures[spriteNumber]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		idleTextures[spriteIndexIdle]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
 		break;
 
 	default:
 		throw std::exception{};
 	}
-}
-
-int Character::nextSpriteIndex(){
-    switch(status)
-    {
-        case CharacterStatus::RUNNING:
-            spriteIndex =  ++spriteIndex % runningTextures.size();
-            break;
-        case CharacterStatus::IDLE:
-            spriteIndex =  ++spriteIndex % runningTextures.size();
-            break;
-    }
-    return spriteIndex;
-
 }
 
 void Character::free()

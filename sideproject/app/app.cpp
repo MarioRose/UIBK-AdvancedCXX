@@ -195,29 +195,10 @@ int main(int argc, char *args[])
 			SDL_RenderCopy(gRenderer, room.background_texture, NULL, NULL);
 
 			// Render objects
-			/*TODO: this Solution is only for testing, i'll find a better one */
-			if (oldStatus != player.getStatus()) {
-				spriteNumber = 0;
-				if (player.getStatus() == CharacterStatus::IDLE) {
-					numberOfSprites = 11;
-				} else {
-					numberOfSprites = 7;
-				}
-			} else {
-				if (spriteNumber == numberOfSprites)
-					spriteNumber = 0;
-				else {
-					spriteNumber++;
-				}
-			}
-			oldStatus = player.getStatus();
-
-
             room.enemy.moveAI(&player);
 			// std::cout << "spriteNumber: " << spriteNumber << "\n";
-			player.render(spriteNumber, gRenderer);
+			player.render(gRenderer);
 			room.renderEnemies(gRenderer);
-			// character.render(gRenderer);
 
 			// Update screen
 			SDL_RenderPresent(gRenderer);

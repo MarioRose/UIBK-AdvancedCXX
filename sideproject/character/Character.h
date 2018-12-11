@@ -31,7 +31,7 @@ public:
 	void free();
 
 	//Shows the Character on the screen
-	void render(int spriteNumber, SDL_Renderer* gRenderer);
+	void render(SDL_Renderer* gRenderer);
 
 	CharacterStatus getStatus();
 
@@ -42,7 +42,7 @@ public:
 	std::vector<Texture *> idleTextures;
 	std::vector<Texture *> runningTextures;
 
-    int nextSpriteIndex();
+    void nextSpriteIndex();
 
 
 protected:
@@ -50,7 +50,8 @@ protected:
 	//double forceY;
 
 	int keypressCount = 0;
-    int spriteIndex = 0;
+    int spriteIndexIdle = 0;
+    int spriteIndexRunning = 0;
 	//Status (e.g. idle or running) the Character
 	CharacterStatus status;
 

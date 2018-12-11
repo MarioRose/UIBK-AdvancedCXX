@@ -94,7 +94,7 @@ void Room::setEnemyPos(std::string value){
 }
 
 void Room::renderEnemies(SDL_Renderer *renderer) {
-    this->enemy.render(this->enemy.nextSpriteIndex(), renderer);
+    this->enemy.render(renderer);
 }
 
 Room::~Room(){
