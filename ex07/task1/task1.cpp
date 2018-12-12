@@ -43,14 +43,14 @@ class Vector : public Attributes<N> {
 	}
 
 	template <std::size_t numberOfElements = N, typename = std::enable_if_t<(numberOfElements == 2)>>
-	Vector(double arg1, double arg2) : data{arg1, arg2}
+	Vector(double arg1, double arg2 = 0) : data{arg1, arg2}
 	{
 		this->x = this->data[0];
 		this->y = this->data[1];
 	}
 
 	template <std::size_t numberOfElements = N, typename = std::enable_if_t<(numberOfElements == 3)>>
-	Vector(double arg1, double arg2, double arg3) : data{arg1, arg2, arg3}
+	Vector(double arg1, double arg2 = 0, double arg3 = 0) : data{arg1, arg2, arg3}
 	{
 		this->x = this->data[0];
 		this->y = this->data[1];
