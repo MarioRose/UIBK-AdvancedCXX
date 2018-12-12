@@ -6,9 +6,6 @@
 
 template<typename... Types>
 struct type_set{
-    type_set(Types... types) : set(types...) {}
-
-    std::tuple<Types...> set;
 };
 
 
