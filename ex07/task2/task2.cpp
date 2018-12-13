@@ -158,6 +158,7 @@ int main(int argc, char const *argv[]) {
     std::cout << "type_set_is_subset_v<type_set<int, float>, type_set<int, float>>:       " << type_set_is_subset_v<type_set<int, float>, type_set<int, float>> << std::endl;
     std::cout << "type_set_is_subset_v<type_set<>, type_set<>>:                           " << type_set_is_subset_v<type_set<>, type_set<>> << std::endl;
     std::cout << "type_set_is_subset_v<type_set<>, type_set<int>>:                        " << type_set_is_subset_v<type_set<>, type_set<int>> << std::endl;
+    std::cout << "type_set_is_subset_v<type_set<int>, type_set<>>:                        " << type_set_is_subset_v<type_set<int>, type_set<>> << std::endl;
     std::cout << "type_set_is_subset_v<type_set<int, float>, type_set<>>:                 " << type_set_is_subset_v<type_set<int, float>, type_set<>> << std::endl;
     std::cout << "type_set_is_subset_v<type_set<int, float, B>, type_set<int, float>>:    " << type_set_is_subset_v<type_set<int, float, B>, type_set<int, float>> << std::endl;
     std::cout << "type_set_is_subset_v<type_set<int, float, B>, type_set<int, float, B>>: " << type_set_is_subset_v<type_set<int, float, B>, type_set<int, float, B>> << std::endl;
@@ -181,10 +182,12 @@ int main(int argc, char const *argv[]) {
     std::cout << std::endl << std::endl;
 
     std::cout << "___________SIZE___________" << std::endl;
-    std::cout << "type_set_size_v<type_set<int, float>>:    " << type_set_size_v<type_set<int, float>> << std::endl;
-    std::cout << "type_set_size_v<type_set<int, int, float>>:    " << type_set_size_v<type_set<int, int, float>> << std::endl;
-    std::cout << "type_set_size_v<type_set<int, int, float, float>>:    " << type_set_size_v<type_set<int, int, float, float>> << std::endl;
-    std::cout << "type_set_size_v<type_set<int, int, float, int>>:    " << type_set_size_v<type_set<int, int, float, int>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int>>:                       "   << type_set_size_v<type_set<int>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, int>>:                  "   << type_set_size_v<type_set<int, int>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, float>>:                "   << type_set_size_v<type_set<int, float>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, int, float>>:           "   << type_set_size_v<type_set<int, int, float>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, int, float, float>>:    "   << type_set_size_v<type_set<int, int, float, float>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, int, float, int>>:      "   << type_set_size_v<type_set<int, int, float, int>> << std::endl;
 
 
     std::cout << std::endl << std::endl;
