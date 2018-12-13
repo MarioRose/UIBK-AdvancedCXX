@@ -182,6 +182,7 @@ int main(int argc, char const *argv[]) {
     std::cout << std::endl << std::endl;
 
     std::cout << "___________SIZE___________" << std::endl;
+    std::cout << "type_set_size_v<type_set<>>:                          "   << type_set_size_v<type_set<>> << std::endl;
     std::cout << "type_set_size_v<type_set<int>>:                       "   << type_set_size_v<type_set<int>> << std::endl;
     std::cout << "type_set_size_v<type_set<int, int>>:                  "   << type_set_size_v<type_set<int, int>> << std::endl;
     std::cout << "type_set_size_v<type_set<int, float>>:                "   << type_set_size_v<type_set<int, float>> << std::endl;
