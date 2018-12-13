@@ -119,6 +119,22 @@ struct type_set_is_same<type_set<Head_1, Rest_1...>, type_set<Head_2, Rest_2...>
 template<typename T, typename U>
 constexpr int type_set_is_same_v = type_set_is_same<T, U>::value;
 
+// TYPESET SIZE
+template<typename T>
+struct type_set_size {
+	static constexpr int value = 0;
+};
+
+template<class Head, class... T>
+struct type_set_size<type_set<Head, T...>> {
+    //
+	static constexpr int value =
+        (type_set_is_subset_v<type_set<Head>, type_set<T...>> ? 0 : 1) +
+        type_set_size<type_set<T...>>::value;
+};
+
+template<typename T>
+constexpr int type_set_size_v = type_set_size<T>::value;
 
 struct B {};
 
@@ -161,6 +177,15 @@ int main(int argc, char const *argv[]) {
     std::cout << "type_set_is_same_v<type_set<int, float, B>, type_set<int, float>>:    " << type_set_is_same_v<type_set<int, float, B>, type_set<int, float>> << std::endl;
     std::cout << "type_set_is_same_v<type_set<int, float, B>, type_set<int, float, B>>: " << type_set_is_same_v<type_set<int, float, B>, type_set<int, float, B>> << std::endl;
     std::cout << "type_set_is_same_v<type_set<int, float, B>, type_set<B, int, float>>: " << type_set_is_same_v<type_set<int, float, B>, type_set<B, int, float>> << std::endl;
+
+    std::cout << std::endl << std::endl;
+
+    std::cout << "___________SIZE___________" << std::endl;
+    std::cout << "type_set_size_v<type_set<int, float>>:    " << type_set_size_v<type_set<int, float>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, int, float>>:    " << type_set_size_v<type_set<int, int, float>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, int, float, float>>:    " << type_set_size_v<type_set<int, int, float, float>> << std::endl;
+    std::cout << "type_set_size_v<type_set<int, int, float, int>>:    " << type_set_size_v<type_set<int, int, float, int>> << std::endl;
+
 
     std::cout << std::endl << std::endl;
 
