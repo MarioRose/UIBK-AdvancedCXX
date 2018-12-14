@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <Settings.h>
 #include <exception>
 #include <fstream>
@@ -11,7 +12,7 @@
 #include <string>
 #include <vector>
 
-Character::Character()
+Character::Character():shout_sound(nullptr)
 {
 	// Initialize the offsets
 	posX = 0;
@@ -88,6 +89,8 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
                 this->setHeight(std::stoi(value));
             } else if(key == "WIDTH") {
                 this->setWidth(std::stoi(value));
+            } else if(key == "SOUND_SHOUT") {
+                addSound(value, CharacterSoundType::SHOUT);
             } else if (key == "IDLE") {
 				pathsIdleTextures.push_back(value);
 			} else if (key == "RUNNING") {
@@ -170,6 +173,23 @@ void Character::render(SDL_Renderer *renderer)
 	default:
 		throw std::exception{};
 	}
+}
+
+void Character::addSound(std::string path, CharacterSoundType sound_type) {
+	//Load music
+	shout_sound = Mix_LoadMUS( path.c_str() );
+
+	if( shout_sound == NULL ) {
+		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+	}
+}
+
+void Character::shout() {
+	//Load music
+	if(shout_sound != nullptr){
+        Mix_VolumeMusic(MIX_MAX_VOLUME);
+        Mix_PlayMusic( shout_sound, 1 );
+    }
 }
 
 void Character::free()

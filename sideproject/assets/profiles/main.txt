@@ -1,4 +1,5 @@
 CHARACTER Main
+SOUND_SHOUT assets/music/Anderson.wav
 IDLE assets/images/characters/player/idle/1.png
 IDLE assets/images/characters/player/idle/2.png
 IDLE assets/images/characters/player/idle/3.png

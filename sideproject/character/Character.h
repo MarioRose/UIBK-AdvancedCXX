@@ -2,6 +2,7 @@
 #define CHARACTER_H
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <vector>
 #include "Texture.h"
 #include "Moveable.h"
@@ -10,6 +11,10 @@
 enum class CharacterStatus {
 	IDLE,
 	RUNNING
+};
+
+enum class CharacterSoundType {
+	SHOUT
 };
 
 class Character: public Moveable {
@@ -37,13 +42,14 @@ public:
 
 	void loadFromFile(std::string path, SDL_Renderer *renderer);
 
+    Mix_Music *shout_sound;
 
 	//Scene textures
 	std::vector<Texture *> idleTextures;
 	std::vector<Texture *> runningTextures;
 
     void nextSpriteIndex();
-
+    void shout();
 
 protected:
 	//The force of the Character
@@ -57,7 +63,7 @@ protected:
 
 	bool loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
 	bool loadRunningTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
-
+    void addSound(std::string path, CharacterSoundType sound_type);
 };
 
 #endif
