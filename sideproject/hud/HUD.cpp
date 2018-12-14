@@ -25,7 +25,7 @@ bool HUD::loadTextures()
 	bool success = true;
 
     // TODO doesnt work with live count higher than 5
-    for (size_t i = 1; i < 6; i++) {
+    for (size_t i = 0; i < 6; i++) {
         auto liveTexture = new Texture;
         std::stringstream ss;
         ss << "../../assets/images/heart-" << i << ".png";
@@ -39,7 +39,7 @@ bool HUD::loadTextures()
 
 void HUD::render(SDL_Renderer *renderer, Player *player)
 {
-    int index = std::max(0, player->getLifeCount() - 1);
+    int index = std::max(0, player->getLifeCount());
 	liveCountTextures.at(index)->render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 }
 
