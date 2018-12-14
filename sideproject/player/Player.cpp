@@ -95,7 +95,6 @@ void Player::collisionDetection(Enemy &enemy) {
 void Player::takeDamage(){
     lifeCount--;
     this->shout();
-    std::cout << "Health: " <<  lifeCount << std::endl;
 }
 
 int Player::getLifeCount() {

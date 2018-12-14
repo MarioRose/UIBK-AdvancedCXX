@@ -46,4 +46,5 @@ target_link_libraries(
         sub::room
         sub::gameobjects
         sub::moveable
+        sub::hud
 )

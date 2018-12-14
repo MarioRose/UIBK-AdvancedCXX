@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
 Texture::Texture()
 {
@@ -141,4 +142,16 @@ int Texture::getWidth()
 int Texture::getHeight()
 {
 	return mHeight;
+}
+
+void Texture::scaleToWidth(int width){
+    double factor = ((double)width)/this->mWidth;
+    this->mWidth = width;
+    this->mHeight *= factor;
+}
+
+void Texture::scaleToHeight(int height){
+    double factor = ((double)height)/this->mHeight;
+    this->mHeight = height;
+    this->mWidth *= factor;
 }

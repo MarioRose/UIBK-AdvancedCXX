@@ -46,6 +46,9 @@ public:
 	int getWidth();
 	int getHeight();
 
+    void scaleToWidth(int width);
+    void scaleToHeight(int height);
+
 	//TODO Debug only
 	std::string filePath;
 

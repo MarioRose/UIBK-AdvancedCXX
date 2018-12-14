@@ -6,6 +6,7 @@ and may not be redistributed without written permission.*/
 #include <Character.h>
 #include <Player.h>
 #include <Room.h>
+#include <HUD.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <Settings.h>
@@ -71,7 +72,6 @@ bool init()
 			} else {
 				// Initialize renderer color
 				// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-
 				// Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags)) {
@@ -85,14 +85,8 @@ bool init()
 	return success;
 }
 
-void close(Player *player, Room *room)
+void close()
 {
-	// Free loaded images
-	player->free();
-
-	// Free Room
-	room->free();
-
 	// Destroy window
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
@@ -129,6 +123,10 @@ int main(int argc, char *args[])
 	if (!init()) {
 		printf("Failed to initialize!\n");
 	} else {
+
+
+        //Head-up display
+        HUD hud{gRenderer};
 
 		// Main loop flag
 		bool quit = false;
@@ -195,7 +193,7 @@ int main(int argc, char *args[])
 			// std::cout << "spriteNumber: " << spriteNumber << "\n";
 			player.render(gRenderer);
 			room.renderEnemies(gRenderer);
-
+            hud.render(gRenderer, &player);
 			// Update screen
 			SDL_RenderPresent(gRenderer);
 
@@ -208,10 +206,13 @@ int main(int argc, char *args[])
 				SDL_Delay((1000 / FRAMES_PER_SECOND) - fps.getTicks());
 			}
 		}
+
+        // Free resources
+        hud.free();
+        player.free();
+        room.free();
 	}
 
-	// Free resources and close SDL
-	close(&player, &room);
-
+    close();
 	return 0;
 }

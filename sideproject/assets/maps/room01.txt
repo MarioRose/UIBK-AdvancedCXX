@@ -3,7 +3,7 @@ BACKGROUND assets/images/rooms/plx.png
 MUSIC assets/music/172561_45941-lq.mp3
 DANGER_MUSIC assets/music/inquisitiveness.ogg
 ENEMY assets/profiles/devil.txt
-ENEMY_POS 200,0
+ENEMY_POS 300,0
 TILES
   . = none
   w = Wall01
