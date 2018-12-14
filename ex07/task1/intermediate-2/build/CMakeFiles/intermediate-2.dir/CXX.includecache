@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/schtailmuel/master/cxx/UIBK-AdvancedCXX/ex07/task1/intermediate-2/task1.cpp
+array
+-
+iostream
+-
+string
+-
+algorithm
+-
+iterator
+-
+

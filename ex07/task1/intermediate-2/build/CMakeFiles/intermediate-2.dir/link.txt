@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/intermediate-2.dir/task1.cpp.o  -o intermediate-2 

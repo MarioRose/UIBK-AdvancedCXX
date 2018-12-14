@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/intermidiate-1.dir/task1.cpp.o  -o intermidiate-1 
