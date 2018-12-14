@@ -13,14 +13,14 @@
     - [X] jumping
     - [ ] dropping from platforms
     - [ ] interacting with game entities (save points, doors etc)
-- [ ]1 or more advanced movement mechanics
+- [ ] 1 or more advanced movement mechanics
     - [ ] eg double jump, wall jump, sliding
     - [ ] needs to be unlocked
-- [ ]main combat
+- [ ] main combat
     - [ ] melee and/or ranged
     - [ ] hitting enemies
     - [ ] getting hit by enemies
-- [ ]1 secondary combat mechanic
+- [ ] 1 secondary combat mechanic
     - [ ] like spell slinging, hacking, *you name it*
 - [ ] player character
     - [ ] gets stronger over the course of the game (XP / level-up)
