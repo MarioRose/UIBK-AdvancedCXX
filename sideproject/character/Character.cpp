@@ -177,7 +177,7 @@ void Character::render(SDL_Renderer *renderer)
 
 void Character::addSound(std::string path, CharacterSoundType sound_type) {
 	//Load music
-	shout_sound = Mix_LoadMUS( path.c_str() );
+	shout_sound = Mix_LoadWAV( path.c_str() );
 
 	if( shout_sound == NULL ) {
 		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -188,7 +188,8 @@ void Character::shout() {
 	//Load music
 	if(shout_sound != nullptr){
         Mix_VolumeMusic(MIX_MAX_VOLUME);
-        Mix_PlayMusic( shout_sound, 1 );
+        //Mix_PlayMusic( shout_sound, 1 );
+        Mix_PlayChannel(-1, shout_sound, 0);
     }
 }
 

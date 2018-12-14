@@ -42,7 +42,7 @@ public:
 
 	void loadFromFile(std::string path, SDL_Renderer *renderer);
 
-    Mix_Music *shout_sound;
+    Mix_Chunk *shout_sound;
 
 	//Scene textures
 	std::vector<Texture *> idleTextures;

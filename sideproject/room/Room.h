@@ -6,6 +6,11 @@
 #include <string>
 #include "Enemy.h"
 
+enum class RoomSoundType {
+	NORMAL,
+    DANGER
+};
+
 class Room {
 
 public:
@@ -22,6 +27,7 @@ public:
 
 	//The music that will be played
 	Mix_Music *music;
+	Mix_Music *danger_music;
 
 	SDL_Surface *background_surface;
 	SDL_Texture *background_texture;
@@ -32,10 +38,12 @@ public:
     void renderEnemies(SDL_Renderer *renderer);
 	//std::vector<LTexture *> backgroundTextures;
 private:
-	void playMusic(std::string path);
+	void playMusic(Mix_Music *music);
+    void loadMusic(std::string path, RoomSoundType sound_type);
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
     void setEnemyPos(std::string value);
+    bool checkIfEnemiesInRoom();
 };
 
 #endif

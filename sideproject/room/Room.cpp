@@ -11,7 +11,8 @@
 #include <vector>
 #include <fstream>
 
-Room::Room():background_surface(nullptr), background_texture(nullptr), music(nullptr)
+Room::Room():background_surface(nullptr), background_texture(nullptr),
+    music(nullptr), danger_music(nullptr)
 {}
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer) {
@@ -31,19 +32,24 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer) {
 
 				if(key == "MUSIC")
 				{
-						playMusic(value);
+				    loadMusic(value, RoomSoundType::NORMAL);
+                    playMusic(this->music);
+				}
+                else if(key == "DANGER_MUSIC")
+				{
+    				loadMusic(value, RoomSoundType::DANGER);
 				}
 				else if(key == "BACKGROUND")
 				{
-						loadBackground(value, renderer);
+    				loadBackground(value, renderer);
 				}
 				else if(key == "ENEMY")
 				{
-						addEnemy(value, renderer);
+    				addEnemy(value, renderer);
 				}
                 else if(key == "ENEMY_POS")
 				{
-						setEnemyPos(value);
+				    setEnemyPos(value);
 				}
 		}
 
@@ -56,17 +62,28 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer) {
 
 }
 
-void Room::playMusic(std::string path) {
-	//Load music
-	music = Mix_LoadMUS( path.c_str() );
+void Room::playMusic(Mix_Music *music) {
+	Mix_VolumeMusic(MIX_MAX_VOLUME);
+	Mix_PlayMusic( music, -1 );
+}
 
-	if( music == NULL ) {
-		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
-	}
-	else {
-		Mix_VolumeMusic(MIX_MAX_VOLUME);
-		Mix_PlayMusic( music, -1 );
-	}
+void Room::loadMusic(std::string path, RoomSoundType sound_type) {
+	//Load music
+
+    switch(sound_type){
+        case RoomSoundType::NORMAL:
+            music = Mix_LoadMUS( path.c_str() );
+            if( music == NULL ) {
+        		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+        	}
+            break;
+        case RoomSoundType::DANGER:
+            danger_music = Mix_LoadMUS( path.c_str() );
+            if( danger_music == NULL ) {
+                printf( "Failed to load beat danger_music! SDL_mixer Error: %s\n", Mix_GetError() );
+            }
+            break;
+    }
 }
 
 void Room::loadBackground(std::string path, SDL_Renderer *renderer) {
@@ -95,6 +112,11 @@ void Room::setEnemyPos(std::string value){
 
 void Room::renderEnemies(SDL_Renderer *renderer) {
     this->enemy.render(renderer);
+}
+
+bool Room::checkIfEnemiesInRoom(){
+    //TODO check positions
+    return true;
 }
 
 Room::~Room(){
