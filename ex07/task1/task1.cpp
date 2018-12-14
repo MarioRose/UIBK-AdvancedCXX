@@ -1,6 +1,8 @@
 #include <array>
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <iterator>
 
 template <std::size_t N>
 struct Attributes {
@@ -112,9 +114,8 @@ class Vector : public Attributes<N> {
 	Vector operator+(const Vector &v)
 	{
 		Vector vector;
-		for (int i = 0; i < N; i++) {
-			vector.data[i] = this->data[i] + v.data[i];
-		}
+        std::transform(this->data.begin(), this->data.end(), v.data.begin(),
+          vector.data.begin(), std::plus<double>());
 		return vector;
 	}
 
@@ -147,7 +148,7 @@ int main(int argc, char const *argv[])
 	std::cout << "___________Vector<1>___________" << std::endl;
 	Vec1 v1(10);
 	Vec1 v1_2;
-	std::cout << (v1 + v1_2).to_string() << std::endl << std::endl;
+    std::cout << v1.to_string()  << "+\n" << v1_2.to_string() << "=\n" << (v1 + v1_2).to_string() << std::endl;
 	std::cout << std::to_string(v1.x) << std::endl;
 
 	std::cout << "___________Vector<2>___________" << std::endl;
@@ -162,7 +163,7 @@ int main(int argc, char const *argv[])
 	std::cout << "___________Vector<3>___________" << std::endl;
 	Vec3 v3(2, 6, 1);
 	Vec3 v3_2(1, 5, 4);
-	std::cout << (v3 + v3_2).to_string() << std::endl;
+	std::cout << v3.to_string()  << "+\n" << v3_2.to_string() << "=\n" << (v3 + v3_2).to_string() << std::endl;
 	std::cout << std::to_string(v3[0]) << std::endl;
 	std::cout << std::to_string(v3[2]) << " =?= " << std::to_string(v3.z) << std::endl << std::endl;
 
