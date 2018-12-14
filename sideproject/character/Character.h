@@ -61,8 +61,8 @@ protected:
 	//Status (e.g. idle or running) the Character
 	CharacterStatus status;
 
-	bool loadIdleTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
-	bool loadRunningTextures(std::vector<std::string> paths, SDL_Renderer* renderer);
+	bool loadTextures(std::vector<std::string> paths, 
+        TextureType texture_type, SDL_Renderer* renderer);
     void addSound(std::string path, CharacterSoundType sound_type);
 };
 

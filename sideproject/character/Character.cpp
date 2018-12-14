@@ -98,8 +98,8 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 			}
 		}
 
-		loadIdleTextures(pathsIdleTextures, renderer);
-		loadRunningTextures(pathsRunningTextures, renderer);
+		loadTextures(pathsIdleTextures, TextureType::IDLE, renderer);
+		loadTextures(pathsRunningTextures, TextureType::RUNNING, renderer);
 
 		file.close();
 	} else {
@@ -107,7 +107,8 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 	}
 }
 
-bool Character::loadIdleTextures(std::vector<std::string> paths, SDL_Renderer *renderer)
+bool Character::loadTextures(std::vector<std::string> paths,
+    TextureType texture_type, SDL_Renderer *renderer)
 {
 	// Loading success flag
 	bool success = true;
@@ -117,7 +118,15 @@ bool Character::loadIdleTextures(std::vector<std::string> paths, SDL_Renderer *r
 		auto texture = new Texture;
 
 		if (texture->loadFromFile(path, renderer)) {
-			idleTextures.push_back(texture);
+
+            switch(texture_type){
+                case TextureType::IDLE:
+                    idleTextures.push_back(texture);
+                    break;
+                case TextureType::RUNNING:
+                    runningTextures.push_back(texture);
+                    break;
+            }
 		} else {
 			success = false;
 			break;
@@ -127,25 +136,6 @@ bool Character::loadIdleTextures(std::vector<std::string> paths, SDL_Renderer *r
 	return success;
 }
 
-bool Character::loadRunningTextures(std::vector<std::string> paths, SDL_Renderer *renderer)
-{
-	// Loading success flag
-	bool success = true;
-
-	for (auto path : paths) {
-
-		auto texture = new Texture;
-
-		if (texture->loadFromFile(path, renderer)) {
-			runningTextures.push_back(texture);
-		} else {
-			success = false;
-			break;
-		}
-	}
-
-	return success;
-}
 void Character::nextSpriteIndex(){
     spriteIndexRunning =  ++spriteIndexRunning % runningTextures.size();
     spriteIndexIdle =  ++spriteIndexIdle % idleTextures.size();

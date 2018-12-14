@@ -4,6 +4,11 @@
 #include <SDL.h>
 #include <string>
 
+enum class TextureType {
+	IDLE,
+	RUNNING
+};
+
 //Texture wrapper class
 class Texture {
 public:
