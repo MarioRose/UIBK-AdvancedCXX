@@ -118,9 +118,6 @@ template<typename T, typename U>
 constexpr int type_set_is_same_v = type_set_is_same<T, U>::value;
 
 
-
-
-
 // TYPESET SIZE
 template<typename T>
 struct type_set_size {
