@@ -50,6 +50,10 @@
     - [ ] cap the frame-rate at a reasonable number
     - [ ] timing related logic should be independent of the frame-rate, use a *time delta*
 
+### Additional implementations
+- [X] HUD (head-up display) with live count
+- [X] Player shouts if it hits an enemy
+
 ## SOUND
 https://freesound.org/
 
