@@ -37,13 +37,12 @@ SDL_Renderer *gRenderer = NULL;
 bool pause = false;
 
 
-int showmenu(TTF_Font* font) {
-
+int showmenu(TTF_Font* font, std::string title) {
     SDL_Surface* screen = SDL_GetWindowSurface(gWindow);
     Uint32 time;
     int x, y;
     const int NUMMENU = 3;
-    const char* labels[NUMMENU] = {"Best Game Ever","Start Game","Exit Game"};
+    const char* labels[NUMMENU] = {title.c_str(), "Start Game","Exit Game"};
     SDL_Surface* menus[NUMMENU];
     SDL_Surface* background_surface;
     SDL_Texture* textureMenus[NUMMENU];
@@ -250,19 +249,18 @@ int main(int argc, char *args[])
         TTF_Init();
         TTF_Font *font;
         font = TTF_OpenFont("../../assets/fonts/menuFont.ttf",30);
-        if(showmenu(font) > 1){
+        if(showmenu(font, "Best Game Ever") > 1){
             quit = true;
         }
 
 		// While application is running
 		while (!quit) {
 
-		    while(pause) {
-		        //show pause screen
-                while (SDL_PollEvent(&e) != 0) {
-                    // User requests quit
-                    input(e);
+		    if(pause) {
+                if(showmenu(font, "Pause") > 1){
+                    break;
                 }
+                pause = false;
             }
 
 		    // Start the frame timer
