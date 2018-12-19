@@ -7,8 +7,10 @@ and may not be redistributed without written permission.*/
 #include <Player.h>
 #include <Room.h>
 #include <HUD.h>
+#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include <Settings.h>
 #include <Texture.h>
 #include <Timer.h>
@@ -33,6 +35,105 @@ SDL_Renderer *gRenderer = NULL;
 
 //pause
 bool pause = false;
+
+
+int showmenu(TTF_Font* font) {
+
+    SDL_Surface* screen = SDL_GetWindowSurface(gWindow);
+    Uint32 time;
+    int x, y;
+    const int NUMMENU = 3;
+    const char* labels[NUMMENU] = {"Best Game Ever","Start Game","Exit Game"};
+    SDL_Surface* menus[NUMMENU];
+    SDL_Surface* background_surface;
+    SDL_Texture* textureMenus[NUMMENU];
+    SDL_Texture* background_texture;
+
+    background_surface = IMG_Load("../../assets/images/rooms/plx.png");
+    background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
+
+    bool selected[NUMMENU] = {0,0};
+    SDL_Color color[2] = {{255,255,255,100},{0,0,0,0}};
+
+    for(int i = 0; i < NUMMENU; i++){
+        menus[i] = TTF_RenderText_Solid(font,labels[i],color[0]);
+        textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
+    }
+
+    SDL_Rect pos[NUMMENU];
+    pos[0].x = SCREEN_WIDTH/2 - menus[0]->clip_rect.w/2;
+    pos[0].y = SCREEN_HEIGHT/5 - menus[0]->clip_rect.h;
+    pos[1].x = SCREEN_WIDTH/2 - menus[0]->clip_rect.w/2;
+    pos[1].y = SCREEN_HEIGHT/2 - menus[0]->clip_rect.h;
+    pos[2].x = SCREEN_WIDTH/2 - menus[0]->clip_rect.w/2;
+    pos[2].y = SCREEN_HEIGHT/2 + menus[0]->clip_rect.h;
+
+    SDL_Event event;
+    while(1) {
+        time = SDL_GetTicks();
+        while(SDL_PollEvent(&event)) {
+            switch(event.type) {
+                case SDL_QUIT:
+                    SDL_FreeSurface(menus[0]);
+                    SDL_FreeSurface(menus[1]);
+                    return 1;
+                case SDL_MOUSEMOTION:
+                    x = event.motion.x;
+                    y = event.motion.y;
+                    for(int i = 0; i < NUMMENU; i += 1) {
+                        if(x>=pos[i].x && x<=pos[i].x+pos[i].w && y>=pos[i].y && y<=pos[i].y+pos[i].h){
+                            if(!selected[i]){
+                                selected[i] = 1;
+                                SDL_FreeSurface(menus[i]);
+                                menus[i] = TTF_RenderText_Solid(font,labels[i],color[1]);
+                                textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
+                            }
+                        }
+                        else {
+                            if(selected[i]) {
+                                selected[i] = 0;
+                                SDL_FreeSurface(menus[i]);
+                                menus[i] = TTF_RenderText_Solid(font,labels[i],color[0]);
+                                textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
+                            }
+                        }
+                    }
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    x = event.button.x;
+                    y = event.button.y;
+                    for(int i = 0; i < NUMMENU; i += 1) {
+                        if(x>=pos[i].x && x<=pos[i].x+pos[i].w && y>=pos[i].y && y<=pos[i].y+pos[i].h)
+                        {
+                            SDL_FreeSurface(menus[0]);
+                            SDL_FreeSurface(menus[1]);
+                            SDL_FreeSurface(menus[2]);
+
+                            return i;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        for(int i = 0; i < NUMMENU; i++) {
+            SDL_BlitSurface(menus[i],NULL,screen,&pos[i]);
+        }
+
+        SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
+
+        for(int i = 0; i < NUMMENU; i++){
+            SDL_RenderCopy(gRenderer, textureMenus[i], NULL, &pos[i]);
+        }
+        SDL_RenderPresent(gRenderer);
+
+        if(1000/30 > (SDL_GetTicks()-time))
+            SDL_Delay(1000/30 - (SDL_GetTicks()-time));
+    }
+}
+
+
+
 
 bool init()
 {
@@ -145,6 +246,13 @@ int main(int argc, char *args[])
 
 		// The frame rate regulator
 		Timer fps;
+
+        TTF_Init();
+        TTF_Font *font;
+        font = TTF_OpenFont("../../assets/fonts/menuFont.ttf",30);
+        if(showmenu(font) > 1){
+            quit = true;
+        }
 
 		// While application is running
 		while (!quit) {
