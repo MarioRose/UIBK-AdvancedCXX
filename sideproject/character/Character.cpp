@@ -15,7 +15,7 @@
 Character::Character() : shout_sound(nullptr)
 {
 	// Initialize the offsets
-	posX = 0;
+	posX = 5;
 	posY = 0;
 
 	// Initialize the velocity

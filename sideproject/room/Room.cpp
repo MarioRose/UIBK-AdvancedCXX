@@ -38,6 +38,38 @@ Room::Room() : background_surface(nullptr), background_texture(nullptr), music(n
 	}
 }
 
+Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow) : background_surface(nullptr), background_texture(nullptr), music(nullptr), danger_music(nullptr)
+{
+    roomIndex = index;
+    roomIndexAbove = indexAbove;
+    roomIndexBelow = indexBelow;
+    roomIndexLeft = indexLeft;
+    roomIndexRight = indexRight;
+
+    // init Tiles
+    for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
+        tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND));
+    }
+    for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
+        tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
+    }
+    for (int i = 0; i < 15; i++) {
+        tiles.emplace_back(
+                Tile(150 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 6, Tile::TILE_PLATFORM));
+    }
+    for (int i = 0; i < 7; i++) {
+        tiles.emplace_back(
+                Tile(374 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 10, Tile::TILE_PLATFORM));
+    }
+    for (int i = 0; i < 7; i++) {
+        tiles.emplace_back(
+                Tile(200 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 14, Tile::TILE_PLATFORM));
+    }
+    for (int i = 0; i < 3; i++) {
+        tiles.emplace_back(Tile(374, SCREEN_HEIGHT - 7*Tile::TILE_HEIGHT - i * Tile::TILE_HEIGHT, Tile::TILE_WALL));
+    }
+}
+
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
 
@@ -125,8 +157,6 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
     enemy->setPosX(std::stoi(result.at(1)));
     enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
     enemy->loadFromFile(result.at(0), renderer);
-
-    std::cout << result.at(0) << " " << result.at(1) << "  " << result.at(2) << std::endl;
 
     enemies.emplace_back(enemy);
 }

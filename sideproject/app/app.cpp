@@ -244,18 +244,31 @@ void input(SDL_Event &event) {
     }
 }
 
+void initRooms(std::vector<Room*>* rooms){
+    Room* room = new Room(0, -1, 1, 2, -1);
+    rooms->push_back(room);
+    room = new Room(1, 0, -1, -1, -1);
+    rooms->push_back(room);
+    room = new Room(2, -1, -1, -1, 0);
+    rooms->push_back(room);
+
+}
+
 int main(int argc, char *args[])
 {
 
 	// The Character that will be moving around on the screen
 	Player player;
+	std::vector<Room*> rooms;
 	Room room;
+	Room* currentRoom;
 
 	// Start up SDL and create window
 	if (!init()) {
 		printf("Failed to initialize!\n");
 	} else {
 
+        initRooms(&rooms);
 
         //Head-up display
         HUD hud{gRenderer};
@@ -264,7 +277,13 @@ int main(int argc, char *args[])
 		bool quit = false;
 
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
-		room.loadFromFile("../../assets/maps/room01.txt", gRenderer);
+        room.loadFromFile("../../assets/maps/room01.txt", gRenderer);
+
+		for(auto &room : rooms){
+            room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
+        }
+
+		currentRoom = rooms.at(0);
 
 		// Event handler
 		SDL_Event e;
@@ -315,29 +334,57 @@ int main(int argc, char *args[])
             // Move the character
 			player.move();
 
-			//std::cout << player.getPosX() << "  " << player.getPosY() << std::endl;
+            currentRoom->collisionTiles(&player);
+            currentRoom->collisionTilesEnemies();
 
-            room.collisionTiles(&player);
-            room.collisionTilesEnemies();
+            if(player.onLeftBorder()){
+                if(currentRoom->roomIndexLeft != -1){
+                    currentRoom = rooms.at(currentRoom->roomIndexLeft);
+                    player.setPosX(602);
+                }
+            }
 
-            player.collisionDetectionEnemies(room.enemies);
+            if(player.onRightBorder()){
+                if(currentRoom->roomIndexRight != -1){
+                    currentRoom = rooms.at(currentRoom->roomIndexRight);
+                    player.setPosX(5);
+                }
+            }
+
+            if(player.onTopBorder()){
+                if(currentRoom->roomIndexAbove != -1){
+                    currentRoom = rooms.at(currentRoom->roomIndexAbove);
+                    player.setPosY(SCREEN_WIDTH - 32);
+                }
+            }
+
+            if(player.onBottomBorder()){
+                if(currentRoom->roomIndexBelow != -1){
+                    currentRoom = rooms.at(currentRoom->roomIndexBelow);
+                    player.setPosY(5);
+                }
+            }
+
+            player.collisionDetectionEnemies(currentRoom->enemies);
 			if(player.getLifeCount() == 0){
 			    std::cout << "You Lost!!!!" << std::endl;
 			    quit = true;
 			}
 
+
+
 			// Clear screen
 			SDL_RenderClear(gRenderer);
 
 			// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-			SDL_RenderCopy(gRenderer, room.background_texture, NULL, NULL);
+			SDL_RenderCopy(gRenderer, currentRoom->background_texture, NULL, NULL);
 
 			// Render objects
-			room.moveEnemies(&player);
+            currentRoom->moveEnemies(&player);
 
 			player.render(gRenderer);
-			room.renderEnemies(gRenderer);
-			room.renderTiles(gRenderer, tileTexture);
+            currentRoom->renderEnemies(gRenderer);
+            currentRoom->renderTiles(gRenderer, tileTexture);
             hud.render(gRenderer, &player);
 
 			// Update screen
@@ -356,7 +403,7 @@ int main(int argc, char *args[])
         // Free resources
         hud.free();
         player.free();
-        room.free();
+        currentRoom->free();
 	}
 
     close();

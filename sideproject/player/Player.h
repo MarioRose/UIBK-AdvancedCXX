@@ -22,6 +22,10 @@ public:
 
 	int getLifeCount();
 
+	bool onLeftBorder();
+    bool onRightBorder();
+    bool onTopBorder();
+    bool onBottomBorder();
 
 private:
 	int keypressCount = 0;

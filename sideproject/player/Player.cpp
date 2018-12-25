@@ -106,3 +106,19 @@ void Player::takeDamage(){
 int Player::getLifeCount() {
     return lifeCount;
 }
+
+bool Player::onLeftBorder() {
+    return posX <= 3;
+}
+
+bool Player::onRightBorder() {
+    return posX >= (SCREEN_WIDTH - object_width - 3);
+}
+
+bool Player::onTopBorder() {
+    return posY <= 3;
+}
+
+bool Player::onBottomBorder() {
+    return posY >= (SCREEN_HEIGHT - object_height - 3);
+}
