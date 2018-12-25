@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-Character::Character():shout_sound(nullptr)
+Character::Character() : shout_sound(nullptr)
 {
 	// Initialize the offsets
 	posX = 0;
@@ -28,29 +28,28 @@ Character::Character():shout_sound(nullptr)
 	// Initialize status of character
 	status = CharacterStatus::IDLE;
 
-  flipType = SDL_FLIP_NONE;
+	flipType = SDL_FLIP_NONE;
 }
 
 Character::Character(double x, double y)
 {
-    // Initialize the offsets
-    posX = x;
-    posY = y;
+	// Initialize the offsets
+	posX = x;
+	posY = y;
 
-    // Initialize the velocity
-    velX = 0;
-    velY = 0;
+	// Initialize the velocity
+	velX = 0;
+	velY = 0;
 
-    // Initialize the force
-    forceY = 0;
+	// Initialize the force
+	forceY = 0;
 
-    // Initialize status of character
-    status = CharacterStatus::IDLE;
+	// Initialize status of character
+	status = CharacterStatus::IDLE;
 
+	direction = Direction::RIGHT;
 
-    direction = Direction::RIGHT;
-
-    flipType = SDL_FLIP_NONE;
+	flipType = SDL_FLIP_NONE;
 }
 
 Character::~Character()
@@ -60,6 +59,7 @@ Character::~Character()
 
 void Character::jump()
 {
+    contactPlatform = false;
 	forceY = 15;
 }
 
@@ -85,13 +85,13 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				continue;
 			} // error
 			  // std::cout << key << ": " << value << std::endl;
-            if(key == "HEIGHT") {
-                this->setHeight(std::stoi(value));
-            } else if(key == "WIDTH") {
-                this->setWidth(std::stoi(value));
-            } else if(key == "SOUND_SHOUT") {
-                addSound(value, CharacterSoundType::SHOUT);
-            } else if (key == "IDLE") {
+			if (key == "HEIGHT") {
+				this->setHeight(std::stoi(value));
+			} else if (key == "WIDTH") {
+				this->setWidth(std::stoi(value));
+			} else if (key == "SOUND_SHOUT") {
+				addSound(value, CharacterSoundType::SHOUT);
+			} else if (key == "IDLE") {
 				pathsIdleTextures.push_back(value);
 			} else if (key == "RUNNING") {
 				pathsRunningTextures.push_back(value);
@@ -107,8 +107,7 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 	}
 }
 
-bool Character::loadTextures(std::vector<std::string> paths,
-    TextureType texture_type, SDL_Renderer *renderer)
+bool Character::loadTextures(std::vector<std::string> paths, TextureType texture_type, SDL_Renderer *renderer)
 {
 	// Loading success flag
 	bool success = true;
@@ -119,14 +118,14 @@ bool Character::loadTextures(std::vector<std::string> paths,
 
 		if (texture->loadFromFile(path, renderer)) {
 
-            switch(texture_type){
-                case TextureType::IDLE:
-                    idleTextures.push_back(texture);
-                    break;
-                case TextureType::RUNNING:
-                    runningTextures.push_back(texture);
-                    break;
-            }
+			switch (texture_type) {
+			case TextureType::IDLE:
+				idleTextures.push_back(texture);
+				break;
+			case TextureType::RUNNING:
+				runningTextures.push_back(texture);
+				break;
+			}
 		} else {
 			success = false;
 			break;
@@ -136,15 +135,16 @@ bool Character::loadTextures(std::vector<std::string> paths,
 	return success;
 }
 
-void Character::nextSpriteIndex(){
-    spriteIndexRunning =  ++spriteIndexRunning % runningTextures.size();
-    spriteIndexIdle =  ++spriteIndexIdle % idleTextures.size();
+void Character::nextSpriteIndex()
+{
+	spriteIndexRunning = ++spriteIndexRunning % runningTextures.size();
+	spriteIndexIdle = ++spriteIndexIdle % idleTextures.size();
 }
 
 void Character::render(SDL_Renderer *renderer)
 {
 	// Show the Character
-    this->nextSpriteIndex();
+	this->nextSpriteIndex();
 
 	switch (status) {
 
@@ -165,22 +165,24 @@ void Character::render(SDL_Renderer *renderer)
 	}
 }
 
-void Character::addSound(std::string path, CharacterSoundType sound_type) {
-	//Load music
-	shout_sound = Mix_LoadWAV( path.c_str() );
+void Character::addSound(std::string path, CharacterSoundType sound_type)
+{
+	// Load music
+	shout_sound = Mix_LoadWAV(path.c_str());
 
-	if( shout_sound == NULL ) {
-		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+	if (shout_sound == NULL) {
+		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 	}
 }
 
-void Character::shout() {
-	//Load music
-	if(shout_sound != nullptr){
-        Mix_VolumeMusic(MIX_MAX_VOLUME);
-        //Mix_PlayMusic( shout_sound, 1 );
-        Mix_PlayChannel(-1, shout_sound, 0);
-    }
+void Character::shout()
+{
+	// Load music
+	if (shout_sound != nullptr) {
+		Mix_VolumeMusic(MIX_MAX_VOLUME);
+		// Mix_PlayMusic( shout_sound, 1 );
+		Mix_PlayChannel(-1, shout_sound, 0);
+	}
 }
 
 void Character::free()

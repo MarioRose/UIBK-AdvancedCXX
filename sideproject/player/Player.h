@@ -22,6 +22,7 @@ public:
 
 	int getLifeCount();
 
+
 private:
 	int keypressCount = 0;
 	int lifeCount = 3;

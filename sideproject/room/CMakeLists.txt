@@ -25,4 +25,5 @@ target_link_libraries(
         sub::moveable
         sub::texture
         sub::gameobjects
+        sub::tile
 )

@@ -10,33 +10,35 @@ Enemy::~Enemy()
 void Enemy::moveAI(Character *character)
 {
 
-    this->status = CharacterStatus::RUNNING;
+    status = CharacterStatus::RUNNING;
 
-    if(this->posX < 0) {
-        this->direction = Direction::RIGHT;
+    if(posX < 0) {
+        direction = Direction::RIGHT;
     }
     else if(this->posX > SCREEN_WIDTH){
-        this->direction = Direction::LEFT;
+        direction = Direction::LEFT;
     }
 
     //if(rand() % 200 < 10){
-        if(character->getPosX() > this->posX)
+        if(character->getPosX() > posX)
         {
-            this->direction = Direction::RIGHT;
+            direction = Direction::RIGHT;
+            flipType = SDL_FLIP_NONE;
         }
         else
         {
-            this->direction = Direction::LEFT;
+            direction = Direction::LEFT;
+            flipType = SDL_FLIP_HORIZONTAL;
         }
     //}
 
-    switch(this->direction)
+    switch(direction)
     {
         case Direction::RIGHT:
-            this->posX += 0.75;
+            posX += 0.75;
             break;
         case Direction::LEFT:
-            this->posX -= 0.75;
+            posX -= 0.75;
             break;
     }
 

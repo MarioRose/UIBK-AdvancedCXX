@@ -10,6 +10,8 @@ class Moveable : public GameObject {
 	Moveable(int x, int y, int height, int width);
 
 	void move();
+	bool contactsPlatform();
+	void setContactPlatform(bool);
 
   protected:
 	// The velocity of the moveable Object
@@ -21,8 +23,10 @@ class Moveable : public GameObject {
 	// The velocity of the moveable Object
 	double forceY;
 
-    //Flip type (for flipping objects when facing left)
-    SDL_RendererFlip flipType;
+	// Flip type (for flipping objects when facing left)
+	SDL_RendererFlip flipType;
+
+	bool contactPlatform = false;
 };
 
 #endif // SIDESCROLLER_MOVEABLE_H

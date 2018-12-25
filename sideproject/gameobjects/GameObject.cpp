@@ -21,7 +21,7 @@ void GameObject::setPosX(double x) {
 }
 
 void GameObject::setPosY(double y) {
-    this->posY = SCREEN_HEIGHT - y;
+    this->posY = y;
 }
 
 double GameObject::getPosX() {

@@ -49,4 +49,5 @@ target_link_libraries(
         sub::gameobjects
         sub::moveable
         sub::hud
+        sub::tile
 )

@@ -17,6 +17,7 @@ and may not be redistributed without written permission.*/
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <Tile.h>
 
 // Starts up SDL and creates window
 bool init();
@@ -32,6 +33,8 @@ SDL_Window *gWindow = NULL;
 
 // The window renderer
 SDL_Renderer *gRenderer = NULL;
+
+SDL_Texture* tileTexture;
 
 //pause
 bool pause = false;
@@ -131,8 +134,30 @@ int showmenu(TTF_Font* font, std::string title) {
     }
 }
 
+bool loadTileTexture( std::string path )
+{
+    //Load image at specified path
+    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+    if( loadedSurface == NULL )
+    {
+        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+    }
+    else
+    {
+        //Color key image
+        SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
 
+        //Create texture from surface pixels
+        tileTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
+        if( tileTexture == NULL )
+        {
+            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+        }
 
+        //Get rid of old loaded surface
+        SDL_FreeSurface( loadedSurface );
+    }
+}
 
 bool init()
 {
@@ -180,10 +205,17 @@ bool init()
 				}
 			}
 		}
+
+	}
+
+	if(success){
+        Tile::initCroppedTiles();
+        loadTileTexture("../../assets/images/tiles/jungle_tileset.png");
 	}
 
 	return success;
 }
+
 
 void close()
 {
@@ -279,10 +311,16 @@ int main(int argc, char *args[])
 				player.control(e);
 			}
 
-			// Move the character
+
+            // Move the character
 			player.move();
 
-			player.collisionDetection(room.enemy);
+			//std::cout << player.getPosX() << "  " << player.getPosY() << std::endl;
+
+            room.collisionTiles(&player);
+            room.collisionTiles(&room.enemy);
+
+            player.collisionDetection(room.enemy);
 			if(player.getLifeCount() == 0){
 			    std::cout << "You Lost!!!!" << std::endl;
 			    quit = true;
@@ -295,11 +333,14 @@ int main(int argc, char *args[])
 			SDL_RenderCopy(gRenderer, room.background_texture, NULL, NULL);
 
 			// Render objects
+			room.enemy.move();
             room.enemy.moveAI(&player);
 			// std::cout << "spriteNumber: " << spriteNumber << "\n";
 			player.render(gRenderer);
 			room.renderEnemies(gRenderer);
+			room.renderTiles(gRenderer, tileTexture);
             hud.render(gRenderer, &player);
+
 			// Update screen
 			SDL_RenderPresent(gRenderer);
 
