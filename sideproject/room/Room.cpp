@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+
 Room::Room() : background_surface(nullptr), background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
 	// init Tiles
@@ -63,9 +64,10 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				loadBackground(value, renderer);
 			} else if (key == "ENEMY") {
 				addEnemy(value, renderer);
-			} else if (key == "ENEMY_POS") {
-				setEnemyPos(value);
 			}
+//			else if (key == "ENEMY_POS") {
+//				setEnemyPos(value);
+//			}
 		}
 
 		map.close();
@@ -107,29 +109,57 @@ void Room::loadBackground(std::string path, SDL_Renderer *renderer)
 	background_texture = SDL_CreateTextureFromSurface(renderer, background_surface);
 }
 
-void Room::addEnemy(std::string path, SDL_Renderer *renderer)
+void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 {
-	enemy.loadFromFile(path, renderer);
+    auto enemy = new Enemy();
+
+    std::stringstream ss(value);
+    std::vector<std::string> result;
+
+    while (ss.good()) {
+        std::string substr;
+        getline(ss, substr, ',');
+        result.push_back(substr);
+    }
+
+    enemy->setPosX(std::stoi(result.at(1)));
+    enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
+    enemy->loadFromFile(result.at(0), renderer);
+
+    std::cout << result.at(0) << " " << result.at(1) << "  " << result.at(2) << std::endl;
+
+    enemies.emplace_back(enemy);
 }
 
-void Room::setEnemyPos(std::string value)
-{
-	std::stringstream ss(value);
-	std::vector<std::string> result;
+void Room::moveEnemies(Player* player){
 
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
-
-	enemy.setPosX(std::stoi(result.at(0)));
-	enemy.setPosY(SCREEN_HEIGHT + std::stoi(result.at(1)) - enemy.getHeight() - 350);
+    for (auto &enemy : enemies) {
+        enemy->move();
+        enemy->moveAI(player);
+    }
 }
+
+
+//void Room::setEnemyPos(std::string value)
+//{
+//	std::stringstream ss(value);
+//	std::vector<std::string> result;
+//
+//	while (ss.good()) {
+//		std::string substr;
+//		getline(ss, substr, ',');
+//		result.push_back(substr);
+//	}
+//
+//	enemy.setPosX(std::stoi(result.at(0)));
+//	enemy.setPosY(SCREEN_HEIGHT + std::stoi(result.at(1)) - enemy.getHeight() - 350);
+//}
 
 void Room::renderEnemies(SDL_Renderer *renderer)
 {
-	this->enemy.render(renderer);
+    for (auto &enemy : enemies) {
+        enemy->render(renderer);
+    }
 }
 
 bool Room::checkIfEnemiesInRoom()
@@ -144,6 +174,14 @@ void Room::renderTiles(SDL_Renderer *renderer, SDL_Texture *texture)
 		tile.render(renderer, texture);
 	}
 }
+
+void Room::collisionTilesEnemies()
+{
+    for (auto &enemy : enemies) {
+        collisionTiles(enemy);
+    }
+}
+
 
 void Room::collisionTiles(Moveable *character)
 {
@@ -168,7 +206,9 @@ Room::~Room()
 
 void Room::free()
 {
-	this->enemy.free();
+    for (auto &enemy : enemies) {
+        enemy->free();
+    }
 	// Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);

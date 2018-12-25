@@ -16,7 +16,7 @@ public:
 	//Takes key presses and adjusts the Character's velocity
 	void control( SDL_Event& e );
 
-    void collisionDetection(Enemy &enemy);
+    void collisionDetectionEnemies(std::vector<Enemy*> enemies);
 
 	void takeDamage();
 
@@ -26,6 +26,8 @@ public:
 private:
 	int keypressCount = 0;
 	int lifeCount = 3;
+
+    void collisionDetection(Enemy* enemy);
 
 };
 

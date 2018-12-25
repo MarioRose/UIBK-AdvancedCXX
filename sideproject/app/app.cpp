@@ -318,9 +318,9 @@ int main(int argc, char *args[])
 			//std::cout << player.getPosX() << "  " << player.getPosY() << std::endl;
 
             room.collisionTiles(&player);
-            room.collisionTiles(&room.enemy);
+            room.collisionTilesEnemies();
 
-            player.collisionDetection(room.enemy);
+            player.collisionDetectionEnemies(room.enemies);
 			if(player.getLifeCount() == 0){
 			    std::cout << "You Lost!!!!" << std::endl;
 			    quit = true;
@@ -333,9 +333,8 @@ int main(int argc, char *args[])
 			SDL_RenderCopy(gRenderer, room.background_texture, NULL, NULL);
 
 			// Render objects
-			room.enemy.move();
-            room.enemy.moveAI(&player);
-			// std::cout << "spriteNumber: " << spriteNumber << "\n";
+			room.moveEnemies(&player);
+
 			player.render(gRenderer);
 			room.renderEnemies(gRenderer);
 			room.renderTiles(gRenderer, tileTexture);

@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <string>
+#include "../player/Player.h"
 
 enum class RoomSoundType { NORMAL, DANGER };
 
@@ -24,19 +25,22 @@ class Room {
 
 	void renderTiles(SDL_Renderer *renderer, SDL_Texture *texture);
 
-	void collisionTiles(Moveable* character);
+    void renderEnemies(SDL_Renderer *renderer);
 
-	// The music that will be played
+    void collisionTiles(Moveable* character);
+
+    void collisionTilesEnemies();
+
+    void moveEnemies(Player* player);
+
+    // The music that will be played
 	Mix_Music *music;
 	Mix_Music *danger_music;
 
 	SDL_Surface *background_surface;
 	SDL_Texture *background_texture;
 
-	SDL_Renderer *renderer;
-
-	Enemy enemy;
-	void renderEnemies(SDL_Renderer *renderer);
+	std::vector<Enemy*> enemies;
 	// std::vector<LTexture *> backgroundTextures;
 
   private:

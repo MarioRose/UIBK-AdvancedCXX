@@ -79,11 +79,17 @@ void Player::control(SDL_Event &e)
 	}
 }
 
-void Player::collisionDetection(Enemy &enemy) {
-    if(abs(posX - enemy.getPosX()) < 20) {
-        if (abs(posY - enemy.getPosY()) < 35) {
+void Player::collisionDetectionEnemies(std::vector<Enemy*> enemies) {
+    for (auto &enemy : enemies) {
+        collisionDetection(enemy);
+    }
+}
+
+void Player::collisionDetection(Enemy* enemy) {
+    if(abs(posX - enemy->getPosX()) < 20) {
+        if (abs(posY - enemy->getPosY()) < 35) {
             takeDamage();
-            if (posX > enemy.getPosX())
+            if (posX > enemy->getPosX())
                 posX += 50;
             else
                 posX -= 50;

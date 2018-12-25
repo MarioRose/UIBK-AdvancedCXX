@@ -112,7 +112,7 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 	// Loading success flag
 	bool success = true;
 
-	for (auto path : paths) {
+	for (auto const path : paths) {
 
 		auto texture = new Texture;
 
