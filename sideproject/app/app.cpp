@@ -340,14 +340,14 @@ int main(int argc, char *args[])
             if(player.onLeftBorder()){
                 if(currentRoom->roomIndexLeft != -1){
                     currentRoom = rooms.at(currentRoom->roomIndexLeft);
-                    player.setPosX(602);
+                    player.setPosX(SCREEN_WIDTH - player.getWidth() - 7);
                 }
             }
 
             if(player.onRightBorder()){
                 if(currentRoom->roomIndexRight != -1){
                     currentRoom = rooms.at(currentRoom->roomIndexRight);
-                    player.setPosX(5);
+                    player.setPosX(7);
                 }
             }
 

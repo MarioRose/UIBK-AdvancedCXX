@@ -108,17 +108,17 @@ int Player::getLifeCount() {
 }
 
 bool Player::onLeftBorder() {
-    return posX <= 3;
+    return posX <= 5;
 }
 
 bool Player::onRightBorder() {
-    return posX >= (SCREEN_WIDTH - object_width - 3);
+    return posX >= (SCREEN_WIDTH - object_width - 5);
 }
 
 bool Player::onTopBorder() {
-    return posY <= 3;
+    return posY <= 5;
 }
 
 bool Player::onBottomBorder() {
-    return posY >= (SCREEN_HEIGHT - object_height - 3);
+    return posY >= (SCREEN_HEIGHT - object_height - 5);
 }
