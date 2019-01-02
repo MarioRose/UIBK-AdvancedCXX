@@ -74,3 +74,7 @@ bool Moveable::contactsPlatform()
 void Moveable::setContactPlatform(bool b) {
     contactPlatform = b;
 }
+
+SDL_RendererFlip Moveable::getFlipType() const {
+	return flipType;
+}

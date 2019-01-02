@@ -12,6 +12,7 @@ class Moveable : public GameObject {
 	void move();
 	bool contactsPlatform();
 	void setContactPlatform(bool);
+	SDL_RendererFlip getFlipType() const;
 
   protected:
 	// The velocity of the moveable Object

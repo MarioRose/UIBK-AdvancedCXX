@@ -15,8 +15,8 @@ Arrows::~Arrows() {
 	}
 }
 
-void Arrows::shootArrow(int x, int y, SDL_Renderer* renderer) {
-	Arrow* arrow = new Arrow(renderer);
+void Arrows::shootArrow(int x, int y, SDL_RendererFlip flipType, SDL_Renderer* renderer) {
+	Arrow* arrow = new Arrow(renderer, flipType);
 	arrow->shoot(x, y);
 	arrows.push_back(arrow);
 }

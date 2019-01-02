@@ -322,7 +322,7 @@ int main(int argc, char *args[])
 				}
 
 				if(e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					arrows.shootArrow(player.getPosX(), player.getPosY(), gRenderer);
+					arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), gRenderer);
 				}
 
 				// Handle input for the character

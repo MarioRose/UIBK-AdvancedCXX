@@ -16,7 +16,7 @@ public:
 	void collisionDetectionEnemies(std::vector<Enemy*> enemies);
 	void collisionDetection(Enemy* enemy);
 
-	void shootArrow(int x, int y, SDL_Renderer *renderer);
+	void shootArrow(int x, int y, SDL_RendererFlip flipType, SDL_Renderer *renderer);
 
 
 protected:

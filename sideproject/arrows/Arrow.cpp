@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-Arrow::Arrow(SDL_Renderer* renderer) {
+Arrow::Arrow(SDL_Renderer* renderer, SDL_RendererFlip flipType) : flipType{flipType} {
 	loadTexture(renderer);
 }
 
@@ -37,8 +37,13 @@ void Arrow::shoot(int x, int y) {
 void Arrow::render(SDL_Renderer *renderer)
 {
 	if(active) {
-		arrowTexture.render(mX, mY, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
-		mX += 5;
+		arrowTexture.render(mX, mY, renderer, NULL, 0, NULL, flipType);
+		if(flipType == SDL_FLIP_NONE) {
+			mX += 5;
+		} else {
+			mX -= 5;
+		}
+
 	}
 }
 
@@ -53,7 +58,7 @@ void Arrow::collisionDetection(Enemy* enemy)
 		if (abs(mX - enemy->getPosX()) < 20) {
 			if (abs(mY - enemy->getPosY()) < 35) {
 				if (mX > enemy->getPosX())
-					enemy->setPosY(enemy->getPosY()+50);
+					enemy->setPosX(enemy->getPosX()-50);
 				else
 					enemy->setPosX(enemy->getPosX()+50);
 				active = false;
