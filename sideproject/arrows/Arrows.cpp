@@ -12,6 +12,7 @@ Arrows::Arrows() {
 Arrows::~Arrows() {
 	for(auto& arrow : arrows) {
 		arrow->free();
+		delete arrow;
 	}
 }
 
