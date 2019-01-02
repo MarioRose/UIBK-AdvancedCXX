@@ -62,6 +62,7 @@ void Arrow::collisionDetection(Enemy* enemy)
 				else
 					enemy->setPosX(enemy->getPosX()+50);
 				active = false;
+				free();
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 #define ARROW_H
 
 #include <Moveable.h>
-#include <Player.h>
+#include <Enemy.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <Texture.h>

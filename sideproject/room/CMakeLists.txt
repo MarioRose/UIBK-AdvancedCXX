@@ -19,11 +19,12 @@ target_include_directories( ${PROJECT_NAME}
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PRIVATE
+		sub::arrows
 		sub::settings
-      	sub::character
-      	sub::enemy
-        sub::moveable
-        sub::texture
-        sub::gameobjects
-        sub::tile
+		sub::character
+		sub::enemy
+		sub::moveable
+		sub::texture
+		sub::gameobjects
+		sub::tile
 )

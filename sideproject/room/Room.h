@@ -1,6 +1,7 @@
 #ifndef ROOM_H
 #define ROOM_H
 
+#include <Arrows.h>
 #include "../player/Player.h"
 #include "Enemy.h"
 #include "Tile.h"
@@ -44,14 +45,15 @@ class Room {
 	SDL_Texture *background_texture;
 
 	std::vector<Enemy *> enemies;
+	Arrows arrows;
 	// std::vector<LTexture *> backgroundTextures;
 
-    int roomIndexLeft;
-    int roomIndexRight;
-    int roomIndexAbove;
-    int roomIndexBelow;
+	int roomIndexLeft;
+	int roomIndexRight;
+	int roomIndexAbove;
+	int roomIndexBelow;
 
-private:
+  private:
 	void playMusic(Mix_Music *music);
 	void loadMusic(std::string path, RoomSoundType sound_type);
 	void loadBackground(std::string path, SDL_Renderer *renderer);

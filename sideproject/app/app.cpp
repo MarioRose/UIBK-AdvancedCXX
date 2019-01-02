@@ -256,7 +256,6 @@ int main(int argc, char *args[])
 	std::vector<Room *> rooms;
 	Room room;
 	Room *currentRoom;
-	Arrows arrows;
 
 	// Start up SDL and create window
 	if (!init()) {
@@ -322,7 +321,7 @@ int main(int argc, char *args[])
 				}
 
 				if(e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), gRenderer);
+					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), gRenderer);
 				}
 
 				// Handle input for the character
@@ -369,7 +368,7 @@ int main(int argc, char *args[])
 				quit = true;
 			}
 
-			arrows.collisionDetectionEnemies(currentRoom->enemies);
+			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
 
 			// Clear screen
 			SDL_RenderClear(gRenderer);
@@ -384,7 +383,7 @@ int main(int argc, char *args[])
 			currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture);
 			hud.render(gRenderer, &player);
-			arrows.render(gRenderer);
+			currentRoom->arrows.render(gRenderer);
 
 			// Update screen
 			SDL_RenderPresent(gRenderer);
