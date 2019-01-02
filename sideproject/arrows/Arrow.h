@@ -19,7 +19,7 @@ public:
 
 	void render(SDL_Renderer *renderer);
 
-	void collisionDetection(Enemy* enemy);
+	bool collisionDetection(Enemy* enemy);
 
 	void shoot(int x, int y);
 

@@ -36,7 +36,10 @@ void Arrows::collisionDetectionEnemies(std::vector<Enemy*> enemies) {
 
 
 void Arrows::collisionDetection(Enemy* enemy) {
-	for(auto& arrow : arrows) {
-		arrow->collisionDetection(enemy);
+	for(std::size_t i = 0; i<arrows.size(); i++) {
+		auto hit = arrows[i]->collisionDetection(enemy);
+		if(hit) {
+			arrows.erase(arrows.begin() + i);
+		}
 	}
 }

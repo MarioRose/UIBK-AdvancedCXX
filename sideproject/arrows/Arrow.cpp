@@ -52,18 +52,23 @@ void Arrow::free()
 	arrowTexture.free();
 }
 
-void Arrow::collisionDetection(Enemy* enemy)
+bool Arrow::collisionDetection(Enemy* enemy)
 {
 	if(active) {
 		if (abs(mX - enemy->getPosX()) < 20) {
 			if (abs(mY - enemy->getPosY()) < 35) {
-				if (mX > enemy->getPosX())
+				if (mX > enemy->getPosX()) {
 					enemy->setPosX(enemy->getPosX()-50);
-				else
+				}
+				else {
 					enemy->setPosX(enemy->getPosX()+50);
+				}
 				active = false;
 				free();
 			}
 		}
 	}
+
+	//more intuitive to return false for no hit - true for hit
+	return !active;
 }
