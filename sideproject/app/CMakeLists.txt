@@ -38,16 +38,17 @@ target_link_libraries(
 		"${SDL2_LIBRARIES}"
 		"${SDL2IMAGE_LIBRARIES}"
 		"${SDL2MIXER_LIBRARIES}"
-        "${SDL2TTF_LIBRARIES}"
-        sub::timer
-        sub::texture
-        sub::character
-        sub::player
-        sub::enemy
-        sub::settings
-        sub::room
-        sub::gameobjects
-        sub::moveable
-        sub::hud
-        sub::tile
+        	"${SDL2TTF_LIBRARIES}"
+		sub::arrows
+		sub::timer
+		sub::texture
+		sub::character
+		sub::player
+		sub::enemy
+		sub::settings
+		sub::room
+		sub::gameobjects
+		sub::moveable
+		sub::hud
+		sub::tile
 )
