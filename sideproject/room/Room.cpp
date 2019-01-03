@@ -14,28 +14,7 @@
 
 Room::Room() : background_surface(nullptr), background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
-	// init Tiles
-	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND));
-	}
-	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
-	}
-	for (int i = 0; i < 15; i++) {
-		tiles.emplace_back(
-		    Tile(150 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 6, Tile::TILE_PLATFORM));
-	}
-	for (int i = 0; i < 7; i++) {
-		tiles.emplace_back(
-		    Tile(374 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 10, Tile::TILE_PLATFORM));
-	}
-	for (int i = 0; i < 7; i++) {
-		tiles.emplace_back(
-		    Tile(200 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 14, Tile::TILE_PLATFORM));
-	}
-	for (int i = 0; i < 3; i++) {
-		tiles.emplace_back(Tile(374, SCREEN_HEIGHT - 7*Tile::TILE_HEIGHT - i * Tile::TILE_HEIGHT, Tile::TILE_WALL));
-	}
+    initTiles();
 }
 
 Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow) : background_surface(nullptr), background_texture(nullptr), music(nullptr), danger_music(nullptr)
@@ -46,7 +25,12 @@ Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBe
     roomIndexLeft = indexLeft;
     roomIndexRight = indexRight;
 
-    // init Tiles
+    initTiles();
+}
+
+// TODO: should parse file
+void Room::initTiles() {
+
     for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
         tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND));
     }
@@ -68,6 +52,7 @@ Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBe
     for (int i = 0; i < 3; i++) {
         tiles.emplace_back(Tile(374, SCREEN_HEIGHT - 7*Tile::TILE_HEIGHT - i * Tile::TILE_HEIGHT, Tile::TILE_WALL));
     }
+
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)

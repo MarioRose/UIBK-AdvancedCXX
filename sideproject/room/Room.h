@@ -60,6 +60,7 @@ class Room {
 	void addEnemy(std::string path, SDL_Renderer *renderer);
 	void setEnemyPos(std::string value);
 	bool checkIfEnemiesInRoom();
+    void initTiles();
 	std::vector<Tile> tiles;
 	int roomIndex;
 };
