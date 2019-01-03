@@ -19,7 +19,7 @@ void Enemy::moveAI(Character *character)
         direction = Direction::LEFT;
     }
 
-    //if(rand() % 200 < 10){
+    if(rand() % 100 < 10){
         if(character->getPosX() > posX)
         {
             direction = Direction::RIGHT;
@@ -30,7 +30,7 @@ void Enemy::moveAI(Character *character)
             direction = Direction::LEFT;
             flipType = SDL_FLIP_HORIZONTAL;
         }
-    //}
+    }
 
     switch(direction)
     {
@@ -40,6 +40,10 @@ void Enemy::moveAI(Character *character)
         case Direction::LEFT:
             posX -= 0.75;
             break;
+    }
+
+    if(contactWall) {
+        changeDirection();
     }
 
 

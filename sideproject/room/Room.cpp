@@ -201,7 +201,20 @@ void Room::collisionTilesEnemies()
 void Room::collisionTiles(Moveable *character)
 {
 	for (auto &tile : tiles) {
-		if (character->getPosX() > tile.getX() - 1 && character->getPosX() < (tile.getX() + Tile::TILE_WEIGHT + 1)) {
+
+        if(tile.getTileType() == Tile::TILE_WALL)
+        {
+
+            if (std::abs(character->getPosX() - tile.getX()) < Tile::TILE_WEIGHT + 2 &&
+                std::abs(character->getPosY() - tile.getY()) < Tile::TILE_WEIGHT + 2){
+                character->setContactWall(true);
+                return;
+            }
+
+        }
+
+        if (character->getPosX() > tile.getX() - 1 && character->getPosX() < (tile.getX() + Tile::TILE_WEIGHT + 1))
+        {
 			if (character->getPosY() + character->getHeight() > tile.getY() - 3 &&
 			    character->getPosY() + character->getHeight() < (tile.getY() + 3)) {
 				character->setPosY(tile.getY() - character->getHeight());
@@ -211,6 +224,7 @@ void Room::collisionTiles(Moveable *character)
 		}
 	}
 	character->setContactPlatform(false);
+	character->setContactWall(false);
 }
 
 Room::~Room()

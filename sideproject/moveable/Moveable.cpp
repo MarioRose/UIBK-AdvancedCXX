@@ -27,6 +27,10 @@ void Moveable::move()
 		posY += 5;
 	}
 
+    if(contactWall) {
+        posX -= velX;
+    }
+
 	if (posY > SCREEN_HEIGHT - object_height) {
 		posY = SCREEN_HEIGHT - object_height;
 	}
@@ -74,6 +78,31 @@ bool Moveable::contactsPlatform()
 void Moveable::setContactPlatform(bool b) {
     contactPlatform = b;
 }
+
+bool Moveable::contactsWall()
+{
+	return contactWall;
+}
+
+void Moveable::setContactWall(bool b) {
+    contactWall = b;
+}
+
+
+void Moveable::changeDirection()
+{
+    switch(direction)
+    {
+        case Direction::RIGHT:
+            direction = Direction::LEFT;
+            break;
+        case Direction::LEFT:
+            direction = Direction::RIGHT;
+            break;
+    }
+    contactWall = false;
+}
+
 
 SDL_RendererFlip Moveable::getFlipType() const {
 	return flipType;

@@ -12,6 +12,12 @@ class Moveable : public GameObject {
 	void move();
 	bool contactsPlatform();
 	void setContactPlatform(bool);
+
+    void setContactWall(bool b);
+	bool contactsWall();
+
+    void changeDirection();
+
 	SDL_RendererFlip getFlipType() const;
 
   protected:
@@ -28,6 +34,7 @@ class Moveable : public GameObject {
 	SDL_RendererFlip flipType;
 
 	bool contactPlatform = false;
+    bool contactWall = false;
 };
 
 #endif // SIDESCROLLER_MOVEABLE_H
