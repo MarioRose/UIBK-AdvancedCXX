@@ -52,11 +52,11 @@ int showmenu(TTF_Font *font, std::string title)
 	SDL_Texture *textureMenus[NUMMENU];
 	SDL_Texture *background_texture;
 
-	background_surface = IMG_Load("../../assets/images/rooms/plx.png");
+	background_surface = IMG_Load("../../assets/images/menu.jpg");
 	background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 
 	bool selected[NUMMENU] = {0, 0};
-	SDL_Color color[2] = {{255, 255, 255, 100}, {0, 0, 0, 0}};
+	SDL_Color color[2] = {{240, 0, 0, 100}, {255, 255, 255, 100}};
 
 	for (int i = 0; i < NUMMENU; i++) {
 		menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]);
@@ -64,11 +64,11 @@ int showmenu(TTF_Font *font, std::string title)
 	}
 
 	SDL_Rect pos[NUMMENU];
-	pos[0].x = SCREEN_WIDTH / 2 - menus[0]->clip_rect.w / 2;
+    pos[0].x = SCREEN_WIDTH * 0.1;
 	pos[0].y = SCREEN_HEIGHT / 5 - menus[0]->clip_rect.h;
-	pos[1].x = SCREEN_WIDTH / 2 - menus[0]->clip_rect.w / 2;
+	pos[1].x = SCREEN_WIDTH * 0.1;
 	pos[1].y = SCREEN_HEIGHT / 2 - menus[0]->clip_rect.h;
-	pos[2].x = SCREEN_WIDTH / 2 - menus[0]->clip_rect.w / 2;
+	pos[2].x = SCREEN_WIDTH * 0.1;
 	pos[2].y = SCREEN_HEIGHT / 2 + menus[0]->clip_rect.h;
 
 	SDL_Event event;
