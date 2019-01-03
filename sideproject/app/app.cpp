@@ -271,7 +271,6 @@ int main(int argc, char *args[])
 		bool quit = false;
 
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
-		room.loadFromFile("../../assets/maps/room01.txt", gRenderer);
 
 		for (auto &room : rooms) {
 			room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
