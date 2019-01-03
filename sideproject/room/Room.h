@@ -2,7 +2,7 @@
 #define ROOM_H
 
 #include <Arrows.h>
-#include "../player/Player.h"
+#include "Player.h"
 #include "Enemy.h"
 #include "Tile.h"
 #include <SDL.h>
