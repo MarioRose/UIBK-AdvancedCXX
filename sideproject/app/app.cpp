@@ -20,6 +20,12 @@ and may not be redistributed without written permission.*/
 #include <stdio.h>
 #include <string>
 
+enum class GameStatus {
+    NEW,
+    PAUSE,
+    GAME_OVER
+};
+
 // Starts up SDL and creates window
 bool init();
 
@@ -40,14 +46,22 @@ SDL_Texture *tileTexture;
 // pause
 bool pause = false;
 
-int showmenu(TTF_Font *font, std::string title)
+int showmenu(TTF_Font *font, std::string title, GameStatus status)
 {
 	SDL_Surface *screen = SDL_GetWindowSurface(gWindow);
 	Uint32 time;
 	int x, y;
-	const int NUMMENU = 3;
+
+    int NUMMENU = 3;
 	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Exit Game"};
-	SDL_Surface *menus[NUMMENU];
+    const char *labels_gameover[NUMMENU] = {title.c_str(), "Exit Game"};
+    const char *labels_pause[NUMMENU] = {title.c_str(), "Continue", "Exit Game"};
+
+    if(status == GameStatus::GAME_OVER){
+        NUMMENU = 2;
+    }
+
+    SDL_Surface *menus[NUMMENU];
 	SDL_Surface *background_surface;
 	SDL_Texture *textureMenus[NUMMENU];
 	SDL_Texture *background_texture;
@@ -59,17 +73,27 @@ int showmenu(TTF_Font *font, std::string title)
 	SDL_Color color[2] = {{240, 0, 0, 100}, {255, 255, 255, 100}};
 
 	for (int i = 0; i < NUMMENU; i++) {
-		menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]);
+        switch(status){
+            case GameStatus::NEW:
+                menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]); break;
+            case GameStatus::PAUSE:
+                menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[0]); break;
+            case GameStatus::GAME_OVER:
+                menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]); break;
+        }
+
 		textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
 	}
 
 	SDL_Rect pos[NUMMENU];
-    pos[0].x = SCREEN_WIDTH * 0.1;
-	pos[0].y = SCREEN_HEIGHT / 5 - menus[0]->clip_rect.h;
-	pos[1].x = SCREEN_WIDTH * 0.1;
-	pos[1].y = SCREEN_HEIGHT / 2 - menus[0]->clip_rect.h;
-	pos[2].x = SCREEN_WIDTH * 0.1;
-	pos[2].y = SCREEN_HEIGHT / 2 + menus[0]->clip_rect.h;
+    for (int i = 0; i < NUMMENU; i++) {
+		pos[i].x = SCREEN_WIDTH * 0.1;
+        switch(i){
+		  case 0: pos[i].y = SCREEN_HEIGHT / 5 - menus[0]->clip_rect.h; break;
+  		  case 1: pos[i].y = SCREEN_HEIGHT / 2 - menus[0]->clip_rect.h; break;
+  		  case 2: pos[i].y = SCREEN_HEIGHT / 2 + menus[0]->clip_rect.h; break;
+        }
+	}
 
 	SDL_Event event;
 	while (1) {
@@ -77,8 +101,9 @@ int showmenu(TTF_Font *font, std::string title)
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
-				SDL_FreeSurface(menus[0]);
-				SDL_FreeSurface(menus[1]);
+                for (int i = 0; i < NUMMENU; i++) {
+    				SDL_FreeSurface(menus[i]);
+                }
 				return 1;
 			case SDL_MOUSEMOTION:
 				x = event.motion.x;
@@ -88,14 +113,28 @@ int showmenu(TTF_Font *font, std::string title)
 						if (!selected[i]) {
 							selected[i] = 1;
 							SDL_FreeSurface(menus[i]);
-							menus[i] = TTF_RenderText_Solid(font, labels[i], color[1]);
+                            switch(status){
+                                case GameStatus::NEW:
+                                    menus[i] = TTF_RenderText_Solid(font, labels[i], color[1]); break;
+                                case GameStatus::PAUSE:
+                                    menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[1]); break;
+                                case GameStatus::GAME_OVER:
+                                    menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[1]); break;
+                            }
 							textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
 						}
 					} else {
 						if (selected[i]) {
 							selected[i] = 0;
 							SDL_FreeSurface(menus[i]);
-							menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]);
+                            switch(status){
+                                case GameStatus::NEW:
+                                    menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]); break;
+                                case GameStatus::PAUSE:
+                                    menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[0]); break;
+                                case GameStatus::GAME_OVER:
+                                    menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]); break;
+                            }
 							textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
 						}
 					}
@@ -106,9 +145,9 @@ int showmenu(TTF_Font *font, std::string title)
 				y = event.button.y;
 				for (int i = 0; i < NUMMENU; i += 1) {
 					if (x >= pos[i].x && x <= pos[i].x + pos[i].w && y >= pos[i].y && y <= pos[i].y + pos[i].h) {
-						SDL_FreeSurface(menus[0]);
-						SDL_FreeSurface(menus[1]);
-						SDL_FreeSurface(menus[2]);
+						for (int i = 0; i < NUMMENU; i++) {
+						  SDL_FreeSurface(menus[i]);
+						}
 
 						return i;
 					}
@@ -293,7 +332,7 @@ int main(int argc, char *args[])
 		TTF_Init();
 		TTF_Font *font;
 		font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 30);
-		if (showmenu(font, "Best Game Ever") > 1) {
+		if (showmenu(font, "Best Game Ever", GameStatus::NEW) > 1) {
 			quit = true;
 		}
 
@@ -301,7 +340,7 @@ int main(int argc, char *args[])
 		while (!quit) {
 
 			if (pause) {
-				if (showmenu(font, "Pause") > 1) {
+				if (showmenu(font, "Pause", GameStatus::PAUSE) > 1) {
 					break;
 				}
 				pause = false;
@@ -365,6 +404,7 @@ int main(int argc, char *args[])
 			if (player.getLifeCount() == 0) {
 				std::cout << "You Lost!!!!" << std::endl;
 				quit = true;
+    			showmenu(font, "Game Over", GameStatus::GAME_OVER);
 			}
 
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
