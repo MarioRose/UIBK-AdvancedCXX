@@ -19,7 +19,7 @@ void Enemy::moveAI(Character *character)
         direction = Direction::LEFT;
     }
 
-    if(rand() % 100 < 10){
+    if(std::abs(character->getPosY() - posY) < 4){
         if(character->getPosX() > posX)
         {
             direction = Direction::RIGHT;
@@ -32,6 +32,10 @@ void Enemy::moveAI(Character *character)
         }
     }
 
+    if(contactWall) {
+        changeDirection();
+    }
+
     switch(direction)
     {
         case Direction::RIGHT:
@@ -40,10 +44,6 @@ void Enemy::moveAI(Character *character)
         case Direction::LEFT:
             posX -= 0.75;
             break;
-    }
-
-    if(contactWall) {
-        changeDirection();
     }
 
 
