@@ -37,11 +37,6 @@ bool HUD::loadTextures()
     starTexture.loadFromFile("../../assets/images/sprites/star.png", renderer);
     starTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
-    TTF_Font *font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 10);
-    pointsSurface = TTF_RenderText_Solid(font, "0", {255, 255, 255, 100});
-    pointsTexture = SDL_CreateTextureFromSurface(renderer, pointsSurface);
-    SDL_FreeSurface(pointsSurface);
-
 	return success;
 }
 
@@ -52,8 +47,21 @@ void HUD::render(SDL_Renderer *renderer, Player *player)
 
     starTexture.render(10, 32, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
-    SDL_Rect renderQuad = {48, 52, 50, 50};
+    TTF_Font *font = TTF_OpenFont("../../assets/fonts/OpenSans-Bold.ttf", 18);
+
+    SDL_Surface* pointsSurface = TTF_RenderText_Solid(font, std::to_string(player->getPoints()).c_str(), {255, 255, 255, 100});
+    SDL_Surface* pointsSurfaceBlack = TTF_RenderText_Solid(font, std::to_string(player->getPoints()).c_str(), {0, 0, 0, 100});
+
+    pointsTexture = SDL_CreateTextureFromSurface(renderer, pointsSurface);
+    pointsTextureBlack = SDL_CreateTextureFromSurface(renderer, pointsSurfaceBlack);
+    SDL_FreeSurface(pointsSurface);
+    SDL_FreeSurface(pointsSurfaceBlack);
+
+    SDL_Rect renderQuadBlack = {46, 34, 12, 30};
+    SDL_RenderCopy(renderer, pointsTextureBlack, NULL, &renderQuadBlack);
+    SDL_Rect renderQuad = {44, 32, 12, 30};
     SDL_RenderCopy(renderer, pointsTexture, NULL, &renderQuad);
+
 }
 
 void HUD::free()
@@ -62,4 +70,5 @@ void HUD::free()
 		t->free();
 	}
     SDL_DestroyTexture(pointsTexture);
+    SDL_DestroyTexture(pointsTextureBlack);
 }

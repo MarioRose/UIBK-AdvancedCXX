@@ -23,6 +23,7 @@ public:
 	void takeDamage();
 
 	int getLifeCount();
+    int getPoints();
 
 	bool onLeftBorder();
     bool onRightBorder();

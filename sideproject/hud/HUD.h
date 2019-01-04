@@ -24,13 +24,16 @@ class HUD {
 	// Scene textures
 	std::vector<Texture *> liveCountTextures;
 	Texture starTexture;
-    SDL_Surface* pointsSurface;
-    SDL_Texture* pointsTexture;
 
   protected:
 	// The force of the Character
 	// double forceY;
 	bool loadTextures();
+
+  private:
+     SDL_Texture* pointsTexture;
+     SDL_Texture* pointsTextureBlack;
+
 };
 
 #endif

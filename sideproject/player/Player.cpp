@@ -124,6 +124,10 @@ int Player::getLifeCount() {
     return lifeCount;
 }
 
+int Player::getPoints() {
+    return points;
+}
+
 bool Player::onLeftBorder() {
     return posX <= 5;
 }
