@@ -45,7 +45,7 @@ void HUD::render(SDL_Renderer *renderer, Player *player)
 	int index = std::max(0, player->getLifeCount());
 	liveCountTextures.at(index)->render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
-    starTexture.render(10, 32, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+    starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
     TTF_Font *font = TTF_OpenFont("../../assets/fonts/OpenSans-Bold.ttf", 18);
 
@@ -57,9 +57,9 @@ void HUD::render(SDL_Renderer *renderer, Player *player)
     SDL_FreeSurface(pointsSurface);
     SDL_FreeSurface(pointsSurfaceBlack);
 
-    SDL_Rect renderQuadBlack = {46, 34, 12, 30};
+    SDL_Rect renderQuadBlack = {104, 8, 12, 30};
     SDL_RenderCopy(renderer, pointsTextureBlack, NULL, &renderQuadBlack);
-    SDL_Rect renderQuad = {44, 32, 12, 30};
+    SDL_Rect renderQuad = {102, 6, 12, 30};
     SDL_RenderCopy(renderer, pointsTexture, NULL, &renderQuad);
 
 }
