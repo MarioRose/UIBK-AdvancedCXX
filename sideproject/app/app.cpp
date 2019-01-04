@@ -407,6 +407,7 @@ int main(int argc, char *args[])
     			showmenu(font, "Game Over", GameStatus::GAME_OVER);
 			}
 
+            player.collisionDetectionSprites(currentRoom->sprites);
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
 
 			// Clear screen

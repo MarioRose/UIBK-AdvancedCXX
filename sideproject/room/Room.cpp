@@ -218,7 +218,8 @@ void Room::moveEnemies(Player* player){
 void Room::renderSprites(SDL_Renderer *renderer)
 {
     for (auto &sprite : sprites) {
-        sprite->render(renderer);
+        if(sprite->visible)
+            sprite->render(renderer);
     }
 }
 

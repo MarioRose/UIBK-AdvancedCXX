@@ -48,6 +48,7 @@ class Room {
 	SDL_Texture *background_texture;
 
 	std::vector<Enemy *> enemies;
+	std::vector<Sprite *> sprites;
 	Arrows arrows;
 	// std::vector<LTexture *> backgroundTextures;
 
@@ -66,7 +67,6 @@ class Room {
 	bool checkIfEnemiesInRoom();
     void initTiles();
 	std::vector<Tile> tiles;
-	std::vector<Sprite *> sprites;
 	int roomIndex;
 };
 

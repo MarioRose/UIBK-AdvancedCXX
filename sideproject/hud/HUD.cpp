@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include <Settings.h>
 #include <exception>
 #include <sstream>
@@ -33,6 +34,13 @@ bool HUD::loadTextures()
 		liveTexture->scaleToHeight(SCREEN_HEIGHT * 0.05);
 		liveCountTextures.push_back(liveTexture);
 	}
+    starTexture.loadFromFile("../../assets/images/sprites/star.png", renderer);
+    starTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
+
+    TTF_Font *font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 10);
+    pointsSurface = TTF_RenderText_Solid(font, "0", {255, 255, 255, 100});
+    pointsTexture = SDL_CreateTextureFromSurface(renderer, pointsSurface);
+    SDL_FreeSurface(pointsSurface);
 
 	return success;
 }
@@ -41,6 +49,11 @@ void HUD::render(SDL_Renderer *renderer, Player *player)
 {
 	int index = std::max(0, player->getLifeCount());
 	liveCountTextures.at(index)->render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+
+    starTexture.render(10, 32, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+
+    SDL_Rect renderQuad = {48, 52, 50, 50};
+    SDL_RenderCopy(renderer, pointsTexture, NULL, &renderQuad);
 }
 
 void HUD::free()
@@ -48,4 +61,5 @@ void HUD::free()
 	for (auto t : liveCountTextures) {
 		t->free();
 	}
+    SDL_DestroyTexture(pointsTexture);
 }

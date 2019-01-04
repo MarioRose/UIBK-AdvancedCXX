@@ -19,6 +19,8 @@ public:
 
 	~Sprite();
 
+    bool visible = true;
+
 private:
     SDL_Renderer* renderer;
 

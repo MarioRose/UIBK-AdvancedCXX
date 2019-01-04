@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "Enemy.h"
+#include "sprite.h"
 //The player that will move around on the screen
 
 class Player: public Character {
@@ -17,7 +18,7 @@ public:
 	void control( SDL_Event& e );
 
     void collisionDetectionEnemies(std::vector<Enemy*> enemies);
-    //void collisionDetectionSprites(std::vector<Sprite*> sprites);
+    void collisionDetectionSprites(std::vector<Sprite*> sprites);
 
 	void takeDamage();
 
@@ -31,9 +32,10 @@ public:
 private:
 	int keypressCount = 0;
 	int lifeCount = 3;
+    int points = 0;
 
     void collisionDetection(Enemy* enemy);
-    //void collisionDetection(Sprite* sprite);
+    void collisionDetection(Sprite* sprite);
 };
 
 #endif

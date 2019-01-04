@@ -33,4 +33,5 @@ target_link_libraries(
 		sub::character
 		sub::player
 		sub::enemy
+		sub::sprite
 )
