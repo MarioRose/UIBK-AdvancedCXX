@@ -28,4 +28,5 @@ target_link_libraries(
     	sub::texture
         sub::gameobjects
         sub::enemy
+        sub::sprite
 )

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <sprite.h>
 
 
 Room::Room() : background_surface(nullptr), background_texture(nullptr), music(nullptr), danger_music(nullptr)
@@ -79,12 +80,37 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				loadMusic(value, RoomSoundType::DANGER);
 			} else if (key == "BACKGROUND") {
 				loadBackground(value, renderer);
-			} else if (key == "ENEMY") {
-				addEnemy(value, renderer);
-			}
-//			else if (key == "ENEMY_POS") {
-//				setEnemyPos(value);
-//			}
+			} else if (key == "ENTITIES" && value == "BEGIN") {
+                for(int i = 0; i < 20; i++){
+                    std::getline(map, line);
+                    std::istringstream iss(line);
+
+        			if (!(iss >> key >> value)) {
+        				continue;
+        			}
+
+                    if (key == "ENEMY") {
+    				    addEnemy(value, renderer);
+                    } else if (key == "ENTITIES" && value == "END") {
+                        break;
+                    }
+                }
+            } else if (key == "SPRITES" && value == "BEGIN") {
+                for(int i = 0; i < 20; i++){
+                    std::getline(map, line);
+                    std::istringstream iss(line);
+
+        			if (!(iss >> key >> value)) {
+        				continue;
+        			}
+
+                    if (key == "STAR") {
+                        addSprite(value, renderer);
+                    } else if (key == "SPRITES" && value == "END") {
+                        break;
+                    }
+                }
+            }
 		}
 
 		map.close();
@@ -146,6 +172,25 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
     enemies.emplace_back(enemy);
 }
 
+void Room::addSprite(std::string value, SDL_Renderer *renderer)
+{
+
+
+    std::stringstream ss(value);
+    std::vector<std::string> result;
+
+    while (ss.good()) {
+        std::string substr;
+        getline(ss, substr, ',');
+        result.push_back(substr);
+    }
+
+    int x = std::stoi(result.at(1));
+    int y = std::stoi(result.at(2));
+    sprites.emplace_back(new Sprite(x, y, result.at(0).c_str(), renderer));
+}
+
+
 void Room::moveEnemies(Player* player){
 
     for (auto &enemy : enemies) {
@@ -169,6 +214,13 @@ void Room::moveEnemies(Player* player){
 //	enemy.setPosX(std::stoi(result.at(0)));
 //	enemy.setPosY(SCREEN_HEIGHT + std::stoi(result.at(1)) - enemy.getHeight() - 350);
 //}
+
+void Room::renderSprites(SDL_Renderer *renderer)
+{
+    for (auto &sprite : sprites) {
+        sprite->render(renderer);
+    }
+}
 
 void Room::renderEnemies(SDL_Renderer *renderer)
 {
@@ -226,6 +278,10 @@ void Room::free()
 {
     for (auto &enemy : enemies) {
         enemy->free();
+    }
+
+    for (auto &sprite : sprites) {
+        sprite->free();
     }
 	// Free the music
 	// if( music != nullptr ) {

@@ -420,6 +420,7 @@ int main(int argc, char *args[])
 
 			player.render(gRenderer);
 			currentRoom->renderEnemies(gRenderer);
+			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture);
 			hud.render(gRenderer, &player);
 			currentRoom->arrows.render(gRenderer);

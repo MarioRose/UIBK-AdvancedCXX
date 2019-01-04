@@ -16,6 +16,11 @@ void GameObject::render(SDL_Renderer* renderer) {
     cTexture.render( posX, posY, renderer );
 }
 
+void GameObject::free() {
+    //Show the Object
+    cTexture.free();
+}
+
 void GameObject::setPosX(double x) {
     this->posX = x;
 }

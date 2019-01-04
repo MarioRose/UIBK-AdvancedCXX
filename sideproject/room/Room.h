@@ -8,6 +8,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <string>
+#include <sprite.h>
 
 enum class RoomSoundType { NORMAL, DANGER };
 
@@ -28,6 +29,8 @@ class Room {
 	void loadFromFile(std::string path, SDL_Renderer *renderer);
 
 	void renderTiles(SDL_Renderer *renderer, SDL_Texture *texture);
+
+    void renderSprites(SDL_Renderer *renderer);
 
 	void renderEnemies(SDL_Renderer *renderer);
 
@@ -58,10 +61,12 @@ class Room {
 	void loadMusic(std::string path, RoomSoundType sound_type);
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
+	void addSprite(std::string path, SDL_Renderer *renderer);
 	void setEnemyPos(std::string value);
 	bool checkIfEnemiesInRoom();
     void initTiles();
 	std::vector<Tile> tiles;
+	std::vector<Sprite *> sprites;
 	int roomIndex;
 };
 

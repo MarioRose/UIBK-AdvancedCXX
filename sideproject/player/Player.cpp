@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include "Enemy.h"
+//#include <sprite.h>
 
 Player::Player()
 { }
@@ -84,7 +85,13 @@ void Player::collisionDetectionEnemies(std::vector<Enemy*> enemies) {
         collisionDetection(enemy);
     }
 }
-
+/*
+void Player::collisionDetectionSprites(std::vector<Sprite*> sprites) {
+    for (auto &sprite : sprites) {
+        collisionDetection(sprite);
+    }
+}
+*/
 void Player::collisionDetection(Enemy* enemy) {
     if(abs(posX - enemy->getPosX()) < 20) {
         if (abs(posY - enemy->getPosY()) < 35) {
@@ -96,7 +103,19 @@ void Player::collisionDetection(Enemy* enemy) {
         }
     }
 }
-
+/*
+void Player::collisionDetection(Sprite* sprite) {
+    if(abs(posX - sprite->getPosX()) < 20) {
+        if (abs(posY - sprite->getPosY()) < 35) {
+            takeDamage();
+            if (posX > sprite->getPosX())
+                posX += 50;
+            else
+                posX -= 50;
+        }
+    }
+}
+*/
 
 void Player::takeDamage(){
     lifeCount--;

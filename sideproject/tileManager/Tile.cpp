@@ -3,20 +3,20 @@
 SDL_Rect Tile::croppedtiles[3] = {0};
 
 void Tile::initCroppedTiles() {
-    Tile::croppedtiles[TILE_GROUND].x = TILE_WEIGHT * 0;
-    Tile::croppedtiles[TILE_GROUND].y = TILE_HEIGHT * 13;
-    Tile::croppedtiles[TILE_GROUND].w = TILE_WEIGHT;
-    Tile::croppedtiles[TILE_GROUND].h = TILE_WEIGHT;
+    croppedtiles[TILE_GROUND].x = TILE_WEIGHT * 0;
+    croppedtiles[TILE_GROUND].y = TILE_HEIGHT * 13;
+    croppedtiles[TILE_GROUND].w = TILE_WEIGHT;
+    croppedtiles[TILE_GROUND].h = TILE_WEIGHT;
 
-    Tile::croppedtiles[TILE_PLATFORM].x = TILE_WEIGHT * 10;
-    Tile::croppedtiles[TILE_PLATFORM].y = TILE_HEIGHT * 3;
-    Tile::croppedtiles[TILE_PLATFORM].w = TILE_WEIGHT;
-    Tile::croppedtiles[TILE_PLATFORM].h = TILE_WEIGHT;
+    croppedtiles[TILE_PLATFORM].x = TILE_WEIGHT * 10;
+    croppedtiles[TILE_PLATFORM].y = TILE_HEIGHT * 3;
+    croppedtiles[TILE_PLATFORM].w = TILE_WEIGHT;
+    croppedtiles[TILE_PLATFORM].h = TILE_WEIGHT;
 
-    Tile::croppedtiles[TILE_WALL].x = TILE_WEIGHT * 0;
-    Tile::croppedtiles[TILE_WALL].y = TILE_HEIGHT * 1;
-    Tile::croppedtiles[TILE_WALL].w = TILE_WEIGHT;
-    Tile::croppedtiles[TILE_WALL].h = TILE_WEIGHT;
+    croppedtiles[TILE_WALL].x = TILE_WEIGHT * 0;
+    croppedtiles[TILE_WALL].y = TILE_HEIGHT * 1;
+    croppedtiles[TILE_WALL].w = TILE_WEIGHT;
+    croppedtiles[TILE_WALL].h = TILE_WEIGHT;
 }
 
 void Tile::render(SDL_Renderer* renderer, SDL_Texture* texture) {
