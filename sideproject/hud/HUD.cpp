@@ -47,6 +47,7 @@ void HUD::render(SDL_Renderer *renderer, Player *player)
 
     starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
+    // TODO nicht ideal dass immer wieder neue Texturen erstellt werden!
     TTF_Font *font = TTF_OpenFont("../../assets/fonts/OpenSans-Bold.ttf", 18);
 
     SDL_Surface* pointsSurface = TTF_RenderText_Solid(font, std::to_string(player->getPoints()).c_str(), {255, 255, 255, 100});
