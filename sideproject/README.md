@@ -14,7 +14,7 @@
     - [ ] dropping from platforms
     - [ ] interacting with game entities (save points, doors etc)
 - [ ] 1 or more advanced movement mechanics
-    - [ ] eg double jump, wall jump, sliding
+    - [X] eg double jump, wall jump, sliding
     - [ ] needs to be unlocked
 - [ ] main combat
     - [ ] melee and/or ranged
@@ -35,12 +35,12 @@
     - [ ] shows discovered save points
     - [ ] shows where the player is currently located
 - [ ] game over
-    - [ ] player dies
+    - [X] player dies
     - [ ] player defeats final boss
 - [ ] main menu
-    - [ ] new game
+    - [X] new game
     - [ ] load game
-    - [ ] exit
+    - [X] exit
 - [ ] pause menu
     - [X] shows player stats
     - [ ] inventory management
