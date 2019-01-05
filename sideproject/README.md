@@ -42,7 +42,7 @@
     - [ ] load game
     - [ ] exit
 - [ ] pause menu
-    - [ ] shows player stats
+    - [X] shows player stats
     - [ ] inventory management
     - [X] continue
     - [ ] go to main menu

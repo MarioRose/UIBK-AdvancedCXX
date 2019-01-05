@@ -105,7 +105,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
         			}
 
                     if (key == "STAR") {
-                        addSprite(value, renderer);
+                        addSprite(value, renderer, SpriteType::STAR);
                     } else if (key == "SPRITES" && value == "END") {
                         break;
                     }
@@ -172,7 +172,7 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
     enemies.emplace_back(enemy);
 }
 
-void Room::addSprite(std::string value, SDL_Renderer *renderer)
+void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 {
 
 
@@ -187,7 +187,7 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer)
 
     int x = std::stoi(result.at(1));
     int y = std::stoi(result.at(2));
-    sprites.emplace_back(new Sprite(x, y, result.at(0).c_str(), renderer));
+    sprites.emplace_back(new Sprite(x, y, result.at(0).c_str(), renderer, type));
 }
 
 

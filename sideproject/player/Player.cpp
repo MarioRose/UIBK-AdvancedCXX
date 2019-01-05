@@ -109,6 +109,7 @@ void Player::collisionDetection(Sprite* sprite) {
     if(abs(posX - sprite->getPosX()) < 10) {
         if (abs(posY - sprite->getPosY()) < 15) {
             sprite->visible = false;
+            sprite->playSound();
             points++;
         }
     }

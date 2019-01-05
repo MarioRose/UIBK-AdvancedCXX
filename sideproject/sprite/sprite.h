@@ -9,20 +9,29 @@
 #include "Texture.h"
 #include "GameObject.h"
 
+enum class SpriteType {
+    STAR
+};
+
 class Sprite: public GameObject {
 public:
 
 	//Initializes the variables
 	Sprite();
 
-    Sprite(int x, int y, std::string path, SDL_Renderer *renderer);
+    Sprite(int x, int y, std::string path, SDL_Renderer *renderer, SpriteType type);
 
 	~Sprite();
+
+    void playSound();
 
     bool visible = true;
 
 private:
     SDL_Renderer* renderer;
+    SpriteType type;
+
+    Mix_Chunk *sound;
 
 };
 

@@ -198,4 +198,7 @@ void Character::free()
 			(*texture)->free();
 		}
 	}
+
+    Mix_FreeChunk(shout_sound);
+    shout_sound=NULL;
 }
