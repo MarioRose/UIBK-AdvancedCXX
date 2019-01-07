@@ -38,22 +38,6 @@ void Room::initTiles() {
     for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
         tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
     }
-    for (int i = 0; i < 15; i++) {
-        tiles.emplace_back(
-                Tile(150 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 6, Tile::TILE_PLATFORM));
-    }
-    for (int i = 0; i < 7; i++) {
-        tiles.emplace_back(
-                Tile(374 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 10, Tile::TILE_PLATFORM));
-    }
-    for (int i = 0; i < 7; i++) {
-        tiles.emplace_back(
-                Tile(200 + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 14, Tile::TILE_PLATFORM));
-    }
-    for (int i = 0; i < 3; i++) {
-        tiles.emplace_back(Tile(374, SCREEN_HEIGHT - 7*Tile::TILE_HEIGHT - i * Tile::TILE_HEIGHT, Tile::TILE_WALL));
-    }
-
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
@@ -80,7 +64,22 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				loadMusic(value, RoomSoundType::DANGER);
 			} else if (key == "BACKGROUND") {
 				loadBackground(value, renderer);
-			} else if (key == "ENTITIES" && value == "BEGIN") {
+			} else if (key == "TILES" && value == "BEGIN") {
+                for(int i = 0; i < 20; i++){
+                    std::getline(map, line);
+                    std::istringstream iss(line);
+
+        			if (!(iss >> key >> value)) {
+        				continue;
+        			}
+
+                    if (key == "PLATFORM") {
+    				    addTile(value, Tile::TILE_PLATFORM);
+                    } else if (key == "TILES" && value == "END") {
+                        break;
+                    }
+                }
+            } else if (key == "ENTITIES" && value == "BEGIN") {
                 for(int i = 0; i < 20; i++){
                     std::getline(map, line);
                     std::istringstream iss(line);
@@ -188,6 +187,28 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
     int x = std::stoi(result.at(1));
     int y = std::stoi(result.at(2));
     sprites.emplace_back(new Sprite(x, y, result.at(0).c_str(), renderer, type));
+}
+
+void Room::addTile(std::string value, int type)
+{
+
+
+    std::stringstream ss(value);
+    std::vector<std::string> result;
+
+    while (ss.good()) {
+        std::string substr;
+        getline(ss, substr, ',');
+        result.push_back(substr);
+    }
+
+    int x = std::stoi(result.at(0));
+    int y = std::stoi(result.at(1));
+    int w = std::stoi(result.at(2));
+
+    for(int i = 0; i < w; i++){
+        tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
+    }
 }
 
 

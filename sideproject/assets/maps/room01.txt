@@ -2,20 +2,12 @@ MAP Room01
 BACKGROUND assets/images/rooms/plx.png
 MUSIC assets/music/172561_45941-lq.mp3
 DANGER_MUSIC assets/music/inquisitiveness.ogg
-TILES
-  . = none
-  w = Wall01
-  c = Ceiling01
-  f = Floor01
-  p = Platform01
-LAYOUT
-  wcccccccccccccccccw
-  w.................w
-  w.................w
-  w..........ppp....w
-  w.................w
-  w.................w
-  fffffffffffffffffff
+
+TILES BEGIN
+PLATFORM 140,100,6
+PLATFORM 250,140,14
+PLATFORM 180,240,10
+TILES END
 
 ENTITIES BEGIN
 ENEMY assets/profiles/devil.txt,300,0

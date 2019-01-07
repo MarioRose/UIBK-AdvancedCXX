@@ -63,7 +63,8 @@ class Room {
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
 	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
-	void setEnemyPos(std::string value);
+    void addTile(std::string value, int type);
+    void setEnemyPos(std::string value);
 	bool checkIfEnemiesInRoom();
     void initTiles();
 	std::vector<Tile> tiles;
