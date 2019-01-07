@@ -40,10 +40,6 @@ class Room {
 
 	void moveEnemies(Player *player);
 
-	// The music that will be played
-	Mix_Music *music;
-	Mix_Music *danger_music;
-
 	SDL_Surface *background_surface;
 	SDL_Texture *background_texture;
 
@@ -56,9 +52,9 @@ class Room {
 	int roomIndexRight;
 	int roomIndexAbove;
 	int roomIndexBelow;
+  	void playMusic();
 
   private:
-	void playMusic(Mix_Music *music);
 	void loadMusic(std::string path, RoomSoundType sound_type);
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
@@ -69,6 +65,10 @@ class Room {
     void initTiles();
 	std::vector<Tile> tiles;
 	int roomIndex;
+
+	// The music that will be played
+	Mix_Music *music;
+	Mix_Music *danger_music;
 };
 
 #endif

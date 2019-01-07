@@ -59,7 +59,6 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 
 			if (key == "MUSIC") {
 				loadMusic(value, RoomSoundType::NORMAL);
-				playMusic(this->music);
 			} else if (key == "DANGER_MUSIC") {
 				loadMusic(value, RoomSoundType::DANGER);
 			} else if (key == "BACKGROUND") {
@@ -119,7 +118,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	}
 }
 
-void Room::playMusic(Mix_Music *music)
+void Room::playMusic()
 {
 	Mix_VolumeMusic(MIX_MAX_VOLUME);
 	Mix_PlayMusic(music, -1);

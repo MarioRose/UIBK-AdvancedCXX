@@ -286,7 +286,7 @@ void initRooms(std::vector<Room *> *rooms)
     room->loadFromFile("../../assets/maps/room02.txt", gRenderer);
 	rooms->push_back(room);
 	room = new Room(2, -1, -1, -1, 0);
-    room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
+    room->loadFromFile("../../assets/maps/room02.txt", gRenderer);
 	rooms->push_back(room);
 }
 
@@ -315,6 +315,7 @@ int main(int argc, char *args[])
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
 
 		currentRoom = rooms.at(0);
+        currentRoom->playMusic();
 
 		// Event handler
 		SDL_Event e;
@@ -374,6 +375,7 @@ int main(int argc, char *args[])
 			if (player.onLeftBorder()) {
 				if (currentRoom->roomIndexLeft != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexLeft);
+                    currentRoom->playMusic();
 					player.setPosX(SCREEN_WIDTH - player.getWidth() - 7);
 				}
 			}
@@ -381,6 +383,7 @@ int main(int argc, char *args[])
 			if (player.onRightBorder()) {
 				if (currentRoom->roomIndexRight != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexRight);
+                    currentRoom->playMusic();
 					player.setPosX(7);
 				}
 			}
@@ -388,6 +391,7 @@ int main(int argc, char *args[])
 			if (player.onTopBorder()) {
 				if (currentRoom->roomIndexAbove != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexAbove);
+                    currentRoom->playMusic();
 					player.setPosY(SCREEN_WIDTH - 32);
 				}
 			}
@@ -395,6 +399,7 @@ int main(int argc, char *args[])
 			if (player.onBottomBorder()) {
 				if (currentRoom->roomIndexBelow != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexBelow);
+                    currentRoom->playMusic();
 					player.setPosY(5);
 				}
 			}
