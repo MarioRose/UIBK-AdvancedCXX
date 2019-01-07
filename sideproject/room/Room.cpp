@@ -204,7 +204,7 @@ void Room::addTile(std::string value, int type)
 
     int x = std::stoi(result.at(0));
     int y = std::stoi(result.at(1));
-    int w = std::stoi(result.at(2));
+    int w = std::stoi(result.at(2)) / Tile::TILE_WEIGHT;
 
     for(int i = 0; i < w; i++){
         tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
