@@ -2,6 +2,14 @@
 
 SDL_Rect Tile::croppedtiles[3] = {0};
 
+Tile::~Tile(){
+    free();
+}
+
+void Tile::free(){
+
+}
+
 void Tile::initCroppedTiles() {
     croppedtiles[TILE_GROUND].x = TILE_WEIGHT * 0;
     croppedtiles[TILE_GROUND].y = TILE_HEIGHT * 13;

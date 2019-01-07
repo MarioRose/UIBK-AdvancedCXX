@@ -277,14 +277,16 @@ void input(SDL_Event &event)
 	}
 }
 
-void initRooms(std::vector<Room *> *rooms)
+void initRooms(std::vector<Room*> *rooms)
 {
 	Room *room = new Room(0, -1, 1, 2, -1);
     room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
 	rooms->push_back(room);
+
 	room = new Room(1, 0, -1, -1, -1);
     room->loadFromFile("../../assets/maps/room02.txt", gRenderer);
 	rooms->push_back(room);
+
 	room = new Room(2, -1, -1, -1, 0);
     room->loadFromFile("../../assets/maps/room02.txt", gRenderer);
 	rooms->push_back(room);
@@ -295,8 +297,7 @@ int main(int argc, char *args[])
 
 	// The Character that will be moving around on the screen
 	Player player;
-	std::vector<Room *> rooms;
-	Room room;
+	std::vector<Room*> rooms;
 	Room *currentRoom;
 
 	// Start up SDL and create window
@@ -333,9 +334,9 @@ int main(int argc, char *args[])
 		TTF_Font *font;
 		font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 30);
 		if (showmenu(font, "Best Game Ever", GameStatus::NEW) > 1) {
-			quit = true;
+		  quit = true;
 		}
-
+        //quit = true;
 		// While application is running
 		while (!quit) {
 
@@ -411,7 +412,7 @@ int main(int argc, char *args[])
     			showmenu(font, "Game Over", GameStatus::GAME_OVER);
 			}
 
-            player.collisionDetectionSprites(currentRoom->sprites);
+            bool collision = player.collisionDetectionSprites(currentRoom->sprites);
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
 
 			// Clear screen
@@ -427,7 +428,7 @@ int main(int argc, char *args[])
 			currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture);
-			hud.render(gRenderer, &player);
+			hud.render(&player, collision);
 			currentRoom->arrows.render(gRenderer);
 
 			// Update screen

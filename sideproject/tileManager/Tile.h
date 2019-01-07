@@ -10,6 +10,10 @@ class Tile {
   public:
     Tile(int xCord, int yCord, int tileT) : x(xCord), y(yCord), tileType(tileT) {}
 
+    ~Tile();
+
+    void free();
+
     int getX();
     int getY();
 

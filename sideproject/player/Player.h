@@ -18,7 +18,7 @@ public:
 	void control( SDL_Event& e );
 
     void collisionDetectionEnemies(std::vector<Enemy*> enemies);
-    void collisionDetectionSprites(std::vector<Sprite*> sprites);
+    bool collisionDetectionSprites(std::vector<Sprite*> sprites);
 
 	void takeDamage();
 
@@ -36,7 +36,7 @@ private:
     int points = 0;
 
     void collisionDetection(Enemy* enemy);
-    void collisionDetection(Sprite* sprite);
+    bool collisionDetection(Sprite* sprite);
 };
 
 #endif

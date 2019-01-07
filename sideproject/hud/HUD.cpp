@@ -37,32 +37,72 @@ bool HUD::loadTextures()
     starTexture.loadFromFile("../../assets/images/sprites/star.png", renderer);
     starTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
+    updatePoints(NULL);
+
 	return success;
 }
 
-void HUD::render(SDL_Renderer *renderer, Player *player)
+void HUD::render(Player *player, bool updateScore)
 {
 	int index = std::max(0, player->getLifeCount());
 	liveCountTextures.at(index)->render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
     starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
-    // TODO nicht ideal dass immer wieder neue Texturen erstellt werden!
-    TTF_Font *font = TTF_OpenFont("../../assets/fonts/OpenSans-Bold.ttf", 18);
-
-    SDL_Surface* pointsSurface = TTF_RenderText_Solid(font, std::to_string(player->getPoints()).c_str(), {255, 255, 255, 100});
-    SDL_Surface* pointsSurfaceBlack = TTF_RenderText_Solid(font, std::to_string(player->getPoints()).c_str(), {0, 0, 0, 100});
-
-    pointsTexture = SDL_CreateTextureFromSurface(renderer, pointsSurface);
-    pointsTextureBlack = SDL_CreateTextureFromSurface(renderer, pointsSurfaceBlack);
-    SDL_FreeSurface(pointsSurface);
-    SDL_FreeSurface(pointsSurfaceBlack);
+    if(updateScore){
+        updatePoints(player);
+    }
 
     SDL_Rect renderQuadBlack = {104, 8, 12, 30};
     SDL_RenderCopy(renderer, pointsTextureBlack, NULL, &renderQuadBlack);
     SDL_Rect renderQuad = {102, 6, 12, 30};
     SDL_RenderCopy(renderer, pointsTexture, NULL, &renderQuad);
 
+}
+
+void HUD::updatePoints(Player *player)
+{
+    TTF_Init();
+    TTF_Font *font = TTF_OpenFont("../../assets/fonts/OpenSans-Bold.ttf", 18);
+
+    SDL_Surface* pointsSurface;
+    SDL_Surface* pointsSurfaceBlack;
+
+    if(player != NULL)
+    {
+        pointsSurface = TTF_RenderText_Solid(font, std::to_string(player->getPoints()).c_str(), {255, 255, 255, 100});
+        pointsSurfaceBlack = TTF_RenderText_Solid(font, std::to_string(player->getPoints()).c_str(), {0, 0, 0, 100});
+    }
+    else
+    {
+        pointsSurface = TTF_RenderText_Solid(font, "0", {255, 255, 255, 100});
+        pointsSurfaceBlack = TTF_RenderText_Solid(font, "0", {0, 0, 0, 100});
+    }
+
+    if(pointsTexture != NULL)
+    {
+        SDL_DestroyTexture(pointsTexture);
+    }
+
+    pointsTexture = SDL_CreateTextureFromSurface(renderer, pointsSurface);
+    if (pointsTexture == NULL) {
+        fprintf(stderr, "CreateTextureFromSurface failed: %s\n", SDL_GetError());
+        exit(1);
+    }
+
+    if(pointsTextureBlack != NULL)
+    {
+        SDL_DestroyTexture(pointsTextureBlack);
+    }
+
+    pointsTextureBlack = SDL_CreateTextureFromSurface(renderer, pointsSurfaceBlack);
+    if (pointsTextureBlack == NULL) {
+        fprintf(stderr, "CreateTextureFromSurface failed: %s\n", SDL_GetError());
+        exit(1);
+    }
+
+    SDL_FreeSurface(pointsSurface);
+    SDL_FreeSurface(pointsSurfaceBlack);
 }
 
 void HUD::free()

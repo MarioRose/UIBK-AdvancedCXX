@@ -48,11 +48,10 @@ bool Texture::loadFromFile(std::string path, SDL_Renderer *gRenderer)
 			mWidth = loadedSurface->w;
 			mHeight = loadedSurface->h;
 		}
-
-		// Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
 	}
-
+    
+	// Get rid of old loaded surface
+	SDL_FreeSurface(loadedSurface);
 	// Return success
 	mTexture = newTexture;
 	return mTexture != NULL;

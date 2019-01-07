@@ -18,7 +18,9 @@ class HUD {
 	void free();
 
 	// Shows the Character on the screen
-	void render(SDL_Renderer *gRenderer, Player *player);
+	void render(Player *player, bool updatePoints);
+
+    void updatePoints(Player *player);
 
 	SDL_Renderer *renderer;
 	// Scene textures

@@ -114,7 +114,7 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 
 	for (auto const path : paths) {
 
-		auto texture = new Texture;
+		Texture* texture = new Texture;
 
 		if (texture->loadFromFile(path, renderer)) {
 
@@ -128,6 +128,7 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 			}
 		} else {
 			success = false;
+            std::cout << "ERROR Character::loadTextures" << '\n';
 			break;
 		}
 	}

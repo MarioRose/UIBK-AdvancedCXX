@@ -86,11 +86,17 @@ void Player::collisionDetectionEnemies(std::vector<Enemy*> enemies) {
     }
 }
 
-void Player::collisionDetectionSprites(std::vector<Sprite*> sprites) {
+bool Player::collisionDetectionSprites(std::vector<Sprite*> sprites) {
+
+    bool collision = false;
+
     for (auto &sprite : sprites) {
         if(sprite->visible)
-            collisionDetection(sprite);
+            collision |= collisionDetection(sprite);
+
     }
+
+    return collision;
 }
 
 void Player::collisionDetection(Enemy* enemy) {
@@ -105,14 +111,16 @@ void Player::collisionDetection(Enemy* enemy) {
     }
 }
 
-void Player::collisionDetection(Sprite* sprite) {
+bool Player::collisionDetection(Sprite* sprite) {
     if(abs(posX - sprite->getPosX()) < 10) {
         if (abs(posY - sprite->getPosY()) < 15) {
             sprite->visible = false;
             sprite->playSound();
             points++;
+            return true;
         }
     }
+    return false;
 }
 
 

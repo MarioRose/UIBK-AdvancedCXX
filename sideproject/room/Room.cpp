@@ -13,12 +13,12 @@
 #include <sprite.h>
 
 
-Room::Room() : background_surface(nullptr), background_texture(nullptr), music(nullptr), danger_music(nullptr)
+Room::Room() : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
     initTiles();
 }
 
-Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow) : background_surface(nullptr), background_texture(nullptr), music(nullptr), danger_music(nullptr)
+Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow) : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
     roomIndex = index;
     roomIndexAbove = indexAbove;
@@ -129,7 +129,6 @@ void Room::playMusic()
 void Room::loadMusic(std::string path, RoomSoundType sound_type)
 {
 	// Load music
-
 	switch (sound_type) {
 	case RoomSoundType::NORMAL:
 		music = Mix_LoadMUS(path.c_str());
@@ -148,8 +147,9 @@ void Room::loadMusic(std::string path, RoomSoundType sound_type)
 
 void Room::loadBackground(std::string path, SDL_Renderer *renderer)
 {
-	background_surface = IMG_Load(path.c_str());
+    SDL_Surface *background_surface = IMG_Load(path.c_str());
 	background_texture = SDL_CreateTextureFromSurface(renderer, background_surface);
+    SDL_FreeSurface(background_surface);
 }
 
 void Room::addEnemy(std::string value, SDL_Renderer *renderer)
@@ -308,6 +308,9 @@ Room::~Room()
 
 void Room::free()
 {
+
+    SDL_DestroyTexture(background_texture);
+
     for (auto &enemy : enemies) {
         enemy->free();
     }
@@ -315,6 +318,10 @@ void Room::free()
     for (auto &sprite : sprites) {
         sprite->free();
     }
+
+    for (auto &tile : tiles) {
+		tile.free();
+	}
 	// Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);

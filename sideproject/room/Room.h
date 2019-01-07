@@ -40,7 +40,6 @@ class Room {
 
 	void moveEnemies(Player *player);
 
-	SDL_Surface *background_surface;
 	SDL_Texture *background_texture;
 
 	std::vector<Enemy *> enemies;
