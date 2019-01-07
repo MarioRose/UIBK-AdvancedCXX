@@ -15,5 +15,8 @@ ENEMY assets/profiles/devil.txt,600,0
 ENTITIES END
 
 SPRITES BEGIN
-STAR assets/images/sprites/star.png,350,260
+STAR assets/images/sprites/star.png,350,290
+STAR assets/images/sprites/star.png,380,290
+STAR assets/images/sprites/star.png,410,290
+STAR assets/images/sprites/star.png,440,290
 SPRITES END
