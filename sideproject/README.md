@@ -23,10 +23,10 @@
 - [ ] 1 secondary combat mechanic
     - [ ] like spell slinging, hacking, *you name it*
 - [ ] player character
-    - [ ] gets stronger over the course of the game (XP / level-up)
+    - [ ] gets stronger over the course of the game (XP / level-up) (maye use playerPoints as XP)
     - [ ] can equip found items to further increase stats
 - [ ] enemies
-    - [ ] attack the player character as it gets in range
+    - [X] attack the player character as it gets in range
     - [ ] variants with melee attacks
     - [ ] variants with ranged attacks
     - [ ] bosses are capable of using different attacks
