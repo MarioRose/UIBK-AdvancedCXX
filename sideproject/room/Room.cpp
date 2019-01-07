@@ -74,6 +74,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 
                     if (key == "PLATFORM") {
     				    addTile(value, Tile::TILE_PLATFORM);
+                    } else if (key == "WALL") {
+                        addTile(value, Tile::TILE_WALL);
                     } else if (key == "TILES" && value == "END") {
                         break;
                     }
@@ -205,8 +207,17 @@ void Room::addTile(std::string value, int type)
     int y = std::stoi(result.at(1));
     int w = std::stoi(result.at(2)) / Tile::TILE_WEIGHT;
 
-    for(int i = 0; i < w; i++){
-        tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
+    if(type == Tile::TILE_PLATFORM || type == Tile::TILE_GROUND)
+    {
+        for(int i = 0; i < w; i++){
+            tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
+        }
+    }
+    else if(type == Tile::TILE_WALL)
+    {
+        for(int i = 0; i < w; i++){
+            tiles.emplace_back(Tile(x, SCREEN_HEIGHT - (y + i * Tile::TILE_WEIGHT), type));
+        }
     }
 }
 
