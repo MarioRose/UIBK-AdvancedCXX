@@ -280,10 +280,13 @@ void input(SDL_Event &event)
 void initRooms(std::vector<Room *> *rooms)
 {
 	Room *room = new Room(0, -1, 1, 2, -1);
+    room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
 	rooms->push_back(room);
 	room = new Room(1, 0, -1, -1, -1);
+    room->loadFromFile("../../assets/maps/room02.txt", gRenderer);
 	rooms->push_back(room);
 	room = new Room(2, -1, -1, -1, 0);
+    room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
 	rooms->push_back(room);
 }
 
@@ -310,10 +313,6 @@ int main(int argc, char *args[])
 		bool quit = false;
 
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
-
-		for (auto &room : rooms) {
-			room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
-		}
 
 		currentRoom = rooms.at(0);
 
