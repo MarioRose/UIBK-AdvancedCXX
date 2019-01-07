@@ -3,7 +3,7 @@
 
 #include "Character.h"
 #include "Enemy.h"
-#include "sprite.h"
+#include "Sprite.h"
 //The player that will move around on the screen
 
 class Player: public Character {

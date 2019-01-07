@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 #include "Enemy.h"
-#include <sprite.h>
+#include "Sprite.h"
 
 Player::Player()
 { }

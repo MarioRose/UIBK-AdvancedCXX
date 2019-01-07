@@ -8,7 +8,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <string>
-#include <sprite.h>
+#include "Sprite.h"
 
 enum class RoomSoundType { NORMAL, DANGER };
 

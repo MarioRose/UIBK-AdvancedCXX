@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <sprite.h>
+#include "Sprite.h"
 
 
 Room::Room() : background_texture(nullptr), music(nullptr), danger_music(nullptr)

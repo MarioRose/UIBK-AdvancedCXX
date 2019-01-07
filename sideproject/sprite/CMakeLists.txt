@@ -9,7 +9,7 @@ project (sprite)
 #include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
 # Add a library with the above sources
-add_library(${PROJECT_NAME} sprite.cpp)
+add_library(${PROJECT_NAME} Sprite.cpp)
 add_library(sub::sprite ALIAS ${PROJECT_NAME})
 
 include_directories(

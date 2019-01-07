@@ -1,4 +1,4 @@
-#include "sprite.h"
+#include "Sprite.h"
 #include <string.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
