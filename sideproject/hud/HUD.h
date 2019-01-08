@@ -33,8 +33,8 @@ class HUD {
 	bool loadTextures();
 
   private:
-     SDL_Texture* pointsTexture;
-     SDL_Texture* pointsTextureBlack;
+     SDL_Texture* pointsTexture = NULL;
+     SDL_Texture* pointsTextureBlack = NULL;
 
 };
 
