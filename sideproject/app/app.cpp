@@ -49,6 +49,36 @@ SDL_Texture *tileTexture;
 // pause
 bool pause = false;
 
+// RECURSIVELY BUILD MAP
+void renderRoom(std::vector<Room*> rooms, int i, int x, int y, int w, int h){
+
+    Room *room = rooms.at(i);
+    if(room->isVisited()) {
+        SDL_SetRenderDrawColor( gRenderer, room->red, room->green, room->blue, 255 );
+    }
+    else {
+        SDL_SetRenderDrawColor( gRenderer, 180, 180, 180, 255 );
+    }
+    SDL_Rect r = {x, y, w, h};
+    SDL_RenderFillRect( gRenderer, &r );
+
+    if(room->roomIndexRight > 0)
+    {
+        SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
+        SDL_Rect r = {x + w, y + h/2, 10, 6};
+        SDL_RenderFillRect( gRenderer, &r );
+        renderRoom(rooms, room->roomIndexRight, x + w + 10, y, w, h);
+    }
+    if(room->roomIndexAbove > 0)
+    {
+        SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
+        SDL_Rect r = {x + w/2, y + h, 6, 10};
+        SDL_RenderFillRect( gRenderer, &r );
+        renderRoom(rooms, room->roomIndexAbove, x, y + h + 10, w, h);
+    }
+
+}
+
 int showmap(std::vector<Room*> rooms){
 
 
@@ -56,26 +86,7 @@ int showmap(std::vector<Room*> rooms){
     // Clear winow
     SDL_RenderClear( gRenderer );
 
-    int c = 0;
-    for(auto &room : rooms)
-    {
-        if(room->isVisited()) {
-            SDL_SetRenderDrawColor( gRenderer, room->red, room->green, room->blue, 255 );
-        }
-        else {
-            SDL_SetRenderDrawColor( gRenderer, 180, 180, 180, 255 );
-        }
-        SDL_Rect r = {50 + c*60,50,50,50};
-        SDL_RenderFillRect( gRenderer, &r );
-
-        SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
-        if(room->roomIndexRight > 0){
-            SDL_Rect r = {100 + c*60,75,10,8};
-            SDL_RenderFillRect( gRenderer, &r );
-        }
-        c++;
-    }
-
+    renderRoom(rooms, 0, 50, 50, 50, 50);
 
     // Render the rect to the screen
     SDL_RenderPresent(gRenderer);
