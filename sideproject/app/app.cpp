@@ -50,7 +50,7 @@ SDL_Texture *tileTexture;
 bool pause = false;
 
 // RECURSIVELY BUILD MAP
-void renderRoom(std::vector<Room*> rooms, int i, int x, int y, int w, int h){
+void renderMapRoom(std::vector<Room*> rooms, int i, int x, int y, int w, int h){
 
     Room *room = rooms.at(i);
     if(room->isVisited()) {
@@ -59,22 +59,22 @@ void renderRoom(std::vector<Room*> rooms, int i, int x, int y, int w, int h){
     else {
         SDL_SetRenderDrawColor( gRenderer, 180, 180, 180, 255 );
     }
-    SDL_Rect r = {x, y, w, h};
+    SDL_Rect r = {x, SCREEN_HEIGHT - y, w, h};
     SDL_RenderFillRect( gRenderer, &r );
 
     if(room->roomIndexRight > 0)
     {
         SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
-        SDL_Rect r = {x + w, y + h/2, 10, 6};
+        SDL_Rect r = {x + w, SCREEN_HEIGHT - y + h/2, 10, 6};
         SDL_RenderFillRect( gRenderer, &r );
-        renderRoom(rooms, room->roomIndexRight, x + w + 10, y, w, h);
+        renderMapRoom(rooms, room->roomIndexRight, x + w + 10, y, w, h);
     }
     if(room->roomIndexAbove > 0)
     {
         SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
-        SDL_Rect r = {x + w/2, y + h, 6, 10};
+        SDL_Rect r = {x + w/2, SCREEN_HEIGHT - y - 10, 6, 10};
         SDL_RenderFillRect( gRenderer, &r );
-        renderRoom(rooms, room->roomIndexAbove, x, y + h + 10, w, h);
+        renderMapRoom(rooms, room->roomIndexAbove, x, y + h + 10, w, h);
     }
 
 }
@@ -86,7 +86,12 @@ int showmap(std::vector<Room*> rooms){
     // Clear winow
     SDL_RenderClear( gRenderer );
 
-    renderRoom(rooms, 0, 50, 50, 50, 50);
+	SDL_Surface *background_surface = IMG_Load("../../assets/images/menu.jpg");
+	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
+    SDL_FreeSurface(background_surface);
+
+    SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
+    renderMapRoom(rooms, 0, 50, 100, 50, 50);
 
     // Render the rect to the screen
     SDL_RenderPresent(gRenderer);
@@ -96,6 +101,7 @@ int showmap(std::vector<Room*> rooms){
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_KEYDOWN:
+                    SDL_DestroyTexture(background_texture);
                     return 1;
                     break;
             }
@@ -103,6 +109,7 @@ int showmap(std::vector<Room*> rooms){
         }
     }
 
+    SDL_DestroyTexture(background_texture);
     return 0;
 
 }
@@ -115,11 +122,11 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 
     int NUMMENU = 4;
 
-	const char *labels[4] = {title.c_str(), "Start Game", "Exit Game"};
+	const char *labels[4] = {title.c_str(), "Start Game", "Show Map", "Exit Game"};
     const char *labels_gameover[3] = {title.c_str(), "Show Map", "Exit Game"};
     const char *labels_pause[4] = {title.c_str(), "Continue", "Show Map", "Exit Game"};
 
-    if(status == GameStatus::GAME_OVER || status == GameStatus::NEW){
+    if(status == GameStatus::GAME_OVER){
         NUMMENU = 3;
     }
 
@@ -391,7 +398,7 @@ int main(int argc, char *args[])
 		printf("Failed to initialize!\n");
 	} else {
 
-		initRooms("../../assets/maps/map01.txt", &rooms);
+		initRooms("../../assets/maps/map02.txt", &rooms);
 
 		// Head-up display
 		HUD hud{gRenderer};
@@ -418,9 +425,12 @@ int main(int argc, char *args[])
 
 		TTF_Font *font;
 		font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 30);
-		if (showmenu(font, "Best Game Ever", GameStatus::NEW) > 1) {
+        int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
+		if (index > 2) {
 		  quit = true;
-		}
+		} else if(index == 2) {
+            showmap(rooms);
+        }
         //quit = true;
 		// While application is running
 		while (!quit) {
@@ -429,9 +439,7 @@ int main(int argc, char *args[])
 				if (index > 2) {
 					break;
 				} else if (index == 2){
-                    if(showmap(rooms)){
-                        continue;
-                    }
+                    showmap(rooms);
                 }
 				pause = false;
 			}
