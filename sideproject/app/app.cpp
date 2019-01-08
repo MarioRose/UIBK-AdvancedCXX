@@ -19,6 +19,9 @@ and may not be redistributed without written permission.*/
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 enum class GameStatus {
     NEW,
@@ -274,19 +277,45 @@ void input(SDL_Event &event)
 	}
 }
 
-void initRooms(std::vector<Room*> *rooms)
+void initRooms(std::string path, std::vector<Room*> *rooms, SDL_Renderer* renderer)
 {
-	Room *room = new Room(0, -1, 1, 2, -1);
-    room->loadFromFile("../../assets/maps/room01.txt", gRenderer);
-	rooms->push_back(room);
 
-	room = new Room(1, 0, -1, -1, -1);
-    room->loadFromFile("../../assets/maps/room02.txt", gRenderer);
-	rooms->push_back(room);
+    std::ifstream map(path);
 
-	room = new Room(2, -1, -1, -1, 0);
-    room->loadFromFile("../../assets/maps/room02.txt", gRenderer);
-	rooms->push_back(room);
+	if (map.is_open()) {
+
+		std::string line;
+
+		while (std::getline(map, line)) {
+			std::istringstream iss(line);
+			std::string key, value;
+			if (!(iss >> key >> value)) {
+				continue;
+			} // error
+
+            if(key == "MAP")
+                continue;
+
+            std::stringstream ss(value);
+            std::vector<std::string> result;
+
+            while (ss.good()) {
+                std::string substr;
+                getline(ss, substr, ',');
+                result.push_back(substr);
+            }
+
+        	Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
+                    std::stoi(result.at(3)), std::stoi(result.at(4)));
+            room->loadFromFile(result.at(0).c_str(), renderer);
+        	rooms->push_back(room);
+		}
+
+		map.close();
+
+	} else {
+		std::cout << "Error loading map " << path << std::endl;
+	}
 }
 
 int main(int argc, char *args[])
@@ -302,7 +331,7 @@ int main(int argc, char *args[])
 		printf("Failed to initialize!\n");
 	} else {
 
-		initRooms(&rooms);
+		initRooms("../../assets/maps/map01.txt", &rooms, gRenderer);
 
 		// Head-up display
 		HUD hud{gRenderer};
