@@ -49,6 +49,48 @@ SDL_Texture *tileTexture;
 // pause
 bool pause = false;
 
+int showmap(std::vector<Room*> rooms){
+
+
+
+    // Clear winow
+    SDL_RenderClear( gRenderer );
+
+    int c = 0;
+    for(auto &room : rooms)
+    {
+        SDL_SetRenderDrawColor( gRenderer, room->red, room->green, room->blue, 255 );
+        SDL_Rect r = {50 + c*60,50,50,50};
+        SDL_RenderFillRect( gRenderer, &r );
+
+        SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
+        if(room->roomIndexRight > 0){
+            SDL_Rect r = {100 + c*60,75,10,8};
+            SDL_RenderFillRect( gRenderer, &r );
+        }
+        c++;
+    }
+
+
+    // Render the rect to the screen
+    SDL_RenderPresent(gRenderer);
+
+    SDL_Event event;
+    while (1) {
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_KEYDOWN:
+                    return 1;
+                    break;
+            }
+
+        }
+    }
+
+    return 0;
+
+}
+
 int showmenu(TTF_Font *font, std::string title, GameStatus status)
 {
 	SDL_Surface *screen = SDL_GetWindowSurface(gWindow);
@@ -279,7 +321,7 @@ void input(SDL_Event &event)
 	}
 }
 
-void initRooms(std::string path, std::vector<Room*> *rooms, SDL_Renderer* renderer)
+void initRooms(std::string path, std::vector<Room*> *rooms)
 {
 
     std::ifstream map(path);
@@ -309,7 +351,7 @@ void initRooms(std::string path, std::vector<Room*> *rooms, SDL_Renderer* render
 
         	Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
                     std::stoi(result.at(3)), std::stoi(result.at(4)));
-            room->loadFromFile(result.at(0).c_str(), renderer);
+            room->loadFromFile(result.at(0).c_str(), gRenderer);
         	rooms->push_back(room);
 		}
 
@@ -333,7 +375,7 @@ int main(int argc, char *args[])
 		printf("Failed to initialize!\n");
 	} else {
 
-		initRooms("../../assets/maps/map01.txt", &rooms, gRenderer);
+		initRooms("../../assets/maps/map01.txt", &rooms);
 
 		// Head-up display
 		HUD hud{gRenderer};
@@ -367,9 +409,14 @@ int main(int argc, char *args[])
 		// While application is running
 		while (!quit) {
             if (pause) {
-				if (showmenu(font, "Pause", GameStatus::PAUSE) > 2) {
+                int index = showmenu(font, "Pause", GameStatus::PAUSE);
+				if (index > 2) {
 					break;
-				}
+				} else if (index == 2){
+                    if(showmap(rooms)){
+                        continue;
+                    }
+                }
 				pause = false;
 			}
 

@@ -110,6 +110,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
                         break;
                     }
                 }
+            } else if (key == "COLOR") {
+                setRGB(value);
             }
 		}
 
@@ -150,6 +152,22 @@ void Room::loadBackground(std::string path, SDL_Renderer *renderer)
     SDL_Surface *background_surface = IMG_Load(path.c_str());
 	background_texture = SDL_CreateTextureFromSurface(renderer, background_surface);
     SDL_FreeSurface(background_surface);
+}
+
+void Room::setRGB(std::string value)
+{
+    std::stringstream ss(value);
+    std::vector<std::string> result;
+
+    while (ss.good()) {
+        std::string substr;
+        getline(ss, substr, ',');
+        result.push_back(substr);
+    }
+
+    red = std::stoi(result.at(0));
+    green = std::stoi(result.at(1));
+    blue = std::stoi(result.at(2));
 }
 
 void Room::addEnemy(std::string value, SDL_Renderer *renderer)

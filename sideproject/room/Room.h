@@ -51,11 +51,17 @@ class Room {
 	int roomIndexRight;
 	int roomIndexAbove;
 	int roomIndexBelow;
+
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+
   	void playMusic();
 
   private:
 	void loadMusic(std::string path, RoomSoundType sound_type);
 	void loadBackground(std::string path, SDL_Renderer *renderer);
+    void setRGB(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
 	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
     void addTile(std::string value, int type);
