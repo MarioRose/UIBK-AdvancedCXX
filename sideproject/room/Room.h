@@ -56,7 +56,10 @@ class Room {
     int green = 0;
     int blue = 0;
 
+    void enter();
   	void playMusic();
+    void setVisited();
+    bool isVisited();
 
   private:
 	void loadMusic(std::string path, RoomSoundType sound_type);
@@ -68,9 +71,10 @@ class Room {
     void setEnemyPos(std::string value);
 	bool checkIfEnemiesInRoom();
     void initTiles();
+
 	std::vector<Tile> tiles;
 	int roomIndex;
-
+    bool visited = false;
 	// The music that will be played
 	Mix_Music *music;
 	Mix_Music *danger_music;

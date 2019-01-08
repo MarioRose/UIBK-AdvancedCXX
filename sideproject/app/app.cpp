@@ -59,7 +59,12 @@ int showmap(std::vector<Room*> rooms){
     int c = 0;
     for(auto &room : rooms)
     {
-        SDL_SetRenderDrawColor( gRenderer, room->red, room->green, room->blue, 255 );
+        if(room->isVisited()) {
+            SDL_SetRenderDrawColor( gRenderer, room->red, room->green, room->blue, 255 );
+        }
+        else {
+            SDL_SetRenderDrawColor( gRenderer, 180, 180, 180, 255 );
+        }
         SDL_Rect r = {50 + c*60,50,50,50};
         SDL_RenderFillRect( gRenderer, &r );
 
@@ -386,7 +391,7 @@ int main(int argc, char *args[])
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
 
 		currentRoom = rooms.at(0);
-        currentRoom->playMusic();
+        currentRoom->enter();
 
 		// Event handler
 		SDL_Event e;
@@ -449,7 +454,7 @@ int main(int argc, char *args[])
 			if (player.onLeftBorder()) {
 				if (currentRoom->roomIndexLeft != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexLeft);
-                    currentRoom->playMusic();
+                    currentRoom->enter();
 					player.setPosX(SCREEN_WIDTH - player.getWidth() - 7);
 				}
 			}
@@ -457,7 +462,7 @@ int main(int argc, char *args[])
 			if (player.onRightBorder()) {
 				if (currentRoom->roomIndexRight != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexRight);
-                    currentRoom->playMusic();
+                    currentRoom->enter();
 					player.setPosX(7);
 				}
 			}
@@ -465,7 +470,7 @@ int main(int argc, char *args[])
 			if (player.onTopBorder()) {
 				if (currentRoom->roomIndexAbove != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexAbove);
-                    currentRoom->playMusic();
+                    currentRoom->enter();
 					player.setPosY(SCREEN_WIDTH - 32);
 				}
 			}
@@ -473,7 +478,7 @@ int main(int argc, char *args[])
 			if (player.onBottomBorder()) {
 				if (currentRoom->roomIndexBelow != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexBelow);
-                    currentRoom->playMusic();
+                    currentRoom->enter();
 					player.setPosY(5);
 				}
 			}

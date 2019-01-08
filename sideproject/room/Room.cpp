@@ -318,6 +318,21 @@ void Room::collisionTiles(Moveable *character)
 	character->setContactWall(false);
 }
 
+void Room::enter()
+{
+    playMusic();
+    setVisited();
+}
+
+void Room::setVisited()
+{
+    visited = true;
+}
+
+bool Room::isVisited() {
+    return visited;
+}
+
 Room::~Room()
 {
 	// Free the music
