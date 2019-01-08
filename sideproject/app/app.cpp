@@ -195,58 +195,54 @@ bool loadTileTexture(std::string path)
 
 bool init()
 {
-	// Initialization flag
-	bool success = true;
-
 	// Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
-		success = false;
-	} else {
-
-		// Initialize SDL_mixer
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-			printf("Mix_OpenAudio: %s\n", Mix_GetError());
-		}
-		Mix_Volume(-1, MIX_MAX_VOLUME);
-
-		// Set texture filtering to linear
-		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-			printf("Warning: Linear texture filtering not enabled!");
-		}
-
-		// Create window
-		gWindow = SDL_CreateWindow("Uncharted - PC Version", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		                           SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-
-		if (gWindow == NULL) {
-			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
-			success = false;
-		} else {
-			// Create vsynced renderer for window
-			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-			if (gRenderer == NULL) {
-				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
-				success = false;
-			} else {
-				// Initialize renderer color
-				// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-				// Initialize PNG loading
-				int imgFlags = IMG_INIT_PNG;
-				if (!(IMG_Init(imgFlags) & imgFlags)) {
-					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-					success = false;
-				}
-			}
-		}
+		return false;
 	}
 
-	if (success) {
-		Tile::initCroppedTiles();
-		loadTileTexture("../../assets/images/tiles/jungle_tileset.png");
+	// Initialize SDL_mixer
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		printf("Mix_OpenAudio: %s\n", Mix_GetError());
+	}
+	Mix_Volume(-1, MIX_MAX_VOLUME);
+
+	// Set texture filtering to linear
+	if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
+		printf("Warning: Linear texture filtering not enabled!");
 	}
 
-	return success;
+	// Create window
+	gWindow = SDL_CreateWindow("Uncharted - PC Version", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+	                           SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+
+	if (gWindow == NULL) {
+		printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+		return false;
+	}
+
+    // Create vsynced renderer for window
+	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+	if (gRenderer == NULL) {
+		printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+		return false;
+	}
+
+    // Initialize renderer color
+	// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	// Initialize PNG loading
+	int imgFlags = IMG_INIT_PNG;
+	if (!(IMG_Init(imgFlags) & imgFlags)) {
+		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+		return false;
+	}
+
+    TTF_Init();
+
+    Tile::initCroppedTiles();
+	loadTileTexture("../../assets/images/tiles/jungle_tileset.png");
+
+	return true;
 }
 
 void close()
@@ -259,6 +255,7 @@ void close()
 
 	// Quit SDL subsystems
 	IMG_Quit();
+    TTF_Quit();
 	Mix_Quit();
 	SDL_Quit();
 }
@@ -330,7 +327,6 @@ int main(int argc, char *args[])
 		// The frame rate regulator
 		Timer fps;
 
-		TTF_Init();
 		TTF_Font *font;
 		font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 30);
 		if (showmenu(font, "Best Game Ever", GameStatus::NEW) > 1) {
@@ -339,8 +335,7 @@ int main(int argc, char *args[])
         //quit = true;
 		// While application is running
 		while (!quit) {
-
-			if (pause) {
+            if (pause) {
 				if (showmenu(font, "Pause", GameStatus::PAUSE) > 1) {
 					break;
 				}

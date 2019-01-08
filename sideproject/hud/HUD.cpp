@@ -27,7 +27,7 @@ bool HUD::loadTextures()
 
 	// TODO doesnt work with live count higher than 5
 	for (size_t i = 0; i < 6; i++) {
-		auto liveTexture = new Texture;
+		Texture* liveTexture = new Texture;
 		std::stringstream ss;
 		ss << "../../assets/images/heart-" << i << ".png";
 		liveTexture->loadFromFile(ss.str(), renderer);
@@ -107,9 +107,10 @@ void HUD::updatePoints(Player *player)
 
 void HUD::free()
 {
-	for (auto t : liveCountTextures) {
+	for (auto &t : liveCountTextures) {
 		t->free();
 	}
+    starTexture.free();
     SDL_DestroyTexture(pointsTexture);
     SDL_DestroyTexture(pointsTextureBlack);
 }
