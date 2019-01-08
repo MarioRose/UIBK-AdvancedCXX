@@ -50,7 +50,7 @@ SDL_Texture *tileTexture;
 bool pause = false;
 
 // RECURSIVELY BUILD MAP
-void renderMapRoom(std::vector<Room*> rooms, int i, int x, int y, int w, int h){
+void renderMapRoom(std::vector<Room*> rooms, int i, int current, int x, int y, int w, int h){
 
     Room *room = rooms.at(i);
     if(room->isVisited()) {
@@ -62,24 +62,30 @@ void renderMapRoom(std::vector<Room*> rooms, int i, int x, int y, int w, int h){
     SDL_Rect r = {x, SCREEN_HEIGHT - y, w, h};
     SDL_RenderFillRect( gRenderer, &r );
 
+    if(i == current){
+        SDL_SetRenderDrawColor( gRenderer, 0, 180, 0, 255 );
+        SDL_Rect r = {x + w/2, SCREEN_HEIGHT - y + h/2, 8, 8};
+        SDL_RenderFillRect( gRenderer, &r );
+    }
+
     if(room->roomIndexRight > 0)
     {
         SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
         SDL_Rect r = {x + w, SCREEN_HEIGHT - y + h/2, 10, 6};
         SDL_RenderFillRect( gRenderer, &r );
-        renderMapRoom(rooms, room->roomIndexRight, x + w + 10, y, w, h);
+        renderMapRoom(rooms, room->roomIndexRight, current, x + w + 10, y, w, h);
     }
     if(room->roomIndexAbove > 0)
     {
         SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
         SDL_Rect r = {x + w/2, SCREEN_HEIGHT - y - 10, 6, 10};
         SDL_RenderFillRect( gRenderer, &r );
-        renderMapRoom(rooms, room->roomIndexAbove, x, y + h + 10, w, h);
+        renderMapRoom(rooms, room->roomIndexAbove, current, x, y + h + 10, w, h);
     }
 
 }
 
-int showmap(std::vector<Room*> rooms){
+int showmap(std::vector<Room*> rooms, int currentRoomIndex){
 
 
 
@@ -91,7 +97,7 @@ int showmap(std::vector<Room*> rooms){
     SDL_FreeSurface(background_surface);
 
     SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
-    renderMapRoom(rooms, 0, 50, 100, 50, 50);
+    renderMapRoom(rooms, 0, currentRoomIndex, 50, 100, 50, 50);
 
     // Render the rect to the screen
     SDL_RenderPresent(gRenderer);
@@ -429,7 +435,7 @@ int main(int argc, char *args[])
 		if (index > 2) {
 		  quit = true;
 		} else if(index == 2) {
-            showmap(rooms);
+            showmap(rooms, currentRoom->getIndex());
         }
         //quit = true;
 		// While application is running
@@ -439,7 +445,7 @@ int main(int argc, char *args[])
 				if (index > 2) {
 					break;
 				} else if (index == 2){
-                    showmap(rooms);
+                    showmap(rooms, currentRoom->getIndex());
                 }
 				pause = false;
 			}

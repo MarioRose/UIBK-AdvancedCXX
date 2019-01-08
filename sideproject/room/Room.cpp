@@ -333,6 +333,10 @@ bool Room::isVisited() {
     return visited;
 }
 
+int Room::getIndex(){
+    return roomIndex;
+}
+
 Room::~Room()
 {
 	// Free the music

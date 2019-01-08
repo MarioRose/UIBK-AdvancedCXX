@@ -31,9 +31,9 @@
     - [ ] variants with ranged attacks
     - [ ] bosses are capable of using different attacks
 - [ ] map
-    - [ ] shows discovered rooms and their doorways
+    - [X] shows discovered rooms and their doorways
     - [ ] shows discovered save points
-    - [ ] shows where the player is currently located
+    - [X] shows where the player is currently located
 - [ ] game over
     - [X] player dies
     - [ ] player defeats final boss
