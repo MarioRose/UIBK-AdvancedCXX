@@ -55,13 +55,14 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	Uint32 time;
 	int x, y;
 
-    int NUMMENU = 3;
-	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Exit Game"};
-    const char *labels_gameover[NUMMENU] = {title.c_str(), "Exit Game"};
-    const char *labels_pause[NUMMENU] = {title.c_str(), "Continue", "Exit Game"};
+    int NUMMENU = 4;
 
-    if(status == GameStatus::GAME_OVER){
-        NUMMENU = 2;
+	const char *labels[4] = {title.c_str(), "Start Game", "Exit Game"};
+    const char *labels_gameover[3] = {title.c_str(), "Show Map", "Exit Game"};
+    const char *labels_pause[4] = {title.c_str(), "Continue", "Show Map", "Exit Game"};
+
+    if(status == GameStatus::GAME_OVER || status == GameStatus::NEW){
+        NUMMENU = 3;
     }
 
     SDL_Surface *menus[NUMMENU];
@@ -93,8 +94,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 		pos[i].x = SCREEN_WIDTH * 0.1;
         switch(i){
 		  case 0: pos[i].y = SCREEN_HEIGHT / 5 - menus[0]->clip_rect.h; break;
-  		  case 1: pos[i].y = SCREEN_HEIGHT / 2 - menus[0]->clip_rect.h; break;
-  		  case 2: pos[i].y = SCREEN_HEIGHT / 2 + menus[0]->clip_rect.h; break;
+  		  case 1: pos[i].y = SCREEN_HEIGHT * 0.3; break;
+  		  case 2: pos[i].y = SCREEN_HEIGHT * 0.4; break;
+  		  case 3: pos[i].y = SCREEN_HEIGHT * 0.5; break;
         }
 	}
 
@@ -365,7 +367,7 @@ int main(int argc, char *args[])
 		// While application is running
 		while (!quit) {
             if (pause) {
-				if (showmenu(font, "Pause", GameStatus::PAUSE) > 1) {
+				if (showmenu(font, "Pause", GameStatus::PAUSE) > 2) {
 					break;
 				}
 				pause = false;
