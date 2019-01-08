@@ -138,8 +138,8 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 
 void Character::nextSpriteIndex()
 {
-	spriteIndexRunning = ++spriteIndexRunning % runningTextures.size();
-	spriteIndexIdle = ++spriteIndexIdle % idleTextures.size();
+	spriteIndexRunning = (spriteIndexRunning + 1) % runningTextures.size();
+	spriteIndexIdle = (spriteIndexIdle + 1) % idleTextures.size();
 }
 
 void Character::render(SDL_Renderer *renderer)
