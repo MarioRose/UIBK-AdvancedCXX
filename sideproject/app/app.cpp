@@ -515,7 +515,7 @@ int main(int argc, char *args[])
 			}
 
 			player.collisionDetectionEnemies(currentRoom->enemies);
-			if (player.getLifeCount() == 0) {
+			if (player.getHealth() == 0) {
 				std::cout << "You Lost!!!!" << std::endl;
 				quit = true;
 				showmenu(font, "Game Over", GameStatus::GAME_OVER);

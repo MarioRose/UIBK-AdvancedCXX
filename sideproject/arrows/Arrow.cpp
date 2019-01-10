@@ -9,48 +9,49 @@
 #include <string>
 #include <vector>
 
-Arrow::Arrow(SDL_RendererFlip flipType) : flipType{flipType} {
-}
+Arrow::Arrow(SDL_RendererFlip flipType) : flipType{flipType} {}
 
-Arrow::~Arrow()
+Arrow::~Arrow() {}
+
+void Arrow::shoot(int x, int y)
 {
-}
-
-void Arrow::shoot(int x, int y) {
 	mX = x;
 	mY = y;
 	active = true;
 }
 
-void Arrow::render(SDL_Renderer *renderer, Texture& arrowTexture)
+void Arrow::render(SDL_Renderer *renderer, Texture &arrowTexture)
 {
-	if(active) {
+	if (active) {
 		arrowTexture.render(mX, mY, renderer, NULL, 0, NULL, flipType);
-		if(flipType == SDL_FLIP_NONE) {
+		if (flipType == SDL_FLIP_NONE) {
 			mX += 5;
 		} else {
 			mX -= 5;
 		}
-
 	}
 }
 
-bool Arrow::collisionDetection(Enemy* enemy)
+bool Arrow::collisionDetection(Enemy *enemy)
 {
-	if(active) {
+	if (enemy->getStatus() == CharacterStatus::DEAD) {
+		return false;
+	}
+
+	if (active) {
 		if (abs(mX - enemy->getPosX()) < 20) {
 			if (abs(mY - enemy->getPosY()) < 35) {
 				if (mX > enemy->getPosX()) {
-					enemy->setPosX(enemy->getPosX()-50);
+					enemy->setPosX(enemy->getPosX() - 20);
+				} else {
+					enemy->setPosX(enemy->getPosX() + 20);
 				}
-				else {
-					enemy->setPosX(enemy->getPosX()+50);
-				}
+				enemy->loseHealth();
 				active = false;
 			}
 		}
 	}
 
-	//more intuitive to return false for no hit - true for hit
+	// more intuitive to return false for no hit - true for hit
 	return !active;
 }

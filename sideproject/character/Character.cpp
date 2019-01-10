@@ -59,7 +59,7 @@ Character::~Character()
 
 void Character::jump()
 {
-    contactPlatform = false;
+	contactPlatform = false;
 	forceY = 15;
 }
 
@@ -76,6 +76,7 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 
 		std::vector<std::string> pathsIdleTextures;
 		std::vector<std::string> pathsRunningTextures;
+        std::vector<std::string> pathsDyingTextures;
 
 		std::string line;
 		while (std::getline(file, line)) {
@@ -95,11 +96,16 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				pathsIdleTextures.push_back(value);
 			} else if (key == "RUNNING") {
 				pathsRunningTextures.push_back(value);
+            } else if (key == "DYING") {
+                pathsDyingTextures.push_back(value);
+            } else if (key == "HEALTH") {
+				this->setHealth(std::stoi(value));
 			}
 		}
 
 		loadTextures(pathsIdleTextures, TextureType::IDLE, renderer);
 		loadTextures(pathsRunningTextures, TextureType::RUNNING, renderer);
+        loadTextures(pathsDyingTextures, TextureType::DYING, renderer);
 
 		file.close();
 	} else {
@@ -114,7 +120,7 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 
 	for (auto const path : paths) {
 
-		Texture* texture = new Texture;
+		Texture *texture = new Texture;
 
 		if (texture->loadFromFile(path, renderer)) {
 
@@ -125,10 +131,13 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 			case TextureType::RUNNING:
 				runningTextures.push_back(texture);
 				break;
+			case TextureType::DYING:
+				dyingTextures.push_back(texture);
+				break;
 			}
 		} else {
 			success = false;
-            std::cout << "ERROR Character::loadTextures" << '\n';
+			std::cout << "ERROR Character::loadTextures" << '\n';
 			break;
 		}
 	}
@@ -138,8 +147,14 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 
 void Character::nextSpriteIndex()
 {
-	spriteIndexRunning = (spriteIndexRunning + 1) % runningTextures.size();
-	spriteIndexIdle = (spriteIndexIdle + 1) % idleTextures.size();
+    switch(status){
+        case CharacterStatus::RUNNING:
+            spriteIndexRunning = (spriteIndexRunning + 1) % runningTextures.size();
+        case CharacterStatus::IDLE:
+            spriteIndexIdle = (spriteIndexIdle + 1) % idleTextures.size();
+        case CharacterStatus::DYING:
+            spriteIndexDying = (spriteIndexDying + 1) % dyingTextures.size();
+    }
 }
 
 void Character::render(SDL_Renderer *renderer)
@@ -159,6 +174,22 @@ void Character::render(SDL_Renderer *renderer)
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
 		idleTextures[spriteIndexIdle]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		break;
+
+	case CharacterStatus::DEAD:
+		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
+		dyingTextures[dyingTextures.size()-1]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		break;
+
+	case CharacterStatus::DYING:
+		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
+        dyingTextures[spriteIndexDying]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+
+        if (spriteIndexDying + 1 == dyingTextures.size()) {
+			status = CharacterStatus::DEAD;
+		}
 		break;
 
 	default:
@@ -200,6 +231,31 @@ void Character::free()
 		}
 	}
 
-    Mix_FreeChunk(shout_sound);
-    shout_sound=NULL;
+	for (auto texture = dyingTextures.begin(); texture != dyingTextures.end(); ++texture) {
+		if ((*texture) != NULL) {
+			(*texture)->free();
+		}
+	}
+
+	Mix_FreeChunk(shout_sound);
+	shout_sound = NULL;
+}
+
+void Character::loseHealth()
+{
+	this->health--;
+	if (health == 0){
+        status = CharacterStatus::DYING;
+        //setHeight(1);
+    }
+}
+
+int Character::getHealth()
+{
+	return health;
+}
+
+void Character::setHealth(int health)
+{
+	this->health = health;
 }

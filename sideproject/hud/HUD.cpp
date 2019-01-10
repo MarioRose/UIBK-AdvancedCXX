@@ -44,7 +44,7 @@ bool HUD::loadTextures()
 
 void HUD::render(Player *player, bool updateScore)
 {
-	int index = std::max(0, player->getLifeCount());
+	int index = std::max(0, player->getHealth());
 	liveCountTextures.at(index)->render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
     starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);

@@ -1,5 +1,6 @@
 CHARACTER Main
 SOUND_SHOUT assets/music/Anderson.wav
+HEALTH 5
 IDLE assets/images/characters/player/idle/1.png
 IDLE assets/images/characters/player/idle/2.png
 IDLE assets/images/characters/player/idle/3.png
@@ -20,3 +21,5 @@ RUNNING assets/images/characters/player/running/4.png
 RUNNING assets/images/characters/player/running/5.png
 RUNNING assets/images/characters/player/running/6.png
 RUNNING assets/images/characters/player/running/7.png
+DYING assets/images/characters/skeleton/dying/1.gif
+

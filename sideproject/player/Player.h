@@ -22,7 +22,6 @@ public:
 
 	void takeDamage();
 
-	int getLifeCount();
     int getPoints();
 
 	bool onLeftBorder();
@@ -32,7 +31,6 @@ public:
 
 private:
 	int keypressCount = 0;
-	int lifeCount = 3;
     int points = 0;
 
     void collisionDetection(Enemy* enemy);

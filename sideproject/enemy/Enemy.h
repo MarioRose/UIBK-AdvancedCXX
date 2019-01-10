@@ -3,17 +3,14 @@
 
 #include "Character.h"
 
-class Enemy: public Character {
-public:
-
-	//Initializes the variables
+class Enemy : public Character {
+  public:
+	// Initializes the variables
 	Enemy();
 
 	~Enemy();
 
-    void moveAI(Character *character);
+	void moveAI(Character *character);
 };
 
-
-
-#endif //ENEMY_H
+#endif // ENEMY_H
