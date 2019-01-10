@@ -42,7 +42,7 @@ void Room::initTiles() {
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
-
+	arrows.loadTexture(renderer);
 	std::ifstream map(path);
 
 	if (map.is_open()) {

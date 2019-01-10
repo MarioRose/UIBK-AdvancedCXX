@@ -11,27 +11,23 @@
 class Arrow {
 public:
 	// Initializes the variables
-	Arrow(SDL_Renderer* renderer, SDL_RendererFlip flipType);
+	Arrow(SDL_RendererFlip flipType);
 
 	~Arrow();
 
 	void free();
 
-	void render(SDL_Renderer *renderer);
+	void render(SDL_Renderer *renderer, Texture& arrowTexture);
 
 	bool collisionDetection(Enemy* enemy);
 
 	void shoot(int x, int y);
 
-	// Scene textures
-	Texture arrowTexture;
-
-protected:
+private:
 	int mX = 0;
 	int mY = 0;
 	bool active = false;
 	SDL_RendererFlip flipType;
-	bool loadTexture(SDL_Renderer *renderer);
 };
 
 #endif

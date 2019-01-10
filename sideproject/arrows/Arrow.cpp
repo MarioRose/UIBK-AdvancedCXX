@@ -9,23 +9,11 @@
 #include <string>
 #include <vector>
 
-Arrow::Arrow(SDL_Renderer* renderer, SDL_RendererFlip flipType) : flipType{flipType} {
-	loadTexture(renderer);
+Arrow::Arrow(SDL_RendererFlip flipType) : flipType{flipType} {
 }
 
 Arrow::~Arrow()
 {
-	free();
-}
-
-bool Arrow::loadTexture(SDL_Renderer *renderer)
-{
-	// Loading success flag
-	bool success = true;
-
-	arrowTexture.loadFromFile("assets/images/arrow.png", renderer);
-	arrowTexture.scaleToWidth(35);
-	return success;
 }
 
 void Arrow::shoot(int x, int y) {
@@ -34,7 +22,7 @@ void Arrow::shoot(int x, int y) {
 	active = true;
 }
 
-void Arrow::render(SDL_Renderer *renderer)
+void Arrow::render(SDL_Renderer *renderer, Texture& arrowTexture)
 {
 	if(active) {
 		arrowTexture.render(mX, mY, renderer, NULL, 0, NULL, flipType);
@@ -45,11 +33,6 @@ void Arrow::render(SDL_Renderer *renderer)
 		}
 
 	}
-}
-
-void Arrow::free()
-{
-	arrowTexture.free();
 }
 
 bool Arrow::collisionDetection(Enemy* enemy)
@@ -64,7 +47,6 @@ bool Arrow::collisionDetection(Enemy* enemy)
 					enemy->setPosX(enemy->getPosX()+50);
 				}
 				active = false;
-				free();
 			}
 		}
 	}

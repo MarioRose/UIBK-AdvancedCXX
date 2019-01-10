@@ -16,11 +16,16 @@ public:
 	void collisionDetectionEnemies(std::vector<Enemy*> enemies);
 	void collisionDetection(Enemy* enemy);
 
-	void shootArrow(int x, int y, SDL_RendererFlip flipType, SDL_Renderer *renderer);
+	void shootArrow(int x, int y, SDL_RendererFlip flipType);
 
+	bool loadTexture(SDL_Renderer *renderer);
 
-protected:
+private:
 	std::vector<Arrow*> arrows;
+
+	// Scene textures
+	Texture arrowTexture;
+
 };
 
 #endif //SIDESCROLLER_ARROWS_H

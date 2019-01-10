@@ -5,19 +5,29 @@
 #include <iostream>
 
 Arrows::Arrows() {
-
 }
 
 
 Arrows::~Arrows() {
 	for(auto& arrow : arrows) {
-		arrow->free();
 		delete arrow;
 	}
+	arrowTexture.free();
+
 }
 
-void Arrows::shootArrow(int x, int y, SDL_RendererFlip flipType, SDL_Renderer* renderer) {
-	Arrow* arrow = new Arrow(renderer, flipType);
+bool Arrows::loadTexture(SDL_Renderer *renderer)
+{
+	// Loading success flag
+	bool success = true;
+
+	arrowTexture.loadFromFile("assets/images/arrow.png", renderer);
+	arrowTexture.scaleToWidth(35);
+	return success;
+}
+
+void Arrows::shootArrow(int x, int y, SDL_RendererFlip flipType) {
+	Arrow* arrow = new Arrow(flipType);
 	arrow->shoot(x, y);
 	arrows.push_back(arrow);
 }
@@ -25,7 +35,7 @@ void Arrows::shootArrow(int x, int y, SDL_RendererFlip flipType, SDL_Renderer* r
 
 void Arrows::render(SDL_Renderer *renderer) {
 	for(auto& arrow : arrows) {
-		arrow->render(renderer);
+		arrow->render(renderer, arrowTexture);
 	}
 }
 
@@ -40,6 +50,7 @@ void Arrows::collisionDetection(Enemy* enemy) {
 	for(std::size_t i = 0; i<arrows.size(); i++) {
 		auto hit = arrows[i]->collisionDetection(enemy);
 		if(hit) {
+			delete arrows[i];
 			arrows.erase(arrows.begin() + i);
 		}
 	}

@@ -16,18 +16,13 @@ and may not be redistributed without written permission.*/
 #include <Texture.h>
 #include <Tile.h>
 #include <Timer.h>
-#include <iostream>
-#include <stdio.h>
-#include <string>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdio.h>
+#include <string>
 
-enum class GameStatus {
-    NEW,
-    PAUSE,
-    GAME_OVER
-};
+enum class GameStatus { NEW, PAUSE, GAME_OVER };
 
 // Starts up SDL and creates window
 bool init();
@@ -50,74 +45,68 @@ SDL_Texture *tileTexture;
 bool pause = false;
 
 // RECURSIVELY BUILD MAP
-void renderMapRoom(std::vector<Room*> rooms, int i, int current, int x, int y, int w, int h){
+void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, int w, int h)
+{
 
-    Room *room = rooms.at(i);
-    if(room->isVisited()) {
-        SDL_SetRenderDrawColor( gRenderer, room->red, room->green, room->blue, 255 );
-    }
-    else {
-        SDL_SetRenderDrawColor( gRenderer, 180, 180, 180, 255 );
-    }
-    SDL_Rect r = {x, SCREEN_HEIGHT - y, w, h};
-    SDL_RenderFillRect( gRenderer, &r );
+	Room *room = rooms.at(i);
+	if (room->isVisited()) {
+		SDL_SetRenderDrawColor(gRenderer, room->red, room->green, room->blue, 255);
+	} else {
+		SDL_SetRenderDrawColor(gRenderer, 180, 180, 180, 255);
+	}
+	SDL_Rect r = {x, SCREEN_HEIGHT - y, w, h};
+	SDL_RenderFillRect(gRenderer, &r);
 
-    if(i == current){
-        SDL_SetRenderDrawColor( gRenderer, 0, 180, 0, 255 );
-        SDL_Rect r = {x + w/2, SCREEN_HEIGHT - y + h/2, 8, 8};
-        SDL_RenderFillRect( gRenderer, &r );
-    }
+	if (i == current) {
+		SDL_SetRenderDrawColor(gRenderer, 0, 180, 0, 255);
+		SDL_Rect r = {x + w / 2, SCREEN_HEIGHT - y + h / 2, 8, 8};
+		SDL_RenderFillRect(gRenderer, &r);
+	}
 
-    if(room->roomIndexRight > 0)
-    {
-        SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
-        SDL_Rect r = {x + w, SCREEN_HEIGHT - y + h/2, 10, 6};
-        SDL_RenderFillRect( gRenderer, &r );
-        renderMapRoom(rooms, room->roomIndexRight, current, x + w + 10, y, w, h);
-    }
-    if(room->roomIndexAbove > 0)
-    {
-        SDL_SetRenderDrawColor( gRenderer, 255, 255, 255, 255 );
-        SDL_Rect r = {x + w/2, SCREEN_HEIGHT - y - 10, 6, 10};
-        SDL_RenderFillRect( gRenderer, &r );
-        renderMapRoom(rooms, room->roomIndexAbove, current, x, y + h + 10, w, h);
-    }
-
+	if (room->roomIndexRight > 0) {
+		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+		SDL_Rect r = {x + w, SCREEN_HEIGHT - y + h / 2, 10, 6};
+		SDL_RenderFillRect(gRenderer, &r);
+		renderMapRoom(rooms, room->roomIndexRight, current, x + w + 10, y, w, h);
+	}
+	if (room->roomIndexAbove > 0) {
+		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+		SDL_Rect r = {x + w / 2, SCREEN_HEIGHT - y - 10, 6, 10};
+		SDL_RenderFillRect(gRenderer, &r);
+		renderMapRoom(rooms, room->roomIndexAbove, current, x, y + h + 10, w, h);
+	}
 }
 
-int showmap(std::vector<Room*> rooms, int currentRoomIndex){
+int showmap(std::vector<Room *> rooms, int currentRoomIndex)
+{
 
-
-
-    // Clear winow
-    SDL_RenderClear( gRenderer );
+	// Clear winow
+	SDL_RenderClear(gRenderer);
 
 	SDL_Surface *background_surface = IMG_Load("../../assets/images/menu.jpg");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
-    SDL_FreeSurface(background_surface);
+	SDL_FreeSurface(background_surface);
 
-    SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
-    renderMapRoom(rooms, 0, currentRoomIndex, 50, 100, 50, 50);
+	SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
+	renderMapRoom(rooms, 0, currentRoomIndex, 50, 100, 50, 50);
 
-    // Render the rect to the screen
-    SDL_RenderPresent(gRenderer);
+	// Render the rect to the screen
+	SDL_RenderPresent(gRenderer);
 
-    SDL_Event event;
-    while (1) {
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_KEYDOWN:
-                    SDL_DestroyTexture(background_texture);
-                    return 1;
-                    break;
-            }
+	SDL_Event event;
+	while (1) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_KEYDOWN:
+				SDL_DestroyTexture(background_texture);
+				return 1;
+				break;
+			}
+		}
+	}
 
-        }
-    }
-
-    SDL_DestroyTexture(background_texture);
-    return 0;
-
+	SDL_DestroyTexture(background_texture);
+	return 0;
 }
 
 int showmenu(TTF_Font *font, std::string title, GameStatus status)
@@ -126,17 +115,17 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	Uint32 time;
 	int x, y;
 
-    int NUMMENU = 4;
+	int NUMMENU = 4;
 
 	const char *labels[4] = {title.c_str(), "Start Game", "Show Map", "Exit Game"};
-    const char *labels_gameover[3] = {title.c_str(), "Show Map", "Exit Game"};
-    const char *labels_pause[4] = {title.c_str(), "Continue", "Show Map", "Exit Game"};
+	const char *labels_gameover[3] = {title.c_str(), "Show Map", "Exit Game"};
+	const char *labels_pause[4] = {title.c_str(), "Continue", "Show Map", "Exit Game"};
 
-    if(status == GameStatus::GAME_OVER){
-        NUMMENU = 3;
-    }
+	if (status == GameStatus::GAME_OVER) {
+		NUMMENU = 3;
+	}
 
-    SDL_Surface *menus[NUMMENU];
+	SDL_Surface *menus[NUMMENU];
 	SDL_Surface *background_surface;
 	SDL_Texture *textureMenus[NUMMENU];
 	SDL_Texture *background_texture;
@@ -148,27 +137,38 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	SDL_Color color[2] = {{240, 0, 0, 100}, {255, 255, 255, 100}};
 
 	for (int i = 0; i < NUMMENU; i++) {
-        switch(status){
-            case GameStatus::NEW:
-                menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]); break;
-            case GameStatus::PAUSE:
-                menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[0]); break;
-            case GameStatus::GAME_OVER:
-                menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]); break;
-        }
+		switch (status) {
+		case GameStatus::NEW:
+			menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]);
+			break;
+		case GameStatus::PAUSE:
+			menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[0]);
+			break;
+		case GameStatus::GAME_OVER:
+			menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]);
+			break;
+		}
 
 		textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
 	}
 
 	SDL_Rect pos[NUMMENU];
-    for (int i = 0; i < NUMMENU; i++) {
+	for (int i = 0; i < NUMMENU; i++) {
 		pos[i].x = SCREEN_WIDTH * 0.1;
-        switch(i){
-		  case 0: pos[i].y = SCREEN_HEIGHT / 5 - menus[0]->clip_rect.h; break;
-  		  case 1: pos[i].y = SCREEN_HEIGHT * 0.3; break;
-  		  case 2: pos[i].y = SCREEN_HEIGHT * 0.4; break;
-  		  case 3: pos[i].y = SCREEN_HEIGHT * 0.5; break;
-        }
+		switch (i) {
+		case 0:
+			pos[i].y = SCREEN_HEIGHT / 5 - menus[0]->clip_rect.h;
+			break;
+		case 1:
+			pos[i].y = SCREEN_HEIGHT * 0.3;
+			break;
+		case 2:
+			pos[i].y = SCREEN_HEIGHT * 0.4;
+			break;
+		case 3:
+			pos[i].y = SCREEN_HEIGHT * 0.5;
+			break;
+		}
 	}
 
 	SDL_Event event;
@@ -177,9 +177,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
-                for (int i = 0; i < NUMMENU; i++) {
-    				SDL_FreeSurface(menus[i]);
-                }
+				for (int i = 0; i < NUMMENU; i++) {
+					SDL_FreeSurface(menus[i]);
+				}
 				return 1;
 			case SDL_MOUSEMOTION:
 				x = event.motion.x;
@@ -189,28 +189,34 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 						if (!selected[i]) {
 							selected[i] = 1;
 							SDL_FreeSurface(menus[i]);
-                            switch(status){
-                                case GameStatus::NEW:
-                                    menus[i] = TTF_RenderText_Solid(font, labels[i], color[1]); break;
-                                case GameStatus::PAUSE:
-                                    menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[1]); break;
-                                case GameStatus::GAME_OVER:
-                                    menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[1]); break;
-                            }
+							switch (status) {
+							case GameStatus::NEW:
+								menus[i] = TTF_RenderText_Solid(font, labels[i], color[1]);
+								break;
+							case GameStatus::PAUSE:
+								menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[1]);
+								break;
+							case GameStatus::GAME_OVER:
+								menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[1]);
+								break;
+							}
 							textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
 						}
 					} else {
 						if (selected[i]) {
 							selected[i] = 0;
 							SDL_FreeSurface(menus[i]);
-                            switch(status){
-                                case GameStatus::NEW:
-                                    menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]); break;
-                                case GameStatus::PAUSE:
-                                    menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[0]); break;
-                                case GameStatus::GAME_OVER:
-                                    menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]); break;
-                            }
+							switch (status) {
+							case GameStatus::NEW:
+								menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]);
+								break;
+							case GameStatus::PAUSE:
+								menus[i] = TTF_RenderText_Solid(font, labels_pause[i], color[0]);
+								break;
+							case GameStatus::GAME_OVER:
+								menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]);
+								break;
+							}
 							textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
 						}
 					}
@@ -222,7 +228,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 				for (int i = 0; i < NUMMENU; i += 1) {
 					if (x >= pos[i].x && x <= pos[i].x + pos[i].w && y >= pos[i].y && y <= pos[i].y + pos[i].h) {
 						for (int i = 0; i < NUMMENU; i++) {
-						  SDL_FreeSurface(menus[i]);
+							SDL_FreeSurface(menus[i]);
 						}
 
 						return i;
@@ -289,22 +295,22 @@ bool init()
 	}
 
 	// Create window
-	gWindow = SDL_CreateWindow("Uncharted - PC Version", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	                           SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	gWindow = SDL_CreateWindow("Uncharted - PC Version", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
+	                           SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
 	if (gWindow == NULL) {
 		printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
 		return false;
 	}
 
-    // Create vsynced renderer for window
+	// Create vsynced renderer for window
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
 	if (gRenderer == NULL) {
 		printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 		return false;
 	}
 
-    // Initialize renderer color
+	// Initialize renderer color
 	// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 	// Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
@@ -313,9 +319,9 @@ bool init()
 		return false;
 	}
 
-    TTF_Init();
+	TTF_Init();
 
-    Tile::initCroppedTiles();
+	Tile::initCroppedTiles();
 	loadTileTexture("../../assets/images/tiles/jungle_tileset.png");
 
 	return true;
@@ -331,7 +337,7 @@ void close()
 
 	// Quit SDL subsystems
 	IMG_Quit();
-    TTF_Quit();
+	TTF_Quit();
 	Mix_Quit();
 	SDL_Quit();
 }
@@ -350,10 +356,10 @@ void input(SDL_Event &event)
 	}
 }
 
-void initRooms(std::string path, std::vector<Room*> *rooms)
+void initRooms(std::string path, std::vector<Room *> *rooms)
 {
 
-    std::ifstream map(path);
+	std::ifstream map(path);
 
 	if (map.is_open()) {
 
@@ -366,22 +372,22 @@ void initRooms(std::string path, std::vector<Room*> *rooms)
 				continue;
 			} // error
 
-            if(key == "MAP")
-                continue;
+			if (key == "MAP")
+				continue;
 
-            std::stringstream ss(value);
-            std::vector<std::string> result;
+			std::stringstream ss(value);
+			std::vector<std::string> result;
 
-            while (ss.good()) {
-                std::string substr;
-                getline(ss, substr, ',');
-                result.push_back(substr);
-            }
+			while (ss.good()) {
+				std::string substr;
+				getline(ss, substr, ',');
+				result.push_back(substr);
+			}
 
-        	Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
-                    std::stoi(result.at(3)), std::stoi(result.at(4)));
-            room->loadFromFile(result.at(0).c_str(), gRenderer);
-        	rooms->push_back(room);
+			Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
+			                      std::stoi(result.at(3)), std::stoi(result.at(4)));
+			room->loadFromFile(result.at(0).c_str(), gRenderer);
+			rooms->push_back(room);
 		}
 
 		map.close();
@@ -396,7 +402,7 @@ int main(int argc, char *args[])
 
 	// The Character that will be moving around on the screen
 	Player player;
-	std::vector<Room*> rooms;
+	std::vector<Room *> rooms;
 	Room *currentRoom;
 
 	// Start up SDL and create window
@@ -415,7 +421,7 @@ int main(int argc, char *args[])
 		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
 
 		currentRoom = rooms.at(0);
-        currentRoom->enter();
+		currentRoom->enter();
 
 		// Event handler
 		SDL_Event e;
@@ -431,22 +437,22 @@ int main(int argc, char *args[])
 
 		TTF_Font *font;
 		font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 30);
-        int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
+		int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
 		if (index > 2) {
-		  quit = true;
-		} else if(index == 2) {
-            showmap(rooms, currentRoom->getIndex());
-        }
-        //quit = true;
+			quit = true;
+		} else if (index == 2) {
+			showmap(rooms, currentRoom->getIndex());
+		}
+		// quit = true;
 		// While application is running
 		while (!quit) {
-            if (pause) {
-                int index = showmenu(font, "Pause", GameStatus::PAUSE);
+			if (pause) {
+				int index = showmenu(font, "Pause", GameStatus::PAUSE);
 				if (index > 2) {
 					break;
-				} else if (index == 2){
-                    showmap(rooms, currentRoom->getIndex());
-                }
+				} else if (index == 2) {
+					showmap(rooms, currentRoom->getIndex());
+				}
 				pause = false;
 			}
 
@@ -462,8 +468,8 @@ int main(int argc, char *args[])
 					quit = true;
 				}
 
-				if(e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), gRenderer);
+				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
+					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType());
 				}
 
 				// Handle input for the character
@@ -479,7 +485,7 @@ int main(int argc, char *args[])
 			if (player.onLeftBorder()) {
 				if (currentRoom->roomIndexLeft != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexLeft);
-                    currentRoom->enter();
+					currentRoom->enter();
 					player.setPosX(SCREEN_WIDTH - player.getWidth() - 7);
 				}
 			}
@@ -487,7 +493,7 @@ int main(int argc, char *args[])
 			if (player.onRightBorder()) {
 				if (currentRoom->roomIndexRight != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexRight);
-                    currentRoom->enter();
+					currentRoom->enter();
 					player.setPosX(7);
 				}
 			}
@@ -495,7 +501,7 @@ int main(int argc, char *args[])
 			if (player.onTopBorder()) {
 				if (currentRoom->roomIndexAbove != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexAbove);
-                    currentRoom->enter();
+					currentRoom->enter();
 					player.setPosY(SCREEN_WIDTH - 32);
 				}
 			}
@@ -503,7 +509,7 @@ int main(int argc, char *args[])
 			if (player.onBottomBorder()) {
 				if (currentRoom->roomIndexBelow != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexBelow);
-                    currentRoom->enter();
+					currentRoom->enter();
 					player.setPosY(5);
 				}
 			}
@@ -512,10 +518,10 @@ int main(int argc, char *args[])
 			if (player.getLifeCount() == 0) {
 				std::cout << "You Lost!!!!" << std::endl;
 				quit = true;
-    			showmenu(font, "Game Over", GameStatus::GAME_OVER);
+				showmenu(font, "Game Over", GameStatus::GAME_OVER);
 			}
 
-            bool collision = player.collisionDetectionSprites(currentRoom->sprites);
+			bool collision = player.collisionDetectionSprites(currentRoom->sprites);
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
 
 			// Clear screen
