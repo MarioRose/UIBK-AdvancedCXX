@@ -469,7 +469,7 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType());
+					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY()+10, player.getFlipType());
 				}
 
 				// Handle input for the character
