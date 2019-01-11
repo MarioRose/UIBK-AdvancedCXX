@@ -56,6 +56,8 @@ class Room {
 	int green = 0;
 	int blue = 0;
 
+    bool renderedInMap = false;
+
 	void enter();
 	void playMusic();
 	void setVisited();

@@ -22,6 +22,8 @@ and may not be redistributed without written permission.*/
 #include <stdio.h>
 #include <string>
 
+#include <algorithm>
+
 enum class GameStatus { NEW, PAUSE, GAME_OVER };
 
 // Starts up SDL and creates window
@@ -49,16 +51,24 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 {
 
 	Room *room = rooms.at(i);
+
+    if(room->renderedInMap){
+        return;
+    }
+
+    room->renderedInMap = true;
+
 	if (room->isVisited()) {
 		SDL_SetRenderDrawColor(gRenderer, room->red, room->green, room->blue, 255);
 	} else {
 		SDL_SetRenderDrawColor(gRenderer, 180, 180, 180, 255);
 	}
+
 	SDL_Rect r = {x, SCREEN_HEIGHT - y, w, h};
 	SDL_RenderFillRect(gRenderer, &r);
 
 	if (i == current) {
-		SDL_SetRenderDrawColor(gRenderer, 0, 180, 0, 255);
+		SDL_SetRenderDrawColor(gRenderer, 0, 250, 0, 255);
 		SDL_Rect r = {x + w / 2, SCREEN_HEIGHT - y + h / 2, 8, 8};
 		SDL_RenderFillRect(gRenderer, &r);
 	}
@@ -69,12 +79,26 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 		SDL_RenderFillRect(gRenderer, &r);
 		renderMapRoom(rooms, room->roomIndexRight, current, x + w + 10, y, w, h);
 	}
+
+    if (room->roomIndexLeft > 0) {
+		renderMapRoom(rooms, room->roomIndexLeft, current, x - w - 10, y, w, h);
+	}
+
 	if (room->roomIndexAbove > 0) {
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 		SDL_Rect r = {x + w / 2, SCREEN_HEIGHT - y - 10, 6, 10};
 		SDL_RenderFillRect(gRenderer, &r);
 		renderMapRoom(rooms, room->roomIndexAbove, current, x, y + h + 10, w, h);
 	}
+
+    if (room->roomIndexBelow > 0) {
+		renderMapRoom(rooms, room->roomIndexAbove, current, x, y - h - 10, w, h);
+	}
+
+}
+
+void clearMapRoom(Room *room) {
+    room->renderedInMap = false;
 }
 
 int showmap(std::vector<Room *> rooms, int currentRoomIndex)
@@ -83,11 +107,12 @@ int showmap(std::vector<Room *> rooms, int currentRoomIndex)
 	// Clear winow
 	SDL_RenderClear(gRenderer);
 
-	SDL_Surface *background_surface = IMG_Load("../../assets/images/menu.jpg");
+	SDL_Surface *background_surface = IMG_Load("assets/images/menu.jpg");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 	SDL_FreeSurface(background_surface);
 
 	SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
+    std::for_each(rooms.begin(), rooms.end(), &clearMapRoom);
 	renderMapRoom(rooms, 0, currentRoomIndex, 50, 100, 50, 50);
 
 	// Render the rect to the screen
@@ -130,7 +155,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	SDL_Texture *textureMenus[NUMMENU];
 	SDL_Texture *background_texture;
 
-	background_surface = IMG_Load("../../assets/images/menu.jpg");
+	background_surface = IMG_Load("assets/images/menu.jpg");
 	background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 
 	bool selected[NUMMENU] = {0, 0};
@@ -322,7 +347,7 @@ bool init()
 	TTF_Init();
 
 	Tile::initCroppedTiles();
-	loadTileTexture("../../assets/images/tiles/jungle_tileset.png");
+	loadTileTexture("assets/images/tiles/jungle_tileset.png");
 
 	return true;
 }
@@ -410,7 +435,7 @@ int main(int argc, char *args[])
 		printf("Failed to initialize!\n");
 	} else {
 
-		initRooms("../../assets/maps/map02.txt", &rooms);
+		initRooms("assets/maps/map03.txt", &rooms);
 
 		// Head-up display
 		HUD hud{gRenderer};
@@ -418,7 +443,7 @@ int main(int argc, char *args[])
 		// Main loop flag
 		bool quit = false;
 
-		player.loadFromFile("../../assets/profiles/main.txt", gRenderer);
+		player.loadFromFile("assets/profiles/main.txt", gRenderer);
 
 		currentRoom = rooms.at(0);
 		currentRoom->enter();
@@ -436,7 +461,7 @@ int main(int argc, char *args[])
 		Timer fps;
 
 		TTF_Font *font;
-		font = TTF_OpenFont("../../assets/fonts/menuFont.ttf", 30);
+		font = TTF_OpenFont("assets/fonts/menuFont.ttf", 30);
 		int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
 		if (index > 2) {
 			quit = true;
