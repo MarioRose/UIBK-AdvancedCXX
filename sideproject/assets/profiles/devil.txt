@@ -26,5 +26,25 @@ DYING assets/images/characters/skeleton/dying/12.gif
 DYING assets/images/characters/skeleton/dying/13.gif
 DYING assets/images/characters/skeleton/dying/14.gif
 DYING assets/images/characters/skeleton/dying/15.gif
+ATTACK assets/images/characters/skeleton/attack/1.gif
+ATTACK assets/images/characters/skeleton/attack/2.gif
+ATTACK assets/images/characters/skeleton/attack/3.gif
+ATTACK assets/images/characters/skeleton/attack/4.gif
+ATTACK assets/images/characters/skeleton/attack/5.gif
+ATTACK assets/images/characters/skeleton/attack/6.gif
+ATTACK assets/images/characters/skeleton/attack/7.gif
+ATTACK assets/images/characters/skeleton/attack/8.gif
+ATTACK assets/images/characters/skeleton/attack/9.gif
+ATTACK assets/images/characters/skeleton/attack/10.gif
+ATTACK assets/images/characters/skeleton/attack/11.gif
+ATTACK assets/images/characters/skeleton/attack/12.gif
+ATTACK assets/images/characters/skeleton/attack/13.gif
+ATTACK assets/images/characters/skeleton/attack/14.gif
+ATTACK assets/images/characters/skeleton/attack/15.gif
+ATTACK assets/images/characters/skeleton/attack/16.gif
+ATTACK assets/images/characters/skeleton/attack/17.gif
+ATTACK assets/images/characters/skeleton/attack/18.gif
+
+
 
 

@@ -76,7 +76,8 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 
 		std::vector<std::string> pathsIdleTextures;
 		std::vector<std::string> pathsRunningTextures;
-        std::vector<std::string> pathsDyingTextures;
+		std::vector<std::string> pathsDyingTextures;
+		std::vector<std::string> pathsAttackTextures;
 
 		std::string line;
 		while (std::getline(file, line)) {
@@ -96,16 +97,19 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				pathsIdleTextures.push_back(value);
 			} else if (key == "RUNNING") {
 				pathsRunningTextures.push_back(value);
-            } else if (key == "DYING") {
-                pathsDyingTextures.push_back(value);
-            } else if (key == "HEALTH") {
+			} else if (key == "DYING") {
+				pathsDyingTextures.push_back(value);
+			} else if (key == "ATTACK") {
+				pathsAttackTextures.push_back(value);
+			} else if (key == "HEALTH") {
 				this->setHealth(std::stoi(value));
 			}
 		}
 
 		loadTextures(pathsIdleTextures, TextureType::IDLE, renderer);
 		loadTextures(pathsRunningTextures, TextureType::RUNNING, renderer);
-        loadTextures(pathsDyingTextures, TextureType::DYING, renderer);
+		loadTextures(pathsDyingTextures, TextureType::DYING, renderer);
+		loadTextures(pathsAttackTextures, TextureType::ATTACK, renderer);
 
 		file.close();
 	} else {
@@ -134,6 +138,9 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 			case TextureType::DYING:
 				dyingTextures.push_back(texture);
 				break;
+			case TextureType::ATTACK:
+				attackTextures.push_back(texture);
+				break;
 			}
 		} else {
 			success = false;
@@ -147,14 +154,16 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 
 void Character::nextSpriteIndex()
 {
-    switch(status){
-        case CharacterStatus::RUNNING:
-            spriteIndexRunning = (spriteIndexRunning + 1) % runningTextures.size();
-        case CharacterStatus::IDLE:
-            spriteIndexIdle = (spriteIndexIdle + 1) % idleTextures.size();
-        case CharacterStatus::DYING:
-            spriteIndexDying = (spriteIndexDying + 1) % dyingTextures.size();
-    }
+	switch (status) {
+	case CharacterStatus::RUNNING:
+		spriteIndexRunning = (spriteIndexRunning + 1) % runningTextures.size();
+	case CharacterStatus::IDLE:
+		spriteIndexIdle = (spriteIndexIdle + 1) % idleTextures.size();
+	case CharacterStatus::DYING:
+		spriteIndexDying = (spriteIndexDying + 1) % dyingTextures.size();
+	case CharacterStatus::ATTACK:
+		spriteIndexAttack = (spriteIndexAttack + 1) % attackTextures.size();
+	}
 }
 
 void Character::render(SDL_Renderer *renderer)
@@ -179,18 +188,29 @@ void Character::render(SDL_Renderer *renderer)
 	case CharacterStatus::DEAD:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		dyingTextures[dyingTextures.size()-1]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		dyingTextures[dyingTextures.size() - 1]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::DYING:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-        dyingTextures[spriteIndexDying]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		dyingTextures[spriteIndexDying]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
 
-        if (spriteIndexDying + 1 == dyingTextures.size()) {
+		if (spriteIndexDying + 1 == dyingTextures.size()) {
 			status = CharacterStatus::DEAD;
 		}
 		break;
+
+        case CharacterStatus::ATTACK:
+            // idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+            // std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
+            attackTextures[spriteIndexAttack]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+
+            if (spriteIndexAttack + 1 == attackTextures.size()) {
+                setWidth(getWidth()-20);
+                status = CharacterStatus::IDLE;
+            }
+            break;
 
 	default:
 		throw std::exception{};
@@ -244,10 +264,10 @@ void Character::free()
 void Character::loseHealth()
 {
 	this->health--;
-	if (health == 0){
-        status = CharacterStatus::DYING;
-        //setHeight(1);
-    }
+	if (health == 0) {
+		status = CharacterStatus::DYING;
+		// setHeight(1);
+	}
 }
 
 int Character::getHealth()

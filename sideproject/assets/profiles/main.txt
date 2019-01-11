@@ -22,4 +22,5 @@ RUNNING assets/images/characters/player/running/5.png
 RUNNING assets/images/characters/player/running/6.png
 RUNNING assets/images/characters/player/running/7.png
 DYING assets/images/characters/skeleton/dying/1.gif
+ATTACK assets/images/characters/skeleton/attack/1.gif
 

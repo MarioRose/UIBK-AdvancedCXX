@@ -12,7 +12,8 @@ enum class CharacterStatus {
 	IDLE,
 	RUNNING,
 	DEAD,
-	DYING
+	DYING,
+	ATTACK
 };
 
 enum class CharacterSoundType {
@@ -50,6 +51,7 @@ public:
 	std::vector<Texture *> idleTextures;
 	std::vector<Texture *> runningTextures;
     std::vector<Texture *> dyingTextures;
+    std::vector<Texture *> attackTextures;
 
     void nextSpriteIndex();
     void shout();
@@ -66,7 +68,9 @@ protected:
     int spriteIndexIdle = 0;
     int spriteIndexRunning = 0;
     int spriteIndexDying = 0;
-	//Status (e.g. idle or running) the Character
+    int spriteIndexAttack = 0;
+
+    //Status (e.g. idle or running) the Character
 	CharacterStatus status;
 	int health;
 
