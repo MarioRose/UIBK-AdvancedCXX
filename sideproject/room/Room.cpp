@@ -42,6 +42,9 @@ void Room::initTiles() {
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
+
+    starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
+
 	arrows.loadTexture(renderer);
 	std::ifstream map(path);
 
@@ -203,9 +206,15 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
         result.push_back(substr);
     }
 
-    int x = std::stoi(result.at(1));
-    int y = std::stoi(result.at(2));
-    sprites.emplace_back(new Sprite(x, y, result.at(0).c_str(), renderer, type));
+    int x = std::stoi(result.at(0));
+    int y = std::stoi(result.at(1));
+
+    switch(type)
+    {
+        case SpriteType::STAR:
+            sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type));
+            break;
+    }
 }
 
 void Room::addTile(std::string value, int type)
@@ -359,6 +368,8 @@ void Room::free()
     for (auto &tile : tiles) {
 		tile.free();
 	}
+
+    starTexture.free();
 	// Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);

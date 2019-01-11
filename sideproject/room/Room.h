@@ -76,6 +76,9 @@ class Room {
 	void initTiles();
 
 	std::vector<Tile> tiles;
+
+    Texture starTexture;
+
 	int roomIndex;
 	bool visited = false;
 	// The music that will be played
