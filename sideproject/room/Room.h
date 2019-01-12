@@ -56,6 +56,8 @@ class Room {
 	int green = 0;
 	int blue = 0;
 
+    bool renderedInMap = false;
+
 	void enter();
 	void playMusic();
 	void setVisited();
@@ -74,6 +76,9 @@ class Room {
 	void initTiles();
 
 	std::vector<Tile> tiles;
+
+    Texture starTexture;
+
 	int roomIndex;
 	bool visited = false;
 	// The music that will be played

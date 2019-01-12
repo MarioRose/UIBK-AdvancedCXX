@@ -4,6 +4,7 @@ MUSIC assets/music/172561_45941-lq.mp3
 DANGER_MUSIC assets/music/inquisitiveness.ogg
 
 COLOR 255,0,0
+SAVE_POINT 100,10
 
 TILES BEGIN
 PLATFORM 140,100,100
@@ -17,9 +18,9 @@ ENEMY assets/profiles/devil.txt,600,0
 ENTITIES END
 
 SPRITES BEGIN
-STAR assets/images/sprites/star.png,310,210
-STAR assets/images/sprites/star.png,280,210
-STAR assets/images/sprites/star.png,250,210
-STAR assets/images/sprites/star.png,220,210
-STAR assets/images/sprites/star.png,190,210
+STAR 310,210
+STAR 280,210
+STAR 250,210
+STAR 220,210
+STAR 190,210
 SPRITES END

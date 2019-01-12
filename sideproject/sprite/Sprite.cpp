@@ -9,9 +9,10 @@ Sprite::Sprite(){
 
 }
 
-Sprite::Sprite(int x, int y, std::string path, SDL_Renderer *renderer, SpriteType type)
+Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type)
             : GameObject(x,y,10,10), renderer(renderer), type(type) {
-    cTexture.loadFromFile(path, renderer);
+    //cTexture.loadFromFile(path, renderer);
+    cTexture = texture;
     cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
     // Load music

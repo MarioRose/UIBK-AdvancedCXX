@@ -19,7 +19,7 @@
 - [ ] main combat
     - [ ] melee and/or ranged
     - [ ] hitting enemies
-    - [ ] getting hit by enemies
+    - [X] getting hit by enemies
 - [ ] 1 secondary combat mechanic
     - [ ] like spell slinging, hacking, *you name it*
 - [ ] player character

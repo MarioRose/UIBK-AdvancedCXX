@@ -1,6 +1,4 @@
 MAP Map01
-0  ../../assets/maps/room01.txt,-1,1,2,-1
-1  ../../assets/maps/room02.txt,0,3,-1,-1
-2  ../../assets/maps/room01.txt,-1,-1,-1,0
-3  ../../assets/maps/room01.txt,1,-1,-1,-1
-
+0  assets/maps/room01.txt,-1,1,2,-1
+1  assets/maps/room02.txt,0,-1,-1,-1
+2  assets/maps/room01.txt,-1,-1,-1,0

@@ -19,7 +19,7 @@ public:
 	//Initializes the variables
 	Sprite();
 
-    Sprite(int x, int y, std::string path, SDL_Renderer *renderer, SpriteType type);
+    Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type);
 
 	~Sprite();
 
