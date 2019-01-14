@@ -45,6 +45,7 @@ ATTACK assets/images/characters/skeleton/attack/16.gif
 ATTACK assets/images/characters/skeleton/attack/17.gif
 ATTACK assets/images/characters/skeleton/attack/18.gif
 FALLING assets/images/characters/skeleton/running/1.gif
+JUMPING assets/images/characters/skeleton/running/1.gif
 
 
 

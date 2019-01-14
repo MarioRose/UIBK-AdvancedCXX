@@ -9,7 +9,8 @@ enum class TextureType {
 	RUNNING,
 	DYING,
 	ATTACK,
-	FALLING
+	FALLING,
+	JUMPING
 };
 
 //Texture wrapper class

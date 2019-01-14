@@ -25,4 +25,5 @@ DYING assets/images/characters/skeleton/dying/1.gif
 ATTACK assets/images/characters/skeleton/attack/1.gif
 FALLING assets/images/characters/player/falling/1.gif
 FALLING assets/images/characters/player/falling/2.gif
+JUMPING assets/images/characters/player/jumping/1.png
 

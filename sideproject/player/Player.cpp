@@ -47,7 +47,9 @@ void Player::control(SDL_Event &e)
 			break;
 		}
 		if (keypressCount > 0) {
-			status = CharacterStatus::RUNNING;
+			if (status != CharacterStatus::FALLING) {
+				status = CharacterStatus::RUNNING;
+			}
 		}
 	}
 	// If a key was released
@@ -73,7 +75,9 @@ void Player::control(SDL_Event &e)
 			break;
 		}
 		if (keypressCount == 0) {
-			status = CharacterStatus::IDLE;
+			if (status != CharacterStatus::FALLING) {
+				status = CharacterStatus::IDLE;
+			}
 		}
 	}
 }
