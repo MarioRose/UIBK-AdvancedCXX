@@ -52,11 +52,11 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 
 	Room *room = rooms.at(i);
 
-    if(room->renderedInMap){
-        return;
-    }
+	if (room->renderedInMap) {
+		return;
+	}
 
-    room->renderedInMap = true;
+	room->renderedInMap = true;
 
 	if (room->isVisited()) {
 		SDL_SetRenderDrawColor(gRenderer, room->red, room->green, room->blue, 255);
@@ -80,7 +80,7 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 		renderMapRoom(rooms, room->roomIndexRight, current, x + w + 10, y, w, h);
 	}
 
-    if (room->roomIndexLeft > 0) {
+	if (room->roomIndexLeft > 0) {
 		renderMapRoom(rooms, room->roomIndexLeft, current, x - w - 10, y, w, h);
 	}
 
@@ -91,19 +91,18 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 		renderMapRoom(rooms, room->roomIndexAbove, current, x, y + h + 10, w, h);
 	}
 
-    if (room->roomIndexBelow > 0) {
+	if (room->roomIndexBelow > 0) {
 		renderMapRoom(rooms, room->roomIndexAbove, current, x, y - h - 10, w, h);
 	}
-
 }
 
-void clearMapRoom(Room *room) {
-    room->renderedInMap = false;
+void clearMapRoom(Room *room)
+{
+	room->renderedInMap = false;
 }
 
 int showmap(std::vector<Room *> rooms, int currentRoomIndex)
 {
-
 	// Clear winow
 	SDL_RenderClear(gRenderer);
 
@@ -112,7 +111,7 @@ int showmap(std::vector<Room *> rooms, int currentRoomIndex)
 	SDL_FreeSurface(background_surface);
 
 	SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
-    std::for_each(rooms.begin(), rooms.end(), &clearMapRoom);
+	std::for_each(rooms.begin(), rooms.end(), &clearMapRoom);
 	renderMapRoom(rooms, 0, currentRoomIndex, 50, 100, 50, 50);
 
 	// Render the rect to the screen
@@ -134,21 +133,161 @@ int showmap(std::vector<Room *> rooms, int currentRoomIndex)
 	return 0;
 }
 
+struct inventoryBox {
+	int x;
+	int y;
+	int w = 100;
+	int h = 100;
+	Texture *texture;
+} inventoryBoxes[6];
+
+void showInventory(TTF_Font *font)
+{
+
+	// Clear winow
+	SDL_RenderClear(gRenderer);
+
+	SDL_Surface *screen = SDL_GetWindowSurface(gWindow);
+	Uint32 time;
+	int x, y;
+
+	SDL_Surface *background_surface = IMG_Load("assets/images/menu.jpg");
+	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
+	SDL_FreeSurface(background_surface);
+
+	Texture box_texture;
+	box_texture.loadFromFile("assets/images/inventory_box.png", gRenderer);
+	box_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+
+	Texture box_white_texture;
+	box_white_texture.loadFromFile("assets/images/inventory_box_white.png", gRenderer);
+	box_white_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+
+	// first row of inventory boxes
+	for (int i = 0; i < 3; i++) {
+		inventoryBoxes[i].x = SCREEN_WIDTH * (i / 3.0) + 50;
+		inventoryBoxes[i].y = SCREEN_HEIGHT * 0.27;
+		inventoryBoxes[i].texture = &box_white_texture;
+	}
+
+	// second row of inventory boxes
+	for (int i = 3; i < 6; i++) {
+		inventoryBoxes[i].x = SCREEN_WIDTH * ((i - 3) / 3.0) + 50;
+		inventoryBoxes[i].y = SCREEN_HEIGHT * 0.57;
+		inventoryBoxes[i].texture = &box_white_texture;
+	}
+
+	const int numLabels = 3;
+
+	const char *labels[numLabels] = {"Weapons", "Power Ups", "Return to Game"};
+
+	SDL_Surface *menus[numLabels];
+	SDL_Texture *textureMenus[numLabels];
+
+	SDL_Color color[2] = {{240, 0, 0, 100}, {255, 255, 255, 100}};
+
+	for (int i = 0; i < numLabels; i++) {
+		menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]);
+		textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
+	}
+
+	SDL_Rect pos[numLabels];
+	for (int i = 0; i < numLabels; i++) {
+		pos[i].x = SCREEN_WIDTH * 0.4;
+	}
+
+	pos[0].y = SCREEN_HEIGHT * 0.2;
+	pos[1].y = SCREEN_HEIGHT * 0.5;
+	pos[2].y = SCREEN_HEIGHT * 0.9;
+
+	SDL_Event event;
+	while (true) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_KEYDOWN:
+				SDL_DestroyTexture(background_texture);
+				return;
+			case SDL_MOUSEMOTION:
+				x = event.motion.x;
+				y = event.motion.y;
+				for (int i = 0; i < 6; i++) {
+					if (x >= inventoryBoxes[i].x && x <= inventoryBoxes[i].x + inventoryBoxes[i].w &&
+					    y >= inventoryBoxes[i].y && y <= inventoryBoxes[i].y + inventoryBoxes[i].h) {
+						inventoryBoxes[i].texture = &box_texture;
+					} else {
+						inventoryBoxes[i].texture = &box_white_texture;
+					}
+				}
+				if (x >= pos[2].x && x <= pos[2].x + pos[2].w && y >= pos[2].y && y <= pos[2].y + pos[2].h) {
+					SDL_FreeSurface(menus[2]);
+					menus[2] = TTF_RenderText_Solid(font, labels[2], color[1]);
+					textureMenus[2] = SDL_CreateTextureFromSurface(gRenderer, menus[2]);
+				} else {
+					SDL_FreeSurface(menus[2]);
+					menus[2] = TTF_RenderText_Solid(font, labels[2], color[0]);
+					textureMenus[2] = SDL_CreateTextureFromSurface(gRenderer, menus[2]);
+				}
+
+				break;
+			default:
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				x = event.button.x;
+				y = event.button.y;
+				if (x >= pos[2].x && x <= pos[2].x + pos[2].w && y >= pos[2].y && y <= pos[2].y + pos[2].h) {
+                    for (int i = 0; i < numLabels; i++) {
+                        SDL_FreeSurface(menus[i]);
+                        //TODO: free rest
+                    }
+                    return;
+				}
+				break;
+			}
+		}
+
+		for (int i = 0; i < numLabels; i++) {
+			SDL_BlitSurface(menus[i], NULL, screen, &pos[i]);
+		}
+
+		SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
+
+		for (int i = 0; i < 6; i++) {
+			inventoryBoxes[i].texture->render(inventoryBoxes[i].x, inventoryBoxes[i].y, gRenderer, NULL, 0, NULL,
+			                                  SDL_FLIP_NONE);
+		}
+
+		for (int i = 0; i < numLabels; i++) {
+			SDL_RenderCopy(gRenderer, textureMenus[i], NULL, &pos[i]);
+		}
+		SDL_RenderPresent(gRenderer);
+
+		if (1000 / 30 > (SDL_GetTicks() - time))
+			SDL_Delay(1000 / 30 - (SDL_GetTicks() - time));
+	}
+}
+
 int showmenu(TTF_Font *font, std::string title, GameStatus status)
 {
 	SDL_Surface *screen = SDL_GetWindowSurface(gWindow);
 	Uint32 time;
 	int x, y;
+	int NUMMENU;
 
-	int NUMMENU = 4;
-
-	const char *labels[4] = {title.c_str(), "Start Game", "Show Map", "Exit Game"};
-	const char *labels_gameover[3] = {title.c_str(), "Show Map", "Exit Game"};
-	const char *labels_pause[4] = {title.c_str(), "Continue", "Show Map", "Exit Game"};
-
-	if (status == GameStatus::GAME_OVER) {
+	switch (status) {
+	case GameStatus::GAME_OVER:
 		NUMMENU = 3;
+		break;
+	case GameStatus::NEW:
+		NUMMENU = 4;
+		break;
+	case GameStatus::PAUSE:
+		NUMMENU = 5;
+		break;
 	}
+
+	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Show Map", "Exit Game"};
+	const char *labels_gameover[NUMMENU] = {title.c_str(), "Show Map", "Exit Game"};
+	const char *labels_pause[NUMMENU] = {title.c_str(), "Continue", "Inventory", "Show Map", "Exit Game"};
 
 	SDL_Surface *menus[NUMMENU];
 	SDL_Surface *background_surface;
@@ -192,6 +331,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 			break;
 		case 3:
 			pos[i].y = SCREEN_HEIGHT * 0.5;
+			break;
+		case 4:
+			pos[i].y = SCREEN_HEIGHT * 0.6;
 			break;
 		}
 	}
@@ -473,9 +615,11 @@ int main(int argc, char *args[])
 		while (!quit) {
 			if (pause) {
 				int index = showmenu(font, "Pause", GameStatus::PAUSE);
-				if (index > 2) {
+				if (index > 3) {
 					break;
 				} else if (index == 2) {
+					showInventory(font);
+				} else if (index == 3) {
 					showmap(rooms, currentRoom->getIndex());
 				}
 				pause = false;
@@ -494,7 +638,7 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY()+10, player.getFlipType());
+					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY() + 10, player.getFlipType());
 				}
 
 				// Handle input for the character
