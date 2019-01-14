@@ -48,7 +48,6 @@ target_link_libraries(
 		sub::settings
 		sub::room
 		sub::gameobjects
-		sub::moveable
 		sub::hud
 		sub::tile
 		sub::sprite

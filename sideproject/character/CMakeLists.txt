@@ -24,6 +24,5 @@ target_link_libraries(
 	PRIVATE
     sub::settings
     sub::texture
-    sub::moveable
     sub::gameobjects
 )

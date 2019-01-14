@@ -23,7 +23,6 @@ target_link_libraries(
 		sub::settings
 		sub::character
 		sub::enemy
-		sub::moveable
 		sub::texture
 		sub::gameobjects
 		sub::tile

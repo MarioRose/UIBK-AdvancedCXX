@@ -1,7 +1,6 @@
 #ifndef ARROW_H
 #define ARROW_H
 
-#include <Moveable.h>
 #include <Enemy.h>
 #include <SDL.h>
 #include <SDL_mixer.h>

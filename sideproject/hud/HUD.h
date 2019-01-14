@@ -1,7 +1,6 @@
 #ifndef HUD_H
 #define HUD_H
 
-#include <Moveable.h>
 #include <Player.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
