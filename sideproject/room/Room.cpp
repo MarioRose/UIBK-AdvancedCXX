@@ -309,7 +309,7 @@ void Room::collisionTilesEnemies()
 }
 
 
-void Room::collisionTiles(Moveable *character)
+void Room::collisionTiles(Character *character)
 {
 	for (auto &tile : tiles) {
 

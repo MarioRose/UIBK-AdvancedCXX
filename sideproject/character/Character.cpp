@@ -63,6 +63,72 @@ void Character::jump()
 	forceY = 15;
 }
 
+void Character::move()
+{
+    // Move the character left or right
+    posX += velX;
+
+    // If the character went too far to the left or right
+    if ((posX < 0) || (posX + object_width > SCREEN_WIDTH)) {
+        // Move back
+        posX -= velX;
+    }
+
+    // Jumping
+    if (forceY > 0) {
+        forceY--;
+        posY -= 5;
+    }
+
+    //Falling
+    if (!contactPlatform && forceY == 0 && posY <= SCREEN_HEIGHT - object_height) {
+        posY += 5;
+    }
+
+    if(contactWall) {
+        posX -= velX;
+    }
+
+    if (posY > SCREEN_HEIGHT - object_height) {
+        posY = SCREEN_HEIGHT - object_height;
+    }
+
+    // Jumping or Falling
+    //    if(forceY != 0 || posY != SCREEN_HEIGHT - object_height) {
+    //
+    //        //Calculate Force
+    //        if( posY + object_height < SCREEN_HEIGHT ) {
+    //            forceY = forceY + GRAVITATION + ((SCREEN_HEIGHT - object_height) - posY)/4.5;
+    //        }
+    //
+    //        //Calculate acceleration
+    //        float a = forceY + velY;
+    //
+    //        //Calculate velocity
+    //        velY = velY + a;
+    //
+    //        //Move the character up or down
+    //        posY += velY;
+    //
+    //
+    //        //Maximum Velocity downwards
+    //        if(velY >= MAX_VELOCITY_DOWN) {
+    //            velY = MAX_VELOCITY_DOWN;
+    //        }
+    //
+    //        //If the character went too far up or down
+    //        if( ( posY < 0 ) || ( posY + object_height >= SCREEN_HEIGHT ) ) {
+    //            //Move back
+    //            //mPosY -= mVelY;
+    //            velY = 0;
+    //            posY = SCREEN_HEIGHT - object_height;
+    //        }
+    //
+    //        forceY = 0;
+    //    }
+}
+
+
 CharacterStatus Character::getStatus()
 {
 	return status;
@@ -78,6 +144,7 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 		std::vector<std::string> pathsRunningTextures;
 		std::vector<std::string> pathsDyingTextures;
 		std::vector<std::string> pathsAttackTextures;
+		std::vector<std::string> pathsFallingTextures;
 
 		std::string line;
 		while (std::getline(file, line)) {
@@ -101,6 +168,8 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				pathsDyingTextures.push_back(value);
 			} else if (key == "ATTACK") {
 				pathsAttackTextures.push_back(value);
+			} else if (key == "FALLING") {
+				pathsAttackTextures.push_back(value);
 			} else if (key == "HEALTH") {
 				this->setHealth(std::stoi(value));
 			}
@@ -110,6 +179,7 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 		loadTextures(pathsRunningTextures, TextureType::RUNNING, renderer);
 		loadTextures(pathsDyingTextures, TextureType::DYING, renderer);
 		loadTextures(pathsAttackTextures, TextureType::ATTACK, renderer);
+		loadTextures(pathsAttackTextures, TextureType::FALLING, renderer);
 
 		file.close();
 	} else {
@@ -141,6 +211,9 @@ bool Character::loadTextures(std::vector<std::string> paths, TextureType texture
 			case TextureType::ATTACK:
 				attackTextures.push_back(texture);
 				break;
+			case TextureType::FALLING:
+				fallingTextures.push_back(texture);
+				break;
 			}
 		} else {
 			success = false;
@@ -163,6 +236,8 @@ void Character::nextSpriteIndex()
 		spriteIndexDying = (spriteIndexDying + 1) % dyingTextures.size();
 	case CharacterStatus::ATTACK:
 		spriteIndexAttack = (spriteIndexAttack + 1) % attackTextures.size();
+	case CharacterStatus::FALLING:
+		spriteIndexFalling = (spriteIndexFalling + 1) % fallingTextures.size();
 	}
 }
 
@@ -201,16 +276,22 @@ void Character::render(SDL_Renderer *renderer)
 		}
 		break;
 
-        case CharacterStatus::ATTACK:
-            // idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-            // std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-            attackTextures[spriteIndexAttack]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+	case CharacterStatus::ATTACK:
+		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
+		attackTextures[spriteIndexAttack]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
 
-            if (spriteIndexAttack + 1 == attackTextures.size()) {
-                setWidth(getWidth()-20);
-                status = CharacterStatus::IDLE;
-            }
-            break;
+		if (spriteIndexAttack + 1 == attackTextures.size()) {
+			setWidth(getWidth() - 20);
+			status = CharacterStatus::IDLE;
+		}
+		break;
+
+	case CharacterStatus::FALLING:
+		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
+		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
+		fallingTextures[spriteIndexFalling]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		break;
 
 	default:
 		throw std::exception{};
@@ -278,4 +359,42 @@ int Character::getHealth()
 void Character::setHealth(int health)
 {
 	this->health = health;
+}
+
+bool Character::contactsPlatform()
+{
+    return contactPlatform;
+}
+
+void Character::setContactPlatform(bool b) {
+    contactPlatform = b;
+}
+
+bool Character::contactsWall()
+{
+    return contactWall;
+}
+
+void Character::setContactWall(bool b) {
+    contactWall = b;
+}
+
+
+void Character::changeDirection()
+{
+    switch(direction)
+    {
+        case Direction::RIGHT:
+            direction = Direction::LEFT;
+            break;
+        case Direction::LEFT:
+            direction = Direction::RIGHT;
+            break;
+    }
+    contactWall = false;
+}
+
+
+SDL_RendererFlip Character::getFlipType() const {
+    return flipType;
 }

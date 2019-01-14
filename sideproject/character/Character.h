@@ -5,7 +5,7 @@
 #include <SDL_mixer.h>
 #include <vector>
 #include "Texture.h"
-#include "Moveable.h"
+#include "GameObject.h"
 //The character that will move around on the screen
 
 enum class CharacterStatus {
@@ -13,19 +13,19 @@ enum class CharacterStatus {
 	RUNNING,
 	DEAD,
 	DYING,
-	ATTACK
+	ATTACK,
+	FALLING
 };
 
 enum class CharacterSoundType {
 	SHOUT
 };
 
-class Character: public Moveable {
+class Character: public GameObject {
 public:
 
 	//Initializes the variables
 	Character();
-
     Character(double x, double y);
 
     ~Character();
@@ -35,13 +35,24 @@ public:
 
 	//Lets the Character jump
 	void jump();
+    void move();
 
-	void free();
+    bool contactsPlatform();
+    void setContactPlatform(bool);
+
+    bool contactsWall();
+    void setContactWall(bool b);
+
+    void changeDirection();
+
+    void free();
 
 	//Shows the Character on the screen
 	void render(SDL_Renderer* gRenderer);
 
-	CharacterStatus getStatus();
+    SDL_RendererFlip getFlipType() const;
+
+    CharacterStatus getStatus();
 
 	void loadFromFile(std::string path, SDL_Renderer *renderer);
 
@@ -52,6 +63,8 @@ public:
 	std::vector<Texture *> runningTextures;
     std::vector<Texture *> dyingTextures;
     std::vector<Texture *> attackTextures;
+    std::vector<Texture *> fallingTextures;
+
 
     void nextSpriteIndex();
     void shout();
@@ -61,14 +74,27 @@ public:
     int getHealth();
 
 protected:
-	//The force of the Character
-	//double forceY;
+    // The velocity of the moveable Object
+    double velX;
+    // The velocity of the moveable Object
+    double velY;
+    // Max velocity of moveable Object
+    const double max_vel = 5;
+    // The velocity of the moveable Object
+    double forceY;
 
-	int keypressCount = 0;
+    // Flip type (for flipping objects when facing left)
+    SDL_RendererFlip flipType;
+
+    bool contactPlatform = false;
+    bool contactWall = false;
+
+    int keypressCount = 0;
     int spriteIndexIdle = 0;
     int spriteIndexRunning = 0;
     int spriteIndexDying = 0;
     int spriteIndexAttack = 0;
+    int spriteIndexFalling = 0;
 
     //Status (e.g. idle or running) the Character
 	CharacterStatus status;

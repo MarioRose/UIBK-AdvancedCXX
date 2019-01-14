@@ -34,7 +34,7 @@ class Room {
 
 	void renderEnemies(SDL_Renderer *renderer);
 
-	void collisionTiles(Moveable *character);
+	void collisionTiles(Character *character);
 
 	void collisionTilesEnemies();
 

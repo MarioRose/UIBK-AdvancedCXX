@@ -26,6 +26,7 @@ class HUD {
 	// Scene textures
 	std::vector<Texture *> liveCountTextures;
 	Texture starTexture;
+	Texture itemHolder;
 
   protected:
 	// The force of the Character

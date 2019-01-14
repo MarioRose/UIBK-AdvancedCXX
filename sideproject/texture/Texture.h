@@ -8,7 +8,8 @@ enum class TextureType {
 	IDLE,
 	RUNNING,
 	DYING,
-	ATTACK
+	ATTACK,
+	FALLING
 };
 
 //Texture wrapper class

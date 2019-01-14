@@ -37,6 +37,9 @@ bool HUD::loadTextures()
     starTexture.loadFromFile("../../assets/images/sprites/star.png", renderer);
     starTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
+    itemHolder.loadFromFile("../../assets/images/item_holder.png", renderer);
+    itemHolder.scaleToHeight(SCREEN_HEIGHT * 0.1);
+
     updatePoints(NULL);
 
 	return success;
@@ -48,6 +51,8 @@ void HUD::render(Player *player, bool updateScore)
 	liveCountTextures.at(index)->render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
     starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+
+    itemHolder.render(SCREEN_WIDTH-60, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
     if(updateScore){
         updatePoints(player);
