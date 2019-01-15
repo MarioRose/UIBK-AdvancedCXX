@@ -18,7 +18,7 @@ public:
 
 	void render(SDL_Renderer *renderer, Texture& arrowTexture);
 
-	bool collisionDetection(Enemy* enemy);
+	bool collisionDetection(IEnemy* enemy);
 
 	void shoot(int x, int y);
 

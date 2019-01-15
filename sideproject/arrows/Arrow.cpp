@@ -32,7 +32,7 @@ void Arrow::render(SDL_Renderer *renderer, Texture &arrowTexture)
 	}
 }
 
-bool Arrow::collisionDetection(Enemy *enemy)
+bool Arrow::collisionDetection(IEnemy *enemy)
 {
 	if (enemy->getStatus() == CharacterStatus::DEAD) {
 		return false;

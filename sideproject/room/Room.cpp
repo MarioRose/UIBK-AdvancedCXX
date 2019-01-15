@@ -1,5 +1,6 @@
 #include <Room.h>
 
+#include "Sprite.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -10,40 +11,40 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include "Sprite.h"
-
 
 Room::Room() : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
-    initTiles();
+	initTiles();
 }
 
-Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow) : background_texture(nullptr), music(nullptr), danger_music(nullptr)
+Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow)
+    : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
-    roomIndex = index;
-    roomIndexAbove = indexAbove;
-    roomIndexBelow = indexBelow;
-    roomIndexLeft = indexLeft;
-    roomIndexRight = indexRight;
+	roomIndex = index;
+	roomIndexAbove = indexAbove;
+	roomIndexBelow = indexBelow;
+	roomIndexLeft = indexLeft;
+	roomIndexRight = indexRight;
 
-    initTiles();
+	initTiles();
 }
 
 // TODO: should parse file
-void Room::initTiles() {
+void Room::initTiles()
+{
 
-    for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-        tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND));
-    }
-    for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-        tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
-    }
+	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
+		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND));
+	}
+	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
+		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
+	}
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
 
-    starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
+	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
 
 	arrows.loadTexture(renderer);
 	std::ifstream map(path);
@@ -67,55 +68,59 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 			} else if (key == "BACKGROUND") {
 				loadBackground(value, renderer);
 			} else if (key == "TILES" && value == "BEGIN") {
-                for(int i = 0; i < 20; i++){
-                    std::getline(map, line);
-                    std::istringstream iss(line);
+				for (int i = 0; i < 20; i++) {
+					std::getline(map, line);
+					std::istringstream iss(line);
 
-        			if (!(iss >> key >> value)) {
-        				continue;
-        			}
+					if (!(iss >> key >> value)) {
+						continue;
+					}
 
-                    if (key == "PLATFORM") {
-    				    addTile(value, Tile::TILE_PLATFORM);
-                    } else if (key == "WALL") {
-                        addTile(value, Tile::TILE_WALL);
-                    } else if (key == "TILES" && value == "END") {
-                        break;
-                    }
-                }
-            } else if (key == "ENTITIES" && value == "BEGIN") {
-                for(int i = 0; i < 20; i++){
-                    std::getline(map, line);
-                    std::istringstream iss(line);
+					if (key == "PLATFORM") {
+						addTile(value, Tile::TILE_PLATFORM);
+					} else if (key == "WALL") {
+						addTile(value, Tile::TILE_WALL);
+					} else if (key == "TILES" && value == "END") {
+						break;
+					}
+				}
+			} else if (key == "ENTITIES" && value == "BEGIN") {
+				for (int i = 0; i < 20; i++) {
+					std::getline(map, line);
+					std::istringstream iss(line);
 
-        			if (!(iss >> key >> value)) {
-        				continue;
-        			}
+					if (!(iss >> key >> value)) {
+						continue;
+					}
 
-                    if (key == "ENEMY") {
-    				    addEnemy(value, renderer);
-                    } else if (key == "ENTITIES" && value == "END") {
-                        break;
-                    }
-                }
-            } else if (key == "SPRITES" && value == "BEGIN") {
-                for(int i = 0; i < 20; i++){
-                    std::getline(map, line);
-                    std::istringstream iss(line);
+					if (key == "ENEMY") {
+						addEnemy(value, renderer);
+					}
 
-        			if (!(iss >> key >> value)) {
-        				continue;
-        			}
+					if (key == "BOSS") {
+						addBoss(value, renderer);
+					} else if (key == "ENTITIES" && value == "END") {
+						break;
+					}
+				}
+			} else if (key == "SPRITES" && value == "BEGIN") {
+				for (int i = 0; i < 20; i++) {
+					std::getline(map, line);
+					std::istringstream iss(line);
 
-                    if (key == "STAR") {
-                        addSprite(value, renderer, SpriteType::STAR);
-                    } else if (key == "SPRITES" && value == "END") {
-                        break;
-                    }
-                }
-            } else if (key == "COLOR") {
-                setRGB(value);
-            }
+					if (!(iss >> key >> value)) {
+						continue;
+					}
+
+					if (key == "STAR") {
+						addSprite(value, renderer, SpriteType::STAR);
+					} else if (key == "SPRITES" && value == "END") {
+						break;
+					}
+				}
+			} else if (key == "COLOR") {
+				setRGB(value);
+			}
 		}
 
 		map.close();
@@ -152,113 +157,126 @@ void Room::loadMusic(std::string path, RoomSoundType sound_type)
 
 void Room::loadBackground(std::string path, SDL_Renderer *renderer)
 {
-    SDL_Surface *background_surface = IMG_Load(path.c_str());
+	SDL_Surface *background_surface = IMG_Load(path.c_str());
 	background_texture = SDL_CreateTextureFromSurface(renderer, background_surface);
-    SDL_FreeSurface(background_surface);
+	SDL_FreeSurface(background_surface);
 }
 
 void Room::setRGB(std::string value)
 {
-    std::stringstream ss(value);
-    std::vector<std::string> result;
+	std::stringstream ss(value);
+	std::vector<std::string> result;
 
-    while (ss.good()) {
-        std::string substr;
-        getline(ss, substr, ',');
-        result.push_back(substr);
-    }
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
 
-    red = std::stoi(result.at(0));
-    green = std::stoi(result.at(1));
-    blue = std::stoi(result.at(2));
+	red = std::stoi(result.at(0));
+	green = std::stoi(result.at(1));
+	blue = std::stoi(result.at(2));
 }
 
 void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 {
-    auto enemy = new Enemy();
+	auto enemy = new Enemy();
 
-    std::stringstream ss(value);
-    std::vector<std::string> result;
+	std::stringstream ss(value);
+	std::vector<std::string> result;
 
-    while (ss.good()) {
-        std::string substr;
-        getline(ss, substr, ',');
-        result.push_back(substr);
-    }
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
 
-    enemy->setPosX(std::stoi(result.at(1)));
-    enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
-    enemy->loadFromFile(result.at(0), renderer);
+	enemy->setPosX(std::stoi(result.at(1)));
+	enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
+	enemy->loadFromFile(result.at(0), renderer);
 
-    enemies.emplace_back(enemy);
+	enemies.emplace_back(enemy);
+}
+
+void Room::addBoss(std::string value, SDL_Renderer *renderer)
+{
+	auto boss = new Boss();
+
+	std::stringstream ss(value);
+	std::vector<std::string> result;
+
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
+
+	boss->setPosX(std::stoi(result.at(1)));
+	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
+	boss->loadFromFile(result.at(0), renderer);
+
+	enemies.emplace_back(boss);
 }
 
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 {
 
+	std::stringstream ss(value);
+	std::vector<std::string> result;
 
-    std::stringstream ss(value);
-    std::vector<std::string> result;
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
 
-    while (ss.good()) {
-        std::string substr;
-        getline(ss, substr, ',');
-        result.push_back(substr);
-    }
+	int x = std::stoi(result.at(0));
+	int y = std::stoi(result.at(1));
 
-    int x = std::stoi(result.at(0));
-    int y = std::stoi(result.at(1));
-
-    switch(type)
-    {
-        case SpriteType::STAR:
-            sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type));
-            break;
-    }
+	switch (type) {
+	case SpriteType::STAR:
+		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type));
+		break;
+	}
 }
 
 void Room::addTile(std::string value, int type)
 {
 
+	std::stringstream ss(value);
+	std::vector<std::string> result;
 
-    std::stringstream ss(value);
-    std::vector<std::string> result;
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
 
-    while (ss.good()) {
-        std::string substr;
-        getline(ss, substr, ',');
-        result.push_back(substr);
-    }
+	int x = std::stoi(result.at(0));
+	int y = std::stoi(result.at(1));
+	int w = std::stoi(result.at(2)) / Tile::TILE_WEIGHT;
 
-    int x = std::stoi(result.at(0));
-    int y = std::stoi(result.at(1));
-    int w = std::stoi(result.at(2)) / Tile::TILE_WEIGHT;
-
-    if(type == Tile::TILE_PLATFORM || type == Tile::TILE_GROUND)
-    {
-        for(int i = 0; i < w; i++){
-            tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
-        }
-    }
-    else if(type == Tile::TILE_WALL)
-    {
-        for(int i = 0; i < w; i++){
-            tiles.emplace_back(Tile(x, SCREEN_HEIGHT - (y + i * Tile::TILE_WEIGHT), type));
-        }
-    }
+	if (type == Tile::TILE_PLATFORM || type == Tile::TILE_GROUND) {
+		for (int i = 0; i < w; i++) {
+			tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
+		}
+	} else if (type == Tile::TILE_WALL) {
+		for (int i = 0; i < w; i++) {
+			tiles.emplace_back(Tile(x, SCREEN_HEIGHT - (y + i * Tile::TILE_WEIGHT), type));
+		}
+	}
 }
 
+void Room::moveEnemies(Player *player)
+{
 
-void Room::moveEnemies(Player* player){
-
-    for (auto &enemy : enemies) {
-        enemy->move();
-        enemy->moveAI(player);
-    }
+	for (auto &enemy : enemies) {
+		enemy->move();
+		enemy->moveAI(player);
+	}
 }
 
-
-//void Room::setEnemyPos(std::string value)
+// void Room::setEnemyPos(std::string value)
 //{
 //	std::stringstream ss(value);
 //	std::vector<std::string> result;
@@ -275,17 +293,17 @@ void Room::moveEnemies(Player* player){
 
 void Room::renderSprites(SDL_Renderer *renderer)
 {
-    for (auto &sprite : sprites) {
-        if(sprite->visible)
-            sprite->render(renderer);
-    }
+	for (auto &sprite : sprites) {
+		if (sprite->visible)
+			sprite->render(renderer);
+	}
 }
 
 void Room::renderEnemies(SDL_Renderer *renderer)
 {
-    for (auto &enemy : enemies) {
-        enemy->render(renderer);
-    }
+	for (auto &enemy : enemies) {
+		enemy->render(renderer);
+	}
 }
 
 bool Room::checkIfEnemiesInRoom()
@@ -303,18 +321,16 @@ void Room::renderTiles(SDL_Renderer *renderer, SDL_Texture *texture)
 
 void Room::collisionTilesEnemies()
 {
-    for (auto &enemy : enemies) {
-        collisionTiles(enemy);
-    }
+	for (auto &enemy : enemies) {
+		collisionTiles(enemy);
+	}
 }
-
 
 void Room::collisionTiles(Character *character)
 {
 	for (auto &tile : tiles) {
 
-        if (character->getPosX() > tile.getX() - 1 && character->getPosX() < (tile.getX() + Tile::TILE_WEIGHT + 1))
-        {
+		if (character->getPosX() > tile.getX() - 1 && character->getPosX() < (tile.getX() + Tile::TILE_WEIGHT + 1)) {
 			if (character->getPosY() + character->getHeight() > tile.getY() - 3 &&
 			    character->getPosY() + character->getHeight() < (tile.getY() + 3)) {
 				character->setPosY(tile.getY() - character->getHeight());
@@ -329,21 +345,23 @@ void Room::collisionTiles(Character *character)
 
 void Room::enter()
 {
-    playMusic();
-    setVisited();
+	playMusic();
+	setVisited();
 }
 
 void Room::setVisited()
 {
-    visited = true;
+	visited = true;
 }
 
-bool Room::isVisited() {
-    return visited;
+bool Room::isVisited()
+{
+	return visited;
 }
 
-int Room::getIndex(){
-    return roomIndex;
+int Room::getIndex()
+{
+	return roomIndex;
 }
 
 Room::~Room()
@@ -355,21 +373,21 @@ Room::~Room()
 void Room::free()
 {
 
-    SDL_DestroyTexture(background_texture);
+	SDL_DestroyTexture(background_texture);
 
-    for (auto &enemy : enemies) {
-        enemy->free();
-    }
+	for (auto &enemy : enemies) {
+		enemy->free();
+	}
 
-    for (auto &sprite : sprites) {
-        sprite->free();
-    }
+	for (auto &sprite : sprites) {
+		sprite->free();
+	}
 
-    for (auto &tile : tiles) {
+	for (auto &tile : tiles) {
 		tile.free();
 	}
 
-    starTexture.free();
+	starTexture.free();
 	// Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);

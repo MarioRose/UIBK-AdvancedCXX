@@ -82,7 +82,7 @@ void Player::control(SDL_Event &e)
 	}
 }
 
-void Player::collisionDetectionEnemies(std::vector<Enemy *> enemies)
+void Player::collisionDetectionEnemies(std::vector<IEnemy *> enemies)
 {
 	for (auto &enemy : enemies) {
 		collisionDetection(enemy);
@@ -102,7 +102,7 @@ bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites)
 	return collision;
 }
 
-void Player::collisionDetection(Enemy *enemy)
+void Player::collisionDetection(IEnemy *enemy)
 {
 	if (enemy->getStatus() == CharacterStatus::DEAD) {
 		return;

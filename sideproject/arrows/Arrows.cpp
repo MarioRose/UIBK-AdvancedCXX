@@ -39,14 +39,14 @@ void Arrows::render(SDL_Renderer *renderer) {
 	}
 }
 
-void Arrows::collisionDetectionEnemies(std::vector<Enemy*> enemies) {
+void Arrows::collisionDetectionEnemies(std::vector<IEnemy*> enemies) {
 	for (auto &enemy : enemies) {
 		collisionDetection(enemy);
 	}
 }
 
 
-void Arrows::collisionDetection(Enemy* enemy) {
+void Arrows::collisionDetection(IEnemy* enemy) {
 	for(std::size_t i = 0; i<arrows.size(); i++) {
 		auto hit = arrows[i]->collisionDetection(enemy);
 		if(hit) {

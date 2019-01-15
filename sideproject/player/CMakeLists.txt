@@ -10,7 +10,6 @@ include_directories(
   ${SDL2_INCLUDE_DIRS}
   ${SDL2IMAGE_INCLUDE_DIRS}
   ../character
-  ../moveable
 )
 
 # Add a library with the above sources

@@ -13,8 +13,8 @@ public:
 	// Shows the Character on the screen
 	void render(SDL_Renderer *renderer);
 
-	void collisionDetectionEnemies(std::vector<Enemy*> enemies);
-	void collisionDetection(Enemy* enemy);
+	void collisionDetectionEnemies(std::vector<IEnemy*> enemies);
+	void collisionDetection(IEnemy* enemy);
 
 	void shootArrow(int x, int y, SDL_RendererFlip flipType);
 

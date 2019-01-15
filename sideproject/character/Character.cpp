@@ -271,7 +271,7 @@ void Character::render(SDL_Renderer *renderer)
 	case CharacterStatus::RUNNING:
 		// runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
-		runningTextures[spriteIndexRunning]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		runningTextures[spriteIndexRunning]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::IDLE:

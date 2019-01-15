@@ -1,0 +1,17 @@
+MAP Room03
+BACKGROUND assets/images/rooms/plx.png
+MUSIC assets/music/172561_45941-lq.mp3
+DANGER_MUSIC assets/music/inquisitiveness.ogg
+
+COLOR 255,0,0
+SAVE_POINT 100,10
+
+TILES BEGIN
+PLATFORM 140,100,100
+PLATFORM 250,140,140
+PLATFORM 180,240,200
+TILES END
+
+ENTITIES BEGIN
+BOSS assets/profiles/boss.txt,500,237
+ENTITIES END

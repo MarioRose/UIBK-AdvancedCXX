@@ -7,9 +7,9 @@ Enemy::~Enemy() {}
 
 void Enemy::moveAI(Character *character)
 {
-    if(status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK){
-        return;
-    }
+	if (status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
+		return;
+	}
 	status = CharacterStatus::RUNNING;
 
 	if (posX < 0) {
@@ -26,13 +26,11 @@ void Enemy::moveAI(Character *character)
 			direction = Direction::LEFT;
 			flipType = SDL_FLIP_HORIZONTAL;
 		}
-        if(abs(character->getPosX() - posX) <= 25){
-            posX -= 20;
-            status = CharacterStatus::ATTACK;
-        }
+		if (abs(character->getPosX() - posX) <= 25) {
+			posX -= 20;
+			status = CharacterStatus::ATTACK;
+		}
 	}
-
-
 
 	if (contactWall) {
 		changeDirection();

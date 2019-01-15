@@ -1,0 +1,15 @@
+CHARACTER Devil
+HEIGHT 108
+WIDTH 60
+HEALTH 5
+IDLE assets/images/characters/devil/idle/1.png
+RUNNING assets/images/characters/devil/running/1.png
+RUNNING assets/images/characters/devil/running/1.png
+RUNNING assets/images/characters/devil/running/2.png
+RUNNING assets/images/characters/devil/running/2.png
+RUNNING assets/images/characters/devil/running/3.png
+RUNNING assets/images/characters/devil/running/3.png
+DYING assets/images/characters/devil/idle/1.png
+ATTACK assets/images/characters/devil/idle/1.png
+FALLING assets/images/characters/devil/idle/1.png
+JUMPING assets/images/characters/devil/idle/1.png

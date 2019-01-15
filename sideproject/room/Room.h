@@ -2,6 +2,8 @@
 #define ROOM_H
 
 #include "Enemy.h"
+#include "Boss.h"
+#include "IEnemy.h"
 #include "Player.h"
 #include "Sprite.h"
 #include "Tile.h"
@@ -42,8 +44,8 @@ class Room {
 
 	SDL_Texture *background_texture;
 
-	std::vector<Enemy *> enemies;
-	std::vector<Sprite *> sprites;
+	std::vector<IEnemy *> enemies;
+    std::vector<Sprite *> sprites;
 	Arrows arrows;
 	// std::vector<LTexture *> backgroundTextures;
 
@@ -69,7 +71,8 @@ class Room {
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void setRGB(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
-	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
+    void addBoss(std::string path, SDL_Renderer *renderer);
+    void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
 	void addTile(std::string value, int type);
 	void setEnemyPos(std::string value);
 	bool checkIfEnemiesInRoom();

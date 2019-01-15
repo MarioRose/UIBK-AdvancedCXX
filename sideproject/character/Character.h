@@ -87,6 +87,7 @@ protected:
 
     // Flip type (for flipping objects when facing left)
     SDL_RendererFlip flipType;
+    SDL_Rect* clip = NULL;
 
     bool contactPlatform = false;
     bool contactWall = false;

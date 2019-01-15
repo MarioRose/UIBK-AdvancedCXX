@@ -10,11 +10,13 @@ include_directories(
   ${SDL2_INCLUDE_DIRS}
   ${SDL2IMAGE_INCLUDE_DIRS}
   ../character
-  ../moveable
 )
 
 # Add a library with the above sources
-add_library(${PROJECT_NAME} Enemy.cpp)
+add_library(${PROJECT_NAME}
+        Enemy.cpp
+        Boss.cpp
+        )
 add_library(sub::enemy ALIAS ${PROJECT_NAME})
 
 target_include_directories( ${PROJECT_NAME}

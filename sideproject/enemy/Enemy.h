@@ -1,16 +1,16 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "Character.h"
+#include "IEnemy.h"
 
-class Enemy : public Character {
+class Enemy : public IEnemy {
   public:
 	// Initializes the variables
 	Enemy();
 
 	~Enemy();
 
-	void moveAI(Character *character);
+	void moveAI(Character *character) override;
 };
 
 #endif // ENEMY_H

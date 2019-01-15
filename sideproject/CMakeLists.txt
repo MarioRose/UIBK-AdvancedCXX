@@ -16,3 +16,5 @@ add_subdirectory(moveable)
 add_subdirectory(hud)
 add_subdirectory(tileManager)
 add_subdirectory(sprite)
+add_subdirectory(boss)
+
