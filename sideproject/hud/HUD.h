@@ -26,6 +26,7 @@ class HUD {
 	std::vector<Texture *> liveCountTextures;
 	Texture starTexture;
 	Texture itemHolder;
+    Texture bow;
 
   protected:
 	// The force of the Character
@@ -35,6 +36,8 @@ class HUD {
   private:
      SDL_Texture* pointsTexture = NULL;
      SDL_Texture* pointsTextureBlack = NULL;
+
+    void renderEquippedItem(Player* player);
 
 };
 

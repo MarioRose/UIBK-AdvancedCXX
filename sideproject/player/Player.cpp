@@ -2,7 +2,9 @@
 #include <Player.h>
 
 #include "Enemy.h"
+#include "Player.h"
 #include "Sprite.h"
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <Settings.h>
@@ -123,11 +125,12 @@ bool Player::collisionDetection(Sprite *sprite)
 	if (abs(posX - sprite->getPosX()) < 10) {
 		if (abs(posY - sprite->getPosY()) < 15) {
 			sprite->visible = false;
-			if(sprite->getSpriteType() == SpriteType::STAR) {
+			if (sprite->getSpriteType() == SpriteType::STAR) {
 				sprite->playSound();
 				points++;
-			} else if(sprite->getSpriteType() == SpriteType::BOW) {
+			} else if (sprite->getSpriteType() == SpriteType::BOW) {
 				hasBow = true;
+				equippedItem = EquippedItem::BOW;
 			}
 			return true;
 		}
@@ -166,6 +169,12 @@ bool Player::onBottomBorder()
 	return posY >= (SCREEN_HEIGHT - object_height - 5);
 }
 
-bool Player::getHasBow() const {
+bool Player::getHasBow() const
+{
 	return hasBow;
+}
+
+EquippedItem Player::getEquippedItem() const
+{
+	return equippedItem;
 }

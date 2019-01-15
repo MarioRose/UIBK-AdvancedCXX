@@ -78,6 +78,7 @@ class Room {
 	bool checkIfEnemiesInRoom();
 	void initTiles();
 	void removeTile(std::string value);
+    void removeSkyTile(std::string value);
 
 	std::vector<Tile> tiles;
 

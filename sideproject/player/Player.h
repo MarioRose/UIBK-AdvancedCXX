@@ -4,8 +4,12 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Sprite.h"
-// The player that will move around on the screen
 
+enum class EquippedItem {
+    BOW
+};
+
+// The player that will move around on the screen
 class Player : public Character {
   public:
 	// Initializes the variables
@@ -30,10 +34,13 @@ class Player : public Character {
 
 	bool getHasBow() const;
 
+	EquippedItem getEquippedItem() const;
+
   private:
 	bool hasBow = false;
 	int keypressCount = 0;
 	int points = 0;
+	EquippedItem equippedItem;
 
 	void collisionDetection(IEnemy *enemy);
 	bool collisionDetection(Sprite *sprite);
