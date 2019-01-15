@@ -13,6 +13,7 @@ Arrows::~Arrows() {
 		delete arrow;
 	}
 	arrowTexture.free();
+	bowTexture.free();
 
 }
 
@@ -23,17 +24,36 @@ bool Arrows::loadTexture(SDL_Renderer *renderer)
 
 	arrowTexture.loadFromFile("assets/images/arrow.png", renderer);
 	arrowTexture.scaleToWidth(35);
+	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
+	bowTexture.scaleToHeight(35);
 	return success;
 }
 
-void Arrows::shootArrow(int x, int y, SDL_RendererFlip flipType) {
+void Arrows::shootArrow(int playerX, int playerY, SDL_RendererFlip flipType) {
 	Arrow* arrow = new Arrow(flipType);
-	arrow->shoot(x, y);
+	if(flipType == SDL_FLIP_NONE) {
+		arrow->shoot(playerX, playerY+15);
+	} else {
+		arrow->shoot(playerX-15, playerY+15);
+	}
 	arrows.push_back(arrow);
+	renderBow = true;
 }
 
 
-void Arrows::render(SDL_Renderer *renderer) {
+void Arrows::render(SDL_Renderer *renderer, int playerX, int playerY, SDL_RendererFlip flipType) {
+	if(renderBow && framesSinceLastArrowShot < 10) {
+		if(flipType == SDL_FLIP_NONE) {
+			bowTexture.render(playerX+10, playerY, renderer, NULL, 0, NULL, flipType);
+		} else {
+			bowTexture.render(playerX-15, playerY, renderer, NULL, 0, NULL, flipType);
+		}
+		framesSinceLastArrowShot++;
+		if(framesSinceLastArrowShot >= 10) {
+			renderBow = false;
+			framesSinceLastArrowShot = 0;
+		}
+	}
 	for(auto& arrow : arrows) {
 		arrow->render(renderer, arrowTexture);
 	}

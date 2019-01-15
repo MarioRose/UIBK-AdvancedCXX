@@ -612,6 +612,7 @@ int main(int argc, char *args[])
 		}
 		// quit = true;
 		// While application is running
+
 		while (!quit) {
 			if (pause) {
 				int index = showmenu(font, "Pause", GameStatus::PAUSE);
@@ -638,7 +639,9 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY() + 10, player.getFlipType());
+					if(player.getHasBow()) {
+						currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType());
+					}
 				}
 
 				// Handle input for the character
@@ -701,13 +704,12 @@ int main(int argc, char *args[])
 
 			// Render objects
 			currentRoom->moveEnemies(&player);
-
 			player.render(gRenderer);
 			currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture);
 			hud.render(&player, collision);
-			currentRoom->arrows.render(gRenderer);
+			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 
 			// Update screen
 			SDL_RenderPresent(gRenderer);

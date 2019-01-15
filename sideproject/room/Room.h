@@ -1,8 +1,8 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-#include "Enemy.h"
 #include "Boss.h"
+#include "Enemy.h"
 #include "IEnemy.h"
 #include "Player.h"
 #include "Sprite.h"
@@ -45,7 +45,7 @@ class Room {
 	SDL_Texture *background_texture;
 
 	std::vector<IEnemy *> enemies;
-    std::vector<Sprite *> sprites;
+	std::vector<Sprite *> sprites;
 	Arrows arrows;
 	// std::vector<LTexture *> backgroundTextures;
 
@@ -58,7 +58,7 @@ class Room {
 	int green = 0;
 	int blue = 0;
 
-    bool renderedInMap = false;
+	bool renderedInMap = false;
 
 	void enter();
 	void playMusic();
@@ -71,8 +71,8 @@ class Room {
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void setRGB(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
-    void addBoss(std::string path, SDL_Renderer *renderer);
-    void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
+	void addBoss(std::string path, SDL_Renderer *renderer);
+	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
 	void addTile(std::string value, int type);
 	void setEnemyPos(std::string value);
 	bool checkIfEnemiesInRoom();
@@ -80,7 +80,8 @@ class Room {
 
 	std::vector<Tile> tiles;
 
-    Texture starTexture;
+	Texture starTexture;
+	Texture bowTexture;
 
 	int roomIndex;
 	bool visited = false;

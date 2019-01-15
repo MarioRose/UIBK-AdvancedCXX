@@ -45,6 +45,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
 
 	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
+	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
 
 	arrows.loadTexture(renderer);
 	std::ifstream map(path);
@@ -99,6 +100,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 
 					if (key == "BOSS") {
 						addBoss(value, renderer);
+
 					} else if (key == "ENTITIES" && value == "END") {
 						break;
 					}
@@ -114,6 +116,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 
 					if (key == "STAR") {
 						addSprite(value, renderer, SpriteType::STAR);
+					} else if (key == "BOW") {
+						addSprite(value, renderer, SpriteType::BOW);
 					} else if (key == "SPRITES" && value == "END") {
 						break;
 					}
@@ -236,6 +240,9 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 	switch (type) {
 	case SpriteType::STAR:
 		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type));
+		break;
+	case SpriteType::BOW:
+		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type));
 		break;
 	}
 }
@@ -388,6 +395,7 @@ void Room::free()
 	}
 
 	starTexture.free();
+	bowTexture.free();
 	// Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);

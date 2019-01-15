@@ -2,7 +2,7 @@ CHARACTER Devil
 HEIGHT 33
 WIDTH 22
 HEALTH 3
-IDLE assets/images/characters/devil/idle/01.png
+IDLE assets/images/characters/devil/idle/1.png
 RUNNING assets/images/characters/skeleton/running/1.gif
 RUNNING assets/images/characters/skeleton/running/2.gif
 RUNNING assets/images/characters/skeleton/running/3.gif

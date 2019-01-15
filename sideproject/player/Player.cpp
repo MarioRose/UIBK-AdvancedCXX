@@ -123,8 +123,12 @@ bool Player::collisionDetection(Sprite *sprite)
 	if (abs(posX - sprite->getPosX()) < 10) {
 		if (abs(posY - sprite->getPosY()) < 15) {
 			sprite->visible = false;
-			sprite->playSound();
-			points++;
+			if(sprite->getSpriteType() == SpriteType::STAR) {
+				sprite->playSound();
+				points++;
+			} else if(sprite->getSpriteType() == SpriteType::BOW) {
+				hasBow = true;
+			}
 			return true;
 		}
 	}
@@ -160,4 +164,8 @@ bool Player::onTopBorder()
 bool Player::onBottomBorder()
 {
 	return posY >= (SCREEN_HEIGHT - object_height - 5);
+}
+
+bool Player::getHasBow() const {
+	return hasBow;
 }

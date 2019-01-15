@@ -9,12 +9,10 @@
 
 class Arrow {
 public:
-	// Initializes the variables
-	Arrow(SDL_RendererFlip flipType);
+
+	explicit Arrow(SDL_RendererFlip flipType);
 
 	~Arrow();
-
-	void free();
 
 	void render(SDL_Renderer *renderer, Texture& arrowTexture);
 
