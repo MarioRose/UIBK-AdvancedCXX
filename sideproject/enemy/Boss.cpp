@@ -37,5 +37,9 @@ void Boss::goBackAndForth()
 
 void Boss::moveAI(Character *character)
 {
-	goBackAndForth();
+    if (status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
+        return;
+    }
+
+    goBackAndForth();
 }

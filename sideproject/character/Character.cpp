@@ -277,19 +277,19 @@ void Character::render(SDL_Renderer *renderer)
 	case CharacterStatus::IDLE:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		idleTextures[spriteIndexIdle]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		idleTextures[spriteIndexIdle]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::DEAD:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		dyingTextures[dyingTextures.size() - 1]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		dyingTextures[dyingTextures.size() - 1]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::DYING:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		dyingTextures[spriteIndexDying]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		dyingTextures[spriteIndexDying]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 
 		if (spriteIndexDying + 1 == dyingTextures.size()) {
 			status = CharacterStatus::DEAD;
@@ -299,7 +299,7 @@ void Character::render(SDL_Renderer *renderer)
 	case CharacterStatus::ATTACK:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		attackTextures[spriteIndexAttack]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		attackTextures[spriteIndexAttack]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 
 		if (spriteIndexAttack + 1 == attackTextures.size()) {
 			setWidth(getWidth() - 20);
@@ -310,13 +310,13 @@ void Character::render(SDL_Renderer *renderer)
 	case CharacterStatus::FALLING:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		fallingTextures[spriteIndexFalling]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		fallingTextures[spriteIndexFalling]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::JUMPING:
 		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
 		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
-		jumpingTextures[spriteIndexJumping]->render(posX, posY, renderer, NULL, 0, NULL, flipType);
+		jumpingTextures[spriteIndexJumping]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	default:

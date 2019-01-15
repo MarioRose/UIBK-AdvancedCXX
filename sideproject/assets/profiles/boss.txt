@@ -9,7 +9,23 @@ RUNNING assets/images/characters/devil/running/2.png
 RUNNING assets/images/characters/devil/running/2.png
 RUNNING assets/images/characters/devil/running/3.png
 RUNNING assets/images/characters/devil/running/3.png
-DYING assets/images/characters/devil/idle/1.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/2.png
+DYING assets/images/characters/devil/dying/2.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/2.png
+DYING assets/images/characters/devil/dying/2.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/2.png
+DYING assets/images/characters/devil/dying/2.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/1.png
+DYING assets/images/characters/devil/dying/2.png
+DYING assets/images/characters/devil/dying/2.png
+
 ATTACK assets/images/characters/devil/idle/1.png
 FALLING assets/images/characters/devil/idle/1.png
 JUMPING assets/images/characters/devil/idle/1.png

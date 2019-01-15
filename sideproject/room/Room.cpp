@@ -39,6 +39,9 @@ void Room::initTiles()
 	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
 		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
 	}
+    for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
+        tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, 0, Tile::TILE_GROUND));
+    }
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
@@ -81,6 +84,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 						addTile(value, Tile::TILE_PLATFORM);
 					} else if (key == "WALL") {
 						addTile(value, Tile::TILE_WALL);
+					} else if (key == "HOLE") {
+						removeTile(value);
 					} else if (key == "TILES" && value == "END") {
 						break;
 					}
@@ -270,6 +275,38 @@ void Room::addTile(std::string value, int type)
 	} else if (type == Tile::TILE_WALL) {
 		for (int i = 0; i < w; i++) {
 			tiles.emplace_back(Tile(x, SCREEN_HEIGHT - (y + i * Tile::TILE_WEIGHT), type));
+		}
+	}
+}
+
+void Room::removeTile(std::string value)
+{
+	std::stringstream ss(value);
+	std::vector<std::string> result;
+
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
+
+	int x_start = std::stoi(result.at(0));
+	int x_end = std::stoi(result.at(1));
+
+	if (x_end <= x_start) {
+		return;
+	}
+
+	std::vector<Tile>::iterator iter;
+	for (iter = tiles.begin(); iter != tiles.end();) {
+		if (iter->getY() >= (SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2)) {
+			if (iter->getX() >= x_start && iter->getX() <= x_end) {
+				iter = tiles.erase(iter);
+			} else {
+				iter++;
+			}
+		} else {
+			iter++;
 		}
 	}
 }
