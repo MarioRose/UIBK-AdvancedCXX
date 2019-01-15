@@ -153,7 +153,7 @@ void showInventory(TTF_Font *font, Player *player)
 	Uint32 time;
 	int x, y;
 
-	//TODO: Outsource texture loading stuff
+	// TODO: Outsource texture loading stuff
 	SDL_Surface *background_surface = IMG_Load("assets/images/menu.jpg");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 	SDL_FreeSurface(background_surface);
@@ -170,24 +170,23 @@ void showInventory(TTF_Font *font, Player *player)
 	bow_texture.loadFromFile("assets/images/sprites/bow.png", gRenderer);
 	bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
-
-    switch (player->getEquippedItem()) {
-        case EquippedItem::BOW:
-            inventoryBoxes[0].selected = true;
-            break;
-        default:
-            break;
-    }
+	switch (player->getEquippedItem()) {
+	case EquippedItem::BOW:
+		inventoryBoxes[0].selected = true;
+		break;
+	default:
+		break;
+	}
 
 	// first row of inventory boxes
 	for (int i = 0; i < 3; i++) {
 		inventoryBoxes[i].x = SCREEN_WIDTH * (i / 3.0) + 50;
 		inventoryBoxes[i].y = SCREEN_HEIGHT * 0.27;
-		if(inventoryBoxes[i].selected){
-            inventoryBoxes[i].texture = &box_texture;
-        } else {
-            inventoryBoxes[i].texture = &box_white_texture;
-        }
+		if (inventoryBoxes[i].selected) {
+			inventoryBoxes[i].texture = &box_texture;
+		} else {
+			inventoryBoxes[i].texture = &box_white_texture;
+		}
 	}
 
 	// second row of inventory boxes
@@ -195,18 +194,16 @@ void showInventory(TTF_Font *font, Player *player)
 		inventoryBoxes[i].x = SCREEN_WIDTH * ((i - 3) / 3.0) + 50;
 		inventoryBoxes[i].y = SCREEN_HEIGHT * 0.57;
 		inventoryBoxes[i].texture = &box_white_texture;
-        if(inventoryBoxes[i].selected){
-            inventoryBoxes[i].texture = &box_texture;
-        } else {
-            inventoryBoxes[i].texture = &box_white_texture;
-        }
+		if (inventoryBoxes[i].selected) {
+			inventoryBoxes[i].texture = &box_texture;
+		} else {
+			inventoryBoxes[i].texture = &box_white_texture;
+		}
 	}
 
 	if (player->getHasBow()) {
 		inventoryBoxes[0].itemTexture = &bow_texture;
 	}
-
-
 
 	const int numLabels = 3;
 
@@ -242,9 +239,9 @@ void showInventory(TTF_Font *font, Player *player)
 				x = event.motion.x;
 				y = event.motion.y;
 				for (int i = 0; i < 6; i++) {
-				    if(inventoryBoxes[i].selected){
-                        continue;
-				    }
+					if (inventoryBoxes[i].selected) {
+						continue;
+					}
 					if (x >= inventoryBoxes[i].x && x <= inventoryBoxes[i].x + inventoryBoxes[i].w &&
 					    y >= inventoryBoxes[i].y && y <= inventoryBoxes[i].y + inventoryBoxes[i].h) {
 						inventoryBoxes[i].texture = &box_texture;
@@ -309,7 +306,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	SDL_Surface *screen = SDL_GetWindowSurface(gWindow);
 	Uint32 time;
 	int x, y;
-	int NUMMENU;
+	int NUMMENU = 0;
 
 	switch (status) {
 	case GameStatus::GAME_OVER:
