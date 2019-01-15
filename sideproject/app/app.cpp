@@ -139,9 +139,11 @@ struct inventoryBox {
 	int w = 100;
 	int h = 100;
 	Texture *texture;
+	Texture *itemTexture = NULL;
+	bool selected = false;
 } inventoryBoxes[6];
 
-void showInventory(TTF_Font *font)
+void showInventory(TTF_Font *font, Player *player)
 {
 
 	// Clear winow
@@ -151,6 +153,7 @@ void showInventory(TTF_Font *font)
 	Uint32 time;
 	int x, y;
 
+	//TODO: Outsource texture loading stuff
 	SDL_Surface *background_surface = IMG_Load("assets/images/menu.jpg");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 	SDL_FreeSurface(background_surface);
@@ -163,11 +166,28 @@ void showInventory(TTF_Font *font)
 	box_white_texture.loadFromFile("assets/images/inventory_box_white.png", gRenderer);
 	box_white_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
+	Texture bow_texture;
+	bow_texture.loadFromFile("assets/images/sprites/bow.png", gRenderer);
+	bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+
+
+    switch (player->getEquippedItem()) {
+        case EquippedItem::BOW:
+            inventoryBoxes[0].selected = true;
+            break;
+        default:
+            break;
+    }
+
 	// first row of inventory boxes
 	for (int i = 0; i < 3; i++) {
 		inventoryBoxes[i].x = SCREEN_WIDTH * (i / 3.0) + 50;
 		inventoryBoxes[i].y = SCREEN_HEIGHT * 0.27;
-		inventoryBoxes[i].texture = &box_white_texture;
+		if(inventoryBoxes[i].selected){
+            inventoryBoxes[i].texture = &box_texture;
+        } else {
+            inventoryBoxes[i].texture = &box_white_texture;
+        }
 	}
 
 	// second row of inventory boxes
@@ -175,7 +195,18 @@ void showInventory(TTF_Font *font)
 		inventoryBoxes[i].x = SCREEN_WIDTH * ((i - 3) / 3.0) + 50;
 		inventoryBoxes[i].y = SCREEN_HEIGHT * 0.57;
 		inventoryBoxes[i].texture = &box_white_texture;
+        if(inventoryBoxes[i].selected){
+            inventoryBoxes[i].texture = &box_texture;
+        } else {
+            inventoryBoxes[i].texture = &box_white_texture;
+        }
 	}
+
+	if (player->getHasBow()) {
+		inventoryBoxes[0].itemTexture = &bow_texture;
+	}
+
+
 
 	const int numLabels = 3;
 
@@ -211,6 +242,9 @@ void showInventory(TTF_Font *font)
 				x = event.motion.x;
 				y = event.motion.y;
 				for (int i = 0; i < 6; i++) {
+				    if(inventoryBoxes[i].selected){
+                        continue;
+				    }
 					if (x >= inventoryBoxes[i].x && x <= inventoryBoxes[i].x + inventoryBoxes[i].w &&
 					    y >= inventoryBoxes[i].y && y <= inventoryBoxes[i].y + inventoryBoxes[i].h) {
 						inventoryBoxes[i].texture = &box_texture;
@@ -235,11 +269,11 @@ void showInventory(TTF_Font *font)
 				x = event.button.x;
 				y = event.button.y;
 				if (x >= pos[2].x && x <= pos[2].x + pos[2].w && y >= pos[2].y && y <= pos[2].y + pos[2].h) {
-                    for (int i = 0; i < numLabels; i++) {
-                        SDL_FreeSurface(menus[i]);
-                        //TODO: free rest
-                    }
-                    return;
+					for (int i = 0; i < numLabels; i++) {
+						SDL_FreeSurface(menus[i]);
+						// TODO: free rest
+					}
+					return;
 				}
 				break;
 			}
@@ -254,6 +288,10 @@ void showInventory(TTF_Font *font)
 		for (int i = 0; i < 6; i++) {
 			inventoryBoxes[i].texture->render(inventoryBoxes[i].x, inventoryBoxes[i].y, gRenderer, NULL, 0, NULL,
 			                                  SDL_FLIP_NONE);
+			if (inventoryBoxes[i].itemTexture != NULL) {
+				inventoryBoxes[i].itemTexture->render(inventoryBoxes[i].x + 20, inventoryBoxes[i].y, gRenderer, NULL, 0,
+				                                      NULL, SDL_FLIP_NONE);
+			}
 		}
 
 		for (int i = 0; i < numLabels; i++) {
@@ -282,6 +320,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 		break;
 	case GameStatus::PAUSE:
 		NUMMENU = 5;
+		break;
+	default:
+		NUMMENU = 0;
 		break;
 	}
 
@@ -619,7 +660,7 @@ int main(int argc, char *args[])
 				if (index > 3) {
 					break;
 				} else if (index == 2) {
-					showInventory(font);
+					showInventory(font, &player);
 				} else if (index == 3) {
 					showmap(rooms, currentRoom->getIndex());
 				}
@@ -639,7 +680,7 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					if(player.getHasBow()) {
+					if (player.getHasBow()) {
 						currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType());
 					}
 				}
