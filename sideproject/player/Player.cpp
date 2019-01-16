@@ -174,6 +174,10 @@ bool Player::onBottomBorder()
 	return posY >= (SCREEN_HEIGHT - object_height - 5);
 }
 
+bool Player::inSkyHole() const {
+	return posY >= (SCREEN_HEIGHT - 34);
+}
+
 bool Player::getHasBow() const
 {
 	return hasBow;

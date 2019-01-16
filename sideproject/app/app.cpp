@@ -724,6 +724,13 @@ int main(int argc, char *args[])
 				}
 			}
 
+			if (player.inSkyHole()) {
+				player.takeDamage();
+				player.setPosX(15);
+				player.setPosY(5);
+			}
+
+
 			player.collisionDetectionEnemies(currentRoom->enemies);
 			if (player.getHealth() == 0) {
 				std::cout << "You Lost!!!!" << std::endl;

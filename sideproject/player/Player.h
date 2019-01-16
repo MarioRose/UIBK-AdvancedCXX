@@ -31,6 +31,7 @@ class Player : public Character {
 	bool onRightBorder();
 	bool onTopBorder();
 	bool onBottomBorder();
+	bool inSkyHole() const;
 
 	bool getHasBow() const;
 
