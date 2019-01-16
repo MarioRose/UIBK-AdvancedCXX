@@ -14,7 +14,7 @@ TILES END
 
 ENTITIES BEGIN
 ENEMY assets/profiles/devil.txt,300,0
-ENEMY assets/profiles/devil.txt,600,0
+ENEMY assets/profiles/devil.txt,500,0
 ENTITIES END
 
 SPRITES BEGIN

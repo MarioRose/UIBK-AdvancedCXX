@@ -272,6 +272,7 @@ void Room::addTile(std::string value, int type)
 
 	if (type == Tile::TILE_PLATFORM || type == Tile::TILE_GROUND) {
 		for (int i = 0; i < w; i++) {
+			std::cout << x + i * Tile::TILE_WEIGHT << std::endl;
 			tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
 		}
 	} else if (type == Tile::TILE_WALL) {
@@ -407,8 +408,7 @@ void Room::collisionTilesEnemies()
 void Room::collisionTiles(Character *character)
 {
 	for (auto &tile : tiles) {
-
-		if (character->getPosX() > tile.getX() - 1 && character->getPosX() < (tile.getX() + Tile::TILE_WEIGHT + 1)) {
+		if (character->getPosX() > tile.getX() - 10 && character->getPosX() + 5 < (tile.getX() + Tile::TILE_WEIGHT + 1)) {
 			if (character->getPosY() + character->getHeight() > tile.getY() - 3 &&
 			    character->getPosY() + character->getHeight() < (tile.getY() + 3)) {
 				character->setPosY(tile.getY() - character->getHeight());
