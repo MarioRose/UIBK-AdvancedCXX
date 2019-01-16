@@ -39,9 +39,9 @@ void Room::initTiles()
 	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
 		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
 	}
-    for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-        tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, 0, Tile::TILE_GROUND));
-    }
+	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
+		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, 0, Tile::TILE_GROUND));
+	}
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
@@ -86,8 +86,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 						addTile(value, Tile::TILE_WALL);
 					} else if (key == "HOLE") {
 						removeTile(value);
-                    } else if (key == "SKYHOLE") {
-                        removeSkyTile(value);
+					} else if (key == "SKYHOLE") {
+						removeSkyTile(value);
 					} else if (key == "TILES" && value == "END") {
 						break;
 					}
@@ -315,34 +315,34 @@ void Room::removeTile(std::string value)
 
 void Room::removeSkyTile(std::string value)
 {
-    std::stringstream ss(value);
-    std::vector<std::string> result;
+	std::stringstream ss(value);
+	std::vector<std::string> result;
 
-    while (ss.good()) {
-        std::string substr;
-        getline(ss, substr, ',');
-        result.push_back(substr);
-    }
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
 
-    int x_start = std::stoi(result.at(0));
-    int x_end = std::stoi(result.at(1));
+	int x_start = std::stoi(result.at(0));
+	int x_end = std::stoi(result.at(1));
 
-    if (x_end <= x_start) {
-        return;
-    }
+	if (x_end <= x_start) {
+		return;
+	}
 
-    std::vector<Tile>::iterator iter;
-    for (iter = tiles.begin(); iter != tiles.end();) {
-        if (iter->getY() == 0) {
-            if (iter->getX() >= x_start && iter->getX() <= x_end) {
-                iter = tiles.erase(iter);
-            } else {
-                iter++;
-            }
-        } else {
-            iter++;
-        }
-    }
+	std::vector<Tile>::iterator iter;
+	for (iter = tiles.begin(); iter != tiles.end();) {
+		if (iter->getY() == 0) {
+			if (iter->getX() >= x_start && iter->getX() <= x_end) {
+				iter = tiles.erase(iter);
+			} else {
+				iter++;
+			}
+		} else {
+			iter++;
+		}
+	}
 }
 
 void Room::moveEnemies(Player *player)

@@ -115,7 +115,12 @@ void Player::collisionDetection(IEnemy *enemy)
 			if (posX > enemy->getPosX())
 				posX += 50;
 			else
-				posX -= 50;
+				if(posX >= 50) {
+					posX -= 50;
+				} else {
+					posX = 0;
+				}
+
 		}
 	}
 }
