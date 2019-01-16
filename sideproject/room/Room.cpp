@@ -272,7 +272,6 @@ void Room::addTile(std::string value, int type)
 
 	if (type == Tile::TILE_PLATFORM || type == Tile::TILE_GROUND) {
 		for (int i = 0; i < w; i++) {
-			std::cout << x + i * Tile::TILE_WEIGHT << std::endl;
 			tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
 		}
 	} else if (type == Tile::TILE_WALL) {
