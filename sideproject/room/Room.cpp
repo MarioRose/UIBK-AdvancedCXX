@@ -192,7 +192,7 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 	std::vector<std::string> result = getValues(value);
 
 	int x = std::stoi(result.at(0));
-	int y = SCREEN_HEIGHT - std::stoi(result.at(1));
+	int y = std::stoi(result.at(1));
 
 	switch (type) {
 	case SpriteType::STAR:

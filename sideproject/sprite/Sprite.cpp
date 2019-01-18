@@ -8,7 +8,7 @@
 Sprite::Sprite() {}
 
 Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type)
-    : GameObject(x, y, 10, 10), renderer(renderer), type(type)
+    : GameObject(x, SCREEN_HEIGHT - y, 10, 10), renderer(renderer), type(type)
 {
 	cTexture = texture;
 	if(type == SpriteType::STAR) {
