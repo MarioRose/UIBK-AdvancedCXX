@@ -23,6 +23,7 @@ protected:
         --objects_alive;
     }
 };
+
 template <typename T> int counter<T>::objects_created( 0 );
 template <typename T> int counter<T>::objects_alive( 0 );
 
@@ -30,11 +31,11 @@ class X : public counter<X> {};
 
 class Y : public counter<Y> {};
 
-int main(){
+int main() {
 
     {
         X x1;
-        X x2;
+        X x2(x1);
     }
 
     X x3;

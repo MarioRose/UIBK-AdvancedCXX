@@ -1,40 +1,40 @@
 #include <iostream>
 
-template <typename T>
-struct counter
+struct Counter
 {
     static int objects_created;
     static int objects_alive;
 
-    counter()
+    Counter()
     {
         ++objects_created;
         ++objects_alive;
     }
 
-    counter(const counter&)
+    Counter(const Counter&)
     {
         ++objects_created;
         ++objects_alive;
     }
 protected:
-    ~counter() // objects should never be removed through pointers of this type
+    ~Counter() // objects should never be removed through pointers of this type
     {
         --objects_alive;
     }
 };
-template <typename T> int counter<T>::objects_created( 0 );
-template <typename T> int counter<T>::objects_alive( 0 );
 
-class X : public counter<X> {};
+int Counter::objects_created( 0 );
+int Counter::objects_alive( 0 );
 
-class Y : public counter<Y> {};
+class X : public Counter {};
 
-int main(){
+class Y : public Counter {};
+
+int main() {
 
     {
         X x1;
-        X x2;
+        X x2(x1);
     }
 
     X x3;
