@@ -30,18 +30,18 @@ bool HUD::loadTextures()
 	for (size_t i = 0; i < 6; i++) {
 		Texture *liveTexture = new Texture;
 		std::stringstream ss;
-		ss << "../../assets/images/heart-" << i << ".png";
+		ss << "assets/images/heart-" << i << ".png";
 		liveTexture->loadFromFile(ss.str(), renderer);
 		liveTexture->scaleToHeight(SCREEN_HEIGHT * 0.05);
 		liveCountTextures.push_back(liveTexture);
 	}
-	starTexture.loadFromFile("../../assets/images/sprites/star.png", renderer);
+	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
 	starTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
-	itemHolder.loadFromFile("../../assets/images/item_holder.png", renderer);
+	itemHolder.loadFromFile("assets/images/item_holder.png", renderer);
 	itemHolder.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
-	bow.loadFromFile("../../assets/images/sprites/bow.png", renderer);
+	bow.loadFromFile("assets/images/sprites/bow.png", renderer);
 	bow.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
 	updatePoints(NULL);
@@ -73,7 +73,7 @@ void HUD::render(Player *player, bool updateScore)
 void HUD::updatePoints(Player *player)
 {
 	TTF_Init();
-	TTF_Font *font = TTF_OpenFont("../../assets/fonts/OpenSans-Bold.ttf", 18);
+	TTF_Font *font = TTF_OpenFont("./assets/fonts/OpenSans-Bold.ttf", 18);
 
 	SDL_Surface *pointsSurface;
 	SDL_Surface *pointsSurfaceBlack;
