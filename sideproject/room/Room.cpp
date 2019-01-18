@@ -49,6 +49,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 
 	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
 	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
+	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
 
 	arrows.loadTexture(renderer);
 	std::ifstream map(path);
@@ -62,75 +63,36 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 			std::string key, value;
 			if (!(iss >> key >> value)) {
 				continue;
-			} // error
-			  // std::cout << key << ": " << value << std::endl;
+			}
 
-			if (key == "MUSIC") {
+            if (key == "#") {
+                continue;
+            } else if (key == "MUSIC") {
 				loadMusic(value, RoomSoundType::NORMAL);
 			} else if (key == "DANGER_MUSIC") {
 				loadMusic(value, RoomSoundType::DANGER);
 			} else if (key == "BACKGROUND") {
 				loadBackground(value, renderer);
-			} else if (key == "TILES" && value == "BEGIN") {
-				for (int i = 0; i < 20; i++) {
-					std::getline(map, line);
-					std::istringstream iss(line);
-
-					if (!(iss >> key >> value)) {
-						continue;
-					}
-
-					if (key == "PLATFORM") {
-						addTile(value, Tile::TILE_PLATFORM);
-					} else if (key == "WALL") {
-						addTile(value, Tile::TILE_WALL);
-					} else if (key == "HOLE") {
-						removeTile(value);
-					} else if (key == "SKYHOLE") {
-						removeSkyTile(value);
-					} else if (key == "TILES" && value == "END") {
-						break;
-					}
-				}
-			} else if (key == "ENTITIES" && value == "BEGIN") {
-				for (int i = 0; i < 20; i++) {
-					std::getline(map, line);
-					std::istringstream iss(line);
-
-					if (!(iss >> key >> value)) {
-						continue;
-					}
-
-					if (key == "ENEMY") {
-						addEnemy(value, renderer);
-					}
-
-					if (key == "BOSS") {
-						addBoss(value, renderer);
-
-					} else if (key == "ENTITIES" && value == "END") {
-						break;
-					}
-				}
-			} else if (key == "SPRITES" && value == "BEGIN") {
-				for (int i = 0; i < 20; i++) {
-					std::getline(map, line);
-					std::istringstream iss(line);
-
-					if (!(iss >> key >> value)) {
-						continue;
-					}
-
-					if (key == "STAR") {
-						addSprite(value, renderer, SpriteType::STAR);
-					} else if (key == "BOW") {
-						addSprite(value, renderer, SpriteType::BOW);
-					} else if (key == "SPRITES" && value == "END") {
-						break;
-					}
-				}
-			} else if (key == "COLOR") {
+			} else if (key == "PLATFORM") {
+                addTile(value, Tile::TILE_PLATFORM);
+            } else if (key == "WALL") {
+                addTile(value, Tile::TILE_WALL);
+            } else if (key == "HOLE") {
+                removeTile(value);
+            } else if (key == "SKYHOLE") {
+                removeSkyTile(value);
+            } else if (key == "ENEMY") {
+                addEnemy(value, renderer);
+            } else if (key == "BOSS") {
+                addBoss(value, renderer);
+            } else if (key == "STAR") {
+                addSprite(value, renderer, SpriteType::STAR);
+            } else if (key == "BOW") {
+                addSprite(value, renderer, SpriteType::BOW);
+            } else if (key == "COLOR") {
 				setRGB(value);
+			} else if (key == "SAVE_POINT") {
+                addSprite(value, renderer, SpriteType::FLAG);
 			}
 		}
 
@@ -175,7 +137,17 @@ void Room::loadBackground(std::string path, SDL_Renderer *renderer)
 
 void Room::setRGB(std::string value)
 {
-	std::stringstream ss(value);
+	std::vector<std::string> result = getValues(value);
+
+	mapColor.red = std::stoi(result.at(0));
+	mapColor.green = std::stoi(result.at(1));
+	mapColor.blue = std::stoi(result.at(2));
+}
+
+std::vector<std::string> Room::getValues(std::string value)
+{
+
+    std::stringstream ss(value);
 	std::vector<std::string> result;
 
 	while (ss.good()) {
@@ -184,23 +156,15 @@ void Room::setRGB(std::string value)
 		result.push_back(substr);
 	}
 
-	red = std::stoi(result.at(0));
-	green = std::stoi(result.at(1));
-	blue = std::stoi(result.at(2));
+    return result;
+
 }
 
 void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 {
 	auto enemy = new Enemy();
 
-	std::stringstream ss(value);
-	std::vector<std::string> result;
-
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
+	std::vector<std::string> result = getValues(value);
 
 	enemy->setPosX(std::stoi(result.at(1)));
 	enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
@@ -213,14 +177,7 @@ void Room::addBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new Boss();
 
-	std::stringstream ss(value);
-	std::vector<std::string> result;
-
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
+	std::vector<std::string> result = getValues(value);
 
 	boss->setPosX(std::stoi(result.at(1)));
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
@@ -232,17 +189,10 @@ void Room::addBoss(std::string value, SDL_Renderer *renderer)
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 {
 
-	std::stringstream ss(value);
-	std::vector<std::string> result;
-
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
+	std::vector<std::string> result = getValues(value);
 
 	int x = std::stoi(result.at(0));
-	int y = std::stoi(result.at(1));
+	int y = SCREEN_HEIGHT - std::stoi(result.at(1));
 
 	switch (type) {
 	case SpriteType::STAR:
@@ -251,20 +201,18 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 	case SpriteType::BOW:
 		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type));
 		break;
+    case SpriteType::FLAG:
+        savePoint.x = x;
+        savePoint.y = y;
+		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type));
+		break;
 	}
 }
 
 void Room::addTile(std::string value, int type)
 {
 
-	std::stringstream ss(value);
-	std::vector<std::string> result;
-
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
+	std::vector<std::string> result = getValues(value);
 
 	int x = std::stoi(result.at(0));
 	int y = std::stoi(result.at(1));
@@ -283,14 +231,7 @@ void Room::addTile(std::string value, int type)
 
 void Room::removeTile(std::string value)
 {
-	std::stringstream ss(value);
-	std::vector<std::string> result;
-
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
+	std::vector<std::string> result = getValues(value);
 
 	int x_start = std::stoi(result.at(0));
 	int x_end = std::stoi(result.at(1));
@@ -315,14 +256,7 @@ void Room::removeTile(std::string value)
 
 void Room::removeSkyTile(std::string value)
 {
-	std::stringstream ss(value);
-	std::vector<std::string> result;
-
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
+	std::vector<std::string> result = getValues(value);
 
 	int x_start = std::stoi(result.at(0));
 	int x_end = std::stoi(result.at(1));

@@ -21,6 +21,8 @@ Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteTyp
 
 		// Load music
 		sound = Mix_LoadWAV("assets/music/money-001.wav");
+	} else if (type == SpriteType::FLAG) {
+		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
 	}
 
 	if (sound == NULL) {

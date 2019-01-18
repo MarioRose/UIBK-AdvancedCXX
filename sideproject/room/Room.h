@@ -12,6 +12,18 @@
 #include <SDL_mixer.h>
 #include <string>
 
+struct SavePoint {
+    int x = 0;
+    int y = 0;
+    bool reached = false;
+};
+
+struct MapColor {
+    int red = 0;
+	int green = 0;
+	int blue = 0;
+};
+
 enum class RoomSoundType { NORMAL, DANGER };
 
 class Room {
@@ -54,9 +66,7 @@ class Room {
 	int roomIndexAbove;
 	int roomIndexBelow;
 
-	int red = 0;
-	int green = 0;
-	int blue = 0;
+    MapColor mapColor;
 
 	bool renderedInMap = false;
 
@@ -70,6 +80,7 @@ class Room {
 	void loadMusic(std::string path, RoomSoundType sound_type);
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void setRGB(std::string value);
+	void setSavePoint(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
 	void addBoss(std::string path, SDL_Renderer *renderer);
 	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
@@ -79,11 +90,16 @@ class Room {
 	void initTiles();
 	void removeTile(std::string value);
 	void removeSkyTile(std::string value);
+    std::vector<std::string> getValues(std::string value);
 
 	std::vector<Tile> tiles;
 
+    SavePoint savePoint;
+    Sprite flag;
+
 	Texture starTexture;
 	Texture bowTexture;
+	Texture flagTexture;
 
 	int roomIndex;
 	bool visited = false;

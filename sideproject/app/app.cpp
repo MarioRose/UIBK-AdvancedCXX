@@ -59,7 +59,7 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 	room->renderedInMap = true;
 
 	if (room->isVisited()) {
-		SDL_SetRenderDrawColor(gRenderer, room->red, room->green, room->blue, 255);
+		SDL_SetRenderDrawColor(gRenderer, room->mapColor.red, room->mapColor.green, room->mapColor.blue, 255);
 	} else {
 		SDL_SetRenderDrawColor(gRenderer, 180, 180, 180, 255);
 	}
