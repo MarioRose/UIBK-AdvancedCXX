@@ -11,25 +11,22 @@
 - [ ] basic movement
     - [ ] dropping from platforms
     - [ ] interacting with game entities (save points, doors etc)
-- [ ] main combat
-    - [ ] melee and/or ranged
-    - [ ] hitting enemies
 - [ ] 1 secondary combat mechanic
     - [ ] like spell slinging, hacking, *you name it*
 - [ ] player character
     - [ ] gets stronger over the course of the game (XP / level-up) (maye use playerPoints as XP)
     - [ ] can equip found items to further increase stats
 - [ ] Game over screen (back to main menu ...)
-- [ ] Save points (also in map)
+- [ ] Save points (also in map) (Samuel)
 - [ ] Save/Load Game
 - [ ] Walls
-- [ ] Boss attack
-- [ ] Boss healthbar
-- [ ] Enemies with range attacks
-- [ ] Double jump unlocking
+- [ ] Boss attack (Christoph)
+- [ ] Boss healthbar (Christoph)
+- [ ] Enemies with range attacks (Christoph)
+- [ ] Double jump unlocking (Christoph)
 - [ ] Skills (e.g. get more live every 20 stars)
-- [ ] change live count to font
-- [ ] fix numbers when > 9
+- [ ] change live count to font (Samuel)
+- [ ] fix numbers when > 9 (Samuel)
 - [ ] don't allow to walk on ground under platform
 - [ ] pfeile counter (max 10)
 - [ ] cap the frame-rate at a reasonable number
