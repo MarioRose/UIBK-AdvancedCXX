@@ -31,7 +31,8 @@
 - [X] change live count to font
 - [ ] fix numbers when > 9
 - [X] load sprites sound in Room only once
-- [ ] Save points (also in map)
+- [X] Save points
+- [ ] Save Points in map
 
 ## Christoph
 - [ ] Boss attack
