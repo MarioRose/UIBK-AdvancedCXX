@@ -20,7 +20,7 @@ class Player : public Character {
 	// Takes key presses and adjusts the Character's velocity
 	void control(SDL_Event &e);
 
-	void collisionDetectionEnemies(std::vector<IEnemy *> enemies);
+	bool collisionDetectionEnemies(std::vector<IEnemy *> enemies);
 	bool collisionDetectionSprites(std::vector<Sprite *> sprites);
 
 	void takeDamage();
@@ -43,7 +43,7 @@ class Player : public Character {
 	int points = 0;
 	EquippedItem equippedItem;
 
-	void collisionDetection(IEnemy *enemy);
+	bool collisionDetection(IEnemy *enemy);
 	bool collisionDetection(Sprite *sprite);
 };
 

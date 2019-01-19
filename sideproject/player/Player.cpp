@@ -84,11 +84,16 @@ void Player::control(SDL_Event &e)
 	}
 }
 
-void Player::collisionDetectionEnemies(std::vector<IEnemy *> enemies)
+bool Player::collisionDetectionEnemies(std::vector<IEnemy *> enemies)
 {
+
+    bool collision = false;
+
 	for (auto &enemy : enemies) {
-		collisionDetection(enemy);
+		collision |= collisionDetection(enemy);
 	}
+
+    return collision;
 }
 
 bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites)
@@ -104,10 +109,10 @@ bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites)
 	return collision;
 }
 
-void Player::collisionDetection(IEnemy *enemy)
+bool Player::collisionDetection(IEnemy *enemy)
 {
 	if (enemy->getStatus() == CharacterStatus::DEAD) {
-		return;
+		return false;
 	}
 	if (abs(posX - enemy->getPosX()) < 20) {
 		if (abs(posY - enemy->getPosY()) < 35) {
@@ -120,9 +125,10 @@ void Player::collisionDetection(IEnemy *enemy)
 				} else {
 					posX = 0;
 				}
-
+            return true;
 		}
 	}
+    return false;
 }
 
 bool Player::collisionDetection(Sprite *sprite)

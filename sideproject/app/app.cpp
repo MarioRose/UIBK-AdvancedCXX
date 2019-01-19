@@ -731,7 +731,7 @@ int main(int argc, char *args[])
 			}
 
 
-			player.collisionDetectionEnemies(currentRoom->enemies);
+			bool collisionEnemies = player.collisionDetectionEnemies(currentRoom->enemies);
 			if (player.getHealth() == 0) {
 				std::cout << "You Lost!!!!" << std::endl;
 				quit = true;
@@ -753,7 +753,7 @@ int main(int argc, char *args[])
 			currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture);
-			hud.render(&player, collision);
+			hud.render(&player, collision, collisionEnemies);
 			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 
 			// Update screen

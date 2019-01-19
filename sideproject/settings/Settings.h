@@ -4,6 +4,7 @@
 
 
 
+const int LIVE = 5;
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;

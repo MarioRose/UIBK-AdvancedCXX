@@ -25,7 +25,7 @@
 - [ ] Enemies with range attacks (Christoph)
 - [ ] Double jump unlocking (Christoph)
 - [ ] Skills (e.g. get more live every 20 stars)
-- [ ] change live count to font (Samuel)
+- [X] change live count to font (Samuel)
 - [ ] fix numbers when > 9 (Samuel)
 - [ ] don't allow to walk on ground under platform
 - [ ] pfeile counter (max 10)

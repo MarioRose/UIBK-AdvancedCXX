@@ -17,13 +17,14 @@ class HUD {
 	void free();
 
 	// Shows the Character on the screen
-	void render(Player *player, bool updatePoints);
+	void render(Player *player, bool updatePoints, bool updateLive);
 
     void updatePoints(Player *player);
+    void updateLiveCount(Player *player);
 
 	SDL_Renderer *renderer;
 	// Scene textures
-	std::vector<Texture *> liveCountTextures;
+	Texture hearthTexture;
 	Texture starTexture;
 	Texture itemHolder;
     Texture bow;
@@ -36,6 +37,11 @@ class HUD {
   private:
      SDL_Texture* pointsTexture = NULL;
      SDL_Texture* pointsTextureBlack = NULL;
+
+     SDL_Texture* liveCountTexture = NULL;
+     SDL_Texture* liveCountTextureBlack = NULL;
+
+    bool firstRender = false;
 
     void renderEquippedItem(Player* player);
 
