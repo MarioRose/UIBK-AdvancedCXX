@@ -106,6 +106,9 @@ class Room {
 	// The music that will be played
 	Mix_Music *music;
 	Mix_Music *danger_music;
+
+    Mix_Chunk *spriteSound1;
+    Mix_Chunk *spriteSound2;
 };
 
 #endif

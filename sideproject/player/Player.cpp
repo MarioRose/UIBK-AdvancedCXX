@@ -136,8 +136,8 @@ bool Player::collisionDetection(Sprite *sprite)
 	if (abs(posX - sprite->getPosX()) < 10) {
 		if (abs(posY - sprite->getPosY()) < 15) {
 			sprite->visible = false;
+			sprite->playSound();
 			if (sprite->getSpriteType() == SpriteType::STAR) {
-				sprite->playSound();
 				points++;
 			} else if (sprite->getSpriteType() == SpriteType::BOW) {
 				hasBow = true;

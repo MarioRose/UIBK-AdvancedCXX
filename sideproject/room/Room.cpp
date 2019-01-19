@@ -51,6 +51,9 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
 
+    spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
+    spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
+
 	arrows.loadTexture(renderer);
 	std::ifstream map(path);
 
@@ -196,15 +199,15 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 
 	switch (type) {
 	case SpriteType::STAR:
-		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type));
+		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type, spriteSound1));
 		break;
 	case SpriteType::BOW:
-		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type));
+		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type, spriteSound2));
 		break;
     case SpriteType::FLAG:
         savePoint.x = x;
         savePoint.y = y;
-		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type));
+		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type, spriteSound2));
 		break;
 	}
 }
@@ -400,6 +403,12 @@ void Room::free()
 
 	starTexture.free();
 	bowTexture.free();
+
+    Mix_FreeChunk(spriteSound1);
+	spriteSound1 = NULL;
+
+    Mix_FreeChunk(spriteSound2);
+	spriteSound2 = NULL;
 	// Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);

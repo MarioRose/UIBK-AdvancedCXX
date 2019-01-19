@@ -16,7 +16,7 @@ class Sprite : public GameObject {
 	// Initializes the variables
 	Sprite();
 
-	Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type);
+	Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type, Mix_Chunk *sound);
 
 	~Sprite();
 

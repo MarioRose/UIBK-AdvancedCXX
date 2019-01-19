@@ -24,6 +24,7 @@
 - [ ] Boss healthbar (Christoph)
 - [ ] Enemies with range attacks (Christoph)
 - [ ] Double jump unlocking (Christoph)
+- [X] load sprites sound in Room only once (Samuel)
 - [ ] Skills (e.g. get more live every 20 stars)
 - [X] change live count to font (Samuel)
 - [ ] fix numbers when > 9 (Samuel)
