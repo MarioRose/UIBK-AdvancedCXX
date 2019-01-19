@@ -9,6 +9,12 @@ enum class EquippedItem {
     BOW
 };
 
+struct SavePoint {
+    int x = 0;
+    int y = 0;
+    int roomIndex = 0;
+};
+
 // The player that will move around on the screen
 class Player : public Character {
   public:
@@ -36,6 +42,8 @@ class Player : public Character {
 	bool getHasBow() const;
 
 	EquippedItem getEquippedItem() const;
+
+    SavePoint lastSavePoint;
 
   private:
 	bool hasBow = false;

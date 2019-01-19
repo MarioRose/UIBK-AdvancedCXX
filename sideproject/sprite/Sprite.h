@@ -16,20 +16,20 @@ class Sprite : public GameObject {
 	// Initializes the variables
 	Sprite();
 
-	Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type, Mix_Chunk *sound);
+	Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type, Mix_Chunk *sound, int roomIndex);
 
 	~Sprite();
 
 	void playSound();
 
 	bool visible = true;
+    int roomIndex;
 
 	SpriteType getSpriteType();
 
   private:
 	SDL_Renderer *renderer;
 	SpriteType type;
-
 	Mix_Chunk *sound;
 };
 

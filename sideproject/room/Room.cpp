@@ -199,15 +199,13 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 
 	switch (type) {
 	case SpriteType::STAR:
-		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type, spriteSound1));
+		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type, spriteSound1, roomIndex));
 		break;
 	case SpriteType::BOW:
-		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type, spriteSound2));
+		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type, spriteSound2, roomIndex));
 		break;
     case SpriteType::FLAG:
-        savePoint.x = x;
-        savePoint.y = y;
-		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type, spriteSound2));
+		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type, spriteSound2, roomIndex));
 		break;
 	}
 }

@@ -137,12 +137,23 @@ bool Player::collisionDetection(Sprite *sprite)
 		if (abs(posY - sprite->getPosY()) < 15) {
 			sprite->visible = false;
 			sprite->playSound();
-			if (sprite->getSpriteType() == SpriteType::STAR) {
-				points++;
-			} else if (sprite->getSpriteType() == SpriteType::BOW) {
-				hasBow = true;
-				equippedItem = EquippedItem::BOW;
-			}
+
+            switch(sprite->getSpriteType()) {
+                case SpriteType::STAR:
+                    points++;
+                    break;
+                case SpriteType::BOW:
+                    hasBow = true;
+                    equippedItem = EquippedItem::BOW;
+                    break;
+                case SpriteType::FLAG:
+                    lastSavePoint.x = sprite->getPosX();
+                    lastSavePoint.y = sprite->getPosY();
+                    lastSavePoint.roomIndex = sprite->roomIndex;
+                    break;
+
+            }
+
 			return true;
 		}
 	}

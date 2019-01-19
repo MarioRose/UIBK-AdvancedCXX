@@ -4,7 +4,6 @@ MUSIC assets/music/265549.mp3
 DANGER_MUSIC assets/music/inquisitiveness.ogg
 
 COLOR 0,0,255
-SAVE_POINT 100,10
 
 # TILES
 PLATFORM 140,100,100

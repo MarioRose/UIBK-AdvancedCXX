@@ -7,8 +7,8 @@
 
 Sprite::Sprite() {}
 
-Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type, Mix_Chunk *sound)
-    : GameObject(x, SCREEN_HEIGHT - y, 10, 10), renderer(renderer), type(type), sound(sound)
+Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteType type, Mix_Chunk *sound, int roomIndex)
+    : GameObject(x, SCREEN_HEIGHT - y, 10, 10), renderer(renderer), type(type), sound(sound), roomIndex(roomIndex)
 {
 	cTexture = texture;
 	if(type == SpriteType::STAR) {

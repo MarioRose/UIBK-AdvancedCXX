@@ -732,6 +732,13 @@ int main(int argc, char *args[])
 
 
 			bool collisionEnemies = player.collisionDetectionEnemies(currentRoom->enemies);
+            if(collisionEnemies) {
+                currentRoom = rooms.at(player.lastSavePoint.roomIndex);
+        		currentRoom->enter();
+                player.setPosX(player.lastSavePoint.x);
+				player.setPosY(player.lastSavePoint.y);
+            }
+
 			if (player.getHealth() == 0) {
 				std::cout << "You Lost!!!!" << std::endl;
 				quit = true;

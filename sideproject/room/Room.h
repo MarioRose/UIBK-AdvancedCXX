@@ -12,12 +12,6 @@
 #include <SDL_mixer.h>
 #include <string>
 
-struct SavePoint {
-    int x = 0;
-    int y = 0;
-    bool reached = false;
-};
-
 struct MapColor {
     int red = 0;
 	int green = 0;
@@ -94,7 +88,6 @@ class Room {
 
 	std::vector<Tile> tiles;
 
-    SavePoint savePoint;
     Sprite flag;
 
 	Texture starTexture;
