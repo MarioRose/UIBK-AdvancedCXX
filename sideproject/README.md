@@ -25,6 +25,8 @@
 - [ ] cap the frame-rate at a reasonable number
 - [ ] timing related logic should be independent of the frame-rate, use a *time delta*
 
+## Mario
+
 ## Samuel
 - [X] change live count to font
 - [ ] fix numbers when > 9
@@ -36,8 +38,6 @@
 - [ ] Boss healthbar
 - [ ] Enemies with range attacks
 - [ ] Double jump unlocking
-
-### Mario
 
 ## SOUND
 https://freesound.org/
