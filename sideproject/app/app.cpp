@@ -585,14 +585,8 @@ void initRooms(std::string path, std::vector<Room *> *rooms)
                 continue;
             }
 
-			std::stringstream ss(value);
-			std::vector<std::string> result;
-
-			while (ss.good()) {
-				std::string substr;
-				getline(ss, substr, ',');
-				result.push_back(substr);
-			}
+            std::vector<std::string> result;
+            result = util::getValues(value);
 
 			Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
 			                      std::stoi(result.at(3)), std::stoi(result.at(4)));
