@@ -17,7 +17,6 @@
     - [ ] gets stronger over the course of the game (XP / level-up) (maye use playerPoints as XP)
     - [ ] can equip found items to further increase stats
 - [ ] Game over screen (back to main menu ...)
-- [ ] Save/Load Game
 - [ ] Walls
 - [ ] Skills (e.g. get more live every 20 stars)
 - [ ] don't allow to walk on ground under platform
@@ -33,6 +32,7 @@
 - [X] load sprites sound in Room only once
 - [X] Save points
 - [ ] Save Points in map
+- [ ] Save/Load Game
 
 ## Christoph
 - [ ] Boss attack
