@@ -1,5 +1,11 @@
 # Notes
 
+## BUGS
+
+- [ ] Characters can move on Ground under platform
+- [ ] Load Game: Enemies are immortal when set to death
+- [ ] Map ignored when loading game
+
 ## TODO
 
 - [ ] 3 consecutive areas, each:
