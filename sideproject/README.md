@@ -32,7 +32,7 @@
 - [X] load sprites sound in Room only once
 - [X] Save points
 - [ ] Save Points in map
-- [ ] Save/Load Game
+- [X] Save/Load Game
 
 ## Christoph
 - [ ] Boss attack
