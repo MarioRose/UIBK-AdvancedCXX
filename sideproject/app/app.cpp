@@ -316,19 +316,19 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 		NUMMENU = 3;
 		break;
 	case GameStatus::NEW:
-		NUMMENU = 4;
+		NUMMENU = 5;
 		break;
 	case GameStatus::PAUSE:
-		NUMMENU = 5;
+		NUMMENU = 6;
 		break;
 	default:
 		NUMMENU = 0;
 		break;
 	}
 
-	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Show Map", "Exit Game"};
+	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Show Map", "Load Game", "Exit Game"};
 	const char *labels_gameover[NUMMENU] = {title.c_str(), "Show Map", "Exit Game"};
-	const char *labels_pause[NUMMENU] = {title.c_str(), "Continue", "Inventory", "Show Map", "Exit Game"};
+	const char *labels_pause[NUMMENU] = {title.c_str(), "Continue", "Inventory", "Show Map", "Save Game", "Exit Game"};
 
 	SDL_Surface *menus[NUMMENU];
 	SDL_Surface *background_surface;
@@ -375,6 +375,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 			break;
 		case 4:
 			pos[i].y = SCREEN_HEIGHT * 0.6;
+			break;
+        case 5:
+			pos[i].y = SCREEN_HEIGHT * 0.7;
 			break;
 		}
 	}
@@ -611,24 +614,36 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex) 
     file << "HEALTH " << player.getHealth() << '\n';
     file << "POS " << player.getPosX() << "," << player.getPosY() << '\n';
     file << "CURRENT_ROOM " << currentRoomIndex << '\n';
+    file << "HAS_BOW " << player.getHasBow() << '\n';
 
     int i = 0;
     for(auto &room : rooms) {
         if(room->isVisited()) {
             file << "ROOM " << i++ << '\n';
+            for(auto &enemy : room->enemies) {
+                file << "ENEMY " << enemy->isAlive() << '\n';
+            }
+
+            for(auto &sprite : room->sprites) {
+                file << "SPRITE " << sprite->visible << '\n';
+            }
         }
     }
 
     file.close();
 }
 
-void loadGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex) {
+void loadGame(Player &player, std::vector<Room *> &rooms, Room *currentRoom) {
     std::cout << "Loading ..." << '\n';
     std::ifstream map("assets/games/01.txt");
 
 	if (map.is_open()) {
 
 		std::string line;
+
+        int enemyCounter = 0;
+        int spriteCounter = 0;
+        Room *tmpRoom;
 
 		while (std::getline(map, line)) {
 			std::istringstream iss(line);
@@ -644,6 +659,26 @@ void loadGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex) 
                 coords = util::getValues(value);
                 player.setPosX(std::stoi(coords.at(0)));
                 player.setPosY(std::stoi(coords.at(1)));
+			} else if (key == "POINTS") {
+                player.setPoints(std::stoi(value));
+			} else if (key == "HEALTH") {
+                player.setHealth(std::stoi(value));
+			} else if (key == "HAS_BOW") {
+                player.setHasBow(std::stoi(value));
+			} else if (key == "CURRENT_ROOM") {
+                currentRoom = rooms.at(std::stoi(value));
+                currentRoom->enter();
+			} else if (key == "ROOM") {
+                tmpRoom = rooms.at(std::stoi(value));
+                spriteCounter = 0;
+                enemyCounter = 0;
+			} else if (key == "ENEMY") {
+                if(std::stoi(value))
+                    tmpRoom->enemies.at(enemyCounter)->setDeath();
+                enemyCounter++;
+			} else if (key == "SPRITE") {
+                tmpRoom->sprites.at(spriteCounter)->visible = std::stoi(value);
+                spriteCounter++;
 			}
 		}
 
@@ -694,25 +729,27 @@ int main(int argc, char *args[])
 		TTF_Font *font;
 		font = TTF_OpenFont("assets/fonts/menuFont.ttf", 30);
 		int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
-		if (index > 2) {
+		if (index > 3) {
 			quit = true;
 		} else if (index == 2) {
 			showmap(rooms, currentRoom->getIndex());
-		}
+		} else if(index == 3) {
+            loadGame(player, rooms, currentRoom);
+        }
 		// quit = true;
 		// While application is running
 
 		while (!quit) {
 			if (pause) {
 				int index = showmenu(font, "Pause", GameStatus::PAUSE);
-				if (index > 3) {
+				if (index > 4) {
 					break;
 				} else if (index == 2) {
 					showInventory(font, &player);
 				} else if (index == 3) {
-					//showmap(rooms, currentRoom->getIndex());
-                    loadGame(player, rooms, currentRoom->getIndex());
-                    //saveGame(player, rooms, currentRoom->getIndex());
+					showmap(rooms, currentRoom->getIndex());
+				} else if (index == 4) {
+					saveGame(player, rooms, currentRoom->getIndex());
 				}
 				pause = false;
 			}

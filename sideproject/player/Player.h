@@ -32,6 +32,7 @@ class Player : public Character {
 	void takeDamage();
 
 	int getPoints();
+    void setPoints(int points);
 
 	bool onLeftBorder();
 	bool onRightBorder();
@@ -40,6 +41,7 @@ class Player : public Character {
 	bool inSkyHole() const;
 
 	bool getHasBow() const;
+    void setHasBow(bool hasBow);
 
 	EquippedItem getEquippedItem() const;
 

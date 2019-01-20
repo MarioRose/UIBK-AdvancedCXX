@@ -171,6 +171,11 @@ int Player::getPoints()
 	return points;
 }
 
+void Player::setPoints(int p)
+{
+    points = p;
+}
+
 bool Player::onLeftBorder()
 {
 	return posX <= 5;
@@ -198,6 +203,11 @@ bool Player::inSkyHole() const {
 bool Player::getHasBow() const
 {
 	return hasBow;
+}
+
+void Player::setHasBow(bool val)
+{
+    hasBow = val;
 }
 
 EquippedItem Player::getEquippedItem() const

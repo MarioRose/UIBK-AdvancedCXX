@@ -382,9 +382,20 @@ int Character::getHealth()
 	return health;
 }
 
+bool Character::isAlive()
+{
+	return getHealth() > 0;
+}
+
 void Character::setHealth(int health)
 {
 	this->health = health;
+}
+
+void Character::setDeath()
+{
+	this->health = 0;
+    status = CharacterStatus::DEAD;
 }
 
 bool Character::contactsPlatform()
