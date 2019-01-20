@@ -28,4 +28,5 @@ target_link_libraries(
 		sub::tile
 		sub::player
 		sub::sprite
+		sub::util
 )

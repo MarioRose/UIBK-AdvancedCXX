@@ -1,6 +1,7 @@
 #include <Room.h>
 
 #include "Sprite.h"
+#include "Util.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -140,34 +141,18 @@ void Room::loadBackground(std::string path, SDL_Renderer *renderer)
 
 void Room::setRGB(std::string value)
 {
-	std::vector<std::string> result = getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
 	mapColor.red = std::stoi(result.at(0));
 	mapColor.green = std::stoi(result.at(1));
 	mapColor.blue = std::stoi(result.at(2));
 }
 
-std::vector<std::string> Room::getValues(std::string value)
-{
-
-    std::stringstream ss(value);
-	std::vector<std::string> result;
-
-	while (ss.good()) {
-		std::string substr;
-		getline(ss, substr, ',');
-		result.push_back(substr);
-	}
-
-    return result;
-
-}
-
 void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 {
 	auto enemy = new Enemy();
 
-	std::vector<std::string> result = getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
 	enemy->setPosX(std::stoi(result.at(1)));
 	enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
@@ -180,7 +165,7 @@ void Room::addBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new Boss();
 
-	std::vector<std::string> result = getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
 	boss->setPosX(std::stoi(result.at(1)));
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
@@ -192,7 +177,7 @@ void Room::addBoss(std::string value, SDL_Renderer *renderer)
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 {
 
-	std::vector<std::string> result = getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
 	int x = std::stoi(result.at(0));
 	int y = std::stoi(result.at(1));
@@ -213,7 +198,7 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 void Room::addTile(std::string value, int type)
 {
 
-	std::vector<std::string> result = getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
 	int x = std::stoi(result.at(0));
 	int y = std::stoi(result.at(1));
@@ -232,7 +217,7 @@ void Room::addTile(std::string value, int type)
 
 void Room::removeTile(std::string value)
 {
-	std::vector<std::string> result = getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
 	int x_start = std::stoi(result.at(0));
 	int x_end = std::stoi(result.at(1));
@@ -257,7 +242,7 @@ void Room::removeTile(std::string value)
 
 void Room::removeSkyTile(std::string value)
 {
-	std::vector<std::string> result = getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
 	int x_start = std::stoi(result.at(0));
 	int x_end = std::stoi(result.at(1));

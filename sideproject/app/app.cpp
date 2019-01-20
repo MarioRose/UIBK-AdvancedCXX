@@ -21,6 +21,7 @@ and may not be redistributed without written permission.*/
 #include <sstream>
 #include <stdio.h>
 #include <string>
+#include <Util.h>
 
 #include <algorithm>
 
@@ -45,6 +46,8 @@ SDL_Texture *tileTexture;
 
 // pause
 bool pause = false;
+
+std::string mapName;
 
 // RECURSIVELY BUILD MAP
 void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, int w, int h)
@@ -577,8 +580,10 @@ void initRooms(std::string path, std::vector<Room *> *rooms)
 				continue;
 			} // error
 
-			if (key == "MAP")
-				continue;
+			if (key == "MAP") {
+                mapName = value;
+                continue;
+            }
 
 			std::stringstream ss(value);
 			std::vector<std::string> result;
@@ -601,6 +606,58 @@ void initRooms(std::string path, std::vector<Room *> *rooms)
 		std::cout << "Error loading map " << path << std::endl;
 	}
 }
+
+void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex) {
+    std::cout << "Saving ..." << '\n';
+    std::ofstream file;
+    // TODO Generate unique filename
+    file.open("assets/games/01.txt");
+    file << "MAP " << mapName << '\n';
+    file << "POINTS " << player.getPoints() << '\n';
+    file << "HEALTH " << player.getHealth() << '\n';
+    file << "POS " << player.getPosX() << "," << player.getPosY() << '\n';
+    file << "CURRENT_ROOM " << currentRoomIndex << '\n';
+
+    int i = 0;
+    for(auto &room : rooms) {
+        if(room->isVisited()) {
+            file << "ROOM " << i++ << '\n';
+        }
+    }
+
+    file.close();
+}
+
+void loadGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex) {
+    std::cout << "Loading ..." << '\n';
+    std::ifstream map("assets/games/01.txt");
+
+	if (map.is_open()) {
+
+		std::string line;
+
+		while (std::getline(map, line)) {
+			std::istringstream iss(line);
+			std::string key, value;
+			if (!(iss >> key >> value)) {
+				continue;
+			}
+
+            if (key == "#") {
+                continue;
+            } else if (key == "POS") {
+                std::vector<std::string> coords;
+                coords = util::getValues(value);
+                player.setPosX(std::stoi(coords.at(0)));
+                player.setPosY(std::stoi(coords.at(1)));
+			}
+		}
+
+		map.close();
+    }
+
+}
+
 
 int main(int argc, char *args[])
 {
@@ -659,7 +716,9 @@ int main(int argc, char *args[])
 				} else if (index == 2) {
 					showInventory(font, &player);
 				} else if (index == 3) {
-					showmap(rooms, currentRoom->getIndex());
+					//showmap(rooms, currentRoom->getIndex());
+                    loadGame(player, rooms, currentRoom->getIndex());
+                    //saveGame(player, rooms, currentRoom->getIndex());
 				}
 				pause = false;
 			}

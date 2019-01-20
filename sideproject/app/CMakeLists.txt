@@ -51,4 +51,5 @@ target_link_libraries(
 		sub::hud
 		sub::tile
 		sub::sprite
+		sub::util
 )

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(sidescroller)
 
 add_subdirectory(app)
+add_subdirectory(util)
 add_subdirectory(arrows)
 add_subdirectory(timer)
 add_subdirectory(texture)
@@ -16,4 +17,3 @@ add_subdirectory(moveable)
 add_subdirectory(hud)
 add_subdirectory(tileManager)
 add_subdirectory(sprite)
-
