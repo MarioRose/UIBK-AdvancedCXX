@@ -41,7 +41,7 @@ bool HUD::loadTextures()
 	return success;
 }
 
-void HUD::render(Player *player, bool updateScore, bool updateLive)
+void HUD::render(Player *player, bool updateHud)
 {
 	int index = std::max(0, player->getHealth());
 
@@ -52,11 +52,8 @@ void HUD::render(Player *player, bool updateScore, bool updateLive)
 
 	renderEquippedItem(player);
 
-	if (updateScore | !firstRender) {
+	if (updateHud | !firstRender) {
 		updatePoints(player);
-	}
-
-    if (updateLive | !firstRender) {
 		updateLiveCount(player);
 	}
 

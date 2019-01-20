@@ -726,6 +726,8 @@ int main(int argc, char *args[])
 		// The frame rate regulator
 		Timer fps;
 
+        bool collision = true;
+
 		TTF_Font *font;
 		font = TTF_OpenFont("assets/fonts/menuFont.ttf", 30);
 		int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
@@ -821,8 +823,8 @@ int main(int argc, char *args[])
 			}
 
 
-			bool collisionEnemies = player.collisionDetectionEnemies(currentRoom->enemies);
-            if(collisionEnemies) {
+			collision = player.collisionDetectionEnemies(currentRoom->enemies);
+            if(collision) {
                 currentRoom = rooms.at(player.lastSavePoint.roomIndex);
         		currentRoom->enter();
                 player.setPosX(player.lastSavePoint.x);
@@ -835,7 +837,7 @@ int main(int argc, char *args[])
 				showmenu(font, "Game Over", GameStatus::GAME_OVER);
 			}
 
-			bool collision = player.collisionDetectionSprites(currentRoom->sprites);
+			collision |= player.collisionDetectionSprites(currentRoom->sprites);
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
 
 			// Clear screen
@@ -850,7 +852,7 @@ int main(int argc, char *args[])
 			currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture);
-			hud.render(&player, collision, collisionEnemies);
+			hud.render(&player, collision);
 			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 
 			// Update screen
@@ -858,6 +860,7 @@ int main(int argc, char *args[])
 
 			// Increment the frame counter
 			frame++;
+            collision = false;
 
 			// If we want to cap the frame rate
 			if (cap && (fps.getTicks() < 1000 / FRAMES_PER_SECOND)) {

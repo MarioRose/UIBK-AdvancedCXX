@@ -17,7 +17,7 @@ class HUD {
 	void free();
 
 	// Shows the Character on the screen
-	void render(Player *player, bool updatePoints, bool updateLive);
+	void render(Player *player, bool updateHud);
 
     void updatePoints(Player *player);
     void updateLiveCount(Player *player);
