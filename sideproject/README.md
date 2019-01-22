@@ -37,7 +37,7 @@
 - [X] fix numbers when > 9
 - [X] load sprites sound in Room only once
 - [X] Save points
-- [ ] Save Points in map
+- [X] Save Points in map
 - [X] Save/Load Game
 
 ## Christoph

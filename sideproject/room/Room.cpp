@@ -96,6 +96,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
             } else if (key == "COLOR") {
 				setRGB(value);
 			} else if (key == "SAVE_POINT") {
+                hasSavePoint = true;
                 addSprite(value, renderer, SpriteType::FLAG);
 			}
 		}

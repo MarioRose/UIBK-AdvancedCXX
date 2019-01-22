@@ -71,10 +71,16 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 	SDL_RenderFillRect(gRenderer, &r);
 
 	if (i == current) {
-		SDL_SetRenderDrawColor(gRenderer, 0, 250, 0, 255);
+		SDL_SetRenderDrawColor(gRenderer, 0, 20, 250, 255);
 		SDL_Rect r = {x + w / 2, SCREEN_HEIGHT - y + h / 2, 8, 8};
 		SDL_RenderFillRect(gRenderer, &r);
 	}
+
+    if(room->hasSavePoint && room->isVisited()) {
+        SDL_SetRenderDrawColor(gRenderer, 250, 20, 0, 255);
+		SDL_Rect r = {x + 3 * w / 4, SCREEN_HEIGHT - y + h / 4, 8, 8};
+		SDL_RenderFillRect(gRenderer, &r);
+    }
 
 	if (room->roomIndexRight > 0) {
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
