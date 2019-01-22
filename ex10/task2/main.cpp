@@ -7,6 +7,7 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
+#include <string>
 #include <SDL.h>
 
 // About OpenGL function loaders: modern OpenGL doesn't have a standard header file and requires individual function pointers to be loaded manually.
@@ -21,6 +22,7 @@
 #else
 #include IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 #endif
+
 
 int main(int, char**)
 {
@@ -54,7 +56,7 @@ int main(int, char**)
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_DisplayMode current;
     SDL_GetCurrentDisplayMode(0, &current);
-    SDL_Window* window = SDL_CreateWindow("Dear ImGui SDL2+OpenGL3 example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
+    SDL_Window* window = SDL_CreateWindow("Calculator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 400, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
     SDL_GLContext gl_context = SDL_GL_CreateContext(window);
     SDL_GL_SetSwapInterval(1); // Enable vsync
 
@@ -103,9 +105,15 @@ int main(int, char**)
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != NULL);
 
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    static int argumentIndex = 0;
+    static int argument[100] = {0};
+    static int operators[100] = {0};
+    static int solution;
+    static bool showSolution;
 
     // Main loop
     bool done = false;
@@ -131,42 +139,76 @@ int main(int, char**)
         ImGui_ImplSDL2_NewFrame(window);
         ImGui::NewFrame();
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        static float f = 0.0f;
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-        {
-            static float f = 0.0f;
-            static int counter = 0;
+        ImGui::Begin("Calculator");                          // Create a window called "Hello, world!" and append into it.
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+        int regulateIndex = 0;
 
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
+        //Create Numberfield
+        for(int i = 1; i < 13; i++){
 
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+            if(i == 4){
+                if(ImGui::Button("+")){
+                    operators[argumentIndex] = 1;
+                    argumentIndex++;
+                }
+                regulateIndex++;
+            }
 
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
+            else if(i == 8){
+                if(ImGui::Button("-")){
+                    operators[argumentIndex] = 2;
+                    argumentIndex++;
+                }
+                regulateIndex++;
+            }
 
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
+            else if(i == 12){
+                if(ImGui::Button("*")){
+                    operators[argumentIndex] = 3;
+                    argumentIndex++;
+                }
+            }
+            else if(ImGui::Button(std::to_string(i-regulateIndex).c_str())){
+                showSolution = false;
+                argument[argumentIndex] = argument[argumentIndex]*10 + (i-regulateIndex);
+            }
+
+            if(i%4 != 0)
+                ImGui::SameLine();
         }
 
-        // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
+        if(ImGui::Button("0")){
+            showSolution = false;
+            argument[argumentIndex] = argument[argumentIndex]*10 + 0;
         }
+
+        if(ImGui::Button("=")){
+            for(int i = argumentIndex-1; i >= 0; i--){
+                if(operators[i] == 1){
+                    argument[i] += argument[i+1];
+                } else if(operators[i] == 2) {
+                    argument[i] -= argument[i + 1];
+                } else if(operators[i] == 3) {
+                    argument[i] *= argument[i+1];
+                }
+                argument[i+1] = 0;
+            }
+            solution = argument[0];
+            showSolution = true;
+            argumentIndex = 0;
+            argument[0] = 0;
+        }
+
+        if(showSolution){
+            ImGui::Text("%d", solution);
+        } else {
+            ImGui::Text("%d", argument[argumentIndex]);
+        }
+
+        ImGui::End();
+
 
         // Rendering
         ImGui::Render();
