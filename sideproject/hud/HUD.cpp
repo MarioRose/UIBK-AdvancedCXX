@@ -43,8 +43,6 @@ bool HUD::loadTextures()
 
 void HUD::render(Player *player, bool updateHud)
 {
-	int index = std::max(0, player->getHealth());
-
     hearthTexture.render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 	starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
@@ -57,14 +55,19 @@ void HUD::render(Player *player, bool updateHud)
 		updateLiveCount(player);
 	}
 
-	SDL_Rect renderQuadBlack = {104, 8, 12, 30};
+    int widthPoints = ((int) log10 ((double) player->getPoints()) + 1) * 12;
+
+	SDL_Rect renderQuadBlack = {104, 8, widthPoints, 30};
 	SDL_RenderCopy(renderer, pointsTextureBlack, NULL, &renderQuadBlack);
-	SDL_Rect renderQuad = {102, 6, 12, 30};
+	SDL_Rect renderQuad = {102, 6, widthPoints, 30};
 	SDL_RenderCopy(renderer, pointsTexture, NULL, &renderQuad);
 
-    renderQuadBlack = {44, 8, 12, 30};
+
+    int widthHealth = ((int) log10 ((double) player->getHealth()) + 1) * 12;
+
+    renderQuadBlack = {44, 8, widthHealth, 30};
 	SDL_RenderCopy(renderer,liveCountTextureBlack, NULL, &renderQuadBlack);
-	renderQuad = {42, 6, 12, 30};
+	renderQuad = {42, 6, widthHealth, 30};
 	SDL_RenderCopy(renderer, liveCountTexture, NULL, &renderQuad);
 
     if (!firstRender) {

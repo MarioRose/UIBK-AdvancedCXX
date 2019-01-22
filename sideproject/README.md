@@ -34,7 +34,7 @@
 
 ## Samuel
 - [X] change live count to font
-- [ ] fix numbers when > 9
+- [X] fix numbers when > 9
 - [X] load sprites sound in Room only once
 - [X] Save points
 - [ ] Save Points in map
