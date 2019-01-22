@@ -4,7 +4,7 @@
 
 - [ ] Characters can move on Ground under platform
 - [ ] Load Game: Enemies are immortal when set to death
-- [ ] Map ignored when loading game
+- [X] Map ignored when loading game
 
 ## TODO
 
@@ -34,10 +34,10 @@
 
 ## Samuel
 - [X] change live count to font
-- [ ] fix numbers when > 9
+- [X] fix numbers when > 9
 - [X] load sprites sound in Room only once
 - [X] Save points
-- [ ] Save Points in map
+- [X] Save Points in map
 - [X] Save/Load Game
 
 ## Christoph

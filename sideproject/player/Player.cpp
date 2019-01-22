@@ -171,6 +171,12 @@ int Player::getPoints()
 	return points;
 }
 
+void Player::setLastSavePoint(int x, int y, int roomIndex) {
+    lastSavePoint.x = x;
+    lastSavePoint.y = y;
+    lastSavePoint.roomIndex = roomIndex;
+}
+
 void Player::setPoints(int p)
 {
     points = p;

@@ -71,10 +71,16 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 	SDL_RenderFillRect(gRenderer, &r);
 
 	if (i == current) {
-		SDL_SetRenderDrawColor(gRenderer, 0, 250, 0, 255);
+		SDL_SetRenderDrawColor(gRenderer, 0, 20, 250, 255);
 		SDL_Rect r = {x + w / 2, SCREEN_HEIGHT - y + h / 2, 8, 8};
 		SDL_RenderFillRect(gRenderer, &r);
 	}
+
+    if(room->hasSavePoint && room->isVisited()) {
+        SDL_SetRenderDrawColor(gRenderer, 250, 20, 0, 255);
+		SDL_Rect r = {x + 3 * w / 4, SCREEN_HEIGHT - y + h / 4, 8, 8};
+		SDL_RenderFillRect(gRenderer, &r);
+    }
 
 	if (room->roomIndexRight > 0) {
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
@@ -316,7 +322,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 		NUMMENU = 3;
 		break;
 	case GameStatus::NEW:
-		NUMMENU = 5;
+		NUMMENU = 4;
 		break;
 	case GameStatus::PAUSE:
 		NUMMENU = 6;
@@ -326,7 +332,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 		break;
 	}
 
-	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Show Map", "Load Game", "Exit Game"};
+	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Load Game", "Exit Game"};
 	const char *labels_gameover[NUMMENU] = {title.c_str(), "Show Map", "Exit Game"};
 	const char *labels_pause[NUMMENU] = {title.c_str(), "Continue", "Inventory", "Show Map", "Save Game", "Exit Game"};
 
@@ -360,25 +366,10 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	SDL_Rect pos[NUMMENU];
 	for (int i = 0; i < NUMMENU; i++) {
 		pos[i].x = SCREEN_WIDTH * 0.1;
-		switch (i) {
-		case 0:
-			pos[i].y = SCREEN_HEIGHT / 5 - menus[0]->clip_rect.h;
-			break;
-		case 1:
-			pos[i].y = SCREEN_HEIGHT * 0.3;
-			break;
-		case 2:
-			pos[i].y = SCREEN_HEIGHT * 0.4;
-			break;
-		case 3:
-			pos[i].y = SCREEN_HEIGHT * 0.5;
-			break;
-		case 4:
-			pos[i].y = SCREEN_HEIGHT * 0.6;
-			break;
-        case 5:
-			pos[i].y = SCREEN_HEIGHT * 0.7;
-			break;
+		if(i < 1) {
+			pos[i].y = SCREEN_HEIGHT * 0.1;
+		} else {
+			pos[i].y = SCREEN_HEIGHT * (0.3 + (i-1) * 0.1);
 		}
 	}
 
@@ -567,7 +558,7 @@ void input(SDL_Event &event)
 	}
 }
 
-void initRooms(std::string path, std::vector<Room *> *rooms)
+void initRooms(std::string path, std::vector<Room *> &rooms)
 {
 
 	std::ifstream map(path);
@@ -594,7 +585,7 @@ void initRooms(std::string path, std::vector<Room *> *rooms)
 			Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
 			                      std::stoi(result.at(3)), std::stoi(result.at(4)));
 			room->loadFromFile(result.at(0).c_str(), gRenderer);
-			rooms->push_back(room);
+			rooms.push_back(room);
 		}
 
 		map.close();
@@ -604,17 +595,18 @@ void initRooms(std::string path, std::vector<Room *> *rooms)
 	}
 }
 
-void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex) {
+void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, std::string mapPath) {
     std::cout << "Saving ..." << '\n';
     std::ofstream file;
     // TODO Generate unique filename
     file.open("assets/games/01.txt");
-    file << "MAP " << mapName << '\n';
+    file << "MAP " << mapPath << '\n';
     file << "POINTS " << player.getPoints() << '\n';
     file << "HEALTH " << player.getHealth() << '\n';
     file << "POS " << player.getPosX() << "," << player.getPosY() << '\n';
     file << "CURRENT_ROOM " << currentRoomIndex << '\n';
     file << "HAS_BOW " << player.getHasBow() << '\n';
+    file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << "," << player.lastSavePoint.roomIndex << '\n';
 
     int i = 0;
     for(auto &room : rooms) {
@@ -633,11 +625,13 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex) 
     file.close();
 }
 
-void loadGame(Player &player, std::vector<Room *> &rooms, Room *currentRoom) {
+int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath) {
     std::cout << "Loading ..." << '\n';
     std::ifstream map("assets/games/01.txt");
 
-	if (map.is_open()) {
+    int currentRoomIndex = -1;
+
+    if (map.is_open()) {
 
 		std::string line;
 
@@ -654,6 +648,9 @@ void loadGame(Player &player, std::vector<Room *> &rooms, Room *currentRoom) {
 
             if (key == "#") {
                 continue;
+            } else if(key == "MAP") {
+                mapPath = value;
+                initRooms(value, rooms);
             } else if (key == "POS") {
                 std::vector<std::string> coords;
                 coords = util::getValues(value);
@@ -666,9 +663,12 @@ void loadGame(Player &player, std::vector<Room *> &rooms, Room *currentRoom) {
 			} else if (key == "HAS_BOW") {
                 player.setHasBow(std::stoi(value));
 			} else if (key == "CURRENT_ROOM") {
-                currentRoom = rooms.at(std::stoi(value));
-                currentRoom->enter();
-			} else if (key == "ROOM") {
+                currentRoomIndex = std::stoi(value);
+			} else if (key == "SAVE_POINT") {
+                std::vector<std::string> res;
+                res = util::getValues(value);
+                player.setLastSavePoint(std::stoi(res.at(0)), std::stoi(res.at(1)), std::stoi(res.at(2)));
+            } else if (key == "ROOM") {
                 tmpRoom = rooms.at(std::stoi(value));
                 spriteCounter = 0;
                 enemyCounter = 0;
@@ -685,6 +685,8 @@ void loadGame(Player &player, std::vector<Room *> &rooms, Room *currentRoom) {
 		map.close();
     }
 
+    return currentRoomIndex;
+
 }
 
 
@@ -695,13 +697,13 @@ int main(int argc, char *args[])
 	Player player;
 	std::vector<Room *> rooms;
 	Room *currentRoom;
+    std::string mapPath = "assets/maps/map03.txt";
 
 	// Start up SDL and create window
 	if (!init()) {
 		printf("Failed to initialize!\n");
 	} else {
 
-		initRooms("assets/maps/map03.txt", &rooms);
 
 		// Head-up display
 		HUD hud{gRenderer};
@@ -710,9 +712,6 @@ int main(int argc, char *args[])
 		bool quit = false;
 
 		player.loadFromFile("assets/profiles/main.txt", gRenderer);
-
-		currentRoom = rooms.at(0);
-		currentRoom->enter();
 
 		// Event handler
 		SDL_Event e;
@@ -733,15 +732,21 @@ int main(int argc, char *args[])
 		int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
 		if (index > 3) {
 			quit = true;
-		} else if (index == 2) {
-			showmap(rooms, currentRoom->getIndex());
-		} else if(index == 3) {
-            loadGame(player, rooms, currentRoom);
+		} else if (index == 1) {
+			initRooms(mapPath, rooms);
+            currentRoom = rooms.at(0);
+    		currentRoom->enter();
+		} else if(index == 2) {
+            int currentRoomIndex = loadGame(player, rooms, mapPath);
+            currentRoom = rooms.at(currentRoomIndex);
+    		currentRoom->enter();
         }
+
 		// quit = true;
 		// While application is running
 
 		while (!quit) {
+
 			if (pause) {
 				int index = showmenu(font, "Pause", GameStatus::PAUSE);
 				if (index > 4) {
@@ -751,7 +756,7 @@ int main(int argc, char *args[])
 				} else if (index == 3) {
 					showmap(rooms, currentRoom->getIndex());
 				} else if (index == 4) {
-					saveGame(player, rooms, currentRoom->getIndex());
+					saveGame(player, rooms, currentRoom->getIndex(), mapPath);
 				}
 				pause = false;
 			}
@@ -780,7 +785,6 @@ int main(int argc, char *args[])
 
 			// Move the character
 			player.move();
-
 			currentRoom->collisionTiles(&player);
 			currentRoom->collisionTilesEnemies();
 
@@ -873,6 +877,9 @@ int main(int argc, char *args[])
 		hud.free();
 		player.free();
 		currentRoom->free();
+        for(auto &room : rooms) {
+            room->free();
+        }
 	}
 
 	close();

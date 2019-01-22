@@ -63,12 +63,14 @@ class Room {
     MapColor mapColor;
 
 	bool renderedInMap = false;
+    bool hasSavePoint = false;
 
 	void enter();
 	void playMusic();
 	void setVisited();
 	bool isVisited();
 	int getIndex();
+
 
   private:
 	void loadMusic(std::string path, RoomSoundType sound_type);
