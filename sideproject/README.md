@@ -4,7 +4,7 @@
 
 - [ ] Characters can move on Ground under platform
 - [ ] Load Game: Enemies are immortal when set to death
-- [ ] Map ignored when loading game
+- [X] Map ignored when loading game
 
 ## TODO
 
