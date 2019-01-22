@@ -45,6 +45,7 @@ class Player : public Character {
 
 	EquippedItem getEquippedItem() const;
 
+    void setLastSavePoint(int x, int y, int roomIndex);
     SavePoint lastSavePoint;
 
   private:
