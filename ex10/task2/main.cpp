@@ -33,22 +33,12 @@ int main(int, char**)
         return -1;
     }
 
-    // Decide GL+GLSL versions
-#if __APPLE__
-    // GL 3.2 Core + GLSL 150
-    const char* glsl_version = "#version 150";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-#else
     // GL 3.0 + GLSL 130
     const char* glsl_version = "#version 130";
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-#endif
 
     // Create window with graphics context
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -83,12 +73,8 @@ int main(int, char**)
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
 
     // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
-
-    // Setup Platform/Renderer bindings
-    ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
-    ImGui_ImplOpenGL3_Init(glsl_version);
+    //ImGui::StyleColorsDark();
+    ImGui::StyleColorsLight();
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -98,15 +84,17 @@ int main(int, char**)
     // - Read 'misc/fonts/README.txt' for more instructions and details.
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
     //io.Fonts->AddFontDefault();
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
+    io.Fonts->AddFontFromFileTTF("fonts/Roboto_Mono/RobotoMono-Regular.ttf", 40.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != NULL);
 
-    bool show_demo_window = false;
-    bool show_another_window = false;
+    // Setup Platform/Renderer bindings
+    ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+    ImGui_ImplOpenGL3_Init(glsl_version);
+
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     static int argumentIndex = 0;
@@ -130,7 +118,9 @@ int main(int, char**)
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
                 done = true;
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
+            if (event.type == SDL_WINDOWEVENT &&
+                event.window.event == SDL_WINDOWEVENT_CLOSE &&
+                event.window.windowID == SDL_GetWindowID(window))
                 done = true;
         }
 
@@ -139,9 +129,12 @@ int main(int, char**)
         ImGui_ImplSDL2_NewFrame(window);
         ImGui::NewFrame();
 
-        static float f = 0.0f;
-
-        ImGui::Begin("Calculator");                          // Create a window called "Hello, world!" and append into it.
+        bool open = true;
+        ImGui::Begin("Calculator", &open, ImVec2(600, 400), 1.0f,
+                ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove |
+                ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar);
+        ImGui::SetWindowPos(ImVec2(0, 0), true);
+        ImGui::SetWindowSize( ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()) );
 
         int regulateIndex = 0;
 
@@ -149,7 +142,7 @@ int main(int, char**)
         for(int i = 1; i < 13; i++){
 
             if(i == 4){
-                if(ImGui::Button("+")){
+                if(ImGui::Button(" + ")){
                     operators[argumentIndex] = 1;
                     argumentIndex++;
                 }
@@ -157,7 +150,7 @@ int main(int, char**)
             }
 
             else if(i == 8){
-                if(ImGui::Button("-")){
+                if(ImGui::Button(" - ")){
                     operators[argumentIndex] = 2;
                     argumentIndex++;
                 }
@@ -165,12 +158,12 @@ int main(int, char**)
             }
 
             else if(i == 12){
-                if(ImGui::Button("*")){
+                if(ImGui::Button(" * ")){
                     operators[argumentIndex] = 3;
                     argumentIndex++;
                 }
             }
-            else if(ImGui::Button(std::to_string(i-regulateIndex).c_str())){
+            else if(ImGui::Button((" " + std::to_string(i-regulateIndex) + " ").c_str())){
                 showSolution = false;
                 argument[argumentIndex] = argument[argumentIndex]*10 + (i-regulateIndex);
             }
@@ -179,12 +172,12 @@ int main(int, char**)
                 ImGui::SameLine();
         }
 
-        if(ImGui::Button("0")){
+        if(ImGui::Button(" 0 ")){
             showSolution = false;
             argument[argumentIndex] = argument[argumentIndex]*10 + 0;
         }
 
-        if(ImGui::Button("=")){
+        if(ImGui::Button(" = ")){
             for(int i = argumentIndex-1; i >= 0; i--){
                 if(operators[i] == 1){
                     argument[i] += argument[i+1];
@@ -202,9 +195,9 @@ int main(int, char**)
         }
 
         if(showSolution){
-            ImGui::Text("%d", solution);
+            ImGui::Text(" %d ", solution);
         } else {
-            ImGui::Text("%d", argument[argumentIndex]);
+            ImGui::Text(" %d ", argument[argumentIndex]);
         }
 
         ImGui::End();
