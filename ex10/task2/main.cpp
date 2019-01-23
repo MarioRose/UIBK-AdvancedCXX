@@ -8,6 +8,7 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <string>
+#include <iostream>
 #include <SDL.h>
 
 // About OpenGL function loaders: modern OpenGL doesn't have a standard header file and requires individual function pointers to be loaded manually.
@@ -23,6 +24,7 @@
 #include IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 #endif
 
+enum Operations { ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION };
 
 int main(int, char**)
 {
@@ -143,7 +145,7 @@ int main(int, char**)
 
             if(i == 4){
                 if(ImGui::Button(" + ")){
-                    operators[argumentIndex] = 1;
+                    operators[argumentIndex] = Operations::ADDITION;
                     argumentIndex++;
                 }
                 regulateIndex++;
@@ -151,7 +153,7 @@ int main(int, char**)
 
             else if(i == 8){
                 if(ImGui::Button(" - ")){
-                    operators[argumentIndex] = 2;
+                    operators[argumentIndex] = Operations::SUBTRACTION;
                     argumentIndex++;
                 }
                 regulateIndex++;
@@ -159,7 +161,7 @@ int main(int, char**)
 
             else if(i == 12){
                 if(ImGui::Button(" * ")){
-                    operators[argumentIndex] = 3;
+                    operators[argumentIndex] = Operations::MULTIPLICATION;
                     argumentIndex++;
                 }
             }
@@ -179,11 +181,11 @@ int main(int, char**)
 
         if(ImGui::Button(" = ")){
             for(int i = argumentIndex-1; i >= 0; i--){
-                if(operators[i] == 1){
+                if(operators[i] == Operations::ADDITION){
                     argument[i] += argument[i+1];
-                } else if(operators[i] == 2) {
+                } else if(operators[i] == Operations::SUBTRACTION) {
                     argument[i] -= argument[i + 1];
-                } else if(operators[i] == 3) {
+                } else if(operators[i] == Operations::MULTIPLICATION) {
                     argument[i] *= argument[i+1];
                 }
                 argument[i+1] = 0;
@@ -191,7 +193,18 @@ int main(int, char**)
             solution = argument[0];
             showSolution = true;
             argumentIndex = 0;
-            argument[0] = 0;
+            argument[0] = solution;
+        }
+
+        ImGui::SameLine();
+
+        if(ImGui::Button(" C ")){
+            for(auto &arg : argument) {
+                arg = 0;
+            }
+            solution = 0;
+            showSolution = true;
+            argumentIndex = 0;
         }
 
         if(showSolution){
