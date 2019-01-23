@@ -181,12 +181,17 @@ int main(int, char**)
 
         if(ImGui::Button(" = ")){
             for(int i = argumentIndex-1; i >= 0; i--){
-                if(operators[i] == Operations::ADDITION){
-                    argument[i] += argument[i+1];
-                } else if(operators[i] == Operations::SUBTRACTION) {
-                    argument[i] -= argument[i + 1];
-                } else if(operators[i] == Operations::MULTIPLICATION) {
-                    argument[i] *= argument[i+1];
+                switch(operators[i])
+                {
+                    case Operations::ADDITION:
+                        argument[i] += argument[i+1];
+                        break;
+                    case Operations::SUBTRACTION:
+                        argument[i] -= argument[i+1];
+                        break;
+                    case Operations::MULTIPLICATION:
+                        argument[i] *= argument[i+1];
+                        break;
                 }
                 argument[i+1] = 0;
             }
