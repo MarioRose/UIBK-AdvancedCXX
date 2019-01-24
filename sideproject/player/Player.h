@@ -5,14 +5,12 @@
 #include "Enemy.h"
 #include "Sprite.h"
 
-enum class EquippedItem {
-    BOW
-};
+enum class EquippedItem { BOW };
 
 struct SavePoint {
-    int x = 0;
-    int y = 0;
-    int roomIndex = 0;
+	int x = 0;
+	int y = 0;
+	int roomIndex = 0;
 };
 
 // The player that will move around on the screen
@@ -32,7 +30,7 @@ class Player : public Character {
 	void takeDamage();
 
 	int getPoints();
-    void setPoints(int points);
+	void setPoints(int points);
 
 	bool onLeftBorder();
 	bool onRightBorder();
@@ -41,12 +39,12 @@ class Player : public Character {
 	bool inSkyHole() const;
 
 	bool getHasBow() const;
-    void setHasBow(bool hasBow);
+	void setHasBow(bool hasBow);
 
 	EquippedItem getEquippedItem() const;
 
-    void setLastSavePoint(int x, int y, int roomIndex);
-    SavePoint lastSavePoint;
+	void setLastSavePoint(int x, int y, int roomIndex);
+	SavePoint lastSavePoint;
 
   private:
 	bool hasBow = false;

@@ -26,7 +26,7 @@ bool HUD::loadTextures()
 	// Loading success flag
 	bool success = true;
 
-    hearthTexture.loadFromFile("assets/images/heart.png", renderer);
+	hearthTexture.loadFromFile("assets/images/heart.png", renderer);
 	hearthTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
 	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
@@ -43,7 +43,7 @@ bool HUD::loadTextures()
 
 void HUD::render(Player *player, bool updateHud)
 {
-    hearthTexture.render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+	hearthTexture.render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 	starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
 	itemHolder.render(SCREEN_WIDTH - 60, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
@@ -55,23 +55,22 @@ void HUD::render(Player *player, bool updateHud)
 		updateLiveCount(player);
 	}
 
-    int widthPoints = ((int) log10 ((double) player->getPoints()) + 1) * 12;
+	int widthPoints = ((int)log10((double)player->getPoints()) + 1) * 12;
 
 	SDL_Rect renderQuadBlack = {104, 8, widthPoints, 30};
 	SDL_RenderCopy(renderer, pointsTextureBlack, NULL, &renderQuadBlack);
 	SDL_Rect renderQuad = {102, 6, widthPoints, 30};
 	SDL_RenderCopy(renderer, pointsTexture, NULL, &renderQuad);
 
+	int widthHealth = ((int)log10((double)player->getHealth()) + 1) * 12;
 
-    int widthHealth = ((int) log10 ((double) player->getHealth()) + 1) * 12;
-
-    renderQuadBlack = {44, 8, widthHealth, 30};
-	SDL_RenderCopy(renderer,liveCountTextureBlack, NULL, &renderQuadBlack);
+	renderQuadBlack = {44, 8, widthHealth, 30};
+	SDL_RenderCopy(renderer, liveCountTextureBlack, NULL, &renderQuadBlack);
 	renderQuad = {42, 6, widthHealth, 30};
 	SDL_RenderCopy(renderer, liveCountTexture, NULL, &renderQuad);
 
-    if (!firstRender) {
-        firstRender = true;
+	if (!firstRender) {
+		firstRender = true;
 	}
 }
 
@@ -115,15 +114,17 @@ void HUD::updatePoints(Player *player)
 	SDL_FreeSurface(pointsSurfaceBlack);
 }
 
-void HUD::updateLiveCount(Player *player) {
-    TTF_Init();
+void HUD::updateLiveCount(Player *player)
+{
+	TTF_Init();
 	TTF_Font *font = TTF_OpenFont("./assets/fonts/OpenSans-Bold.ttf", 18);
 
 	SDL_Surface *liveCountSurface;
 	SDL_Surface *liveCountSurfaceBlack;
 
 	if (player != NULL) {
-		liveCountSurface = TTF_RenderText_Solid(font, std::to_string(player->getHealth()).c_str(), {255, 255, 255, 100});
+		liveCountSurface =
+		    TTF_RenderText_Solid(font, std::to_string(player->getHealth()).c_str(), {255, 255, 255, 100});
 		liveCountSurfaceBlack = TTF_RenderText_Solid(font, std::to_string(player->getHealth()).c_str(), {0, 0, 0, 100});
 	} else {
 		liveCountSurface = TTF_RenderText_Solid(font, "5", {255, 255, 255, 100});
@@ -169,8 +170,8 @@ void HUD::renderEquippedItem(Player *player)
 	switch (player->getEquippedItem()) {
 	case EquippedItem::BOW:
 		bow.render(SCREEN_WIDTH - 50, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
-        return;
-        default :
-            return;
+		return;
+	default:
+		return;
 	}
 }

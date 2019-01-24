@@ -62,7 +62,7 @@ class Character : public GameObject {
 	void setHealth(int health);
 	void loseHealth();
 	void setDeath();
-    bool isAlive();
+	bool isAlive();
 	int getHealth();
 
   protected:

@@ -16,12 +16,12 @@ and may not be redistributed without written permission.*/
 #include <Texture.h>
 #include <Tile.h>
 #include <Timer.h>
+#include <Util.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
 #include <string>
-#include <Util.h>
 
 #include <algorithm>
 
@@ -76,11 +76,11 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 		SDL_RenderFillRect(gRenderer, &r);
 	}
 
-    if(room->hasSavePoint && room->isVisited()) {
-        SDL_SetRenderDrawColor(gRenderer, 250, 20, 0, 255);
+	if (room->hasSavePoint && room->isVisited()) {
+		SDL_SetRenderDrawColor(gRenderer, 250, 20, 0, 255);
 		SDL_Rect r = {x + 3 * w / 4, SCREEN_HEIGHT - y + h / 4, 8, 8};
 		SDL_RenderFillRect(gRenderer, &r);
-    }
+	}
 
 	if (room->roomIndexRight > 0) {
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
@@ -366,10 +366,10 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	SDL_Rect pos[NUMMENU];
 	for (int i = 0; i < NUMMENU; i++) {
 		pos[i].x = SCREEN_WIDTH * 0.1;
-		if(i < 1) {
+		if (i < 1) {
 			pos[i].y = SCREEN_HEIGHT * 0.1;
 		} else {
-			pos[i].y = SCREEN_HEIGHT * (0.3 + (i-1) * 0.1);
+			pos[i].y = SCREEN_HEIGHT * (0.3 + (i - 1) * 0.1);
 		}
 	}
 
@@ -575,12 +575,12 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 			} // error
 
 			if (key == "MAP") {
-                mapName = value;
-                continue;
-            }
+				mapName = value;
+				continue;
+			}
 
-            std::vector<std::string> result;
-            result = util::getValues(value);
+			std::vector<std::string> result;
+			result = util::getValues(value);
 
 			Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
 			                      std::stoi(result.at(3)), std::stoi(result.at(4)));
@@ -595,49 +595,52 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 	}
 }
 
-void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, std::string mapPath) {
-    std::cout << "Saving ..." << '\n';
-    std::ofstream file;
-    // TODO Generate unique filename
-    file.open("assets/games/01.txt");
-    file << "MAP " << mapPath << '\n';
-    file << "POINTS " << player.getPoints() << '\n';
-    file << "HEALTH " << player.getHealth() << '\n';
-    file << "POS " << player.getPosX() << "," << player.getPosY() << '\n';
-    file << "CURRENT_ROOM " << currentRoomIndex << '\n';
-    file << "HAS_BOW " << player.getHasBow() << '\n';
-    file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << "," << player.lastSavePoint.roomIndex << '\n';
+void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, std::string mapPath)
+{
+	std::cout << "Saving ..." << '\n';
+	std::ofstream file;
+	// TODO Generate unique filename
+	file.open("assets/games/01.txt");
+	file << "MAP " << mapPath << '\n';
+	file << "POINTS " << player.getPoints() << '\n';
+	file << "HEALTH " << player.getHealth() << '\n';
+	file << "POS " << player.getPosX() << "," << player.getPosY() << '\n';
+	file << "CURRENT_ROOM " << currentRoomIndex << '\n';
+	file << "HAS_BOW " << player.getHasBow() << '\n';
+	file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << ","
+	     << player.lastSavePoint.roomIndex << '\n';
 
-    int i = 0;
-    for(auto &room : rooms) {
-        if(room->isVisited()) {
-            file << "ROOM " << i++ << '\n';
-            for(auto &enemy : room->enemies) {
-                file << "ENEMY " << enemy->isAlive() << '\n';
-            }
+	int i = 0;
+	for (auto &room : rooms) {
+		if (room->isVisited()) {
+			file << "ROOM " << i++ << '\n';
+			for (auto &enemy : room->enemies) {
+				file << "ENEMY " << enemy->isAlive() << '\n';
+			}
 
-            for(auto &sprite : room->sprites) {
-                file << "SPRITE " << sprite->visible << '\n';
-            }
-        }
-    }
+			for (auto &sprite : room->sprites) {
+				file << "SPRITE " << sprite->visible << '\n';
+			}
+		}
+	}
 
-    file.close();
+	file.close();
 }
 
-int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath) {
-    std::cout << "Loading ..." << '\n';
-    std::ifstream map("assets/games/01.txt");
+int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
+{
+	std::cout << "Loading ..." << '\n';
+	std::ifstream map("assets/games/01.txt");
 
-    int currentRoomIndex = -1;
+	int currentRoomIndex = -1;
 
-    if (map.is_open()) {
+	if (map.is_open()) {
 
 		std::string line;
 
-        int enemyCounter = 0;
-        int spriteCounter = 0;
-        Room *tmpRoom;
+		int enemyCounter = 0;
+		int spriteCounter = 0;
+		Room *tmpRoom;
 
 		while (std::getline(map, line)) {
 			std::istringstream iss(line);
@@ -646,49 +649,47 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath) {
 				continue;
 			}
 
-            if (key == "#") {
-                continue;
-            } else if(key == "MAP") {
-                mapPath = value;
-                initRooms(value, rooms);
-            } else if (key == "POS") {
-                std::vector<std::string> coords;
-                coords = util::getValues(value);
-                player.setPosX(std::stoi(coords.at(0)));
-                player.setPosY(std::stoi(coords.at(1)));
+			if (key == "#") {
+				continue;
+			} else if (key == "MAP") {
+				mapPath = value;
+				initRooms(value, rooms);
+			} else if (key == "POS") {
+				std::vector<std::string> coords;
+				coords = util::getValues(value);
+				player.setPosX(std::stoi(coords.at(0)));
+				player.setPosY(std::stoi(coords.at(1)));
 			} else if (key == "POINTS") {
-                player.setPoints(std::stoi(value));
+				player.setPoints(std::stoi(value));
 			} else if (key == "HEALTH") {
-                player.setHealth(std::stoi(value));
+				player.setHealth(std::stoi(value));
 			} else if (key == "HAS_BOW") {
-                player.setHasBow(std::stoi(value));
+				player.setHasBow(std::stoi(value));
 			} else if (key == "CURRENT_ROOM") {
-                currentRoomIndex = std::stoi(value);
+				currentRoomIndex = std::stoi(value);
 			} else if (key == "SAVE_POINT") {
-                std::vector<std::string> res;
-                res = util::getValues(value);
-                player.setLastSavePoint(std::stoi(res.at(0)), std::stoi(res.at(1)), std::stoi(res.at(2)));
-            } else if (key == "ROOM") {
-                tmpRoom = rooms.at(std::stoi(value));
-                spriteCounter = 0;
-                enemyCounter = 0;
+				std::vector<std::string> res;
+				res = util::getValues(value);
+				player.setLastSavePoint(std::stoi(res.at(0)), std::stoi(res.at(1)), std::stoi(res.at(2)));
+			} else if (key == "ROOM") {
+				tmpRoom = rooms.at(std::stoi(value));
+				spriteCounter = 0;
+				enemyCounter = 0;
 			} else if (key == "ENEMY") {
-                if(std::stoi(value))
-                    tmpRoom->enemies.at(enemyCounter)->setDeath();
-                enemyCounter++;
+				if (std::stoi(value))
+					tmpRoom->enemies.at(enemyCounter)->setDeath();
+				enemyCounter++;
 			} else if (key == "SPRITE") {
-                tmpRoom->sprites.at(spriteCounter)->visible = std::stoi(value);
-                spriteCounter++;
+				tmpRoom->sprites.at(spriteCounter)->visible = std::stoi(value);
+				spriteCounter++;
 			}
 		}
 
 		map.close();
-    }
+	}
 
-    return currentRoomIndex;
-
+	return currentRoomIndex;
 }
-
 
 int main(int argc, char *args[])
 {
@@ -697,13 +698,12 @@ int main(int argc, char *args[])
 	Player player;
 	std::vector<Room *> rooms;
 	Room *currentRoom;
-    std::string mapPath = "assets/maps/map03.txt";
+	std::string mapPath = "assets/maps/map03.txt";
 
 	// Start up SDL and create window
 	if (!init()) {
 		printf("Failed to initialize!\n");
 	} else {
-
 
 		// Head-up display
 		HUD hud{gRenderer};
@@ -725,7 +725,7 @@ int main(int argc, char *args[])
 		// The frame rate regulator
 		Timer fps;
 
-        bool collision = true;
+		bool collision = true;
 
 		TTF_Font *font;
 		font = TTF_OpenFont("assets/fonts/menuFont.ttf", 30);
@@ -734,13 +734,13 @@ int main(int argc, char *args[])
 			quit = true;
 		} else if (index == 1) {
 			initRooms(mapPath, rooms);
-            currentRoom = rooms.at(0);
-    		currentRoom->enter();
-		} else if(index == 2) {
-            int currentRoomIndex = loadGame(player, rooms, mapPath);
-            currentRoom = rooms.at(currentRoomIndex);
-    		currentRoom->enter();
-        }
+			currentRoom = rooms.at(0);
+			currentRoom->enter();
+		} else if (index == 2) {
+			int currentRoomIndex = loadGame(player, rooms, mapPath);
+			currentRoom = rooms.at(currentRoomIndex);
+			currentRoom->enter();
+		}
 
 		// quit = true;
 		// While application is running
@@ -826,14 +826,13 @@ int main(int argc, char *args[])
 				player.setPosY(5);
 			}
 
-
 			collision = player.collisionDetectionEnemies(currentRoom->enemies);
-            if(collision) {
-                currentRoom = rooms.at(player.lastSavePoint.roomIndex);
-        		currentRoom->enter();
-                player.setPosX(player.lastSavePoint.x);
+			if (collision) {
+				currentRoom = rooms.at(player.lastSavePoint.roomIndex);
+				currentRoom->enter();
+				player.setPosX(player.lastSavePoint.x);
 				player.setPosY(player.lastSavePoint.y);
-            }
+			}
 
 			if (player.getHealth() == 0) {
 				std::cout << "You Lost!!!!" << std::endl;
@@ -842,6 +841,11 @@ int main(int argc, char *args[])
 			}
 
 			collision |= player.collisionDetectionSprites(currentRoom->sprites);
+			//Increase Player health when at 10 points
+			if(player.getPoints() == 10) {
+				player.setPoints(0);
+				player.setHealth(player.getHealth()+1);
+			}
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
 
 			// Clear screen
@@ -864,7 +868,7 @@ int main(int argc, char *args[])
 
 			// Increment the frame counter
 			frame++;
-            collision = false;
+			collision = false;
 
 			// If we want to cap the frame rate
 			if (cap && (fps.getTicks() < 1000 / FRAMES_PER_SECOND)) {
@@ -877,9 +881,9 @@ int main(int argc, char *args[])
 		hud.free();
 		player.free();
 		currentRoom->free();
-        for(auto &room : rooms) {
-            room->free();
-        }
+		for (auto &room : rooms) {
+			room->free();
+		}
 	}
 
 	close();
