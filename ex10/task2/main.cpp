@@ -48,7 +48,7 @@ int main(int, char**)
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_DisplayMode current;
     SDL_GetCurrentDisplayMode(0, &current);
-    SDL_Window* window = SDL_CreateWindow("Calculator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 400, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
+    SDL_Window* window = SDL_CreateWindow("Calculator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 300, 400, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
     SDL_GLContext gl_context = SDL_GL_CreateContext(window);
     SDL_GL_SetSwapInterval(1); // Enable vsync
 
@@ -141,7 +141,7 @@ int main(int, char**)
         int regulateIndex = 0;
 
         //Create Numberfield
-        for(int i = 1; i < 13; i++){
+        for(int i = 1; i < 17; i++){
 
             if(i == 4){
                 if(ImGui::Button(" + ")){
@@ -165,6 +165,58 @@ int main(int, char**)
                     argumentIndex++;
                 }
             }
+
+            else if(i == 13){
+                if(ImGui::Button(" 0 ")){
+                    showSolution = false;
+                    argument[argumentIndex] = argument[argumentIndex]*10 + 0;
+                }
+            }
+            else if(i == 14){
+                if(ImGui::Button(" = ")){
+                    for(int i = argumentIndex-1; i >= 0; i--){
+                        switch(operators[i])
+                        {
+                            case Operations::ADDITION:
+                                argument[i] += argument[i+1];
+                                break;
+                            case Operations::SUBTRACTION:
+                                argument[i] -= argument[i+1];
+                                break;
+                            case Operations::MULTIPLICATION:
+                                argument[i] *= argument[i+1];
+                                break;
+                            case Operations::DIVISION:
+                                argument[i] /= argument[i+1];
+                                break;
+                        }
+                        argument[i+1] = 0;
+                    }
+                    solution = argument[0];
+                    showSolution = true;
+                    argumentIndex = 0;
+                    argument[0] = solution;
+                }
+            }
+
+            else if(i == 15){
+                if(ImGui::Button(" C ")){
+                    for(auto &arg : argument) {
+                        arg = 0;
+                    }
+                    solution = 0;
+                    showSolution = true;
+                    argumentIndex = 0;
+                }
+            }
+
+            else if(i == 16){
+                if(ImGui::Button(" / ")){
+                    operators[argumentIndex] = Operations::DIVISION;
+                    argumentIndex++;
+                }
+            }
+
             else if(ImGui::Button((" " + std::to_string(i-regulateIndex) + " ").c_str())){
                 showSolution = false;
                 argument[argumentIndex] = argument[argumentIndex]*10 + (i-regulateIndex);
@@ -174,43 +226,6 @@ int main(int, char**)
                 ImGui::SameLine();
         }
 
-        if(ImGui::Button(" 0 ")){
-            showSolution = false;
-            argument[argumentIndex] = argument[argumentIndex]*10 + 0;
-        }
-
-        if(ImGui::Button(" = ")){
-            for(int i = argumentIndex-1; i >= 0; i--){
-                switch(operators[i])
-                {
-                    case Operations::ADDITION:
-                        argument[i] += argument[i+1];
-                        break;
-                    case Operations::SUBTRACTION:
-                        argument[i] -= argument[i+1];
-                        break;
-                    case Operations::MULTIPLICATION:
-                        argument[i] *= argument[i+1];
-                        break;
-                }
-                argument[i+1] = 0;
-            }
-            solution = argument[0];
-            showSolution = true;
-            argumentIndex = 0;
-            argument[0] = solution;
-        }
-
-        ImGui::SameLine();
-
-        if(ImGui::Button(" C ")){
-            for(auto &arg : argument) {
-                arg = 0;
-            }
-            solution = 0;
-            showSolution = true;
-            argumentIndex = 0;
-        }
 
         if(showSolution){
             ImGui::Text(" %d ", solution);
