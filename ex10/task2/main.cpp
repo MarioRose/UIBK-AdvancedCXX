@@ -100,9 +100,9 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     static int argumentIndex = 0;
-    static int argument[100] = {0};
+    static float argument[100] = {0.0f};
     static int operators[100] = {0};
-    static int solution;
+    static float solution;
     static bool showSolution;
 
     // Main loop
@@ -166,6 +166,13 @@ int main(int, char**)
                 }
             }
 
+            else if(i == 16){
+                if(ImGui::Button(" / ")){
+                    operators[argumentIndex] = Operations::DIVISION;
+                    argumentIndex++;
+                }
+            }
+
             else if(i == 13){
                 if(ImGui::Button(" 0 ")){
                     showSolution = false;
@@ -204,16 +211,9 @@ int main(int, char**)
                     for(auto &arg : argument) {
                         arg = 0;
                     }
-                    solution = 0;
+                    solution = 0.0f;
                     showSolution = true;
                     argumentIndex = 0;
-                }
-            }
-
-            else if(i == 16){
-                if(ImGui::Button(" / ")){
-                    operators[argumentIndex] = Operations::DIVISION;
-                    argumentIndex++;
                 }
             }
 
@@ -228,9 +228,19 @@ int main(int, char**)
 
 
         if(showSolution){
-            ImGui::Text(" %d ", solution);
+
+            if(solution == (int) solution)
+                ImGui::Text(" %d ", (int) solution);
+            else
+                ImGui::Text(" %.2f ", solution);
+
         } else {
-            ImGui::Text(" %d ", argument[argumentIndex]);
+
+            if(argument[argumentIndex] == (int) argument[argumentIndex])
+                ImGui::Text(" %d ", (int) argument[argumentIndex]);
+            else
+                ImGui::Text(" %.2f ", argument[argumentIndex]);
+
         }
 
         ImGui::End();
