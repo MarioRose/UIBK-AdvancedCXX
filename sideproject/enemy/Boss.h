@@ -4,6 +4,8 @@
 #include "IEnemy.h"
 #include "../sprite/Sprite.h"
 
+enum AttackPhase {NONE, GOING, ONE , TWO};
+
 class Boss : public IEnemy {
   public:
 	// Initializes the variables
@@ -18,10 +20,15 @@ class Boss : public IEnemy {
 	void setItem(Sprite *sprite);
 
   private:
+    void attackOne();
+    void attackTwo();
+
+    AttackPhase currentPhase = AttackPhase::NONE;
 	bool goingRight;
 	void goBackAndForth();
     Sprite *item = nullptr;
     bool itemNotShowed = true;
+    int frameCount = 0;
 };
 
 #endif // SIDESCROLLER_BOSS_H
