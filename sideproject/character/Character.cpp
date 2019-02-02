@@ -57,16 +57,6 @@ Character::~Character()
 	free();
 }
 
-void Character::jump()
-{
-	if (status == CharacterStatus::JUMPING || status == CharacterStatus::FALLING) {
-		return;
-	}
-	status = CharacterStatus::JUMPING;
-	contactPlatform = false;
-	forceY = 15;
-}
-
 void Character::move()
 {
 	// Move the character left or right
@@ -405,6 +395,8 @@ bool Character::contactsPlatform()
 
 void Character::setContactPlatform(bool b)
 {
+    if(b)
+        jumpCount = 0;
 	contactPlatform = b;
 }
 

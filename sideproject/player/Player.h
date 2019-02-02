@@ -5,7 +5,9 @@
 #include "Enemy.h"
 #include "Sprite.h"
 
-enum class EquippedItem { BOW };
+enum class EquippedItem { NONE, BOW };
+
+enum class EquippedAbility { NONE, JUMP };
 
 struct SavePoint {
 	int x = 0;
@@ -41,19 +43,30 @@ class Player : public Character {
 	bool getHasBow() const;
 	void setHasBow(bool hasBow);
 
+    bool hasDoubleJump() const;
+    void setDoubleJumpItem(bool hasItem);
+
 	EquippedItem getEquippedItem() const;
+    EquippedAbility getEquippedAbility() const;
 
 	void setLastSavePoint(int x, int y, int roomIndex);
 	SavePoint lastSavePoint;
 
   private:
 	bool hasBow = false;
+
+	bool hasDoubleJumpItem = false;
+
 	int keypressCount = 0;
 	int points = 0;
-	EquippedItem equippedItem;
+
+	EquippedItem equippedItem = EquippedItem::NONE;;
+    EquippedAbility equippedAbility = EquippedAbility::NONE;
 
 	bool collisionDetection(IEnemy *enemy);
 	bool collisionDetection(Sprite *sprite);
+
+	void jump();
 };
 
 #endif

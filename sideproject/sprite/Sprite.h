@@ -9,7 +9,7 @@
 #include <string.h>
 #include <vector>
 
-enum class SpriteType { BOW, STAR, FLAG };
+enum class SpriteType { BOW, STAR, FLAG, SPECIAL };
 
 class Sprite : public GameObject {
   public:
@@ -21,6 +21,8 @@ class Sprite : public GameObject {
 	~Sprite();
 
 	void playSound();
+
+	void showSprite(double x, double y, bool notAlreadyShown);
 
 	bool visible = true;
     int roomIndex;

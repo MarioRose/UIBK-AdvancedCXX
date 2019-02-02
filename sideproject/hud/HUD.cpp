@@ -38,7 +38,10 @@ bool HUD::loadTextures()
 	bow.loadFromFile("assets/images/sprites/bow.png", renderer);
 	bow.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
-	return success;
+    doubleJump.loadFromFile("assets/images/sprites/chest.png", renderer);
+    doubleJump.scaleToHeight(SCREEN_HEIGHT * 0.04);
+
+    return success;
 }
 
 void HUD::render(Player *player, bool updateHud)
@@ -46,9 +49,11 @@ void HUD::render(Player *player, bool updateHud)
 	hearthTexture.render(10, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 	starTexture.render(70, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
-	itemHolder.render(SCREEN_WIDTH - 60, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+    itemHolder.render(SCREEN_WIDTH - 90, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+    itemHolder.render(SCREEN_WIDTH - 60, 10, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 
 	renderEquippedItem(player);
+    renderEquippedAbility(player);
 
 	if (updateHud | !firstRender) {
 		updatePoints(player);
@@ -174,4 +179,15 @@ void HUD::renderEquippedItem(Player *player)
 	default:
 		return;
 	}
+}
+
+void HUD::renderEquippedAbility(Player *player)
+{
+    switch (player->getEquippedAbility()) {
+        case EquippedAbility::JUMP:
+            doubleJump.render(SCREEN_WIDTH - 80, 20, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+            return;
+        default:
+            return;
+    }
 }

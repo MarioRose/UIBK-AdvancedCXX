@@ -2,6 +2,7 @@
 #define SIDESCROLLER_BOSS_H
 
 #include "IEnemy.h"
+#include "../sprite/Sprite.h"
 
 class Boss : public IEnemy {
   public:
@@ -14,10 +15,13 @@ class Boss : public IEnemy {
 
 	bool isGoingRight();
 	void setIsGoingRight(bool right);
+	void setItem(Sprite *sprite);
 
   private:
 	bool goingRight;
 	void goBackAndForth();
+    Sprite *item = nullptr;
+    bool itemNotShowed = true;
 };
 
 #endif // SIDESCROLLER_BOSS_H

@@ -1,9 +1,10 @@
 #include "Boss.h"
 #include "Settings.h"
 
-Boss::Boss() {
-    flipType = SDL_FLIP_HORIZONTAL;
-    clip = new SDL_Rect {0,0,60,108};
+Boss::Boss()
+{
+	flipType = SDL_FLIP_HORIZONTAL;
+	clip = new SDL_Rect{0, 0, 60, 108};
 }
 
 bool Boss::isGoingRight()
@@ -14,6 +15,11 @@ bool Boss::isGoingRight()
 void Boss::setIsGoingRight(bool right)
 {
 	goingRight = right;
+}
+
+void Boss::setItem(Sprite *sprite)
+{
+	this->item = sprite;
 }
 
 void Boss::goBackAndForth()
@@ -29,7 +35,7 @@ void Boss::goBackAndForth()
 	} else {
 		if (posX < SCREEN_WIDTH - 200) {
 			setIsGoingRight(true);
-        } else {
+		} else {
 			posX -= 3;
 		}
 	}
@@ -37,9 +43,17 @@ void Boss::goBackAndForth()
 
 void Boss::moveAI(Character *character)
 {
-    if (status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
+    if(status == CharacterStatus::DEAD){
+        if(!itemNotShowed)
+            return;
+        item->showSprite(this->posX, this->posY, itemNotShowed);
+        itemNotShowed = false;
         return;
     }
 
-    goBackAndForth();
+	if (status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
+		return;
+	}
+
+	goBackAndForth();
 }

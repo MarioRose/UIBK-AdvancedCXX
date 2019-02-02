@@ -28,6 +28,7 @@ class HUD {
 	Texture starTexture;
 	Texture itemHolder;
     Texture bow;
+    Texture doubleJump;
 
   protected:
 	// The force of the Character
@@ -44,6 +45,7 @@ class HUD {
     bool firstRender = false;
 
     void renderEquippedItem(Player* player);
+    void renderEquippedAbility(Player* player);
 
 };
 

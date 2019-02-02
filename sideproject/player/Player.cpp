@@ -84,16 +84,32 @@ void Player::control(SDL_Event &e)
 	}
 }
 
+void Player::jump()
+{
+    if (status == CharacterStatus::JUMPING || status == CharacterStatus::FALLING) {
+        if(getEquippedAbility() == EquippedAbility::JUMP && jumpCount == 0){
+            forceY = 15;
+            jumpCount++;
+            return;
+        } else {
+            return;
+        }
+    }
+    status = CharacterStatus::JUMPING;
+    contactPlatform = false;
+    forceY = 15;
+}
+
 bool Player::collisionDetectionEnemies(std::vector<IEnemy *> enemies)
 {
 
-    bool collision = false;
+	bool collision = false;
 
 	for (auto &enemy : enemies) {
 		collision |= collisionDetection(enemy);
 	}
 
-    return collision;
+	return collision;
 }
 
 bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites)
@@ -119,16 +135,15 @@ bool Player::collisionDetection(IEnemy *enemy)
 			takeDamage();
 			if (posX > enemy->getPosX())
 				posX += 50;
-			else
-				if(posX >= 50) {
-					posX -= 50;
-				} else {
-					posX = 0;
-				}
-            return true;
+			else if (posX >= 50) {
+				posX -= 50;
+			} else {
+				posX = 0;
+			}
+			return true;
 		}
 	}
-    return false;
+	return false;
 }
 
 bool Player::collisionDetection(Sprite *sprite)
@@ -138,21 +153,26 @@ bool Player::collisionDetection(Sprite *sprite)
 			sprite->visible = false;
 			sprite->playSound();
 
-            switch(sprite->getSpriteType()) {
-                case SpriteType::STAR:
-                    points++;
-                    break;
-                case SpriteType::BOW:
-                    hasBow = true;
-                    equippedItem = EquippedItem::BOW;
-                    break;
-                case SpriteType::FLAG:
-                    lastSavePoint.x = sprite->getPosX();
-                    lastSavePoint.y = sprite->getPosY();
-                    lastSavePoint.roomIndex = sprite->roomIndex;
-                    break;
-
-            }
+			switch (sprite->getSpriteType()) {
+			case SpriteType::STAR:
+				points++;
+				break;
+			case SpriteType::BOW:
+				hasBow = true;
+				if (equippedItem == EquippedItem::NONE)
+					equippedItem = EquippedItem::BOW;
+				break;
+			case SpriteType::FLAG:
+				lastSavePoint.x = sprite->getPosX();
+				lastSavePoint.y = sprite->getPosY();
+				lastSavePoint.roomIndex = sprite->roomIndex;
+				break;
+			case SpriteType::SPECIAL:
+				hasDoubleJumpItem = true;
+				if (equippedAbility == EquippedAbility::NONE)
+					equippedAbility = EquippedAbility::JUMP;
+				break;
+			}
 
 			return true;
 		}
@@ -171,15 +191,16 @@ int Player::getPoints()
 	return points;
 }
 
-void Player::setLastSavePoint(int x, int y, int roomIndex) {
-    lastSavePoint.x = x;
-    lastSavePoint.y = y;
-    lastSavePoint.roomIndex = roomIndex;
+void Player::setLastSavePoint(int x, int y, int roomIndex)
+{
+	lastSavePoint.x = x;
+	lastSavePoint.y = y;
+	lastSavePoint.roomIndex = roomIndex;
 }
 
 void Player::setPoints(int p)
 {
-    points = p;
+	points = p;
 }
 
 bool Player::onLeftBorder()
@@ -202,7 +223,8 @@ bool Player::onBottomBorder()
 	return posY >= (SCREEN_HEIGHT - object_height - 5);
 }
 
-bool Player::inSkyHole() const {
+bool Player::inSkyHole() const
+{
 	return posY >= (SCREEN_HEIGHT - 34);
 }
 
@@ -213,10 +235,25 @@ bool Player::getHasBow() const
 
 void Player::setHasBow(bool val)
 {
-    hasBow = val;
+	hasBow = val;
+}
+
+bool Player::hasDoubleJump() const
+{
+	return hasDoubleJumpItem;
+}
+
+void Player::setDoubleJumpItem(bool hasItem)
+{
+	hasDoubleJumpItem = hasItem;
 }
 
 EquippedItem Player::getEquippedItem() const
 {
 	return equippedItem;
+}
+
+EquippedAbility Player::getEquippedAbility() const
+{
+	return equippedAbility;
 }

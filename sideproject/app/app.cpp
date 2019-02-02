@@ -179,13 +179,28 @@ void showInventory(TTF_Font *font, Player *player)
 	bow_texture.loadFromFile("assets/images/sprites/bow.png", gRenderer);
 	bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
-	switch (player->getEquippedItem()) {
+    Texture doubleJump_texture;
+    doubleJump_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
+    doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+
+
+    //Weapons
+    switch (player->getEquippedItem()) {
 	case EquippedItem::BOW:
 		inventoryBoxes[0].selected = true;
 		break;
 	default:
 		break;
 	}
+
+	//Abilities
+    switch (player->getEquippedAbility()) {
+        case EquippedAbility::JUMP:
+            inventoryBoxes[3].selected = true;
+            break;
+        default:
+            break;
+    }
 
 	// first row of inventory boxes
 	for (int i = 0; i < 3; i++) {
@@ -210,9 +225,15 @@ void showInventory(TTF_Font *font, Player *player)
 		}
 	}
 
+	//Weapons
 	if (player->getHasBow()) {
 		inventoryBoxes[0].itemTexture = &bow_texture;
 	}
+
+	//Abilities
+    if (player->hasDoubleJump()) {
+        inventoryBoxes[3].itemTexture = &doubleJump_texture;
+    }
 
 	const int numLabels = 3;
 

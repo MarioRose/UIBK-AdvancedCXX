@@ -23,8 +23,7 @@ class Character : public GameObject {
 	// Takes key presses and adjusts the Character's velocity
 	void control(SDL_Event &e);
 
-	// Lets the Character jump
-	void jump();
+	// Lets the Character move
 	void move();
 
 	bool contactsPlatform();
@@ -75,7 +74,10 @@ class Character : public GameObject {
 	// The velocity of the moveable Object
 	double forceY;
 
-	// Flip type (for flipping objects when facing left)
+	//used for double jumps
+    int jumpCount = 0;
+
+    // Flip type (for flipping objects when facing left)
 	SDL_RendererFlip flipType;
 	SDL_Rect *clip = NULL;
 

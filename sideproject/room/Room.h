@@ -52,7 +52,8 @@ class Room {
 
 	std::vector<IEnemy *> enemies;
 	std::vector<Sprite *> sprites;
-	Arrows arrows;
+
+    Arrows arrows;
 	// std::vector<LTexture *> backgroundTextures;
 
 	int roomIndexLeft;
@@ -95,6 +96,7 @@ class Room {
 	Texture starTexture;
 	Texture bowTexture;
 	Texture flagTexture;
+	Texture flyingItemTexture;
 
 	int roomIndex;
 	bool visited = false;

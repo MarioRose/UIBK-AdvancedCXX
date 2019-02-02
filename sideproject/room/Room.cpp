@@ -51,9 +51,10 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
 	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
+	flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
 
-    spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
-    spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
+	spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
+	spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
 
 	arrows.loadTexture(renderer);
 	std::ifstream map(path);
@@ -69,35 +70,35 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				continue;
 			}
 
-            if (key == "#") {
-                continue;
-            } else if (key == "MUSIC") {
+			if (key == "#") {
+				continue;
+			} else if (key == "MUSIC") {
 				loadMusic(value, RoomSoundType::NORMAL);
 			} else if (key == "DANGER_MUSIC") {
 				loadMusic(value, RoomSoundType::DANGER);
 			} else if (key == "BACKGROUND") {
 				loadBackground(value, renderer);
 			} else if (key == "PLATFORM") {
-                addTile(value, Tile::TILE_PLATFORM);
-            } else if (key == "WALL") {
-                addTile(value, Tile::TILE_WALL);
-            } else if (key == "HOLE") {
-                removeTile(value);
-            } else if (key == "SKYHOLE") {
-                removeSkyTile(value);
-            } else if (key == "ENEMY") {
-                addEnemy(value, renderer);
-            } else if (key == "BOSS") {
-                addBoss(value, renderer);
-            } else if (key == "STAR") {
-                addSprite(value, renderer, SpriteType::STAR);
-            } else if (key == "BOW") {
-                addSprite(value, renderer, SpriteType::BOW);
-            } else if (key == "COLOR") {
+				addTile(value, Tile::TILE_PLATFORM);
+			} else if (key == "WALL") {
+				addTile(value, Tile::TILE_WALL);
+			} else if (key == "HOLE") {
+				removeTile(value);
+			} else if (key == "SKYHOLE") {
+				removeSkyTile(value);
+			} else if (key == "ENEMY") {
+				addEnemy(value, renderer);
+			} else if (key == "BOSS") {
+				addBoss(value, renderer);
+			} else if (key == "STAR") {
+				addSprite(value, renderer, SpriteType::STAR);
+			} else if (key == "BOW") {
+				addSprite(value, renderer, SpriteType::BOW);
+			} else if (key == "COLOR") {
 				setRGB(value);
 			} else if (key == "SAVE_POINT") {
-                hasSavePoint = true;
-                addSprite(value, renderer, SpriteType::FLAG);
+				hasSavePoint = true;
+				addSprite(value, renderer, SpriteType::FLAG);
 			}
 		}
 
@@ -165,6 +166,11 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 void Room::addBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new Boss();
+	Sprite *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
+	item->visible = false;
+    sprites.emplace_back(item);
+
+    boss->setItem(item);
 
 	std::vector<std::string> result = util::getValues(value);
 
@@ -190,7 +196,7 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 	case SpriteType::BOW:
 		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type, spriteSound2, roomIndex));
 		break;
-    case SpriteType::FLAG:
+	case SpriteType::FLAG:
 		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type, spriteSound2, roomIndex));
 		break;
 	}
@@ -328,7 +334,8 @@ void Room::collisionTilesEnemies()
 void Room::collisionTiles(Character *character)
 {
 	for (auto &tile : tiles) {
-		if (character->getPosX() > tile.getX() - 10 && character->getPosX() + 5 < (tile.getX() + Tile::TILE_WEIGHT + 1)) {
+		if (character->getPosX() > tile.getX() - 10 &&
+		    character->getPosX() + 5 < (tile.getX() + Tile::TILE_WEIGHT + 1)) {
 			if (character->getPosY() + character->getHeight() > tile.getY() - 3 &&
 			    character->getPosY() + character->getHeight() < (tile.getY() + 3)) {
 				character->setPosY(tile.getY() - character->getHeight());
@@ -387,11 +394,13 @@ void Room::free()
 
 	starTexture.free();
 	bowTexture.free();
+    flagTexture.free();
+    flyingItemTexture.free();
 
-    Mix_FreeChunk(spriteSound1);
+	Mix_FreeChunk(spriteSound1);
 	spriteSound1 = NULL;
 
-    Mix_FreeChunk(spriteSound2);
+	Mix_FreeChunk(spriteSound2);
 	spriteSound2 = NULL;
 	// Free the music
 	// if( music != nullptr ) {

@@ -21,6 +21,7 @@ DYING assets/images/characters/devil/dying/9.png
 DYING assets/images/characters/devil/dying/10.png
 DYING assets/images/characters/devil/dying/11.png
 DYING assets/images/characters/devil/dying/12.png
+DYING assets/images/characters/devil/dying/13.png
 ATTACK assets/images/characters/devil/idle/1.png
 FALLING assets/images/characters/devil/idle/1.png
 JUMPING assets/images/characters/devil/idle/1.png

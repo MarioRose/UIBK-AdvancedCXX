@@ -17,7 +17,9 @@ Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteTyp
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
 	} else if (type == SpriteType::FLAG) {
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
-	}
+	} else if (type == SpriteType::SPECIAL) {
+        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
+    }
 
 //	if (sound == NULL) {
 //		printf("Failed to load beat music2! SDL_mixer Error: %s\n", Mix_GetError());
@@ -32,6 +34,13 @@ void Sprite::playSound()
 		// Mix_PlayMusic( shout_sound, 1 );
 		Mix_PlayChannel(-1, sound, 0);
 	}
+}
+
+void Sprite::showSprite(double x, double y, bool notAlreadyShown) {
+    this->posX = x;
+    this->posY = y;
+    if(notAlreadyShown)
+        this->visible = true;
 }
 
 Sprite::~Sprite()
