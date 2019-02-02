@@ -46,7 +46,7 @@ void Boss::moveAI(Character *character)
     if(status == CharacterStatus::DEAD){
         if(!itemNotShowed)
             return;
-        item->showSprite(this->posX, this->posY, itemNotShowed);
+        item->showSprite(this->posX + (this->getWidth()/2), this->posY + (this->getHeight()/2), itemNotShowed);
         itemNotShowed = false;
         return;
     }

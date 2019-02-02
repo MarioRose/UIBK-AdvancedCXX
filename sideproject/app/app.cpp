@@ -856,7 +856,6 @@ int main(int argc, char *args[])
 			}
 
 			if (player.getHealth() == 0) {
-				std::cout << "You Lost!!!!" << std::endl;
 				quit = true;
 				showmenu(font, "Game Over", GameStatus::GAME_OVER);
 			}
