@@ -27,7 +27,12 @@ void Enemy::moveAI(Character *character)
 			flipType = SDL_FLIP_HORIZONTAL;
 		}
 		if (abs(character->getPosX() - posX) <= 25) {
-			posX -= 20;
+			if(direction == Direction::LEFT) {
+				posX -= 20;
+			} else {
+				posX += 20;
+			}
+
 			status = CharacterStatus::ATTACK;
 		}
 	}
