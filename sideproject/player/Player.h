@@ -25,6 +25,8 @@ class Player : public Character {
 
 	// Takes key presses and adjusts the Character's velocity
 	void control(SDL_Event &e);
+    // Lets the Character move
+    void move() override;
 
 	bool collisionDetectionEnemies(std::vector<IEnemy *> enemies);
 	bool collisionDetectionSprites(std::vector<Sprite *> sprites);

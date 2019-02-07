@@ -23,11 +23,13 @@ class Boss : public IEnemy {
     void attackOne();
     void attackTwo();
 
-    AttackPhase currentPhase = AttackPhase::NONE;
-	bool goingRight;
-	void goBackAndForth();
     Sprite *item = nullptr;
+
+    AttackPhase currentPhase = AttackPhase::NONE;
+
+	bool goingRight;
     bool itemNotShowed = true;
+    void goBackAndForth();
     int frameCount = 0;
 };
 

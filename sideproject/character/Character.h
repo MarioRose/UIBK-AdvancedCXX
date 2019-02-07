@@ -24,7 +24,7 @@ class Character : public GameObject {
 	void control(SDL_Event &e);
 
 	// Lets the Character move
-	void move();
+	virtual void move();
 
 	bool contactsPlatform();
 	void setContactPlatform(bool);

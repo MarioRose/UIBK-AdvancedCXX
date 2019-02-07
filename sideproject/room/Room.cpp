@@ -166,6 +166,8 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 void Room::addBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new Boss();
+
+
 	Sprite *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
 	item->visible = false;
     sprites.emplace_back(item);

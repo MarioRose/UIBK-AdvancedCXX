@@ -84,20 +84,94 @@ void Player::control(SDL_Event &e)
 	}
 }
 
+void Player::move()
+{
+	// Move the character left or right
+	posX += velX;
+
+	// If the character went too far to the left or right
+	if ((posX < 0) || (posX + object_width > SCREEN_WIDTH)) {
+		// Move back
+		posX -= velX;
+	}
+
+	// Jumping
+	if (forceY > 0) {
+		status = CharacterStatus::JUMPING;
+		forceY--;
+		posY -= 5;
+	}
+
+	// Falling
+	if (!contactPlatform && forceY == 0 && posY <= SCREEN_HEIGHT - object_height) {
+		status = CharacterStatus::FALLING;
+		posY += 5;
+	}
+
+	if (contactPlatform && status == CharacterStatus::FALLING) {
+		if (keypressCount > 0)
+			status = CharacterStatus::RUNNING;
+		else
+			status = CharacterStatus::IDLE;
+	}
+
+	if (contactWall) {
+		posX -= velX;
+	}
+
+	if (posY > SCREEN_HEIGHT - object_height) {
+		posY = SCREEN_HEIGHT - object_height;
+	}
+
+	// Jumping or Falling
+	//    if(forceY != 0 || posY != SCREEN_HEIGHT - object_height) {
+	//
+	//        //Calculate Force
+	//        if( posY + object_height < SCREEN_HEIGHT ) {
+	//            forceY = forceY + GRAVITATION + ((SCREEN_HEIGHT - object_height) - posY)/4.5;
+	//        }
+	//
+	//        //Calculate acceleration
+	//        float a = forceY + velY;
+	//
+	//        //Calculate velocity
+	//        velY = velY + a;
+	//
+	//        //Move the character up or down
+	//        posY += velY;
+	//
+	//
+	//        //Maximum Velocity downwards
+	//        if(velY >= MAX_VELOCITY_DOWN) {
+	//            velY = MAX_VELOCITY_DOWN;
+	//        }
+	//
+	//        //If the character went too far up or down
+	//        if( ( posY < 0 ) || ( posY + object_height >= SCREEN_HEIGHT ) ) {
+	//            //Move back
+	//            //mPosY -= mVelY;
+	//            velY = 0;
+	//            posY = SCREEN_HEIGHT - object_height;
+	//        }
+	//
+	//        forceY = 0;
+	//    }
+}
+
 void Player::jump()
 {
-    if (status == CharacterStatus::JUMPING || status == CharacterStatus::FALLING) {
-        if(getEquippedAbility() == EquippedAbility::JUMP && jumpCount == 0){
-            forceY = 15;
-            jumpCount++;
-            return;
-        } else {
-            return;
-        }
-    }
-    status = CharacterStatus::JUMPING;
-    contactPlatform = false;
-    forceY = 15;
+	if (status == CharacterStatus::JUMPING || status == CharacterStatus::FALLING) {
+		if (getEquippedAbility() == EquippedAbility::JUMP && jumpCount == 0) {
+			forceY = 15;
+			jumpCount++;
+			return;
+		} else {
+			return;
+		}
+	}
+	status = CharacterStatus::JUMPING;
+	contactPlatform = false;
+	forceY = 15;
 }
 
 bool Player::collisionDetectionEnemies(std::vector<IEnemy *> enemies)

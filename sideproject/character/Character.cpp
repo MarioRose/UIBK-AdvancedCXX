@@ -82,7 +82,7 @@ void Character::move()
 	}
 
 	if (contactPlatform && status == CharacterStatus::FALLING) {
-		status = CharacterStatus::IDLE;
+		status = CharacterStatus::RUNNING;
 	}
 
 	if (contactWall) {
