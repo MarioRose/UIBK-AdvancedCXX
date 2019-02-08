@@ -23,6 +23,17 @@ void Boss::setItem(Sprite *sprite)
 	this->item = sprite;
 }
 
+void Boss::setProjectiles(std::shared_ptr<std::vector<Projectile*>> projectiles)
+{
+    this->projectiles = projectiles;
+}
+
+
+void Boss::addProjectile(Projectile *projectile)
+{
+    this->projectiles->push_back(projectile);
+}
+
 void Boss::goBackAndForth()
 {
 	status = CharacterStatus::RUNNING;
@@ -79,12 +90,15 @@ void Boss::attackTwo()
     currentPhase = AttackPhase::TWO;
     status = CharacterStatus::IDLE;
 
+
     if (frameCount < 50) {
         frameCount++;
         return;
     }
 
-        currentPhase = AttackPhase::NONE;
+    shootProjectiles();
+
+    currentPhase = AttackPhase::NONE;
 
 }
 
@@ -114,8 +128,6 @@ void Boss::moveAI(Character *character)
 	    frameCount = 0;
         int randNum = rand() % 10;
 
-        std::cout << randNum << std::endl;
-
         if (randNum < 6) {
             goBackAndForth();
         } else if (randNum < 8) {
@@ -125,4 +137,14 @@ void Boss::moveAI(Character *character)
             attackTwo();
         }
 	}
+}
+
+void Boss::shootProjectiles()
+{
+    int force = 3;
+
+    for(Projectile *p : *projectiles){
+        p->setStartPosition(this->posX, this->posY, force);
+        force += force;
+    }
 }

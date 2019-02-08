@@ -73,8 +73,11 @@ class Character : public GameObject {
 	const double max_vel = 5;
 	// The velocity of the moveable Object
 	double forceY;
+    // The velocity of the moveable Object
+    double forceX;
 
-	//used for double jumps
+
+    //used for double jumps
     int jumpCount = 0;
 
     // Flip type (for flipping objects when facing left)

@@ -3,6 +3,7 @@
 
 #include "Boss.h"
 #include "Enemy.h"
+#include "Projectile.h"
 #include "IEnemy.h"
 #include "Player.h"
 #include "Sprite.h"
@@ -52,6 +53,7 @@ class Room {
 
 	std::vector<IEnemy *> enemies;
 	std::vector<Sprite *> sprites;
+	std::vector<Projectile *> projectiles;
 
     Arrows arrows;
 	// std::vector<LTexture *> backgroundTextures;
@@ -80,6 +82,7 @@ class Room {
 	void setSavePoint(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
 	void addBoss(std::string path, SDL_Renderer *renderer);
+    Projectile* addProjectile(std::string path, SDL_Renderer *renderer);
 	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
 	void addTile(std::string value, int type);
 	void setEnemyPos(std::string value);

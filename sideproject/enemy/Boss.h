@@ -1,10 +1,13 @@
 #ifndef SIDESCROLLER_BOSS_H
 #define SIDESCROLLER_BOSS_H
 
-#include "IEnemy.h"
+#include <memory>
 #include "../sprite/Sprite.h"
+#include "IEnemy.h"
+#include "Projectile.h"
 
-enum AttackPhase {NONE, GOING, ONE , TWO};
+
+enum AttackPhase { NONE, GOING, ONE, TWO };
 
 class Boss : public IEnemy {
   public:
@@ -18,19 +21,22 @@ class Boss : public IEnemy {
 	bool isGoingRight();
 	void setIsGoingRight(bool right);
 	void setItem(Sprite *sprite);
+	void setProjectiles(std::shared_ptr<std::vector<Projectile*>> projectiles);
+    void addProjectile(Projectile* projectile);
+    void shootProjectiles();
 
   private:
-    void attackOne();
-    void attackTwo();
+	void attackOne();
+	void attackTwo();
 
-    Sprite *item = nullptr;
-
-    AttackPhase currentPhase = AttackPhase::NONE;
+	Sprite *item = nullptr;
+	AttackPhase currentPhase = AttackPhase::NONE;
+	std::shared_ptr<std::vector<Projectile *>> projectiles;
 
 	bool goingRight;
-    bool itemNotShowed = true;
-    void goBackAndForth();
-    int frameCount = 0;
+	bool itemNotShowed = true;
+	void goBackAndForth();
+	int frameCount = 0;
 };
 
 #endif // SIDESCROLLER_BOSS_H

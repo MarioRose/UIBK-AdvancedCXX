@@ -477,7 +477,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	}
 }
 
-bool loadTileTexture(std::string path)
+void loadTileTexture(std::string path)
 {
 	// Load image at specified path
 	SDL_Surface *loadedSurface = IMG_Load(path.c_str());
