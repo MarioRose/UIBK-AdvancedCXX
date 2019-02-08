@@ -57,6 +57,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
 
 	arrows.loadTexture(renderer);
+	fireball.loadTexture(renderer);
 	std::ifstream map(path);
 
 	if (map.is_open()) {
@@ -169,9 +170,9 @@ void Room::addBoss(std::string value, SDL_Renderer *renderer)
 
 	auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
 	item->visible = false;
-    sprites.emplace_back(item);
+	sprites.emplace_back(item);
 
-    boss->setItem(item);
+	boss->setItem(item);
 
     std::shared_ptr<std::vector<Projectile*>> projectiles(new std::vector<Projectile*>());
     for(int i = 0; i < 3; i++){
@@ -403,8 +404,8 @@ void Room::free()
 
 	starTexture.free();
 	bowTexture.free();
-    flagTexture.free();
-    flyingItemTexture.free();
+	flagTexture.free();
+	flyingItemTexture.free();
 
 	Mix_FreeChunk(spriteSound1);
 	spriteSound1 = NULL;

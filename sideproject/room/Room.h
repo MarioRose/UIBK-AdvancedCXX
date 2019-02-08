@@ -9,12 +9,13 @@
 #include "Sprite.h"
 #include "Tile.h"
 #include <Arrows.h>
+#include <Fireball.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <string>
 
 struct MapColor {
-    int red = 0;
+	int red = 0;
 	int green = 0;
 	int blue = 0;
 };
@@ -55,7 +56,8 @@ class Room {
 	std::vector<Sprite *> sprites;
 	std::vector<Projectile *> projectiles;
 
-    Arrows arrows;
+	Arrows arrows;
+	Fireball fireball;
 	// std::vector<LTexture *> backgroundTextures;
 
 	int roomIndexLeft;
@@ -63,17 +65,16 @@ class Room {
 	int roomIndexAbove;
 	int roomIndexBelow;
 
-    MapColor mapColor;
+	MapColor mapColor;
 
 	bool renderedInMap = false;
-    bool hasSavePoint = false;
+	bool hasSavePoint = false;
 
 	void enter();
 	void playMusic();
 	void setVisited();
 	bool isVisited();
 	int getIndex();
-
 
   private:
 	void loadMusic(std::string path, RoomSoundType sound_type);
@@ -90,11 +91,11 @@ class Room {
 	void initTiles();
 	void removeTile(std::string value);
 	void removeSkyTile(std::string value);
-    std::vector<std::string> getValues(std::string value);
+	std::vector<std::string> getValues(std::string value);
 
 	std::vector<Tile> tiles;
 
-    Sprite flag;
+	Sprite flag;
 
 	Texture starTexture;
 	Texture bowTexture;
@@ -107,8 +108,8 @@ class Room {
 	Mix_Music *music;
 	Mix_Music *danger_music;
 
-    Mix_Chunk *spriteSound1;
-    Mix_Chunk *spriteSound2;
+	Mix_Chunk *spriteSound1;
+	Mix_Chunk *spriteSound2;
 };
 
 #endif

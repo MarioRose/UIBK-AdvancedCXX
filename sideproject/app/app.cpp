@@ -5,6 +5,7 @@ and may not be redistributed without written permission.*/
 
 #include <Arrows.h>
 #include <Character.h>
+#include <Fireball.h>
 #include <HUD.h>
 #include <Player.h>
 #include <Room.h>
@@ -179,13 +180,12 @@ void showInventory(TTF_Font *font, Player *player)
 	bow_texture.loadFromFile("assets/images/sprites/bow.png", gRenderer);
 	bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
-    Texture doubleJump_texture;
-    doubleJump_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
-    doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+	Texture doubleJump_texture;
+	doubleJump_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
+	doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
-
-    //Weapons
-    switch (player->getEquippedItem()) {
+	// Weapons
+	switch (player->getEquippedItem()) {
 	case EquippedItem::BOW:
 		inventoryBoxes[0].selected = true;
 		break;
@@ -193,14 +193,14 @@ void showInventory(TTF_Font *font, Player *player)
 		break;
 	}
 
-	//Abilities
-    switch (player->getEquippedAbility()) {
-        case EquippedAbility::JUMP:
-            inventoryBoxes[3].selected = true;
-            break;
-        default:
-            break;
-    }
+	// Abilities
+	switch (player->getEquippedAbility()) {
+	case EquippedAbility::JUMP:
+		inventoryBoxes[3].selected = true;
+		break;
+	default:
+		break;
+	}
 
 	// first row of inventory boxes
 	for (int i = 0; i < 3; i++) {
@@ -225,15 +225,15 @@ void showInventory(TTF_Font *font, Player *player)
 		}
 	}
 
-	//Weapons
+	// Weapons
 	if (player->getHasBow()) {
 		inventoryBoxes[0].itemTexture = &bow_texture;
 	}
 
-	//Abilities
-    if (player->hasDoubleJump()) {
-        inventoryBoxes[3].itemTexture = &doubleJump_texture;
-    }
+	// Abilities
+	if (player->hasDoubleJump()) {
+		inventoryBoxes[3].itemTexture = &doubleJump_texture;
+	}
 
 	const int numLabels = 3;
 
@@ -795,8 +795,14 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					if (player.getHasBow()) {
+					if (player.getHasBow() && currentRoom->fireball.getState() != FireballState::CHANNELING) {
 						currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType());
+					}
+				}
+
+				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_v) {
+					if(currentRoom->fireball.getState() == FireballState::INACTIVE) {
+						currentRoom->fireball.shoot(player.getPosX(), player.getPosY(), player.getFlipType());
 					}
 				}
 
@@ -861,12 +867,13 @@ int main(int argc, char *args[])
 			}
 
 			collision |= player.collisionDetectionSprites(currentRoom->sprites);
-			//Increase Player health when at 10 points
-			if(player.getPoints() == 10) {
+			// Increase Player health when at 10 points
+			if (player.getPoints() == 10) {
 				player.setPoints(0);
-				player.setHealth(player.getHealth()+1);
+				player.setHealth(player.getHealth() + 1);
 			}
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
+			currentRoom->fireball.collisionDetectionEnemies(currentRoom->enemies);
 
 			// Clear screen
 			SDL_RenderClear(gRenderer);
@@ -882,6 +889,7 @@ int main(int argc, char *args[])
 			currentRoom->renderTiles(gRenderer, tileTexture);
 			hud.render(&player, collision);
 			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
+			currentRoom->fireball.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 
 			// Update screen
 			SDL_RenderPresent(gRenderer);
