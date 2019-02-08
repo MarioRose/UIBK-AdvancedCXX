@@ -17,8 +17,6 @@
 - [ ] basic movement
     - [ ] dropping from platforms
     - [ ] interacting with game entities (save points, doors etc)
-- [ ] 1 secondary combat mechanic
-    - [ ] like spell slinging, hacking, *you name it*
 - [ ] player character
     - [ ] gets stronger over the course of the game (XP / level-up) (maye use playerPoints as XP)
     - [ ] can equip found items to further increase stats
@@ -31,6 +29,8 @@
 - [ ] timing related logic should be independent of the frame-rate, use a *time delta*
 
 ## Mario
+- [X] 1 secondary combat mechanic
+    - [X] like spell slinging, hacking, *you name it*
 
 ## Samuel
 - [X] change live count to font
