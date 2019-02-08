@@ -41,10 +41,10 @@
 - [X] Save/Load Game
 
 ## Christoph
-- [ ] Boss attack
+- [x] Boss attack
 - [ ] Boss healthbar
 - [ ] Enemies with range attacks
-- [ ] Double jump unlocking
+- [x] Double jump unlocking
 
 ## SOUND
 https://freesound.org/
