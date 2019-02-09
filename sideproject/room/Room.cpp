@@ -18,7 +18,7 @@ Room::Room() : background_texture(nullptr), music(nullptr), danger_music(nullptr
 	initTiles();
 }
 
-Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow)
+Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBelow, int level)
     : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
 	roomIndex = index;
@@ -26,6 +26,7 @@ Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBe
 	roomIndexBelow = indexBelow;
 	roomIndexLeft = indexLeft;
 	roomIndexRight = indexRight;
+	this->level = level;
 
 	initTiles();
 }
@@ -34,14 +35,14 @@ Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBe
 void Room::initTiles()
 {
 
-	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND));
+	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
+		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND, level));
 	}
-	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM));
+	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
+		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM, level));
 	}
-	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WEIGHT; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WEIGHT, 0, Tile::TILE_GROUND));
+	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
+		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, 0, Tile::TILE_GROUND, level));
 	}
 }
 
@@ -219,15 +220,15 @@ void Room::addTile(std::string value, int type)
 
 	int x = std::stoi(result.at(0));
 	int y = std::stoi(result.at(1));
-	int w = std::stoi(result.at(2)) / Tile::TILE_WEIGHT;
+	int w = std::stoi(result.at(2)) / Tile::TILE_WIDTH;
 
 	if (type == Tile::TILE_PLATFORM || type == Tile::TILE_GROUND) {
 		for (int i = 0; i < w; i++) {
-			tiles.emplace_back(Tile(x + i * Tile::TILE_WEIGHT, SCREEN_HEIGHT - y, type));
+			tiles.emplace_back(Tile(x + i * Tile::TILE_WIDTH, SCREEN_HEIGHT - y, type, level));
 		}
 	} else if (type == Tile::TILE_WALL) {
 		for (int i = 0; i < w; i++) {
-			tiles.emplace_back(Tile(x, SCREEN_HEIGHT - (y + i * Tile::TILE_WEIGHT), type));
+			tiles.emplace_back(Tile(x, SCREEN_HEIGHT - (y + i * Tile::TILE_WIDTH), type, level));
 		}
 	}
 }
@@ -345,7 +346,7 @@ void Room::collisionTiles(Character *character)
 {
 	for (auto &tile : tiles) {
 		if (character->getPosX() > tile.getX() - 10 &&
-		    character->getPosX() + 5 < (tile.getX() + Tile::TILE_WEIGHT + 1)) {
+		    character->getPosX() + 5 < (tile.getX() + Tile::TILE_WIDTH + 1)) {
 			if (character->getPosY() + character->getHeight() > tile.getY() - 3 &&
 			    character->getPosY() + character->getHeight() < (tile.getY() + 3)) {
 				character->setPosY(tile.getY() - character->getHeight());

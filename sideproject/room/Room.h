@@ -29,7 +29,7 @@ class Room {
 	Room();
 
 	// Initializes variables
-	Room(int index, int roomIndexLeft, int roomIndexRight, int roomIndexAbove, int roomIndexBelow);
+	Room(int index, int roomIndexLeft, int roomIndexRight, int roomIndexAbove, int roomIndexBelow, int level);
 
 	// Deallocates memory
 	~Room();
@@ -64,6 +64,8 @@ class Room {
 	int roomIndexRight;
 	int roomIndexAbove;
 	int roomIndexBelow;
+
+	int level;
 
 	MapColor mapColor;
 

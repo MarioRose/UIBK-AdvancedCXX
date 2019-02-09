@@ -43,7 +43,7 @@ SDL_Window *gWindow = NULL;
 // The window renderer
 SDL_Renderer *gRenderer = NULL;
 
-SDL_Texture *tileTexture;
+SDL_Texture *tileTexture[3];
 
 // pause
 bool pause = false;
@@ -477,7 +477,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	}
 }
 
-void loadTileTexture(std::string path)
+void loadTileTexture(int index, std::string path)
 {
 	// Load image at specified path
 	SDL_Surface *loadedSurface = IMG_Load(path.c_str());
@@ -488,8 +488,8 @@ void loadTileTexture(std::string path)
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
 
 		// Create texture from surface pixels
-		tileTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-		if (tileTexture == NULL) {
+		tileTexture[index] = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+		if (tileTexture[index] == NULL) {
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}
 
@@ -545,7 +545,9 @@ bool init()
 	TTF_Init();
 
 	Tile::initCroppedTiles();
-	loadTileTexture("assets/images/tiles/jungle_tileset.png");
+	loadTileTexture(0, "assets/images/tiles/jungle_tileset.png");
+    loadTileTexture(1, "assets/images/tiles/mountainTile.png");
+    loadTileTexture(2, "assets/images/tiles/hell_tileset.png");
 
 	return true;
 }
@@ -604,7 +606,7 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 			result = util::getValues(value);
 
 			Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
-			                      std::stoi(result.at(3)), std::stoi(result.at(4)));
+			                      std::stoi(result.at(3)), std::stoi(result.at(4)), std::stoi(result.at(5)));
 			room->loadFromFile(result.at(0), gRenderer);
 			rooms.push_back(room);
 		}
@@ -886,7 +888,7 @@ int main(int argc, char *args[])
 			player.render(gRenderer);
 			currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
-			currentRoom->renderTiles(gRenderer, tileTexture);
+			currentRoom->renderTiles(gRenderer, tileTexture[currentRoom->level]);
 			hud.render(&player, collision);
 			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 			currentRoom->fireball.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());

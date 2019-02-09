@@ -1,0 +1,31 @@
+CHARACTER Demon
+HEIGHT 33
+WIDTH 22
+HEALTH 3
+IDLE assets/images/characters/demon/idle/1.png
+RUNNING assets/images/characters/demon/running/1.png
+RUNNING assets/images/characters/demon/running/2.png
+RUNNING assets/images/characters/demon/running/3.png
+RUNNING assets/images/characters/demon/running/4.png
+RUNNING assets/images/characters/demon/running/5.png
+RUNNING assets/images/characters/demon/running/6.png
+RUNNING assets/images/characters/demon/running/7.png
+RUNNING assets/images/characters/demon/running/8.png
+DYING assets/images/characters/demon/dying/1.png
+DYING assets/images/characters/demon/dying/2.png
+DYING assets/images/characters/demon/dying/3.png
+DYING assets/images/characters/demon/dying/4.png
+DYING assets/images/characters/demon/dying/5.png
+DYING assets/images/characters/demon/dying/6.png
+ATTACK assets/images/characters/demon/attack/1.png
+ATTACK assets/images/characters/demon/attack/2.png
+ATTACK assets/images/characters/demon/attack/3.png
+ATTACK assets/images/characters/demon/attack/4.png
+ATTACK assets/images/characters/demon/attack/5.png
+ATTACK assets/images/characters/demon/attack/6.png
+FALLING assets/images/characters/demon/idle/1.png
+JUMPING assets/images/characters/demon/idle/1.png
+
+
+
+

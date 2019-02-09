@@ -44,10 +44,10 @@ target_link_libraries(
 		sub::texture
 		sub::character
 		sub::player
-		sub::enemy
 		sub::settings
 		sub::room
-		sub::gameobjects
+        sub::enemy
+        sub::gameobjects
 		sub::hud
 		sub::tile
 		sub::sprite

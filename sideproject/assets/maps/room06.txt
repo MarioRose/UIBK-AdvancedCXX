@@ -1,5 +1,5 @@
-MAP Room03
-BACKGROUND assets/images/rooms/mountains.png
+MAP Room06
+BACKGROUND assets/images/rooms/hell.png
 MUSIC assets/music/265549.mp3
 DANGER_MUSIC assets/music/inquisitiveness.ogg
 
@@ -9,6 +9,8 @@ COLOR 0,0,255
 PLATFORM 140,100,100
 PLATFORM 250,140,140
 PLATFORM 180,240,200
+SKYHOLE 250,300
 
 # ENTITIES
-BOSS assets/profiles/boss.txt,500,237
+ENEMY assets/profiles/demon.txt,300,0
+ENEMY assets/profiles/demon.txt,600,0

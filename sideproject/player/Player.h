@@ -57,13 +57,13 @@ class Player : public Character {
   private:
 	bool hasBow = false;
 
-	bool hasDoubleJumpItem = false;
+	bool hasDoubleJumpItem = true;
 
 	int keypressCount = 0;
 	int points = 0;
 
 	EquippedItem equippedItem = EquippedItem::NONE;;
-    EquippedAbility equippedAbility = EquippedAbility::NONE;
+    EquippedAbility equippedAbility = EquippedAbility::JUMP;
 
 	bool collisionDetection(IEnemy *enemy);
 	bool collisionDetection(Sprite *sprite);
