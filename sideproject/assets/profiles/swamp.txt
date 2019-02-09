@@ -1,0 +1,20 @@
+CHARACTER SwampMonster
+HEIGHT 16
+WIDTH 16
+HEALTH 3
+IDLE assets/images/characters/swampMonster/idle/1.png
+IDLE assets/images/characters/swampMonster/idle/2.png
+IDLE assets/images/characters/swampMonster/idle/3.png
+IDLE assets/images/characters/swampMonster/idle/4.png
+RUNNING assets/images/characters/swampMonster/running/1.png
+RUNNING assets/images/characters/swampMonster/running/2.png
+RUNNING assets/images/characters/swampMonster/running/3.png
+RUNNING assets/images/characters/swampMonster/running/4.png
+DYING assets/images/characters/swampMonster/dying/1.png
+ATTACK assets/images/characters/swampMonster/attack/1.png
+FALLING assets/images/characters/swampMonster/idle/1.png
+JUMPING assets/images/characters/swampMonster/idle/1.png
+
+
+
+

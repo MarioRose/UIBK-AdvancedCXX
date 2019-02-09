@@ -1,0 +1,23 @@
+CHARACTER Wizard
+HEIGHT 28
+WIDTH 16
+HEALTH 3
+IDLE assets/images/characters/wizard/idle/1.png
+IDLE assets/images/characters/wizard/idle/2.png
+IDLE assets/images/characters/wizard/idle/3.png
+IDLE assets/images/characters/wizard/idle/4.png
+RUNNING assets/images/characters/wizard/running/1.png
+RUNNING assets/images/characters/wizard/running/2.png
+RUNNING assets/images/characters/wizard/running/3.png
+RUNNING assets/images/characters/wizard/running/4.png
+DYING assets/images/characters/wizard/dying/1.png
+ATTACK assets/images/characters/wizard/running/1.png
+ATTACK assets/images/characters/wizard/running/2.png
+ATTACK assets/images/characters/wizard/running/3.png
+ATTACK assets/images/characters/wizard/running/4.png
+FALLING assets/images/characters/wizard/idle/1.png
+JUMPING assets/images/characters/wizard/idle/1.png
+
+
+
+
