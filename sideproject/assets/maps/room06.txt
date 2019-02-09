@@ -14,3 +14,5 @@ SKYHOLE 250,300
 # ENTITIES
 ENEMY assets/profiles/demon.txt,300,0
 ENEMY assets/profiles/demon.txt,600,0
+ENEMY assets/profiles/wizard.txt,450,0
+

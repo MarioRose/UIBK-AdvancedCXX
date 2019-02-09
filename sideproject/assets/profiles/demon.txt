@@ -1,6 +1,6 @@
 CHARACTER Demon
-HEIGHT 33
-WIDTH 22
+HEIGHT 36
+WIDTH 32
 HEALTH 3
 IDLE assets/images/characters/demon/idle/1.png
 RUNNING assets/images/characters/demon/running/1.png

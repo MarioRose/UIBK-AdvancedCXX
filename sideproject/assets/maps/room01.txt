@@ -13,6 +13,8 @@ PLATFORM 180,240,200
 # ENTITIES
 ENEMY assets/profiles/devil.txt,300,0
 ENEMY assets/profiles/devil.txt,500,0
+ENEMY assets/profiles/swamp.txt,400,200
+
 
 # SPRITES
 BOW 100,80

@@ -32,7 +32,6 @@ public:
     double getPosX();
     double getPosY();
 
-
     void setHeight(int px);
     void setWidth(int px);
 

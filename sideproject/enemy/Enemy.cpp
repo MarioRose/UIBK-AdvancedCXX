@@ -18,7 +18,7 @@ void Enemy::moveAI(Character *character)
 		direction = Direction::LEFT;
 	}
 
-	if (std::abs(character->getPosY() - posY) < 4) {
+	if (std::abs(character->getPosY()+character->getHeight() - posY+object_height) < 8) {
 		if (character->getPosX() > posX) {
 			direction = Direction::RIGHT;
 			flipType = SDL_FLIP_NONE;
