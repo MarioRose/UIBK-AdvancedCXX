@@ -9,6 +9,8 @@ Projectile::Projectile(std::string path, SDL_Renderer *renderer)
 {
 	status = CharacterStatus::DEAD;
     loadFromFile(path, renderer);
+    posY = SCREEN_HEIGHT;
+    posX = SCREEN_WIDTH;
 }
 
 void Projectile::moveAI(Character *character)
