@@ -38,7 +38,7 @@ target_link_libraries(
 		"${SDL2_LIBRARIES}"
 		"${SDL2IMAGE_LIBRARIES}"
 		"${SDL2MIXER_LIBRARIES}"
-        "${SDL2TTF_LIBRARIES}"
+        	"${SDL2TTF_LIBRARIES}"
 		sub::arrows
 		sub::timer
 		sub::texture
@@ -52,4 +52,5 @@ target_link_libraries(
 		sub::tile
 		sub::sprite
 		sub::util
+		sub::fireball
 )
