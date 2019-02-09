@@ -2,6 +2,7 @@ CHARACTER Devil
 HEIGHT 33
 WIDTH 22
 HEALTH 2
+RANGE 0
 IDLE assets/images/sprites/fireball.png
 RUNNING assets/images/sprites/fireball.png
 DYING assets/images/characters/devil/dying/13.png

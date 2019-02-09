@@ -158,7 +158,9 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				this->setHeight(std::stoi(value));
 			} else if (key == "WIDTH") {
 				this->setWidth(std::stoi(value));
-			} else if (key == "SOUND_SHOUT") {
+            } else if (key == "RANGE") {
+                this->setRange(std::stoi(value));
+            } else if (key == "SOUND_SHOUT") {
 				addSound(value, CharacterSoundType::SHOUT);
 			} else if (key == "IDLE") {
 				pathsIdleTextures.push_back(value);
@@ -426,4 +428,9 @@ void Character::changeDirection()
 SDL_RendererFlip Character::getFlipType() const
 {
 	return flipType;
+}
+
+void Character::setRange(int isRange)
+{
+    isRangeEnemy = isRange;
 }

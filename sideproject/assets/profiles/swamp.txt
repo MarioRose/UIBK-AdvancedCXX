@@ -2,6 +2,7 @@ CHARACTER SwampMonster
 HEIGHT 16
 WIDTH 16
 HEALTH 3
+RANGE 1
 IDLE assets/images/characters/swampMonster/idle/1.png
 IDLE assets/images/characters/swampMonster/idle/2.png
 IDLE assets/images/characters/swampMonster/idle/3.png

@@ -63,8 +63,9 @@ class Character : public GameObject {
 	void setDeath();
 	bool isAlive();
 	int getHealth();
+    void setRange(int isRange);
 
-  protected:
+protected:
 	// The velocity of the moveable Object
 	double velX;
 	// The velocity of the moveable Object
@@ -76,6 +77,7 @@ class Character : public GameObject {
     // The velocity of the moveable Object
     double forceX;
 
+    bool isRangeEnemy = false;
 
     //used for double jumps
     int jumpCount = 0;

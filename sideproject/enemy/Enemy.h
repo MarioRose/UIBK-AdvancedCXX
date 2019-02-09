@@ -11,6 +11,10 @@ class Enemy : public IEnemy {
 	~Enemy();
 
 	void moveAI(Character *character) override;
+
+private:
+    void melee(Character *character);
+    void range(Character *character);
 };
 
 #endif // ENEMY_H
