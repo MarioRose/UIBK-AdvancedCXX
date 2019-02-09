@@ -1,4 +1,4 @@
-MAP Room03
+MAP Room04
 BACKGROUND assets/images/rooms/mountains.png
 MUSIC assets/music/265549.mp3
 DANGER_MUSIC assets/music/inquisitiveness.ogg
@@ -6,9 +6,22 @@ DANGER_MUSIC assets/music/inquisitiveness.ogg
 COLOR 0,0,0
 
 # TILES
-PLATFORM 140,100,100
+PLATFORM 80,90,100
 PLATFORM 250,140,140
-PLATFORM 180,240,200
+PLATFORM 99,200,100
+PLATFORM 102,260,75
+PLATFORM 114,320,50
+PLATFORM 126,380,25
+HOLE 105,150
+SKYHOLE 105,150
 
 # ENTITIES
-BOSS assets/profiles/boss.txt,500,237
+ENEMY assets/profiles/devil.txt,300,0
+ENEMY assets/profiles/devil.txt,600,0
+
+# SPRITES
+STAR 350,290
+STAR 380,290
+STAR 410,290
+STAR 440,290
+

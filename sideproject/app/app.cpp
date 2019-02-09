@@ -605,7 +605,7 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 
 			Room *room = new Room(std::stoi(key), std::stoi(result.at(1)), std::stoi(result.at(2)),
 			                      std::stoi(result.at(3)), std::stoi(result.at(4)));
-			room->loadFromFile(result.at(0).c_str(), gRenderer);
+			room->loadFromFile(result.at(0), gRenderer);
 			rooms.push_back(room);
 		}
 
@@ -835,7 +835,7 @@ int main(int argc, char *args[])
 				if (currentRoom->roomIndexAbove != -1) {
 					currentRoom = rooms.at(currentRoom->roomIndexAbove);
 					currentRoom->enter();
-					player.setPosY(SCREEN_WIDTH - 32);
+					player.setPosY(SCREEN_HEIGHT - 50);
 				}
 			}
 

@@ -1,8 +1,8 @@
 MAP Map03
 0  assets/maps/room01.txt,-1,1,-1,-1
-1  assets/maps/room02.txt,0,2,-1,-1
-2  assets/maps/room03.txt,1,-1,3,-1
-3  assets/maps/room04.txt,4,-1,-1,-1
+1  assets/maps/room02.txt,0,2,3,-1
+2  assets/maps/room03.txt,1,-1,-1,-1
+3  assets/maps/room04.txt,4,-1,-1,1
 4  assets/maps/room05.txt,5,3,-1,-1
 5  assets/maps/room06.txt,-1,4,6,-1
 6  assets/maps/room02.txt,-1,7,-1,-1
