@@ -40,7 +40,7 @@ void Boss::goBackAndForth()
     currentPhase = AttackPhase::GOING;
 
 	if (isGoingRight()) {
-		if (posX >= SCREEN_WIDTH - 30) {
+		if (posX >= SCREEN_WIDTH - 100) {
 			setIsGoingRight(false);
 		} else {
 			posX += 3;
@@ -128,9 +128,9 @@ void Boss::moveAI(Character *character)
 	    frameCount = 0;
         int randNum = rand() % 10;
 
-        if (randNum < 6) {
+        if (randNum < 5) {
             goBackAndForth();
-        } else if (randNum < 8) {
+        } else if (randNum < 7) {
             setIsGoingRight(false);
             attackOne();
         } else {

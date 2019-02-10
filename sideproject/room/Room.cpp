@@ -413,7 +413,7 @@ void Room::collisionTilesEnemies()
 {
 	for (auto &enemy : enemies) {
 		collisionTiles(enemy);
-		//        collisionWall(enemy);
+		collisionWall(enemy);
 	}
 }
 
