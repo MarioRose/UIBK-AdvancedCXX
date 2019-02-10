@@ -16,9 +16,10 @@
 #include <string>
 #include <vector>
 
-Player::Player() {
-    setPosX(20);
-    setPosY(400);
+Player::Player()
+{
+	setPosX(20);
+	setPosY(400);
 }
 
 Player::~Player() {}
@@ -287,7 +288,7 @@ bool Player::onLeftBorder()
 
 bool Player::onRightBorder()
 {
-	return posX >= (SCREEN_WIDTH - object_width - 5);
+	return posX >= (SCREEN_WIDTH + object_width);
 }
 
 bool Player::onTopBorder()

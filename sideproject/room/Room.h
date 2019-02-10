@@ -46,7 +46,9 @@ class Room {
 
 	void collisionTiles(Character *character);
 
-	void collisionTilesEnemies();
+    void collisionWall(Character *character);
+
+    void collisionTilesEnemies();
 
 	void moveEnemies(Player *player);
 

@@ -22,7 +22,7 @@ void Tile::initCroppedTiles() {
     croppedtiles[TILE_JUNGLE + TILE_PLATFORM].h = TILE_HEIGHT;
 
     croppedtiles[TILE_JUNGLE + TILE_WALL].x = TILE_WIDTH * 0;
-    croppedtiles[TILE_JUNGLE + TILE_WALL].y = TILE_HEIGHT * 1;
+    croppedtiles[TILE_JUNGLE + TILE_WALL].y = TILE_HEIGHT * 2;
     croppedtiles[TILE_JUNGLE + TILE_WALL].w = TILE_WIDTH;
     croppedtiles[TILE_JUNGLE + TILE_WALL].h = TILE_HEIGHT;
 

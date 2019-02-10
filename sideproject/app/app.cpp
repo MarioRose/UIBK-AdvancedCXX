@@ -815,6 +815,7 @@ int main(int argc, char *args[])
 			// Move the character
 			player.move();
 			currentRoom->collisionTiles(&player);
+			currentRoom->collisionWall(&player);
 			currentRoom->collisionTilesEnemies();
 
 			if (player.onLeftBorder()) {

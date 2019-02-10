@@ -33,22 +33,22 @@ Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBe
 
 void Room::initTiles()
 {
-    for (int i = 0; i < SCREEN_HEIGHT / Tile::TILE_HEIGHT; i++) {
-        //Left Wall
-        tiles.emplace_back(Tile(0, i * Tile::TILE_HEIGHT, Tile::TILE_WALL, level));
-        //Right Wall
-        tiles.emplace_back(Tile(SCREEN_WIDTH-Tile::TILE_WIDTH, i * Tile::TILE_HEIGHT, Tile::TILE_WALL, level));
-    }
+	for (int i = 0; i < SCREEN_HEIGHT / Tile::TILE_HEIGHT; i++) {
+		// Left Wall
+		tiles.emplace_back(Tile(0, i * Tile::TILE_HEIGHT, Tile::TILE_WALL, level));
+		// Right Wall
+		tiles.emplace_back(Tile(SCREEN_WIDTH - Tile::TILE_WIDTH, i * Tile::TILE_HEIGHT, Tile::TILE_WALL, level));
+	}
 
 	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
-        //GROUND
-        tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND, level));
-        tiles.emplace_back(
+		// GROUND
+		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND, level));
+		tiles.emplace_back(
 		    Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM, level));
 
-        //SKY
-        tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, 0, Tile::TILE_GROUND, level));
-    }
+		// SKY
+		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, 0, Tile::TILE_GROUND, level));
+	}
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
@@ -353,12 +353,15 @@ void Room::collisionTilesEnemies()
 {
 	for (auto &enemy : enemies) {
 		collisionTiles(enemy);
+		//        collisionWall(enemy);
 	}
 }
 
 void Room::collisionTiles(Character *character)
 {
 	for (auto &tile : tiles) {
+		if (tile.getTileType() == Tile::TILE_WALL)
+			continue;
 		if (character->getPosX() > tile.getX() - 10 &&
 		    character->getPosX() + 5 < (tile.getX() + Tile::TILE_WIDTH + 1)) {
 			if (character->getPosY() + character->getHeight() > tile.getY() - 3 &&
@@ -370,7 +373,28 @@ void Room::collisionTiles(Character *character)
 		}
 	}
 	character->setContactPlatform(false);
-	character->setContactWall(false);
+}
+
+void Room::collisionWall(Character *character)
+{
+	auto characterPosY = character->getPosY() + character->getHeight();
+	auto characterPosXRight = character->getPosX() + character->getWidth();
+
+	for (auto &tile : tiles) {
+		if (tile.getTileType() != Tile::TILE_WALL)
+			continue;
+
+		if (characterPosY > tile.getY() - 2 && characterPosY < (tile.getY() + Tile::TILE_HEIGHT + 2)) {
+			if (character->getPosX() < tile.getX() + Tile::TILE_WIDTH && characterPosXRight > tile.getX()) {
+				if (character->getFlipType() == SDL_FLIP_HORIZONTAL) {
+					character->setPosX(tile.getX() + Tile::TILE_WIDTH + 1);
+				} else {
+					character->setPosX(tile.getX() - Tile::TILE_WIDTH - 1);
+				}
+				return;
+			}
+		}
+	}
 }
 
 void Room::enter()
