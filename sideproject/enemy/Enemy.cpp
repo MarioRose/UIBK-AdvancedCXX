@@ -83,9 +83,13 @@ void Enemy::range(Character *character)
             flipType = SDL_FLIP_HORIZONTAL;
         }
         if (abs(character->getPosX() - posX) <= 100) {
-            int force = 50;
+
+            int force = 75;
 
             for(Projectile_vert *p : *projectiles){
+                if(p->getStatus() != CharacterStatus::DEAD){
+                    continue;
+                }
                 if(direction == Direction::RIGHT){
                     p->setStartPosition(this->posX, this->posY, force, true);
                 } else{

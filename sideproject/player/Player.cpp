@@ -16,7 +16,10 @@
 #include <string>
 #include <vector>
 
-Player::Player() {}
+Player::Player() {
+    setPosX(20);
+    setPosY(400);
+}
 
 Player::~Player() {}
 

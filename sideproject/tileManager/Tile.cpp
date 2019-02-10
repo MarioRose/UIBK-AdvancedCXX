@@ -26,13 +26,13 @@ void Tile::initCroppedTiles() {
     croppedtiles[TILE_JUNGLE + TILE_WALL].w = TILE_WIDTH;
     croppedtiles[TILE_JUNGLE + TILE_WALL].h = TILE_HEIGHT;
 
-    croppedtiles[(TILE_MOUNTAIN*3) + TILE_GROUND].x = 0;
-    croppedtiles[(TILE_MOUNTAIN*3) + TILE_GROUND].y = TILE_HEIGHT * 5;
+    croppedtiles[(TILE_MOUNTAIN*3) + TILE_GROUND].x = TILE_WIDTH/2;
+    croppedtiles[(TILE_MOUNTAIN*3) + TILE_GROUND].y = TILE_HEIGHT * 4;
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_GROUND].w = TILE_WIDTH;
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_GROUND].h = TILE_HEIGHT;
 
-    croppedtiles[(TILE_MOUNTAIN*3) + TILE_PLATFORM].x = 0;
-    croppedtiles[(TILE_MOUNTAIN*3) + TILE_PLATFORM].y = TILE_HEIGHT * 4;
+    croppedtiles[(TILE_MOUNTAIN*3) + TILE_PLATFORM].x = TILE_WIDTH/2;
+    croppedtiles[(TILE_MOUNTAIN*3) + TILE_PLATFORM].y = TILE_HEIGHT * 3;
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_PLATFORM].w = TILE_WIDTH;
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_PLATFORM].h = TILE_HEIGHT;
 

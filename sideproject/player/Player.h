@@ -10,8 +10,8 @@ enum class EquippedItem { NONE, BOW };
 enum class EquippedAbility { NONE, JUMP };
 
 struct SavePoint {
-	int x = 0;
-	int y = 0;
+	int x = 20;
+	int y = 400;
 	int roomIndex = 0;
 };
 
