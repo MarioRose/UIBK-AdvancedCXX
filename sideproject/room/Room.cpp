@@ -31,20 +31,24 @@ Room::Room(int index, int indexLeft, int indexRight, int indexAbove, int indexBe
 	initTiles();
 }
 
-// TODO: should parse file
 void Room::initTiles()
 {
+    for (int i = 0; i < SCREEN_HEIGHT / Tile::TILE_HEIGHT; i++) {
+        //Left Wall
+        tiles.emplace_back(Tile(0, i * Tile::TILE_HEIGHT, Tile::TILE_WALL, level));
+        //Right Wall
+        tiles.emplace_back(Tile(SCREEN_WIDTH-Tile::TILE_WIDTH, i * Tile::TILE_HEIGHT, Tile::TILE_WALL, level));
+    }
 
 	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND, level));
-	}
-	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
-		tiles.emplace_back(
+        //GROUND
+        tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND, level));
+        tiles.emplace_back(
 		    Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM, level));
-	}
-	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, 0, Tile::TILE_GROUND, level));
-	}
+
+        //SKY
+        tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, 0, Tile::TILE_GROUND, level));
+    }
 }
 
 void Room::loadFromFile(std::string path, SDL_Renderer *renderer)

@@ -20,7 +20,7 @@ class Tile {
 
 	void render(SDL_Renderer *renderer, SDL_Texture *texture);
 
-	static SDL_Rect croppedtiles[6];
+	static SDL_Rect croppedtiles[9];
 	static void initCroppedTiles();
 
 	// Constants:

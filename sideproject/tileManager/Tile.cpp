@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-SDL_Rect Tile::croppedtiles[6] = {0};
+SDL_Rect Tile::croppedtiles[9] = {0};
 
 Tile::~Tile(){
     free();
@@ -37,12 +37,12 @@ void Tile::initCroppedTiles() {
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_PLATFORM].h = TILE_HEIGHT;
 
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_WALL].x = 0;
-    croppedtiles[(TILE_MOUNTAIN*3) + TILE_WALL].y = 0;
+    croppedtiles[(TILE_MOUNTAIN*3) + TILE_WALL].y = TILE_HEIGHT;
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_WALL].w = TILE_WIDTH;
     croppedtiles[(TILE_MOUNTAIN*3) + TILE_WALL].h = TILE_HEIGHT;
 
     croppedtiles[(TILE_HELL*3) + TILE_GROUND].x = TILE_WIDTH * 4;
-    croppedtiles[(TILE_HELL*3) + TILE_GROUND].y = TILE_HEIGHT * 5;
+    croppedtiles[(TILE_HELL*3) + TILE_GROUND].y = TILE_WIDTH * 5;
     croppedtiles[(TILE_HELL*3) + TILE_GROUND].w = TILE_WIDTH;
     croppedtiles[(TILE_HELL*3) + TILE_GROUND].h = TILE_HEIGHT;
 
@@ -51,8 +51,8 @@ void Tile::initCroppedTiles() {
     croppedtiles[(TILE_HELL*3) + TILE_PLATFORM].w = TILE_WIDTH;
     croppedtiles[(TILE_HELL*3) + TILE_PLATFORM].h = TILE_HEIGHT;
 
-    croppedtiles[(TILE_HELL*3) + TILE_WALL].x = 0;
-    croppedtiles[(TILE_HELL*3) + TILE_WALL].y = 0;
+    croppedtiles[(TILE_HELL*3) + TILE_WALL].x = TILE_WIDTH * 14 + (TILE_WIDTH /2);
+    croppedtiles[(TILE_HELL*3) + TILE_WALL].y = TILE_WIDTH * 5;
     croppedtiles[(TILE_HELL*3) + TILE_WALL].w = TILE_WIDTH;
     croppedtiles[(TILE_HELL*3) + TILE_WALL].h = TILE_HEIGHT;
 }
