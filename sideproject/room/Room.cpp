@@ -93,6 +93,10 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				removeTile(value);
 			} else if (key == "SKYHOLE") {
 				removeSkyTile(value);
+            } else if (key == "DOORRIGHT") {
+                addDoorRight(value);
+            } else if (key == "DOORLEFT") {
+                addDoorLeft(value);
 			} else if (key == "ENEMY") {
 				addEnemy(value, renderer);
 			} else if (key == "BOSS") {
@@ -260,7 +264,7 @@ void Room::removeTile(std::string value)
 
 	std::vector<Tile>::iterator iter;
 	for (iter = tiles.begin(); iter != tiles.end();) {
-		if (iter->getY() >= (SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2)) {
+        if (iter->getY() >= (SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2)) {
 			if (iter->getX() >= x_start && iter->getX() <= x_end) {
 				iter = tiles.erase(iter);
 			} else {
@@ -274,27 +278,83 @@ void Room::removeTile(std::string value)
 
 void Room::removeSkyTile(std::string value)
 {
-	std::vector<std::string> result = util::getValues(value);
+    std::vector<std::string> result = util::getValues(value);
 
-	int x_start = std::stoi(result.at(0));
-	int x_end = std::stoi(result.at(1));
+    int x_start = std::stoi(result.at(0));
+    int x_end = std::stoi(result.at(1));
 
-	if (x_end <= x_start) {
-		return;
-	}
+    if (x_end <= x_start) {
+        return;
+    }
 
-	std::vector<Tile>::iterator iter;
-	for (iter = tiles.begin(); iter != tiles.end();) {
-		if (iter->getY() == 0) {
-			if (iter->getX() >= x_start && iter->getX() <= x_end) {
-				iter = tiles.erase(iter);
-			} else {
-				iter++;
-			}
-		} else {
-			iter++;
-		}
-	}
+    std::vector<Tile>::iterator iter;
+    for (iter = tiles.begin(); iter != tiles.end();) {
+        if (iter->getY() == 0) {
+            if (iter->getX() >= x_start && iter->getX() <= x_end) {
+                iter = tiles.erase(iter);
+            } else {
+                iter++;
+            }
+        } else {
+            iter++;
+        }
+    }
+}
+
+void Room::addDoorRight(std::string value)
+{
+    std::vector<std::string> result = util::getValues(value);
+
+    int y_start = std::stoi(result.at(0));
+    int y_end = std::stoi(result.at(1));
+
+    if (y_end <= y_start) {
+        return;
+    }
+
+    std::vector<Tile>::iterator iter;
+    for (iter = tiles.begin(); iter != tiles.end();) {
+        if (iter->getX() >= (SCREEN_WIDTH - Tile::TILE_WIDTH)) {
+            if (iter->getY() >= y_start && iter->getY() <= y_end) {
+                if(iter->getTileType() == Tile::TILE_WALL)
+                    iter = tiles.erase(iter);
+                else
+                    iter++;
+            } else {
+                iter++;
+            }
+        } else {
+            iter++;
+        }
+    }
+}
+
+void Room::addDoorLeft(std::string value)
+{
+    std::vector<std::string> result = util::getValues(value);
+
+    int y_start = std::stoi(result.at(0));
+    int y_end = std::stoi(result.at(1));
+
+    if (y_end <= y_start) {
+        return;
+    }
+
+    std::vector<Tile>::iterator iter;
+    for (iter = tiles.begin(); iter != tiles.end();) {
+        if (iter->getX() == 0) {
+            if (iter->getY() >= y_start && iter->getY() <= y_end) {
+                if(iter->getTileType() == Tile::TILE_WALL)
+                    iter = tiles.erase(iter);
+                else
+                    iter++;
+            } else {
+                iter++;
+            }
+        } else {
+            iter++;
+        }
+    }
 }
 
 void Room::moveEnemies(Player *player)

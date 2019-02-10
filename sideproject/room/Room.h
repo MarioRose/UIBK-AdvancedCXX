@@ -95,6 +95,9 @@ class Room {
 	void initTiles();
 	void removeTile(std::string value);
 	void removeSkyTile(std::string value);
+    void addDoorRight(std::string value);
+    void addDoorLeft(std::string value);
+
 	std::vector<std::string> getValues(std::string value);
 
 	std::vector<Tile> tiles;

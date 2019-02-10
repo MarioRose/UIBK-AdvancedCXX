@@ -288,7 +288,7 @@ bool Player::onLeftBorder()
 
 bool Player::onRightBorder()
 {
-	return posX >= (SCREEN_WIDTH + object_width);
+	return posX >= (SCREEN_WIDTH - object_width - 5);
 }
 
 bool Player::onTopBorder()
