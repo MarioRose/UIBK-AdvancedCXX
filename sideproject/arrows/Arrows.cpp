@@ -30,6 +30,9 @@ bool Arrows::loadTexture(SDL_Renderer *renderer)
 }
 
 void Arrows::shootArrow(int playerX, int playerY, SDL_RendererFlip flipType) {
+    if(arrowCount == arrowMax)
+        return;
+
 	Arrow* arrow = new Arrow(flipType);
 	if(flipType == SDL_FLIP_NONE) {
 		arrow->shoot(playerX, playerY+15);
@@ -38,6 +41,7 @@ void Arrows::shootArrow(int playerX, int playerY, SDL_RendererFlip flipType) {
 	}
 	arrows.push_back(arrow);
 	renderBow = true;
+	arrowCount++;
 }
 
 
@@ -72,6 +76,7 @@ void Arrows::collisionDetection(IEnemy* enemy) {
 		if(hit) {
 			delete arrows[i];
 			arrows.erase(arrows.begin() + i);
+			arrowCount--;
 		}
 	}
 }

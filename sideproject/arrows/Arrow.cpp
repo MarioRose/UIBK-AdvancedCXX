@@ -42,14 +42,18 @@ bool Arrow::collisionDetection(IEnemy *enemy)
 		if (abs(mX - enemy->getPosX()) < 20) {
 			if (abs(mY - enemy->getPosY()) < 35) {
 				if (mX > enemy->getPosX()) {
-					enemy->setPosX(enemy->getPosX() - 20);
+					enemy->setPosX(enemy->getPosX() - 10);
 				} else {
-					enemy->setPosX(enemy->getPosX() + 20);
+					enemy->setPosX(enemy->getPosX() + 10);
 				}
 				enemy->loseHealth();
 				active = false;
 			}
 		}
+	}
+
+	if(mX < -20 || mX > SCREEN_WIDTH){
+	    active = false;
 	}
 
 	// more intuitive to return false for no hit - true for hit

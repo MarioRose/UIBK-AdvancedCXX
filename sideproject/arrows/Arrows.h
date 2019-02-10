@@ -23,6 +23,8 @@ public:
 private:
 	bool renderBow = false;
 	int framesSinceLastArrowShot = 0;
+	int arrowCount = 0;
+	int arrowMax = 3;
 	std::vector<Arrow*> arrows;
 
 	// Scene textures

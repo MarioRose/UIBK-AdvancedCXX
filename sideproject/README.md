@@ -24,7 +24,7 @@
 - [x] Walls
 - [ ] Skills (e.g. get more live every 20 stars)
 - [ ] don't allow to walk on ground under platform
-- [ ] pfeile counter (max 10)
+- [x] pfeile counter (max 10)
 - [ ] cap the frame-rate at a reasonable number
 - [ ] timing related logic should be independent of the frame-rate, use a *time delta*
 
