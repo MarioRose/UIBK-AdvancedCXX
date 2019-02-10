@@ -64,6 +64,7 @@ class Character : public GameObject {
 	bool isAlive();
 	int getHealth();
     void setRange(int isRange);
+    void setSpeed(float speed);
 
 protected:
 	// The velocity of the moveable Object
@@ -76,6 +77,8 @@ protected:
 	double forceY;
     // The velocity of the moveable Object
     double forceX;
+    //double speed
+    double speed;
 
     bool isRangeEnemy = false;
 
