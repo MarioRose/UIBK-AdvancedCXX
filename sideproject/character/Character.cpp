@@ -59,12 +59,10 @@ Character::~Character()
 
 void Character::move()
 {
-	// Move the character left or right
-	posX += velX;
-
 	// If the character went too far to the left or right
 	if ((posX < 0) || (posX + object_width > SCREEN_WIDTH)) {
 		// Move back
+
 		posX -= velX;
 	}
 
@@ -178,7 +176,9 @@ bool Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				pathsJumpingTextures.push_back(value);
 			} else if (key == "HEALTH") {
 				this->setHealth(std::stoi(value));
-			}
+			} else if (key == "SPEED") {
+                this->setSpeed(std::stof(value));
+            }
 		}
 
 		loadTextures(pathsIdleTextures, TextureType::IDLE, renderer);
@@ -437,4 +437,9 @@ SDL_RendererFlip Character::getFlipType() const
 void Character::setRange(int isRange)
 {
     isRangeEnemy = isRange;
+}
+
+void Character::setSpeed(float speed)
+{
+    this->speed = speed;
 }

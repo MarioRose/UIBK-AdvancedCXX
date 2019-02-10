@@ -15,6 +15,7 @@ DOORRIGHT 380,448
 ENEMY assets/profiles/devil.txt,300,0
 ENEMY assets/profiles/devil.txt,500,0
 ENEMY assets/profiles/swamp.txt,400,200
+ENEMY assets/profiles/cat.txt,450,200
 
 
 # SPRITES

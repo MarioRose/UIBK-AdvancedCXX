@@ -1,0 +1,34 @@
+CHARACTER Cat
+HEIGHT 53
+WIDTH 96
+HEALTH 3
+RANGE 0
+SPEED 3
+IDLE assets/images/characters/cat/idle/1.png
+RUNNING assets/images/characters/cat/running/1.png
+RUNNING assets/images/characters/cat/running/2.png
+RUNNING assets/images/characters/cat/running/3.png
+RUNNING assets/images/characters/cat/running/4.png
+RUNNING assets/images/characters/cat/running/5.png
+RUNNING assets/images/characters/cat/running/6.png
+RUNNING assets/images/characters/cat/running/7.png
+RUNNING assets/images/characters/cat/running/8.png
+RUNNING assets/images/characters/cat/running/9.png
+RUNNING assets/images/characters/cat/running/10.png
+RUNNING assets/images/characters/cat/running/11.png
+RUNNING assets/images/characters/cat/running/12.png
+DYING assets/images/characters/cat/dying/1.png
+DYING assets/images/characters/cat/dying/2.png
+DYING assets/images/characters/cat/dying/3.png
+DYING assets/images/characters/cat/dying/4.png
+DYING assets/images/characters/cat/dying/5.png
+ATTACK assets/images/characters/cat/attack/1.png
+ATTACK assets/images/characters/cat/attack/2.png
+ATTACK assets/images/characters/cat/attack/3.png
+ATTACK assets/images/characters/cat/attack/4.png
+FALLING assets/images/characters/cat/idle/1.png
+JUMPING assets/images/characters/cat/idle/1.png
+
+
+
+

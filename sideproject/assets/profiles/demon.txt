@@ -3,6 +3,7 @@ HEIGHT 36
 WIDTH 32
 HEALTH 3
 RANGE 0
+SPEED 1.5
 IDLE assets/images/characters/demon/idle/1.png
 RUNNING assets/images/characters/demon/running/1.png
 RUNNING assets/images/characters/demon/running/2.png

@@ -53,10 +53,10 @@ void Enemy::melee(Character *character)
 
     switch (direction) {
         case Direction::RIGHT:
-            posX += 0.75;
+            posX += speed;
             break;
         case Direction::LEFT:
-            posX -= 0.75;
+            posX -= speed;
             break;
     }
 }
