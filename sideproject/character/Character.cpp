@@ -133,8 +133,9 @@ CharacterStatus Character::getStatus()
 	return status;
 }
 
-void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
+bool Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
+    bool isRangeCharacter = false;
 
 	std::ifstream file(path);
 	if (file.is_open()) {
@@ -160,6 +161,7 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 				this->setWidth(std::stoi(value));
             } else if (key == "RANGE") {
                 this->setRange(std::stoi(value));
+                isRangeCharacter = true;
             } else if (key == "SOUND_SHOUT") {
 				addSound(value, CharacterSoundType::SHOUT);
 			} else if (key == "IDLE") {
@@ -190,6 +192,8 @@ void Character::loadFromFile(std::string path, SDL_Renderer *renderer)
 	} else {
 		std::cout << "Error loading file " << path << std::endl;
 	}
+
+	return isRangeCharacter;
 }
 
 bool Character::loadTextures(std::vector<std::string> paths, TextureType texture_type, SDL_Renderer *renderer)

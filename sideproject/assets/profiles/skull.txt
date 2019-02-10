@@ -1,0 +1,11 @@
+CHARACTER Skull
+HEIGHT 64
+WIDTH 64
+HEALTH 1
+RANGE 0
+IDLE assets/images/sprites/skull.png
+RUNNING assets/images/sprites/skull.png
+DYING assets/images/characters/devil/dying/13.png
+ATTACK assets/images/sprites/skull.png
+FALLING assets/images/sprites/skull.png
+JUMPING assets/images/sprites/skull.png

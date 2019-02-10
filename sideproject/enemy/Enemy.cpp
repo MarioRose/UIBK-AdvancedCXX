@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Enemy.h"
 #include "Settings.h"
 
@@ -27,7 +28,7 @@ void Enemy::melee(Character *character)
         direction = Direction::LEFT;
     }
 
-    if (std::abs(character->getPosY()+character->getHeight() - posY+object_height) < 8) {
+    if (std::abs(character->getPosY()+character->getHeight() - (posY+object_height)) < 4) {
         if (character->getPosX() > posX) {
             direction = Direction::RIGHT;
             flipType = SDL_FLIP_NONE;
@@ -73,7 +74,7 @@ void Enemy::range(Character *character)
         direction = Direction::LEFT;
     }
 
-    if (std::abs(character->getPosY()+character->getHeight() - posY+object_height) < 8) {
+    if (std::abs(character->getPosY()+character->getHeight() - (posY+object_height)) < 4) {
         if (character->getPosX() > posX) {
             direction = Direction::RIGHT;
             flipType = SDL_FLIP_NONE;
@@ -81,9 +82,25 @@ void Enemy::range(Character *character)
             direction = Direction::LEFT;
             flipType = SDL_FLIP_HORIZONTAL;
         }
-        if (abs(character->getPosX() - posX) <= 25) {
-            status = CharacterStatus::ATTACK;
+        if (abs(character->getPosX() - posX) <= 100) {
+            int force = 50;
+
+            for(Projectile_vert *p : *projectiles){
+                if(direction == Direction::RIGHT){
+                    p->setStartPosition(this->posX, this->posY, force, true);
+                } else{
+                    p->setStartPosition(this->posX, this->posY, force, false);
+                }
+                force += force;
+            }
+
         }
     }
 
+
+}
+
+void Enemy::setProjectiles(std::shared_ptr<std::vector<Projectile_vert*>> projectiles)
+{
+    this->projectiles = projectiles;
 }

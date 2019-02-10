@@ -1,6 +1,6 @@
 CHARACTER Devil
-HEIGHT 33
-WIDTH 22
+HEIGHT 64
+WIDTH 64
 HEALTH 2
 RANGE 0
 IDLE assets/images/sprites/fireball.png

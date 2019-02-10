@@ -17,7 +17,9 @@ add_library(${PROJECT_NAME}
         Enemy.cpp
         Boss.cpp
         Projectile.cpp
+        Projectile_vert.cpp
         )
+
 add_library(sub::enemy ALIAS ${PROJECT_NAME})
 
 target_include_directories( ${PROJECT_NAME}

@@ -39,7 +39,8 @@ void Room::initTiles()
 		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT, Tile::TILE_GROUND, level));
 	}
 	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
-		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM, level));
+		tiles.emplace_back(
+		    Tile(i * Tile::TILE_WIDTH, SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2, Tile::TILE_PLATFORM, level));
 	}
 	for (int i = 0; i < SCREEN_WIDTH / Tile::TILE_WIDTH; i++) {
 		tiles.emplace_back(Tile(i * Tile::TILE_WIDTH, 0, Tile::TILE_GROUND, level));
@@ -160,7 +161,16 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 
 	enemy->setPosX(std::stoi(result.at(1)));
 	enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
-	enemy->loadFromFile(result.at(0), renderer);
+	if (enemy->loadFromFile(result.at(0), renderer)) {
+		std::shared_ptr<std::vector<Projectile_vert *>> projectiles(new std::vector<Projectile_vert *>());
+		//        for(int i = 0; i < 3; i++){
+		Projectile_vert *project = new Projectile_vert("assets/profiles/skull.txt", renderer);
+		projectiles->emplace_back(project);
+		enemies.emplace_back(project);
+		//        }
+
+		enemy->setProjectiles(projectiles);
+	}
 
 	enemies.emplace_back(enemy);
 }
@@ -175,16 +185,16 @@ void Room::addBoss(std::string value, SDL_Renderer *renderer)
 
 	boss->setItem(item);
 
-    std::shared_ptr<std::vector<Projectile*>> projectiles(new std::vector<Projectile*>());
-    for(int i = 0; i < 3; i++){
-        Projectile* project = new Projectile("assets/profiles/fireball.txt", renderer);
-        projectiles->emplace_back(project);
-        enemies.emplace_back(project);
-    }
+	std::shared_ptr<std::vector<Projectile *>> projectiles(new std::vector<Projectile *>());
+	for (int i = 0; i < 3; i++) {
+		Projectile *project = new Projectile("assets/profiles/fireball.txt", renderer);
+		projectiles->emplace_back(project);
+		enemies.emplace_back(project);
+	}
 
-    boss->setProjectiles(projectiles);
+	boss->setProjectiles(projectiles);
 
-    std::vector<std::string> result = util::getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 	boss->setPosX(std::stoi(result.at(1)));
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
 	boss->loadFromFile(result.at(0), renderer);

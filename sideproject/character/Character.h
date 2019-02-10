@@ -43,7 +43,7 @@ class Character : public GameObject {
 
 	CharacterStatus getStatus();
 
-	void loadFromFile(std::string path, SDL_Renderer *renderer);
+	bool loadFromFile(std::string path, SDL_Renderer *renderer);
 
 	Mix_Chunk *shout_sound;
 

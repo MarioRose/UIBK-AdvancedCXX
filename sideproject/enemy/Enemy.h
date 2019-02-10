@@ -1,7 +1,9 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include <memory>
 #include "IEnemy.h"
+#include "Projectile_vert.h"
 
 class Enemy : public IEnemy {
   public:
@@ -11,10 +13,12 @@ class Enemy : public IEnemy {
 	~Enemy();
 
 	void moveAI(Character *character) override;
+    void setProjectiles(std::shared_ptr<std::vector<Projectile_vert*>> projectiles);
 
 private:
     void melee(Character *character);
     void range(Character *character);
+    std::shared_ptr<std::vector<Projectile_vert *>> projectiles;
 };
 
 #endif // ENEMY_H
