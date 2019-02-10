@@ -29,6 +29,9 @@ void Arrow::render(SDL_Renderer *renderer, Texture &arrowTexture)
 		} else {
 			mX -= 5;
 		}
+		if(mX < -20 || mX > SCREEN_WIDTH){
+			active = false;
+		}
 	}
 }
 
@@ -52,10 +55,10 @@ bool Arrow::collisionDetection(IEnemy *enemy)
 		}
 	}
 
-	if(mX < -20 || mX > SCREEN_WIDTH){
-	    active = false;
-	}
-
 	// more intuitive to return false for no hit - true for hit
 	return !active;
+}
+
+bool Arrow::isActive() const {
+	return active;
 }

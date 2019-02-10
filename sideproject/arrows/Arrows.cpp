@@ -58,8 +58,14 @@ void Arrows::render(SDL_Renderer *renderer, int playerX, int playerY, SDL_Render
 			framesSinceLastArrowShot = 0;
 		}
 	}
-	for(auto& arrow : arrows) {
-		arrow->render(renderer, arrowTexture);
+	for(std::size_t i = 0; i<arrows.size(); i++) {
+		if(!arrows[i]->isActive()) {
+			delete arrows[i];
+			arrows.erase(arrows.begin() + i);
+			arrowCount--;
+		} else {
+			arrows[i]->render(renderer, arrowTexture);
+		}
 	}
 }
 
