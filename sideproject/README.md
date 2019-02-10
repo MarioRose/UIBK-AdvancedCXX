@@ -43,7 +43,7 @@
 ## Christoph
 - [x] Boss attack
 - [ ] Boss healthbar
-- [ ] Enemies with range attacks
+- [x] Enemies with range attacks
 - [x] Double jump unlocking
 
 ## SOUND
