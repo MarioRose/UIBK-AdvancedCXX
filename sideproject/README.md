@@ -21,7 +21,7 @@
     - [ ] gets stronger over the course of the game (XP / level-up) (maye use playerPoints as XP)
     - [ ] can equip found items to further increase stats
 - [ ] Game over screen (back to main menu ...)
-- [ ] Walls
+- [x] Walls
 - [ ] Skills (e.g. get more live every 20 stars)
 - [ ] don't allow to walk on ground under platform
 - [ ] pfeile counter (max 10)
