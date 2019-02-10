@@ -20,6 +20,8 @@ public:
 
 	void shoot(int x, int y);
 
+	bool isActive() const;
+
 private:
 	int mX = 0;
 	int mY = 0;
