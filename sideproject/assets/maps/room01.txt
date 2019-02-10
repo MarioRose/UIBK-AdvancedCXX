@@ -16,6 +16,7 @@ ENEMY assets/profiles/devil.txt,300,0
 ENEMY assets/profiles/devil.txt,500,0
 ENEMY assets/profiles/swamp.txt,400,200
 ENEMY assets/profiles/cat.txt,450,200
+ENEMY assets/profiles/ghost.txt,350,200
 
 
 # SPRITES
