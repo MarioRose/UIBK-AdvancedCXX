@@ -8,6 +8,14 @@ RUNNING assets/images/characters/ghost/running/1.png
 RUNNING assets/images/characters/ghost/running/2.png
 RUNNING assets/images/characters/ghost/running/3.png
 RUNNING assets/images/characters/ghost/running/4.png
+RUNNING assets/images/characters/ghost/running/5.png
+RUNNING assets/images/characters/ghost/running/6.png
+RUNNING assets/images/characters/ghost/running/7.png
+RUNNING assets/images/characters/ghost/running/8.png
+RUNNING assets/images/characters/ghost/running/9.png
+RUNNING assets/images/characters/ghost/running/10.png
+RUNNING assets/images/characters/ghost/running/11.png
+RUNNING assets/images/characters/ghost/running/12.png
 DYING assets/images/characters/ghost/dying/1.png
 DYING assets/images/characters/ghost/dying/2.png
 DYING assets/images/characters/ghost/dying/3.png
@@ -16,14 +24,6 @@ ATTACK assets/images/characters/ghost/attack/1.png
 ATTACK assets/images/characters/ghost/attack/2.png
 ATTACK assets/images/characters/ghost/attack/3.png
 ATTACK assets/images/characters/ghost/attack/4.png
-ATTACK assets/images/characters/ghost/attack/5.png
-ATTACK assets/images/characters/ghost/attack/6.png
-ATTACK assets/images/characters/ghost/attack/7.png
-ATTACK assets/images/characters/ghost/attack/8.png
-ATTACK assets/images/characters/ghost/attack/9.png
-ATTACK assets/images/characters/ghost/attack/10.png
-ATTACK assets/images/characters/ghost/attack/11.png
-ATTACK assets/images/characters/ghost/attack/12.png
 FALLING assets/images/characters/ghost/idle/1.png
 JUMPING assets/images/characters/ghost/idle/1.png
 
