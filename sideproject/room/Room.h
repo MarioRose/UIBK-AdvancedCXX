@@ -108,7 +108,8 @@ class Room {
     Texture heartTexture;
     Texture bowTexture;
 	Texture flagTexture;
-	Texture flyingItemTexture;
+    Texture flameTexture;
+    Texture flyingItemTexture;
 
 	int roomIndex;
 	bool visited = false;

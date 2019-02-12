@@ -55,10 +55,11 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
 
 	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
-    heartTexture.loadFromFile("assets/images/sprites/heart.png", renderer);
-    bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
+	heartTexture.loadFromFile("assets/images/sprites/heart.png", renderer);
+	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
-	flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
+    flameTexture.loadFromFile("assets/images/sprites/firewall.png", renderer);
+    flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
 
 	spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
 	spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
@@ -106,6 +107,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				addSprite(value, renderer, SpriteType::STAR);
 			} else if (key == "HEART") {
 				addSprite(value, renderer, SpriteType::HEART);
+			} else if (key == "FLAME") {
+				addSprite(value, renderer, SpriteType::FLAME);
 			} else if (key == "BOW") {
 				addSprite(value, renderer, SpriteType::BOW);
 			} else if (key == "COLOR") {
@@ -233,6 +236,9 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 		break;
 	case SpriteType::FLAG:
 		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type, spriteSound2, roomIndex));
+		break;
+	case SpriteType::FLAME:
+		sprites.emplace_back(new Sprite(x, y, flameTexture, renderer, type, spriteSound2, roomIndex));
 		break;
 	}
 }
@@ -508,12 +514,13 @@ void Room::free()
 	}
 
 	starTexture.free();
-    heartTexture.free();
-    bowTexture.free();
+	heartTexture.free();
+	bowTexture.free();
 	flagTexture.free();
 	flyingItemTexture.free();
+	flameTexture.free();
 
-    Mix_FreeChunk(spriteSound1);
+	Mix_FreeChunk(spriteSound1);
 	spriteSound1 = NULL;
 
 	Mix_FreeChunk(spriteSound2);

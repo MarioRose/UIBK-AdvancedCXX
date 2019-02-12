@@ -211,13 +211,13 @@ bool Player::collisionDetection(IEnemy *enemy)
 	if (abs(posX - enemy->getPosX()) < 20) {
 		if (abs(posY - enemy->getPosY()) < 35) {
 			takeDamage();
-			if (posX > enemy->getPosX())
-				posX += 50;
-			else if (posX >= 50) {
-				posX -= 50;
-			} else {
-				posX = 0;
-			}
+			//			if (posX > enemy->getPosX())
+			//				posX += 50;
+			//			else if (posX >= 50) {
+			//				posX -= 50;
+			//			} else {
+			//				posX = 0;
+			//			}
 			return true;
 		}
 	}
@@ -226,7 +226,17 @@ bool Player::collisionDetection(IEnemy *enemy)
 
 bool Player::collisionDetection(Sprite *sprite)
 {
-	if (abs(posX - sprite->getPosX()) < 10) {
+	if (sprite->getSpriteType() == SpriteType::FLAME) {
+		if (abs((posY+object_height) - sprite->getPosY()) < 15) {
+			if (posX >= sprite->getPosX() && posX < sprite->getPosX() + 50) {
+				if (!hasFireImmunity) {
+					takeDamage();
+					setPosX(lastSavePoint.x);
+					setPosY(lastSavePoint.y);
+				}
+			}
+		}
+	} else if (abs(posX - sprite->getPosX()) < 10) {
 		if (abs(posY - sprite->getPosY()) < 15) {
 			sprite->visible = false;
 			sprite->playSound();
@@ -236,9 +246,9 @@ bool Player::collisionDetection(Sprite *sprite)
 				points++;
 				break;
 			case SpriteType::HEART:
-                if (health < maxHealth){
-                    health++;
-                }
+				if (health < maxHealth) {
+					health++;
+				}
 				break;
 			case SpriteType::BOW:
 				hasBow = true;
