@@ -88,8 +88,8 @@ void Character::move()
 	}
 
 	if (posY > SCREEN_HEIGHT - object_height) {
-		posY = SCREEN_HEIGHT - object_height;
-	}
+        loseHealth();
+    }
 
 	// Jumping or Falling
 	//    if(forceY != 0 || posY != SCREEN_HEIGHT - object_height) {
