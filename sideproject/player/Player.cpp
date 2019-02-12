@@ -235,6 +235,11 @@ bool Player::collisionDetection(Sprite *sprite)
 			case SpriteType::STAR:
 				points++;
 				break;
+			case SpriteType::HEART:
+                if (health < maxHealth){
+                    health++;
+                }
+				break;
 			case SpriteType::BOW:
 				hasBow = true;
 				if (equippedItem == EquippedItem::NONE)
@@ -334,4 +339,13 @@ EquippedItem Player::getEquippedItem() const
 EquippedAbility Player::getEquippedAbility() const
 {
 	return equippedAbility;
+}
+
+int Player::getMaxHealth() const
+{
+	return maxHealth;
+}
+void Player::increaseMaxHealth()
+{
+	maxHealth++;
 }

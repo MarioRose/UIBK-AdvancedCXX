@@ -443,3 +443,4 @@ void Character::setSpeed(float speed)
 {
     this->speed = speed;
 }
+

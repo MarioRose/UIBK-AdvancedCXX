@@ -55,7 +55,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 {
 
 	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
-	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
+    heartTexture.loadFromFile("assets/images/sprites/heart.png", renderer);
+    bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
 	flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
 
@@ -93,16 +94,18 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				removeTile(value);
 			} else if (key == "SKYHOLE") {
 				removeSkyTile(value);
-            } else if (key == "DOORRIGHT") {
-                addDoorRight(value);
-            } else if (key == "DOORLEFT") {
-                addDoorLeft(value);
+			} else if (key == "DOORRIGHT") {
+				addDoorRight(value);
+			} else if (key == "DOORLEFT") {
+				addDoorLeft(value);
 			} else if (key == "ENEMY") {
 				addEnemy(value, renderer);
 			} else if (key == "BOSS") {
 				addBoss(value, renderer);
 			} else if (key == "STAR") {
 				addSprite(value, renderer, SpriteType::STAR);
+			} else if (key == "HEART") {
+				addSprite(value, renderer, SpriteType::HEART);
 			} else if (key == "BOW") {
 				addSprite(value, renderer, SpriteType::BOW);
 			} else if (key == "COLOR") {
@@ -222,6 +225,9 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 	case SpriteType::STAR:
 		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type, spriteSound1, roomIndex));
 		break;
+	case SpriteType::HEART:
+		sprites.emplace_back(new Sprite(x, y, heartTexture, renderer, type, spriteSound1, roomIndex));
+		break;
 	case SpriteType::BOW:
 		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type, spriteSound2, roomIndex));
 		break;
@@ -264,7 +270,7 @@ void Room::removeTile(std::string value)
 
 	std::vector<Tile>::iterator iter;
 	for (iter = tiles.begin(); iter != tiles.end();) {
-        if (iter->getY() >= (SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2)) {
+		if (iter->getY() >= (SCREEN_HEIGHT - Tile::TILE_HEIGHT * 2)) {
 			if (iter->getX() >= x_start && iter->getX() <= x_end) {
 				iter = tiles.erase(iter);
 			} else {
@@ -278,83 +284,83 @@ void Room::removeTile(std::string value)
 
 void Room::removeSkyTile(std::string value)
 {
-    std::vector<std::string> result = util::getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
-    int x_start = std::stoi(result.at(0));
-    int x_end = std::stoi(result.at(1));
+	int x_start = std::stoi(result.at(0));
+	int x_end = std::stoi(result.at(1));
 
-    if (x_end <= x_start) {
-        return;
-    }
+	if (x_end <= x_start) {
+		return;
+	}
 
-    std::vector<Tile>::iterator iter;
-    for (iter = tiles.begin(); iter != tiles.end();) {
-        if (iter->getY() == 0) {
-            if (iter->getX() >= x_start && iter->getX() <= x_end) {
-                iter = tiles.erase(iter);
-            } else {
-                iter++;
-            }
-        } else {
-            iter++;
-        }
-    }
+	std::vector<Tile>::iterator iter;
+	for (iter = tiles.begin(); iter != tiles.end();) {
+		if (iter->getY() == 0) {
+			if (iter->getX() >= x_start && iter->getX() <= x_end) {
+				iter = tiles.erase(iter);
+			} else {
+				iter++;
+			}
+		} else {
+			iter++;
+		}
+	}
 }
 
 void Room::addDoorRight(std::string value)
 {
-    std::vector<std::string> result = util::getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
-    int y_start = std::stoi(result.at(0));
-    int y_end = std::stoi(result.at(1));
+	int y_start = std::stoi(result.at(0));
+	int y_end = std::stoi(result.at(1));
 
-    if (y_end <= y_start) {
-        return;
-    }
+	if (y_end <= y_start) {
+		return;
+	}
 
-    std::vector<Tile>::iterator iter;
-    for (iter = tiles.begin(); iter != tiles.end();) {
-        if (iter->getX() >= (SCREEN_WIDTH - Tile::TILE_WIDTH)) {
-            if (iter->getY() >= y_start && iter->getY() <= y_end) {
-                if(iter->getTileType() == Tile::TILE_WALL)
-                    iter = tiles.erase(iter);
-                else
-                    iter++;
-            } else {
-                iter++;
-            }
-        } else {
-            iter++;
-        }
-    }
+	std::vector<Tile>::iterator iter;
+	for (iter = tiles.begin(); iter != tiles.end();) {
+		if (iter->getX() >= (SCREEN_WIDTH - Tile::TILE_WIDTH)) {
+			if (iter->getY() >= y_start && iter->getY() <= y_end) {
+				if (iter->getTileType() == Tile::TILE_WALL)
+					iter = tiles.erase(iter);
+				else
+					iter++;
+			} else {
+				iter++;
+			}
+		} else {
+			iter++;
+		}
+	}
 }
 
 void Room::addDoorLeft(std::string value)
 {
-    std::vector<std::string> result = util::getValues(value);
+	std::vector<std::string> result = util::getValues(value);
 
-    int y_start = std::stoi(result.at(0));
-    int y_end = std::stoi(result.at(1));
+	int y_start = std::stoi(result.at(0));
+	int y_end = std::stoi(result.at(1));
 
-    if (y_end <= y_start) {
-        return;
-    }
+	if (y_end <= y_start) {
+		return;
+	}
 
-    std::vector<Tile>::iterator iter;
-    for (iter = tiles.begin(); iter != tiles.end();) {
-        if (iter->getX() == 0) {
-            if (iter->getY() >= y_start && iter->getY() <= y_end) {
-                if(iter->getTileType() == Tile::TILE_WALL)
-                    iter = tiles.erase(iter);
-                else
-                    iter++;
-            } else {
-                iter++;
-            }
-        } else {
-            iter++;
-        }
-    }
+	std::vector<Tile>::iterator iter;
+	for (iter = tiles.begin(); iter != tiles.end();) {
+		if (iter->getX() == 0) {
+			if (iter->getY() >= y_start && iter->getY() <= y_end) {
+				if (iter->getTileType() == Tile::TILE_WALL)
+					iter = tiles.erase(iter);
+				else
+					iter++;
+			} else {
+				iter++;
+			}
+		} else {
+			iter++;
+		}
+	}
 }
 
 void Room::moveEnemies(Player *player)
@@ -502,11 +508,12 @@ void Room::free()
 	}
 
 	starTexture.free();
-	bowTexture.free();
+    heartTexture.free();
+    bowTexture.free();
 	flagTexture.free();
 	flyingItemTexture.free();
 
-	Mix_FreeChunk(spriteSound1);
+    Mix_FreeChunk(spriteSound1);
 	spriteSound1 = NULL;
 
 	Mix_FreeChunk(spriteSound2);

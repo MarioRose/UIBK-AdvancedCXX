@@ -48,6 +48,9 @@ class Player : public Character {
     bool hasDoubleJump() const;
     void setDoubleJumpItem(bool hasItem);
 
+    int getMaxHealth() const;
+    void increaseMaxHealth();
+
 	EquippedItem getEquippedItem() const;
     EquippedAbility getEquippedAbility() const;
 
@@ -61,6 +64,7 @@ class Player : public Character {
 
 	int keypressCount = 0;
 	int points = 0;
+    int maxHealth = 5;
 
 	EquippedItem equippedItem = EquippedItem::NONE;;
     EquippedAbility equippedAbility = EquippedAbility::JUMP;

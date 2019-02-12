@@ -105,7 +105,8 @@ class Room {
 	Sprite flag;
 
 	Texture starTexture;
-	Texture bowTexture;
+    Texture heartTexture;
+    Texture bowTexture;
 	Texture flagTexture;
 	Texture flyingItemTexture;
 

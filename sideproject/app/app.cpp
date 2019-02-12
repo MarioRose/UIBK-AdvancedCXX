@@ -871,9 +871,9 @@ int main(int argc, char *args[])
 
 			collision |= player.collisionDetectionSprites(currentRoom->sprites);
 			// Increase Player health when at 10 points
-			if (player.getPoints() == 10) {
+			if (player.getPoints() == 4) {
 				player.setPoints(0);
-				player.setHealth(player.getHealth() + 1);
+				player.increaseMaxHealth();
 			}
 			currentRoom->arrows.collisionDetectionEnemies(currentRoom->enemies);
 			currentRoom->fireball.collisionDetectionEnemies(currentRoom->enemies);
