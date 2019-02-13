@@ -45,9 +45,18 @@ bool Arrow::collisionDetection(IEnemy *enemy)
 		if (abs(mX - enemy->getPosX()) < 20) {
 			if (abs(mY - enemy->getPosY()) < 35) {
 				if (mX > enemy->getPosX()) {
-					enemy->setPosX(enemy->getPosX() - 10);
+					if(enemy->getPosX() - 10 < 0) {
+						enemy->setPosX(0);
+					} else {
+						enemy->setPosX(enemy->getPosX() - 10);
+					}
 				} else {
-					enemy->setPosX(enemy->getPosX() + 10);
+					if(enemy->getPosX() + 10 > SCREEN_WIDTH) {
+						enemy->setPosX(SCREEN_WIDTH);
+					} else {
+						enemy->setPosX(enemy->getPosX() + 10);
+					}
+
 				}
 				enemy->loseHealth();
 				active = false;

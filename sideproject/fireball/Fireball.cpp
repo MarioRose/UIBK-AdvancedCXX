@@ -75,9 +75,17 @@ void Fireball::collisionDetection(IEnemy *enemy)
 			if (abs(mX - enemy->getPosX()) < 20) {
 				if (abs(mY - enemy->getPosY()) < 35) {
 					if (mX > enemy->getPosX()) {
-						enemy->setPosX(enemy->getPosX() - 20);
+						if(enemy->getPosX() - 20 < 0) {
+							enemy->setPosX(0);
+						} else {
+							enemy->setPosX(enemy->getPosX() - 20);
+						}
 					} else {
-						enemy->setPosX(enemy->getPosX() + 20);
+						if(enemy->getPosX() + 20 > SCREEN_WIDTH) {
+							enemy->setPosX(SCREEN_WIDTH);
+						} else {
+							enemy->setPosX(enemy->getPosX() + 20);
+						}
 					}
 					enemy->loseHealth();
 					enemy->loseHealth();
