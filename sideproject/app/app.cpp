@@ -83,26 +83,26 @@ void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, 
 		SDL_RenderFillRect(gRenderer, &r);
 	}
 
-	if (room->roomIndexRight > 0) {
+	if (room->roomIndexRight >= 0) {
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 		SDL_Rect r = {x + w, SCREEN_HEIGHT - y + h / 2, 10, 6};
 		SDL_RenderFillRect(gRenderer, &r);
 		renderMapRoom(rooms, room->roomIndexRight, current, x + w + 10, y, w, h);
 	}
 
-	if (room->roomIndexLeft > 0) {
+	if (room->roomIndexLeft >= 0) {
 		renderMapRoom(rooms, room->roomIndexLeft, current, x - w - 10, y, w, h);
 	}
 
-	if (room->roomIndexAbove > 0) {
+	if (room->roomIndexAbove >= 0) {
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 		SDL_Rect r = {x + w / 2, SCREEN_HEIGHT - y - 10, 6, 10};
 		SDL_RenderFillRect(gRenderer, &r);
 		renderMapRoom(rooms, room->roomIndexAbove, current, x, y + h + 10, w, h);
 	}
 
-	if (room->roomIndexBelow > 0) {
-		renderMapRoom(rooms, room->roomIndexAbove, current, x, y - h - 10, w, h);
+	if (room->roomIndexBelow >= 0) {
+		renderMapRoom(rooms, room->roomIndexBelow, current, x, y - h - 10, w, h);
 	}
 }
 
