@@ -192,6 +192,10 @@ void showInventory(TTF_Font *font, Player *player)
 	doubleJump_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
 	doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
+    Texture fireItem_texture;
+    fireItem_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
+    fireItem_texture.scaleToHeight(SCREEN_HEIGHT * 0.1);
+
 	// Weapons
 	switch (player->getEquippedItem()) {
 	case EquippedItem::BOW:
@@ -212,6 +216,10 @@ void showInventory(TTF_Font *font, Player *player)
 	case EquippedAbility::JUMP:
 		inventoryBoxes[3].selected = true;
 		break;
+	case EquippedAbility::FIRE:
+		inventoryBoxes[4].selected = true;
+		break;
+
 	default:
 		break;
 	}
@@ -254,6 +262,9 @@ void showInventory(TTF_Font *font, Player *player)
 	if (player->hasDoubleJump()) {
 		inventoryBoxes[3].itemTexture = &doubleJump_texture;
 	}
+    if (player->hasFireItem()) {
+        inventoryBoxes[4].itemTexture = &fireItem_texture;
+    }
 
 	const int numLabels = 3;
 
@@ -318,38 +329,38 @@ void showInventory(TTF_Font *font, Player *player)
 				if (x >= pos[2].x && x <= pos[2].x + pos[2].w && y >= pos[2].y && y <= pos[2].y + pos[2].h) {
 					// Equipped Weapon
 					for (int i = 0; i < 3; i++) {
-						if (inventoryBoxes[i].selected == true){
-                            switch (i) {
-                                case 0:
-                                    player->setEquippedItem(EquippedItem::BOW);
-                                    break;
-                                case 1:
-                                    player->setEquippedItem(EquippedItem::SILVERBOW);
-                                    break;
-                                case 2:
-                                    player->setEquippedItem(EquippedItem::GOLDENBOW);
-                                    break;
-                            }
-                            break;
+						if (inventoryBoxes[i].selected == true) {
+							switch (i) {
+							case 0:
+								player->setEquippedItem(EquippedItem::BOW);
+								break;
+							case 1:
+								player->setEquippedItem(EquippedItem::SILVERBOW);
+								break;
+							case 2:
+								player->setEquippedItem(EquippedItem::GOLDENBOW);
+								break;
+							}
+							break;
 						}
 					}
-                    // Equipped Ability
-                    for (int i = 3; i < 6; i++) {
-                        if (inventoryBoxes[i].selected == true){
-                            switch (i) {
-                                case 3:
-                                    player->setEquippedAbility(EquippedAbility::JUMP);
-                                    break;
-                                case 4:
-                                    player->setEquippedAbility(EquippedAbility::FIRE);
-                                    break;
-                                case 5:
-                                    player->setEquippedAbility(EquippedAbility::NONE);
-                                    break;
-                            }
-                            break;
-                        }
-                    }
+					// Equipped Ability
+					for (int i = 3; i < 6; i++) {
+						if (inventoryBoxes[i].selected == true) {
+							switch (i) {
+							case 3:
+								player->setEquippedAbility(EquippedAbility::JUMP);
+								break;
+							case 4:
+								player->setEquippedAbility(EquippedAbility::FIRE);
+								break;
+							case 5:
+								player->setEquippedAbility(EquippedAbility::NONE);
+								break;
+							}
+							break;
+						}
+					}
 					for (int i = 0; i < numLabels; i++) {
 						SDL_FreeSurface(menus[i]);
 						// TODO: free rest
@@ -876,13 +887,16 @@ int main(int argc, char *args[])
 					if (currentRoom->fireball.getState() != FireballState::CHANNELING) {
 						switch (player.getEquippedItem()) {
 						case EquippedItem::BOW:
-							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 3, 6, 1);
+							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 3,
+							                               6, 1);
 							break;
 						case EquippedItem::SILVERBOW:
-							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 1, 10, 3);
+							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 1,
+							                               10, 3);
 							break;
 						case EquippedItem::GOLDENBOW:
-							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 3, 8, 3);
+							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 3,
+							                               8, 3);
 							break;
 						case EquippedItem::NONE:
 							break;

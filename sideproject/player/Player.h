@@ -55,6 +55,8 @@ class Player : public Character {
     bool hasDoubleJump() const;
     void setDoubleJumpItem(bool hasItem);
 
+    bool hasFireItem() const;
+
     int getMaxHealth() const;
     void increaseMaxHealth();
 
@@ -69,7 +71,7 @@ class Player : public Character {
   private:
 	bool hasBow = true;
     bool hasSilverBow = true;
-    bool hasGoldenBow = false;
+    bool hasGoldenBow = true;
 
 	bool hasDoubleJumpItem = true;
 	bool hasFireImmunity = false;

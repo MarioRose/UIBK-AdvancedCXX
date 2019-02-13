@@ -64,6 +64,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
 	flameTexture.loadFromFile("assets/images/sprites/firewall.png", renderer);
 	flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
+    fireItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
 
 	spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
 	spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
@@ -203,7 +204,7 @@ void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new Boss();
 
-	auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
+	auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::JUMP, spriteSound2, roomIndex);
 	item->visible = false;
 	sprites.emplace_back(item);
 
@@ -230,7 +231,7 @@ void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new SecondBoss();
 
-	auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
+	auto *item = new Sprite(50, 50, fireItemTexture, renderer, SpriteType::FIREITEM, spriteSound2, roomIndex);
 	item->visible = false;
 	sprites.emplace_back(item);
 
@@ -563,6 +564,7 @@ void Room::free()
 	goldenBowTexture.free();
 	flagTexture.free();
 	flyingItemTexture.free();
+	fireItemTexture.free();
 	flameTexture.free();
 
 	Mix_FreeChunk(spriteSound1);

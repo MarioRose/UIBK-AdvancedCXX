@@ -9,7 +9,7 @@
 #include <string.h>
 #include <vector>
 
-enum class SpriteType { BOW, SILVERBOW, GOLDENBOW, STAR, FLAG, SPECIAL, HEART, FLAME };
+enum class SpriteType { BOW, SILVERBOW, GOLDENBOW, STAR, FLAG, JUMP, HEART, FLAME, FIREITEM };
 
 class Sprite : public GameObject {
   public:

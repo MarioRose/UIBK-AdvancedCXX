@@ -31,6 +31,7 @@ class HUD {
     Texture silverBow;
     Texture goldenBow;
     Texture doubleJump;
+    Texture fireItem;
 
   protected:
 	// The force of the Character

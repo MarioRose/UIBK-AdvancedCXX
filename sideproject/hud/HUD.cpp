@@ -38,16 +38,19 @@ bool HUD::loadTextures()
 	bow.loadFromFile("assets/images/sprites/bow.png", renderer);
 	bow.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
-    silverBow.loadFromFile("assets/images/sprites/silverBow.png", renderer);
-    silverBow.scaleToHeight(SCREEN_HEIGHT * 0.1);
+	silverBow.loadFromFile("assets/images/sprites/silverBow.png", renderer);
+	silverBow.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
-    goldenBow.loadFromFile("assets/images/sprites/goldenBow.png", renderer);
-    goldenBow.scaleToHeight(SCREEN_HEIGHT * 0.1);
+	goldenBow.loadFromFile("assets/images/sprites/goldenBow.png", renderer);
+	goldenBow.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
-    doubleJump.loadFromFile("assets/images/sprites/chest.png", renderer);
+	doubleJump.loadFromFile("assets/images/sprites/chest.png", renderer);
 	doubleJump.scaleToHeight(SCREEN_HEIGHT * 0.04);
 
-	return success;
+    fireItem.loadFromFile("assets/images/sprites/chest.png", renderer);
+    fireItem.scaleToHeight(SCREEN_HEIGHT * 0.02);
+
+    return success;
 }
 
 void HUD::render(Player *player, bool updateHud)
@@ -198,6 +201,9 @@ void HUD::renderEquippedAbility(Player *player)
 	switch (player->getEquippedAbility()) {
 	case EquippedAbility::JUMP:
 		doubleJump.render(SCREEN_WIDTH - 80, 20, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
+		return;
+	case EquippedAbility::FIRE:
+		fireItem.render(SCREEN_WIDTH - 80, 20, renderer, NULL, 0, NULL, SDL_FLIP_NONE);
 		return;
 	default:
 		return;

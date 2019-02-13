@@ -25,7 +25,7 @@ Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteTyp
         cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
     } else if (type == SpriteType::FLAG) {
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
-	} else if (type == SpriteType::SPECIAL) {
+	} else if (type == SpriteType::JUMP) {
         cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
     }
 

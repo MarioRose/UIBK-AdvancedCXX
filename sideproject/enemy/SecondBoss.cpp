@@ -129,7 +129,7 @@ void SecondBoss::attackTwo()
 void SecondBoss::moveAI(Character *character)
 {
     if(health <= 0){
-        CharacterStatus::DEAD;
+        status = CharacterStatus::DEAD;
     }
     if (status == CharacterStatus::DEAD) {
         if (!itemNotShowed)

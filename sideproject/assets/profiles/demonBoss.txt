@@ -1,7 +1,7 @@
 CHARACTER Devil
 HEIGHT 144
 WIDTH 160
-HEALTH 20
+HEALTH 3
 RANGE 0
 IDLE assets/images/characters/demonBoss/idle/1.png
 RUNNING assets/images/characters/demonBoss/running/1.png

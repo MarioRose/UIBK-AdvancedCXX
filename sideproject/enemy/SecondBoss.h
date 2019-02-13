@@ -39,7 +39,6 @@ private:
     void goBackAndForth();
     int frameCount = 0;
     bool returnToMiddle = false;
-    bool isDead = false;
 };
 
 

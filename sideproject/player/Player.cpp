@@ -270,10 +270,15 @@ bool Player::collisionDetection(Sprite *sprite)
 				lastSavePoint.y = sprite->getPosY();
 				lastSavePoint.roomIndex = sprite->roomIndex;
 				break;
-			case SpriteType::SPECIAL:
+			case SpriteType::JUMP:
 				hasDoubleJumpItem = true;
 				if (equippedAbility == EquippedAbility::NONE)
 					equippedAbility = EquippedAbility::JUMP;
+				break;
+			case SpriteType::FIREITEM:
+				hasFireImmunity = true;
+				if (equippedAbility == EquippedAbility::NONE)
+					equippedAbility = EquippedAbility::FIRE;
 				break;
 			}
 
@@ -343,27 +348,32 @@ void Player::setHasBow(bool val)
 
 bool Player::getHasSilverBow() const
 {
-    return hasSilverBow;
+	return hasSilverBow;
 }
 
 void Player::setHasSilverBow(bool val)
 {
-    hasSilverBow = val;
+	hasSilverBow = val;
 }
 
 bool Player::getHasGoldenBow() const
 {
-    return hasGoldenBow;
+	return hasGoldenBow;
 }
 
 void Player::setHasGoldenBow(bool val)
 {
-    hasGoldenBow = val;
+	hasGoldenBow = val;
 }
 
 bool Player::hasDoubleJump() const
 {
 	return hasDoubleJumpItem;
+}
+
+bool Player::hasFireItem() const
+{
+    return hasFireImmunity;
 }
 
 void Player::setDoubleJumpItem(bool hasItem)
@@ -378,7 +388,7 @@ EquippedItem Player::getEquippedItem() const
 
 void Player::setEquippedItem(EquippedItem item)
 {
-    this->equippedItem = item;
+	this->equippedItem = item;
 }
 
 EquippedAbility Player::getEquippedAbility() const
@@ -388,7 +398,7 @@ EquippedAbility Player::getEquippedAbility() const
 
 void Player::setEquippedAbility(EquippedAbility ability)
 {
-    this->equippedAbility = ability;
+	this->equippedAbility = ability;
 }
 
 int Player::getMaxHealth() const
