@@ -16,6 +16,7 @@ include_directories(
 add_library(${PROJECT_NAME}
         Enemy.cpp
         Boss.cpp
+        SecondBoss.cpp
         Projectile.cpp
         Projectile_vert.cpp
         )

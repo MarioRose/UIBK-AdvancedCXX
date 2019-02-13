@@ -86,7 +86,8 @@ class Room {
 	void setRGB(std::string value);
 	void setSavePoint(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
-	void addBoss(std::string path, SDL_Renderer *renderer);
+	void addFirstBoss(std::string path, SDL_Renderer *renderer);
+    void addSecondBoss(std::string path, SDL_Renderer *renderer);
     Projectile* addProjectile(std::string path, SDL_Renderer *renderer);
 	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
 	void addTile(std::string value, int type);

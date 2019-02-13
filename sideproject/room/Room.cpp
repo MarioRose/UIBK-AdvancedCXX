@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <SecondBoss.h>
 
 Room::Room() : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
@@ -101,9 +102,11 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				addDoorLeft(value);
 			} else if (key == "ENEMY") {
 				addEnemy(value, renderer);
-			} else if (key == "BOSS") {
-				addBoss(value, renderer);
-			} else if (key == "STAR") {
+			} else if (key == "BOSS1") {
+				addFirstBoss(value, renderer);
+            } else if (key == "BOSS2") {
+                addSecondBoss(value, renderer);
+            } else if (key == "STAR") {
 				addSprite(value, renderer, SpriteType::STAR);
 			} else if (key == "HEART") {
 				addSprite(value, renderer, SpriteType::HEART);
@@ -189,7 +192,7 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 	enemies.emplace_back(enemy);
 }
 
-void Room::addBoss(std::string value, SDL_Renderer *renderer)
+void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new Boss();
 
@@ -214,6 +217,33 @@ void Room::addBoss(std::string value, SDL_Renderer *renderer)
 	boss->loadFromFile(result.at(0), renderer);
 
 	enemies.emplace_back(boss);
+}
+
+void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
+{
+    auto boss = new SecondBoss();
+
+    auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
+    item->visible = false;
+    sprites.emplace_back(item);
+
+    boss->setItem(item);
+
+    std::shared_ptr<std::vector<Projectile *>> projectiles(new std::vector<Projectile *>());
+    for (int i = 0; i < 5; i++) {
+        Projectile *project = new Projectile("assets/profiles/fireball.txt", renderer);
+        projectiles->emplace_back(project);
+        enemies.emplace_back(project);
+    }
+
+    boss->setProjectiles(projectiles);
+
+    std::vector<std::string> result = util::getValues(value);
+    boss->setPosX(std::stoi(result.at(1)));
+    boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
+    boss->loadFromFile(result.at(0), renderer);
+
+    enemies.emplace_back(boss);
 }
 
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)

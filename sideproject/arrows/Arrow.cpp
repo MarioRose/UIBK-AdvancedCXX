@@ -43,7 +43,7 @@ bool Arrow::collisionDetection(IEnemy *enemy)
 
 	if (active) {
 		if (abs(mX - enemy->getPosX()) < 20) {
-			if (abs(mY - enemy->getPosY()) < 35) {
+			if (mY > enemy->getPosY() && mY < enemy->getPosY()+enemy->getHeight()) {
 				if (mX > enemy->getPosX()) {
 					if(enemy->getPosX() - 10 < 0) {
 						enemy->setPosX(0);

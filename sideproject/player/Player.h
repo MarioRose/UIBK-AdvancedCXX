@@ -58,7 +58,7 @@ class Player : public Character {
 	SavePoint lastSavePoint;
 
   private:
-	bool hasBow = false;
+	bool hasBow = true;
 
 	bool hasDoubleJumpItem = true;
 	bool hasFireImmunity = false;

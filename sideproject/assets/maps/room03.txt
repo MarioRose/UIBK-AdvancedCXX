@@ -13,7 +13,7 @@ PLATFORM 430,210,75
 DOORLEFT 380,448
 
 # ENTITIES
-BOSS assets/profiles/boss.txt,500,237
+BOSS1 assets/profiles/boss.txt,500,237
 
 # SPRITES
 HEART 145,235

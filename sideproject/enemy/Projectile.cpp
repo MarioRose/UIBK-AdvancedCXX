@@ -25,16 +25,30 @@ void Projectile::moveAI(Character *character)
         return;
     }
 
-	if (forceY > 0) {
-		forceY--;
-		posY -= 2;
-		posX -= forceX;
-	}
+    if(shootLeft){
+        if (forceY > 0) {
+            forceY--;
+            posY -= 2;
+            posX -= forceX;
+        }
 
-	if (forceY == 0) {
-		posY += 2;
-        posX -= forceX;
+        if (forceY == 0) {
+            posY += 2;
+            posX -= forceX;
+        }
+    } else {
+        if (forceY > 0) {
+            forceY--;
+            posY -= 2;
+            posX += forceX;
+        }
+
+        if (forceY == 0) {
+            posY += 2;
+            posX += forceX;
+        }
     }
+
 }
 
 void Projectile::setStartPosition(int x, int y, int force)
@@ -47,4 +61,17 @@ void Projectile::setStartPosition(int x, int y, int force)
 
 	outOfBounds = false;
 	status = CharacterStatus::RUNNING;
+}
+
+void Projectile::setStartPosition(int x, int y, int force, bool shootLeft)
+{
+    this->posX = x;
+    this->posY = y;
+
+    forceY = 35;
+    forceX = force;
+
+    outOfBounds = false;
+    status = CharacterStatus::RUNNING;
+    this->shootLeft = shootLeft;
 }
