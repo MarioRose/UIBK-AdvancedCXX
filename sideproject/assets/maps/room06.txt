@@ -6,15 +6,26 @@ DANGER_MUSIC assets/music/inquisitiveness.ogg
 COLOR 0,0,255
 
 # TILES
-PLATFORM 140,100,100
-PLATFORM 250,140,140
-PLATFORM 180,240,200
+PLATFORM 120,100,75
+PLATFORM 250,200,150
+PLATFORM 80,270,75
+PLATFORM 340,355,75
+
+PLATFORM 620,305,56
 
 DOORLEFT 380,448
-DOORRIGHT 380,448
+DOORRIGHT 100,160
+
+HOLE 64,608
 
 # ENTITIES
-ENEMY assets/profiles/demon.txt,300,0
-ENEMY assets/profiles/demon.txt,600,0
-ENEMY assets/profiles/wizard.txt,450,0
+ENEMY assets/profiles/wizard.txt,150,220
+ENEMY assets/profiles/wizard.txt,250,150
+ENEMY assets/profiles/wizard.txt,350,150
+ENEMY assets/profiles/wizard.txt,100,70
+
+# SPRITES
+HEART 350,385
+HEART 375,385
+STAR  630,65
 

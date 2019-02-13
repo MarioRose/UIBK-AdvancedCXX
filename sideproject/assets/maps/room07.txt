@@ -6,18 +6,39 @@ DANGER_MUSIC assets/music/inquisitiveness.ogg
 COLOR 0,0,255
 
 # TILES
-PLATFORM 140,100,100
-PLATFORM 250,140,140
-PLATFORM 180,240,200
-PLATFORM 180,310,200
-PLATFORM 180,380,200
-PLATFORM 180,440,200
+PLATFORM 16,305,88
+PLATFORM 120,200,88
+PLATFORM 208,100,88
 
-SKYHOLE 250,300
-DOORLEFT 380,448
+PLATFORM 400,350,32
+
+PLATFORM 608,400,48
+PLATFORM 608,300,48
+PLATFORM 538,200,88
+PLATFORM 608,100,48
+
+SKYHOLE 600,650
+DOORLEFT 100,160
 
 # ENTITIES
-ENEMY assets/profiles/demon.txt,300,0
-ENEMY assets/profiles/demon.txt,600,0
-ENEMY assets/profiles/wizard.txt,450,0
+ENEMY assets/profiles/demon.txt,100,150
+ENEMY assets/profiles/demon.txt,125,166
+ENEMY assets/profiles/demon.txt,150,250
+ENEMY assets/profiles/demon.txt,175,232
+ENEMY assets/profiles/demon.txt,225,105
+ENEMY assets/profiles/demon.txt,250,75
+ENEMY assets/profiles/demon.txt,275,0
+ENEMY assets/profiles/demon.txt,300,66
+ENEMY assets/profiles/demon.txt,325,222
+ENEMY assets/profiles/demon.txt,350,43
+ENEMY assets/profiles/demon.txt,375,230
+ENEMY assets/profiles/demon.txt,400,66
+ENEMY assets/profiles/demon.txt,425,222
+ENEMY assets/profiles/demon.txt,450,43
+ENEMY assets/profiles/demon.txt,500,66
+ENEMY assets/profiles/demon.txt,525,360
+ENEMY assets/profiles/demon.txt,550,150
+ENEMY assets/profiles/demon.txt,575,270
 
+#SPRITE
+STAR  400,375
