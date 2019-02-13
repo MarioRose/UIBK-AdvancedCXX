@@ -18,7 +18,7 @@ public:
 
 	bool collisionDetection(IEnemy* enemy);
 
-	void shoot(int x, int y);
+	void shoot(int x, int y, int speed, int strength);
 
 	bool isActive() const;
 
@@ -26,6 +26,8 @@ private:
 	int mX = 0;
 	int mY = 0;
 	bool active = false;
+	int speed;
+	int strength;
 	SDL_RendererFlip flipType;
 };
 

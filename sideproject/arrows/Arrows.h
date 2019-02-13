@@ -16,7 +16,7 @@ public:
 	void collisionDetectionEnemies(std::vector<IEnemy*> enemies);
 	void collisionDetection(IEnemy* enemy);
 
-	void shootArrow(int playerX, int playerY, SDL_RendererFlip flipType);
+	void shootArrow(int playerX, int playerY, SDL_RendererFlip flipType, int maxArrow, int speed, int strength);
 
 	bool loadTexture(SDL_Renderer *renderer);
 
@@ -24,7 +24,6 @@ private:
 	bool renderBow = false;
 	int framesSinceLastArrowShot = 0;
 	int arrowCount = 0;
-	int arrowMax = 3;
 	std::vector<Arrow*> arrows;
 
 	// Scene textures

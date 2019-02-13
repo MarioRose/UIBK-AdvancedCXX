@@ -15,6 +15,10 @@ Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteTyp
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 	} else if (type == SpriteType::BOW) {
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
+    } else if (type == SpriteType::SILVERBOW) {
+        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
+    } else if (type == SpriteType::GOLDENBOW) {
+        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
     } else if (type == SpriteType::HEART) {
         cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
     } else if (type == SpriteType::FLAME) {

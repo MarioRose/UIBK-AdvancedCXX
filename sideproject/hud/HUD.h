@@ -28,6 +28,8 @@ class HUD {
 	Texture starTexture;
 	Texture itemHolder;
     Texture bow;
+    Texture silverBow;
+    Texture goldenBow;
     Texture doubleJump;
 
   protected:

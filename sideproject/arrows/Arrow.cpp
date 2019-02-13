@@ -13,11 +13,13 @@ Arrow::Arrow(SDL_RendererFlip flipType) : flipType{flipType} {}
 
 Arrow::~Arrow() {}
 
-void Arrow::shoot(int x, int y)
+void Arrow::shoot(int x, int y, int s, int st)
 {
 	mX = x;
 	mY = y;
 	active = true;
+	speed = s;
+	strength = st;
 }
 
 void Arrow::render(SDL_Renderer *renderer, Texture &arrowTexture)
@@ -25,9 +27,9 @@ void Arrow::render(SDL_Renderer *renderer, Texture &arrowTexture)
 	if (active) {
 		arrowTexture.render(mX, mY, renderer, NULL, 0, NULL, flipType);
 		if (flipType == SDL_FLIP_NONE) {
-			mX += 5;
+			mX += speed;
 		} else {
-			mX -= 5;
+			mX -= speed;
 		}
 		if(mX < -20 || mX > SCREEN_WIDTH){
 			active = false;
@@ -58,7 +60,7 @@ bool Arrow::collisionDetection(IEnemy *enemy)
 					}
 
 				}
-				enemy->loseHealth();
+				enemy->loseHealth(strength);
 				active = false;
 			}
 		}

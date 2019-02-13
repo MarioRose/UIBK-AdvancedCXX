@@ -180,6 +180,14 @@ void showInventory(TTF_Font *font, Player *player)
 	bow_texture.loadFromFile("assets/images/sprites/bow.png", gRenderer);
 	bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
+	Texture silver_bow_texture;
+	silver_bow_texture.loadFromFile("assets/images/sprites/silverBow.png", gRenderer);
+	silver_bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+
+	Texture golden_bow_texture;
+	golden_bow_texture.loadFromFile("assets/images/sprites/goldenBow.png", gRenderer);
+	golden_bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+
 	Texture doubleJump_texture;
 	doubleJump_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
 	doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
@@ -188,6 +196,12 @@ void showInventory(TTF_Font *font, Player *player)
 	switch (player->getEquippedItem()) {
 	case EquippedItem::BOW:
 		inventoryBoxes[0].selected = true;
+		break;
+	case EquippedItem::SILVERBOW:
+		inventoryBoxes[1].selected = true;
+		break;
+	case EquippedItem::GOLDENBOW:
+		inventoryBoxes[2].selected = true;
 		break;
 	default:
 		break;
@@ -228,6 +242,12 @@ void showInventory(TTF_Font *font, Player *player)
 	// Weapons
 	if (player->getHasBow()) {
 		inventoryBoxes[0].itemTexture = &bow_texture;
+	}
+	if (player->getHasSilverBow()) {
+		inventoryBoxes[1].itemTexture = &silver_bow_texture;
+	}
+	if (player->getHasGoldenBow()) {
+		inventoryBoxes[2].itemTexture = &golden_bow_texture;
 	}
 
 	// Abilities
@@ -296,11 +316,61 @@ void showInventory(TTF_Font *font, Player *player)
 				x = event.button.x;
 				y = event.button.y;
 				if (x >= pos[2].x && x <= pos[2].x + pos[2].w && y >= pos[2].y && y <= pos[2].y + pos[2].h) {
+					// Equipped Weapon
+					for (int i = 0; i < 3; i++) {
+						if (inventoryBoxes[i].selected == true){
+                            switch (i) {
+                                case 0:
+                                    player->setEquippedItem(EquippedItem::BOW);
+                                    break;
+                                case 1:
+                                    player->setEquippedItem(EquippedItem::SILVERBOW);
+                                    break;
+                                case 2:
+                                    player->setEquippedItem(EquippedItem::GOLDENBOW);
+                                    break;
+                            }
+                            break;
+						}
+					}
+                    // Equipped Ability
+                    for (int i = 3; i < 6; i++) {
+                        if (inventoryBoxes[i].selected == true){
+                            switch (i) {
+                                case 3:
+                                    player->setEquippedAbility(EquippedAbility::JUMP);
+                                    break;
+                                case 4:
+                                    player->setEquippedAbility(EquippedAbility::FIRE);
+                                    break;
+                                case 5:
+                                    player->setEquippedAbility(EquippedAbility::NONE);
+                                    break;
+                            }
+                            break;
+                        }
+                    }
 					for (int i = 0; i < numLabels; i++) {
 						SDL_FreeSurface(menus[i]);
 						// TODO: free rest
 					}
 					return;
+				}
+				for (int i = 0; i < 6; i++) {
+					if (x >= inventoryBoxes[i].x && x <= inventoryBoxes[i].x + inventoryBoxes[i].w &&
+					    y >= inventoryBoxes[i].y && y <= inventoryBoxes[i].y + inventoryBoxes[i].h) {
+						if (i < 3) {
+							for (int j = 0; j < 3; j++) {
+								inventoryBoxes[j].selected = false;
+							}
+						} else {
+							for (int j = 3; j < 6; j++) {
+								inventoryBoxes[j].selected = false;
+							}
+						}
+						inventoryBoxes[i].selected = true;
+						break;
+					}
 				}
 				break;
 			}
@@ -546,8 +616,8 @@ bool init()
 
 	Tile::initCroppedTiles();
 	loadTileTexture(0, "assets/images/tiles/jungle_tileset.png");
-    loadTileTexture(1, "assets/images/tiles/mountainTile.png");
-    loadTileTexture(2, "assets/images/tiles/hell_tileset.png");
+	loadTileTexture(1, "assets/images/tiles/mountainTile.png");
+	loadTileTexture(2, "assets/images/tiles/hell_tileset.png");
 
 	return true;
 }
@@ -630,6 +700,8 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, 
 	file << "POS " << player.getPosX() << "," << player.getPosY() << '\n';
 	file << "CURRENT_ROOM " << currentRoomIndex << '\n';
 	file << "HAS_BOW " << player.getHasBow() << '\n';
+	file << "HAS_SILVERBOW " << player.getHasSilverBow() << '\n';
+	file << "HAS_GOLDENBOW " << player.getHasGoldenBow() << '\n';
 	file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << ","
 	     << player.lastSavePoint.roomIndex << '\n';
 
@@ -688,6 +760,10 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 				player.setHealth(std::stoi(value));
 			} else if (key == "HAS_BOW") {
 				player.setHasBow(std::stoi(value));
+			} else if (key == "HAS_SILVER_BOW") {
+				player.setHasSilverBow(std::stoi(value));
+			} else if (key == "HAS_GOLDEN_BOW") {
+				player.setHasGoldenBow(std::stoi(value));
 			} else if (key == "CURRENT_ROOM") {
 				currentRoomIndex = std::stoi(value);
 			} else if (key == "SAVE_POINT") {
@@ -797,13 +873,25 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE) {
-					if (player.getHasBow() && currentRoom->fireball.getState() != FireballState::CHANNELING) {
-						currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType());
+					if (currentRoom->fireball.getState() != FireballState::CHANNELING) {
+						switch (player.getEquippedItem()) {
+						case EquippedItem::BOW:
+							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 3, 6, 1);
+							break;
+						case EquippedItem::SILVERBOW:
+							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 1, 10, 3);
+							break;
+						case EquippedItem::GOLDENBOW:
+							currentRoom->arrows.shootArrow(player.getPosX(), player.getPosY(), player.getFlipType(), 3, 8, 3);
+							break;
+						case EquippedItem::NONE:
+							break;
+						}
 					}
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_v) {
-					if(currentRoom->fireball.getState() == FireballState::INACTIVE) {
+					if (currentRoom->fireball.getState() == FireballState::INACTIVE) {
 						currentRoom->fireball.shoot(player.getPosX(), player.getPosY(), player.getFlipType());
 					}
 				}

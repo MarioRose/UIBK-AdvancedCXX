@@ -87,9 +87,7 @@ void Fireball::collisionDetection(IEnemy *enemy)
 							enemy->setPosX(enemy->getPosX() + 20);
 						}
 					}
-					enemy->loseHealth();
-					enemy->loseHealth();
-					enemy->loseHealth();
+					enemy->loseHealth(5);
 					state = FireballState::INACTIVE;
 					fireballTexture.scaleToWidth(25);
 				}

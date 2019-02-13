@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SecondBoss.h>
 #include <Settings.h>
 #include <fstream>
 #include <iostream>
@@ -12,7 +13,6 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <SecondBoss.h>
 
 Room::Room() : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
@@ -58,9 +58,12 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	starTexture.loadFromFile("assets/images/sprites/star.png", renderer);
 	heartTexture.loadFromFile("assets/images/sprites/heart.png", renderer);
 	bowTexture.loadFromFile("assets/images/sprites/bow.png", renderer);
+	silverBowTexture.loadFromFile("assets/images/sprites/silverBow.png", renderer);
+	goldenBowTexture.loadFromFile("assets/images/sprites/goldenBow.png", renderer);
+
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
-    flameTexture.loadFromFile("assets/images/sprites/firewall.png", renderer);
-    flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
+	flameTexture.loadFromFile("assets/images/sprites/firewall.png", renderer);
+	flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
 
 	spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
 	spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
@@ -104,9 +107,9 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				addEnemy(value, renderer);
 			} else if (key == "BOSS1") {
 				addFirstBoss(value, renderer);
-            } else if (key == "BOSS2") {
-                addSecondBoss(value, renderer);
-            } else if (key == "STAR") {
+			} else if (key == "BOSS2") {
+				addSecondBoss(value, renderer);
+			} else if (key == "STAR") {
 				addSprite(value, renderer, SpriteType::STAR);
 			} else if (key == "HEART") {
 				addSprite(value, renderer, SpriteType::HEART);
@@ -114,6 +117,10 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				addSprite(value, renderer, SpriteType::FLAME);
 			} else if (key == "BOW") {
 				addSprite(value, renderer, SpriteType::BOW);
+			} else if (key == "SILVERBOW") {
+				addSprite(value, renderer, SpriteType::SILVERBOW);
+			} else if (key == "GOLDENBOW") {
+				addSprite(value, renderer, SpriteType::GOLDENBOW);
 			} else if (key == "COLOR") {
 				setRGB(value);
 			} else if (key == "SAVE_POINT") {
@@ -221,29 +228,29 @@ void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
 
 void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
 {
-    auto boss = new SecondBoss();
+	auto boss = new SecondBoss();
 
-    auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
-    item->visible = false;
-    sprites.emplace_back(item);
+	auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::SPECIAL, spriteSound2, roomIndex);
+	item->visible = false;
+	sprites.emplace_back(item);
 
-    boss->setItem(item);
+	boss->setItem(item);
 
-    std::shared_ptr<std::vector<Projectile *>> projectiles(new std::vector<Projectile *>());
-    for (int i = 0; i < 5; i++) {
-        Projectile *project = new Projectile("assets/profiles/fireball.txt", renderer);
-        projectiles->emplace_back(project);
-        enemies.emplace_back(project);
-    }
+	std::shared_ptr<std::vector<Projectile *>> projectiles(new std::vector<Projectile *>());
+	for (int i = 0; i < 5; i++) {
+		Projectile *project = new Projectile("assets/profiles/fireball.txt", renderer);
+		projectiles->emplace_back(project);
+		enemies.emplace_back(project);
+	}
 
-    boss->setProjectiles(projectiles);
+	boss->setProjectiles(projectiles);
 
-    std::vector<std::string> result = util::getValues(value);
-    boss->setPosX(std::stoi(result.at(1)));
-    boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
-    boss->loadFromFile(result.at(0), renderer);
+	std::vector<std::string> result = util::getValues(value);
+	boss->setPosX(std::stoi(result.at(1)));
+	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
+	boss->loadFromFile(result.at(0), renderer);
 
-    enemies.emplace_back(boss);
+	enemies.emplace_back(boss);
 }
 
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
@@ -263,6 +270,12 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 		break;
 	case SpriteType::BOW:
 		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type, spriteSound2, roomIndex));
+		break;
+	case SpriteType::SILVERBOW:
+		sprites.emplace_back(new Sprite(x, y, silverBowTexture, renderer, type, spriteSound2, roomIndex));
+		break;
+	case SpriteType::GOLDENBOW:
+		sprites.emplace_back(new Sprite(x, y, goldenBowTexture, renderer, type, spriteSound2, roomIndex));
 		break;
 	case SpriteType::FLAG:
 		sprites.emplace_back(new Sprite(x, y, flagTexture, renderer, type, spriteSound2, roomIndex));
@@ -546,6 +559,8 @@ void Room::free()
 	starTexture.free();
 	heartTexture.free();
 	bowTexture.free();
+	silverBowTexture.free();
+	goldenBowTexture.free();
 	flagTexture.free();
 	flyingItemTexture.free();
 	flameTexture.free();

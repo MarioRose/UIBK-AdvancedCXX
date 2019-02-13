@@ -5,9 +5,9 @@
 #include "Enemy.h"
 #include "Sprite.h"
 
-enum class EquippedItem { NONE, BOW };
+enum class EquippedItem { NONE, BOW, SILVERBOW, GOLDENBOW };
 
-enum class EquippedAbility { NONE, JUMP };
+enum class EquippedAbility { NONE, JUMP, FIRE };
 
 struct SavePoint {
 	int x = 20;
@@ -45,6 +45,13 @@ class Player : public Character {
 	bool getHasBow() const;
 	void setHasBow(bool hasBow);
 
+    bool getHasSilverBow() const;
+    void setHasSilverBow(bool hasBow);
+
+    bool getHasGoldenBow() const;
+    void setHasGoldenBow(bool hasBow);
+
+
     bool hasDoubleJump() const;
     void setDoubleJumpItem(bool hasItem);
 
@@ -52,13 +59,17 @@ class Player : public Character {
     void increaseMaxHealth();
 
 	EquippedItem getEquippedItem() const;
+	void setEquippedItem(EquippedItem);
     EquippedAbility getEquippedAbility() const;
+    void setEquippedAbility(EquippedAbility);
 
 	void setLastSavePoint(int x, int y, int roomIndex);
 	SavePoint lastSavePoint;
 
   private:
 	bool hasBow = true;
+    bool hasSilverBow = true;
+    bool hasGoldenBow = false;
 
 	bool hasDoubleJumpItem = true;
 	bool hasFireImmunity = false;
@@ -67,7 +78,7 @@ class Player : public Character {
 	int points = 0;
     int maxHealth = 5;
 
-	EquippedItem equippedItem = EquippedItem::NONE;;
+	EquippedItem equippedItem = EquippedItem::NONE;
     EquippedAbility equippedAbility = EquippedAbility::JUMP;
 
 	bool collisionDetection(IEnemy *enemy);

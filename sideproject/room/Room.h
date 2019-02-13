@@ -108,7 +108,9 @@ class Room {
 	Texture starTexture;
     Texture heartTexture;
     Texture bowTexture;
-	Texture flagTexture;
+    Texture silverBowTexture;
+    Texture goldenBowTexture;
+    Texture flagTexture;
     Texture flameTexture;
     Texture flyingItemTexture;
 

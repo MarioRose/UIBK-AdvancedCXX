@@ -88,7 +88,7 @@ void Character::move()
 	}
 
 	if (posY > SCREEN_HEIGHT - object_height) {
-        loseHealth();
+        loseHealth(5);
     }
 
 	// Jumping or Falling
@@ -364,9 +364,9 @@ void Character::free()
 	shout_sound = NULL;
 }
 
-void Character::loseHealth()
+void Character::loseHealth(int strength)
 {
-	this->health--;
+	this->health -= strength;
 	if (health <= 0) {
 		status = CharacterStatus::DYING;
 		// setHeight(1);

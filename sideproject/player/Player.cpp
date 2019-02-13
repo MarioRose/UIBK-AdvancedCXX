@@ -227,7 +227,7 @@ bool Player::collisionDetection(IEnemy *enemy)
 bool Player::collisionDetection(Sprite *sprite)
 {
 	if (sprite->getSpriteType() == SpriteType::FLAME) {
-		if (abs((posY+object_height) - sprite->getPosY()) < 15) {
+		if (abs((posY + object_height) - sprite->getPosY()) < 15) {
 			if (posX >= sprite->getPosX() && posX < sprite->getPosX() + 50) {
 				if (!hasFireImmunity) {
 					takeDamage();
@@ -255,6 +255,16 @@ bool Player::collisionDetection(Sprite *sprite)
 				if (equippedItem == EquippedItem::NONE)
 					equippedItem = EquippedItem::BOW;
 				break;
+			case SpriteType::SILVERBOW:
+				hasSilverBow = true;
+				if (equippedItem == EquippedItem::NONE)
+					equippedItem = EquippedItem::SILVERBOW;
+				break;
+			case SpriteType::GOLDENBOW:
+				hasGoldenBow = true;
+				if (equippedItem == EquippedItem::NONE)
+					equippedItem = EquippedItem::GOLDENBOW;
+				break;
 			case SpriteType::FLAG:
 				lastSavePoint.x = sprite->getPosX();
 				lastSavePoint.y = sprite->getPosY();
@@ -275,7 +285,7 @@ bool Player::collisionDetection(Sprite *sprite)
 
 void Player::takeDamage()
 {
-	this->loseHealth();
+	this->loseHealth(1);
 	this->shout();
 }
 
@@ -331,6 +341,26 @@ void Player::setHasBow(bool val)
 	hasBow = val;
 }
 
+bool Player::getHasSilverBow() const
+{
+    return hasSilverBow;
+}
+
+void Player::setHasSilverBow(bool val)
+{
+    hasSilverBow = val;
+}
+
+bool Player::getHasGoldenBow() const
+{
+    return hasGoldenBow;
+}
+
+void Player::setHasGoldenBow(bool val)
+{
+    hasGoldenBow = val;
+}
+
 bool Player::hasDoubleJump() const
 {
 	return hasDoubleJumpItem;
@@ -346,9 +376,19 @@ EquippedItem Player::getEquippedItem() const
 	return equippedItem;
 }
 
+void Player::setEquippedItem(EquippedItem item)
+{
+    this->equippedItem = item;
+}
+
 EquippedAbility Player::getEquippedAbility() const
 {
 	return equippedAbility;
+}
+
+void Player::setEquippedAbility(EquippedAbility ability)
+{
+    this->equippedAbility = ability;
 }
 
 int Player::getMaxHealth() const

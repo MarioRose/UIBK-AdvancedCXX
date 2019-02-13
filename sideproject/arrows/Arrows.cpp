@@ -29,15 +29,15 @@ bool Arrows::loadTexture(SDL_Renderer *renderer)
 	return success;
 }
 
-void Arrows::shootArrow(int playerX, int playerY, SDL_RendererFlip flipType) {
-    if(arrowCount == arrowMax)
+void Arrows::shootArrow(int playerX, int playerY, SDL_RendererFlip flipType, int maxArrow, int speed, int strength) {
+    if(arrowCount >= maxArrow)
         return;
 
 	Arrow* arrow = new Arrow(flipType);
 	if(flipType == SDL_FLIP_NONE) {
-		arrow->shoot(playerX, playerY+15);
+		arrow->shoot(playerX, playerY+15, speed, strength);
 	} else {
-		arrow->shoot(playerX-15, playerY+15);
+		arrow->shoot(playerX-15, playerY+15, speed, strength);
 	}
 	arrows.push_back(arrow);
 	renderBow = true;

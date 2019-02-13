@@ -59,7 +59,7 @@ class Character : public GameObject {
 	void shout();
 
 	void setHealth(int health);
-	void loseHealth();
+	void loseHealth(int strength);
 	void setDeath();
 	bool isAlive();
 	int getHealth();
