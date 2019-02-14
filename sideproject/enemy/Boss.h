@@ -28,7 +28,9 @@ class Boss : public IEnemy {
     void setStartPos();
     void reset() override;
 
-private:
+    bool isProjectile() const override;
+
+  private:
 	void attackOne();
 	void attackTwo();
 

@@ -21,6 +21,8 @@ public:
 
     void reset() override;
 
+    bool isProjectile() const override;
+
 private:
     bool outOfBounds = true;
     bool shootLeft = true;

@@ -75,7 +75,9 @@ void Character::move()
 
 	// Falling
 	if (!contactPlatform && forceY == 0 && posY <= SCREEN_HEIGHT - object_height) {
-		status = CharacterStatus::FALLING;
+		if (status != CharacterStatus::DEAD && status != CharacterStatus::DYING) {
+			status = CharacterStatus::FALLING;
+		}
 		posY += 5;
 	}
 
@@ -392,7 +394,7 @@ void Character::setHealth(int health)
 void Character::setDeath()
 {
 	this->health = 0;
-    status = CharacterStatus::DEAD;
+        status = CharacterStatus::DEAD;
 }
 
 bool Character::contactsPlatform()

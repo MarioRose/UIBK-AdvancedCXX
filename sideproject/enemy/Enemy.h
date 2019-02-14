@@ -17,6 +17,8 @@ class Enemy : public IEnemy {
     void setStartPos();
     void reset() override;
 
+    bool isProjectile() const override;
+
 private:
     int startX;
     int startY;

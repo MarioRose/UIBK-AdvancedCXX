@@ -199,10 +199,13 @@ void SecondBoss::setStartPos()
     startHealth = health;
 }
 
-void SecondBoss::reset()
-{
+void SecondBoss::reset() {
     status = CharacterStatus::IDLE;
     posX = startX;
     posY = startY;
     health = startHealth;
+}
+
+bool SecondBoss::isProjectile() const {
+    return false;
 }

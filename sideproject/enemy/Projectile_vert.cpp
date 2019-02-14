@@ -48,3 +48,7 @@ void Projectile_vert::reset()
     status = CharacterStatus::DEAD;
     forceX = 0;
 }
+
+bool Projectile_vert::isProjectile() const {
+    return true;
+}

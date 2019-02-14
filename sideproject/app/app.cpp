@@ -739,15 +739,18 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, 
 	int i = 0;
 	for (auto &room : rooms) {
 		if (room->isVisited()) {
-			file << "ROOM " << i++ << '\n';
+			file << "ROOM " << i << '\n';
 			for (auto &enemy : room->enemies) {
-				file << "ENEMY " << enemy->isAlive() << '\n';
+				if(!enemy->isProjectile()) {
+					file << "ENEMY " << enemy->isAlive() << '\n';
+				}
 			}
 
 			for (auto &sprite : room->sprites) {
 				file << "SPRITE " << sprite->visible << '\n';
 			}
 		}
+		i++;
 	}
 	file.flush();
 	file.close();
@@ -807,10 +810,14 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 				player.setLastSavePoint(std::stoi(res.at(0)), std::stoi(res.at(1)), std::stoi(res.at(2)));
 			} else if (key == "ROOM") {
 				tmpRoom = rooms.at(std::stoi(value));
+				tmpRoom->setVisited();
 				spriteCounter = 0;
 				enemyCounter = 0;
 			} else if (key == "ENEMY") {
-				if (std::stoi(value))
+				while(tmpRoom->enemies.at(enemyCounter)->isProjectile()) {
+					enemyCounter++;
+				}
+				if(!std::stoi(value))
 					tmpRoom->enemies.at(enemyCounter)->setDeath();
 				enemyCounter++;
 			} else if (key == "SPRITE") {
@@ -874,8 +881,14 @@ int main(int argc, char *args[])
 			currentRoom->enter();
 		} else if (index == 2) {
 			int currentRoomIndex = loadGame(player, rooms, mapPath);
-			currentRoom = rooms.at(currentRoomIndex);
-			currentRoom->enter();
+			if(currentRoomIndex != -1) {
+				currentRoom = rooms.at(currentRoomIndex);
+				currentRoom->enter();
+			} else {
+				initRooms(mapPath, rooms);
+				currentRoom = rooms.at(0);
+				currentRoom->enter();
+			}
 		}
 
 		// quit = true;
@@ -1027,6 +1040,7 @@ int main(int argc, char *args[])
 			if (player.getHealth() == 0) {
 				gameOver = true;
 				continue;
+
 			}
 
 			// Increase Player health when at 4 points
