@@ -229,7 +229,7 @@ bool Player::collisionDetection(Sprite *sprite)
 	if (sprite->getSpriteType() == SpriteType::FLAME) {
 		if (abs((posY + object_height) - sprite->getPosY()) < 15) {
 			if (posX >= sprite->getPosX() && posX < sprite->getPosX() + 50) {
-				if (!hasFireImmunity) {
+				if (equippedAbility != EquippedAbility::FIRE) {
 					takeDamage();
 					setPosX(lastSavePoint.x);
 					setPosY(lastSavePoint.y);

@@ -16,6 +16,7 @@ Projectile_vert::Projectile_vert(std::string path, SDL_Renderer *renderer)
 void Projectile_vert::moveAI(Character *character)
 {
     if (forceX > 0) {
+        posY -= 5;
         if(shoot_direction){
             posX += 5;
         } else {

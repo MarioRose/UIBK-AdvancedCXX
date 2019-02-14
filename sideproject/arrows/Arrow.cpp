@@ -46,7 +46,7 @@ bool Arrow::collisionDetection(IEnemy *enemy)
 	if (active) {
 		if (mX > enemy->getPosX() && mX < enemy->getPosX()+enemy->getWidth()) {
 			if (mY > enemy->getPosY() && mY < enemy->getPosY()+enemy->getHeight()) {
-				if (mX > enemy->getPosX()) {
+				if (flipType != SDL_FLIP_NONE) {
 					if(enemy->getPosX() - 10 < 0) {
 						enemy->setPosX(0);
 					} else {
