@@ -45,4 +45,6 @@ void Projectile_vert::setStartPosition(int x, int y, int force, bool direction)
 void Projectile_vert::reset()
 {
     outOfBounds = true;
+    status = CharacterStatus::DEAD;
+    forceX = 0;
 }

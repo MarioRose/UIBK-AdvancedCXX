@@ -79,4 +79,5 @@ void Projectile::setStartPosition(int x, int y, int force, bool shootLeft)
 void Projectile::reset()
 {
     outOfBounds = true;
+    status = CharacterStatus::DEAD;
 }
