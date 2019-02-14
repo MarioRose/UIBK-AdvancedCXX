@@ -191,3 +191,18 @@ void SecondBoss::shootProjectiles()
         force += force;
     }
 }
+
+void SecondBoss::setStartPos()
+{
+    startX = posX;
+    startY = posY;
+    startHealth = health;
+}
+
+void SecondBoss::reset()
+{
+    status = CharacterStatus::IDLE;
+    posX = startX;
+    posY = startY;
+    health = startHealth;
+}

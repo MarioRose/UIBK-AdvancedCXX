@@ -52,6 +52,8 @@ class Room {
 
 	void moveEnemies(Player *player);
 
+	void resetRoom();
+
 	SDL_Texture *background_texture;
 
 	std::vector<IEnemy *> enemies;

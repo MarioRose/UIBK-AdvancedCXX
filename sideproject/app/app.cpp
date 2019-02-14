@@ -48,6 +48,9 @@ SDL_Texture *tileTexture[3];
 // pause
 bool pause = false;
 
+// game over
+bool gameOver = false;
+
 std::string mapName;
 
 // RECURSIVELY BUILD MAP
@@ -192,9 +195,9 @@ void showInventory(TTF_Font *font, Player *player)
 	doubleJump_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
 	doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
-    Texture fireItem_texture;
-    fireItem_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
-    fireItem_texture.scaleToHeight(SCREEN_HEIGHT * 0.1);
+	Texture fireItem_texture;
+	fireItem_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
+	fireItem_texture.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
 	// Weapons
 	switch (player->getEquippedItem()) {
@@ -262,9 +265,9 @@ void showInventory(TTF_Font *font, Player *player)
 	if (player->hasDoubleJump()) {
 		inventoryBoxes[3].itemTexture = &doubleJump_texture;
 	}
-    if (player->hasFireItem()) {
-        inventoryBoxes[4].itemTexture = &fireItem_texture;
-    }
+	if (player->hasFireItem()) {
+		inventoryBoxes[4].itemTexture = &fireItem_texture;
+	}
 
 	const int numLabels = 3;
 
@@ -421,7 +424,7 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 
 	switch (status) {
 	case GameStatus::GAME_OVER:
-		NUMMENU = 3;
+		NUMMENU = 4;
 		break;
 	case GameStatus::NEW:
 		NUMMENU = 4;
@@ -434,9 +437,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 		break;
 	}
 
-	const char *labels[NUMMENU] = {title.c_str(), "Start Game", "Load Game", "Exit Game"};
-	const char *labels_gameover[NUMMENU] = {title.c_str(), "Show Map", "Exit Game"};
-	const char *labels_pause[NUMMENU] = {title.c_str(), "Continue", "Inventory", "Show Map", "Save Game", "Exit Game"};
+	const char *labels[4] = {title.c_str(), "Start Game", "Load Game", "Exit Game"};
+	const char *labels_gameover[4] = {title.c_str(), "New Game", "Load Game", "Exit Game"};
+	const char *labels_pause[6] = {title.c_str(), "Continue", "Inventory", "Show Map", "Save Game", "Exit Game"};
 
 	SDL_Surface *menus[NUMMENU];
 	SDL_Surface *background_surface;
@@ -702,7 +705,7 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, std::string mapPath)
 {
 	std::cout << "Saving ..." << '\n';
-	std::ofstream file("assets/games/01.txt",std::ios::out);
+	std::ofstream file("assets/games/01.txt", std::ios::out);
 	// TODO Generate unique filename
 	file << "MAP " << mapPath << '\n';
 	file << "POINTS " << player.getPoints() << '\n';
@@ -712,9 +715,9 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, 
 	file << "HAS_BOW " << player.getHasBow() << '\n';
 	file << "HAS_SILVERBOW " << player.getHasSilverBow() << '\n';
 	file << "HAS_GOLDENBOW " << player.getHasGoldenBow() << '\n';
-    file << "HAS_DOUBLEJUMP " << player.hasDoubleJump() << '\n';
-    file << "HAS_FIREITEM " << player.hasFireItem() << '\n';
-    file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << ","
+	file << "HAS_DOUBLEJUMP " << player.hasDoubleJump() << '\n';
+	file << "HAS_FIREITEM " << player.hasFireItem() << '\n';
+	file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << ","
 	     << player.lastSavePoint.roomIndex << '\n';
 
 	int i = 0;
@@ -765,7 +768,7 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 				std::vector<std::string> coords;
 				coords = util::getValues(value);
 				player.setPosX(std::stoi(coords.at(0)));
-				player.setPosY(std::stoi(coords.at(1))-10);
+				player.setPosY(std::stoi(coords.at(1)) - 10);
 			} else if (key == "POINTS") {
 				player.setPoints(std::stoi(value));
 			} else if (key == "HEALTH") {
@@ -776,11 +779,11 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 				player.setHasSilverBow(std::stoi(value));
 			} else if (key == "HAS_GOLDEN_BOW") {
 				player.setHasGoldenBow(std::stoi(value));
-            } else if (key == "HAS_DOUBLEJUMP") {
-                player.setDoubleJumpItem(std::stoi(value));
-            } else if (key == "HAS_FIREITEM") {
-                player.setFireItem(std::stoi(value));
-            } else if (key == "CURRENT_ROOM") {
+			} else if (key == "HAS_DOUBLEJUMP") {
+				player.setDoubleJumpItem(std::stoi(value));
+			} else if (key == "HAS_FIREITEM") {
+				player.setFireItem(std::stoi(value));
+			} else if (key == "CURRENT_ROOM") {
 				currentRoomIndex = std::stoi(value);
 			} else if (key == "SAVE_POINT") {
 				std::vector<std::string> res;
@@ -826,6 +829,8 @@ int main(int argc, char *args[])
 		// Main loop flag
 		bool quit = false;
 
+		bool newGame = false;
+
 		player.loadFromFile("assets/profiles/main.txt", gRenderer);
 
 		// Event handler
@@ -840,7 +845,7 @@ int main(int argc, char *args[])
 		// The frame rate regulator
 		Timer fps;
 
-		bool collision = true;
+		bool collision;
 
 		TTF_Font *font;
 		font = TTF_OpenFont("assets/fonts/menuFont.ttf", 30);
@@ -874,6 +879,28 @@ int main(int argc, char *args[])
 					saveGame(player, rooms, currentRoom->getIndex(), mapPath);
 				}
 				pause = false;
+			}
+			if (gameOver) {
+				int index = showmenu(font, "Game Over", GameStatus::GAME_OVER);
+				if (index > 3) {
+					break;
+				} else if (index == 1) {
+                    for(auto room : rooms){
+                        room->resetRoom();
+                    }
+                    player.resetPlayer();
+                    currentRoom = rooms.at(0);
+                    currentRoom->enter();
+                    //Um Hud zu updaten
+                    newGame = true;
+                } else if (index == 2) {
+					int currentRoomIndex = loadGame(player, rooms, mapPath);
+					currentRoom = rooms.at(currentRoomIndex);
+					currentRoom->enter();
+				} else if (index == 3) {
+					break;
+				}
+				gameOver = false;
 			}
 
 			// Start the frame timer
@@ -910,7 +937,8 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_v) {
-					if (currentRoom->fireball.getState() == FireballState::INACTIVE && player.getEquippedAbility() == EquippedAbility::FIRE) {
+					if (currentRoom->fireball.getState() == FireballState::INACTIVE &&
+					    player.getEquippedAbility() == EquippedAbility::FIRE) {
 						currentRoom->fireball.shoot(player.getPosX(), player.getPosY(), player.getFlipType());
 					}
 				}
@@ -957,12 +985,6 @@ int main(int argc, char *args[])
 				}
 			}
 
-//			if (player.inSkyHole()) {
-//				player.takeDamage();
-//				player.setPosX(15);
-//				player.setPosY(5);
-//			}
-
 			collision = player.collisionDetectionEnemies(currentRoom->enemies);
 			if (collision) {
 				currentRoom = rooms.at(player.lastSavePoint.roomIndex);
@@ -971,26 +993,25 @@ int main(int argc, char *args[])
 				player.setPosY(player.lastSavePoint.y);
 			}
 
-			//To enter the correct room when character dies in flames
+			// To enter the correct room when character dies in flames
 			bool flameCollision = false;
 			collision |= player.collisionDetectionSprites(currentRoom->sprites, flameCollision);
-			if(flameCollision) {
+			if (flameCollision) {
 				currentRoom = rooms.at(player.lastSavePoint.roomIndex);
 				currentRoom->enter();
 			}
 
-			if(player.getFallingDown()){
-                currentRoom = rooms.at(player.lastSavePoint.roomIndex);
-                currentRoom->enter();
-                player.setFallingDown(false);
-                collision = true;
+			if (player.getFallingDown()) {
+				currentRoom = rooms.at(player.lastSavePoint.roomIndex);
+				currentRoom->enter();
+				player.setFallingDown(false);
+				collision = true;
 			}
 
-
-            if (player.getHealth() == 0) {
-                quit = true;
-                showmenu(font, "Game Over", GameStatus::GAME_OVER);
-            }
+			if (player.getHealth() == 0) {
+				gameOver = true;
+                continue;
+			}
 
 			// Increase Player health when at 4 points
 			if (player.getPoints() == 4) {
@@ -1009,10 +1030,10 @@ int main(int argc, char *args[])
 			// Render objects
 			currentRoom->moveEnemies(&player);
 			player.render(gRenderer);
-			currentRoom->renderEnemies(gRenderer);
+            hud.render(&player, collision || newGame);
+            currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture[currentRoom->level]);
-			hud.render(&player, collision);
 			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 			currentRoom->fireball.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 
@@ -1021,7 +1042,8 @@ int main(int argc, char *args[])
 
 			// Increment the frame counter
 			frame++;
-			collision = false;
+
+			newGame = false;
 
 			// If we want to cap the frame rate
 			if (cap && (fps.getTicks() < 1000 / FRAMES_PER_SECOND)) {

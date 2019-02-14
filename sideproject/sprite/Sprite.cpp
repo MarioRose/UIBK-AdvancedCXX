@@ -61,3 +61,8 @@ SpriteType Sprite::getSpriteType()
 {
 	return type;
 }
+
+void Sprite::reset()
+{
+    visible = true;
+}

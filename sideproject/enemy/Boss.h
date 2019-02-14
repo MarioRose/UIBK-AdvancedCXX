@@ -25,7 +25,10 @@ class Boss : public IEnemy {
     void addProjectile(Projectile* projectile);
     void shootProjectiles();
 
-  private:
+    void setStartPos();
+    void reset() override;
+
+private:
 	void attackOne();
 	void attackTwo();
 
@@ -33,7 +36,11 @@ class Boss : public IEnemy {
 	AttackPhase currentPhase = AttackPhase::NONE;
 	std::shared_ptr<std::vector<Projectile *>> projectiles;
 
-	bool goingRight;
+    int startX;
+    int startY;
+    int startHealth;
+
+    bool goingRight;
 	bool itemNotShowed = true;
 	void goBackAndForth();
 	int frameCount = 0;

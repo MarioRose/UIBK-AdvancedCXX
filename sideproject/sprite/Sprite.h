@@ -24,6 +24,8 @@ class Sprite : public GameObject {
 
 	void showSprite(double x, double y, bool notAlreadyShown);
 
+	void reset();
+
 	bool visible = true;
 	int roomIndex;
 

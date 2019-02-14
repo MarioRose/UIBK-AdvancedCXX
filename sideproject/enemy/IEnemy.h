@@ -10,6 +10,7 @@
 class IEnemy : public Character {
   public:
 	virtual void moveAI(Character *character) = 0;
+	virtual void reset() = 0;
 };
 
 #endif // SIDESCROLLER_IENEMY_H

@@ -2,7 +2,7 @@ CHARACTER Main
 SOUND_SHOUT assets/music/Anderson.wav
 HEIGHT 35
 WIDTH 20
-HEALTH 5
+HEALTH 1
 RANGE 1
 IDLE assets/images/characters/player/idle/1.png
 IDLE assets/images/characters/player/idle/2.png

@@ -25,6 +25,9 @@ public:
     void shootProjectiles();
     bool isGoingRight();
 
+    void setStartPos();
+    void reset() override;
+
 private:
     void attackOne();
     void attackTwo();
@@ -32,6 +35,10 @@ private:
     Sprite *item = nullptr;
     AttackPhase currentPhase = AttackPhase::NONE;
     std::shared_ptr<std::vector<Projectile *>> projectiles;
+
+    int startX;
+    int startY;
+    int startHealth;
 
     bool goingUp;
     bool goRight;

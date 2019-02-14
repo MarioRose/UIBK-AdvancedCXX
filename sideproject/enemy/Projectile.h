@@ -19,6 +19,8 @@ public:
     void setStartPosition(int x, int y, int force);
     void setStartPosition(int x, int y, int force, bool shootLeft);
 
+    void reset() override;
+
 private:
     bool outOfBounds = true;
     bool shootLeft = true;

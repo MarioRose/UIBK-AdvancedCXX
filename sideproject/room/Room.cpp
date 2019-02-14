@@ -197,7 +197,8 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 		enemy->setProjectiles(projectiles);
 	}
 
-	enemies.emplace_back(enemy);
+    enemy->setStartPos();
+    enemies.emplace_back(enemy);
 }
 
 void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
@@ -224,7 +225,9 @@ void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
 	boss->loadFromFile(result.at(0), renderer);
 
-	enemies.emplace_back(boss);
+    boss->setStartPos();
+
+    enemies.emplace_back(boss);
 }
 
 void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
@@ -251,7 +254,9 @@ void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
 	boss->loadFromFile(result.at(0), renderer);
 
-	enemies.emplace_back(boss);
+    boss->setStartPos();
+
+    enemies.emplace_back(boss);
 }
 
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
@@ -539,7 +544,15 @@ Room::~Room()
 	// Free the music
 	free();
 }
-
+void Room::resetRoom()
+{
+    for(auto &enemy : enemies){
+        enemy->reset();
+    }
+    for(auto &sprite : sprites){
+        sprite->reset();
+    }
+}
 void Room::free()
 {
 
@@ -578,3 +591,5 @@ void Room::free()
 	//	music = NULL;
 	//}
 }
+
+

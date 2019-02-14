@@ -436,3 +436,23 @@ void Player::setFallingDown(bool val)
 {
     fallingDown = val;
 }
+
+void Player::resetPlayer()
+{
+    posX = 20;
+    posY = 400;
+
+    fallingDown = false;
+
+    hasBow = false;
+    hasSilverBow = false;
+    hasGoldenBow = false;
+
+    hasDoubleJumpItem = false;
+    hasFireImmunity = false;
+
+    keypressCount = 0;
+    points = 0;
+    maxHealth = 5;
+    health = maxHealth;
+}

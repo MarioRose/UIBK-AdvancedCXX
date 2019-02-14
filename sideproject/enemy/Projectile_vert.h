@@ -17,6 +17,8 @@ public:
     void moveAI(Character *character) override;
     void setStartPosition(int x, int y, int force, bool direction);
 
+    void reset() override;
+
 private:
     bool outOfBounds = true;
     bool shoot_direction;

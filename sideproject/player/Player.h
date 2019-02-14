@@ -71,6 +71,8 @@ class Player : public Character {
 	void setLastSavePoint(int x, int y, int roomIndex);
 	SavePoint lastSavePoint;
 
+	void resetPlayer();
+
   private:
     bool fallingDown = false;
 

@@ -14,8 +14,13 @@ class Enemy : public IEnemy {
 
 	void moveAI(Character *character) override;
     void setProjectiles(std::shared_ptr<std::vector<Projectile_vert*>> projectiles);
+    void setStartPos();
+    void reset() override;
 
 private:
+    int startX;
+    int startY;
+    int startHealth;
     void melee(Character *character);
     void range(Character *character);
     std::shared_ptr<std::vector<Projectile_vert *>> projectiles;

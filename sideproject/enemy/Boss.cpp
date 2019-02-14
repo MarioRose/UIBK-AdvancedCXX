@@ -148,3 +148,18 @@ void Boss::shootProjectiles()
         force += force;
     }
 }
+
+void Boss::setStartPos()
+{
+    startX = posX;
+    startY = posY;
+    startHealth = health;
+}
+
+void Boss::reset()
+{
+    status = CharacterStatus::IDLE;
+    posX = startX;
+    posY = startY;
+    health = startHealth;
+}

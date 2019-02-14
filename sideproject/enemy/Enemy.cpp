@@ -108,3 +108,18 @@ void Enemy::setProjectiles(std::shared_ptr<std::vector<Projectile_vert*>> projec
 {
     this->projectiles = projectiles;
 }
+
+void Enemy::setStartPos()
+{
+    startX = posX;
+    startY = posY;
+    startHealth = health;
+}
+
+void Enemy::reset()
+{
+    status = CharacterStatus::IDLE;
+    posX = startX;
+    posY = startY;
+    health = startHealth;
+}

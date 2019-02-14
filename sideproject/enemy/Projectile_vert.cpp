@@ -41,3 +41,8 @@ void Projectile_vert::setStartPosition(int x, int y, int force, bool direction)
     status = CharacterStatus::RUNNING;
     shoot_direction = direction;
 }
+
+void Projectile_vert::reset()
+{
+    outOfBounds = true;
+}
