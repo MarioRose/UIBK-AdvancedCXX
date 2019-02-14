@@ -381,6 +381,11 @@ void Player::setDoubleJumpItem(bool hasItem)
 	hasDoubleJumpItem = hasItem;
 }
 
+void Player::setFireItem(bool hasItem)
+{
+    hasFireImmunity = hasItem;
+}
+
 EquippedItem Player::getEquippedItem() const
 {
 	return equippedItem;

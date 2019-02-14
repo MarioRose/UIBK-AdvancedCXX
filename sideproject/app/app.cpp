@@ -713,7 +713,9 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, 
 	file << "HAS_BOW " << player.getHasBow() << '\n';
 	file << "HAS_SILVERBOW " << player.getHasSilverBow() << '\n';
 	file << "HAS_GOLDENBOW " << player.getHasGoldenBow() << '\n';
-	file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << ","
+    file << "HAS_DOUBLEJUMP " << player.hasDoubleJump() << '\n';
+    file << "HAS_FIREITEM " << player.hasFireItem() << '\n';
+    file << "SAVE_POINT " << player.lastSavePoint.x << "," << player.lastSavePoint.y << ","
 	     << player.lastSavePoint.roomIndex << '\n';
 
 	int i = 0;
@@ -775,7 +777,11 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 				player.setHasSilverBow(std::stoi(value));
 			} else if (key == "HAS_GOLDEN_BOW") {
 				player.setHasGoldenBow(std::stoi(value));
-			} else if (key == "CURRENT_ROOM") {
+            } else if (key == "HAS_DOUBLEJUMP") {
+                player.setDoubleJumpItem(std::stoi(value));
+            } else if (key == "HAS_FIREITEM") {
+                player.setFireItem(std::stoi(value));
+            } else if (key == "CURRENT_ROOM") {
 				currentRoomIndex = std::stoi(value);
 			} else if (key == "SAVE_POINT") {
 				std::vector<std::string> res;

@@ -51,11 +51,11 @@ class Player : public Character {
     bool getHasGoldenBow() const;
     void setHasGoldenBow(bool hasBow);
 
-
     bool hasDoubleJump() const;
     void setDoubleJumpItem(bool hasItem);
 
     bool hasFireItem() const;
+    void setFireItem(bool hasItem);
 
     int getMaxHealth() const;
     void increaseMaxHealth();
