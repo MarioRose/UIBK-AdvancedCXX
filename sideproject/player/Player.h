@@ -74,7 +74,7 @@ class Player : public Character {
     bool hasGoldenBow = true;
 
 	bool hasDoubleJumpItem = true;
-	bool hasFireImmunity = false;
+	bool hasFireImmunity = true;
 
 	int keypressCount = 0;
 	int points = 0;

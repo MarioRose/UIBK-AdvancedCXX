@@ -151,7 +151,7 @@ struct inventoryBox {
 	Texture *texture;
 	Texture *itemTexture = NULL;
 	bool selected = false;
-} inventoryBoxes[6];
+} inventoryBoxes[5];
 
 void showInventory(TTF_Font *font, Player *player)
 {
@@ -236,8 +236,8 @@ void showInventory(TTF_Font *font, Player *player)
 	}
 
 	// second row of inventory boxes
-	for (int i = 3; i < 6; i++) {
-		inventoryBoxes[i].x = SCREEN_WIDTH * ((i - 3) / 3.0) + 50;
+	for (int i = 3; i < 5; i++) {
+		inventoryBoxes[i].x = SCREEN_WIDTH * ((i - 3) / 2.0) + 100;
 		inventoryBoxes[i].y = SCREEN_HEIGHT * 0.57;
 		inventoryBoxes[i].texture = &box_white_texture;
 		if (inventoryBoxes[i].selected) {
@@ -299,7 +299,7 @@ void showInventory(TTF_Font *font, Player *player)
 			case SDL_MOUSEMOTION:
 				x = event.motion.x;
 				y = event.motion.y;
-				for (int i = 0; i < 6; i++) {
+				for (int i = 0; i < 5; i++) {
 					if (inventoryBoxes[i].selected) {
 						continue;
 					}
@@ -345,7 +345,7 @@ void showInventory(TTF_Font *font, Player *player)
 						}
 					}
 					// Equipped Ability
-					for (int i = 3; i < 6; i++) {
+					for (int i = 3; i < 5; i++) {
 						if (inventoryBoxes[i].selected == true) {
 							switch (i) {
 							case 3:
@@ -367,7 +367,7 @@ void showInventory(TTF_Font *font, Player *player)
 					}
 					return;
 				}
-				for (int i = 0; i < 6; i++) {
+				for (int i = 0; i < 5; i++) {
 					if (x >= inventoryBoxes[i].x && x <= inventoryBoxes[i].x + inventoryBoxes[i].w &&
 					    y >= inventoryBoxes[i].y && y <= inventoryBoxes[i].y + inventoryBoxes[i].h) {
 						if (i < 3) {
@@ -375,7 +375,7 @@ void showInventory(TTF_Font *font, Player *player)
 								inventoryBoxes[j].selected = false;
 							}
 						} else {
-							for (int j = 3; j < 6; j++) {
+							for (int j = 3; j < 5; j++) {
 								inventoryBoxes[j].selected = false;
 							}
 						}
@@ -393,7 +393,7 @@ void showInventory(TTF_Font *font, Player *player)
 
 		SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 5; i++) {
 			inventoryBoxes[i].texture->render(inventoryBoxes[i].x, inventoryBoxes[i].y, gRenderer, NULL, 0, NULL,
 			                                  SDL_FLIP_NONE);
 			if (inventoryBoxes[i].itemTexture != NULL) {
@@ -905,7 +905,7 @@ int main(int argc, char *args[])
 				}
 
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_v) {
-					if (currentRoom->fireball.getState() == FireballState::INACTIVE) {
+					if (currentRoom->fireball.getState() == FireballState::INACTIVE && player.getEquippedAbility() == EquippedAbility::FIRE) {
 						currentRoom->fireball.shoot(player.getPosX(), player.getPosY(), player.getFlipType());
 					}
 				}
