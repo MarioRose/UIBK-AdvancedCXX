@@ -25,7 +25,7 @@ class Sprite : public GameObject {
 	void showSprite(double x, double y, bool notAlreadyShown);
 
 	bool visible = true;
-    int roomIndex;
+	int roomIndex;
 
 	SpriteType getSpriteType();
 

@@ -190,14 +190,14 @@ bool Player::collisionDetectionEnemies(std::vector<IEnemy *> enemies)
 	return collision;
 }
 
-bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites)
+bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites, bool& flameCollision)
 {
 
 	bool collision = false;
 
 	for (auto &sprite : sprites) {
 		if (sprite->visible)
-			collision |= collisionDetection(sprite);
+			collision |= collisionDetection(sprite, flameCollision);
 	}
 
 	return collision;
@@ -224,7 +224,7 @@ bool Player::collisionDetection(IEnemy *enemy)
 	return false;
 }
 
-bool Player::collisionDetection(Sprite *sprite)
+bool Player::collisionDetection(Sprite *sprite, bool& flameCollision)
 {
 	if (sprite->getSpriteType() == SpriteType::FLAME) {
 		if (abs((posY + object_height) - sprite->getPosY()) < 15) {
@@ -233,6 +233,7 @@ bool Player::collisionDetection(Sprite *sprite)
 					takeDamage();
 					setPosX(lastSavePoint.x);
 					setPosY(lastSavePoint.y);
+					flameCollision = true;
 				}
 			}
 		}

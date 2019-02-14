@@ -976,8 +976,15 @@ int main(int argc, char *args[])
 				showmenu(font, "Game Over", GameStatus::GAME_OVER);
 			}
 
-			collision |= player.collisionDetectionSprites(currentRoom->sprites);
-			// Increase Player health when at 10 points
+			//To enter the correct room when character dies in flames
+			bool flameCollision = false;
+			collision |= player.collisionDetectionSprites(currentRoom->sprites, flameCollision);
+			if(flameCollision) {
+				currentRoom = rooms.at(player.lastSavePoint.roomIndex);
+				currentRoom->enter();
+			}
+
+			// Increase Player health when at 4 points
 			if (player.getPoints() == 4) {
 				player.setPoints(0);
 				player.increaseMaxHealth();

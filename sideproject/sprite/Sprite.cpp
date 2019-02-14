@@ -11,27 +11,27 @@ Sprite::Sprite(int x, int y, Texture &texture, SDL_Renderer *renderer, SpriteTyp
     : GameObject(x, SCREEN_HEIGHT - y, 10, 10), renderer(renderer), type(type), sound(sound), roomIndex(roomIndex)
 {
 	cTexture = texture;
-	if(type == SpriteType::STAR) {
+	if (type == SpriteType::STAR) {
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
 	} else if (type == SpriteType::BOW) {
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
-    } else if (type == SpriteType::SILVERBOW) {
-        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
-    } else if (type == SpriteType::GOLDENBOW) {
-        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
-    } else if (type == SpriteType::HEART) {
-        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
-    } else if (type == SpriteType::FLAME) {
-        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
-    } else if (type == SpriteType::FLAG) {
+	} else if (type == SpriteType::SILVERBOW) {
+		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
+	} else if (type == SpriteType::GOLDENBOW) {
+		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
+	} else if (type == SpriteType::HEART) {
+		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
+	} else if (type == SpriteType::FLAME) {
+		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
+	} else if (type == SpriteType::FLAG) {
 		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.1);
 	} else if (type == SpriteType::JUMP) {
-        cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
-    }
+		cTexture.scaleToHeight(SCREEN_HEIGHT * 0.05);
+	}
 
-//	if (sound == NULL) {
-//		printf("Failed to load beat music2! SDL_mixer Error: %s\n", Mix_GetError());
-//	}
+	//	if (sound == NULL) {
+	//		printf("Failed to load beat music2! SDL_mixer Error: %s\n", Mix_GetError());
+	//	}
 }
 
 void Sprite::playSound()
@@ -44,11 +44,12 @@ void Sprite::playSound()
 	}
 }
 
-void Sprite::showSprite(double x, double y, bool notAlreadyShown) {
-    this->posX = x;
-    this->posY = y;
-    if(notAlreadyShown)
-        this->visible = true;
+void Sprite::showSprite(double x, double y, bool notAlreadyShown)
+{
+	this->posX = x;
+	this->posY = y;
+	if (notAlreadyShown)
+		this->visible = true;
 }
 
 Sprite::~Sprite()
@@ -56,6 +57,7 @@ Sprite::~Sprite()
 	this->free();
 }
 
-SpriteType Sprite::getSpriteType() {
+SpriteType Sprite::getSpriteType()
+{
 	return type;
 }
