@@ -50,13 +50,13 @@ bool Arrow::collisionDetection(IEnemy *enemy)
 					if(enemy->getPosX() - 10 < 0) {
 						enemy->setPosX(0);
 					} else {
-						enemy->setPosX(enemy->getPosX() - 10);
+						enemy->setPosX(enemy->getPosX() - 5);
 					}
 				} else {
 					if(enemy->getPosX() + 10 > SCREEN_WIDTH) {
 						enemy->setPosX(SCREEN_WIDTH);
 					} else {
-						enemy->setPosX(enemy->getPosX() + 10);
+						enemy->setPosX(enemy->getPosX() + 5);
 					}
 
 				}

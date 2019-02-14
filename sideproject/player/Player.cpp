@@ -218,16 +218,10 @@ bool Player::collisionDetection(IEnemy *enemy)
 	if (enemy->getStatus() == CharacterStatus::DEAD) {
 		return false;
 	}
-	if (abs(posX - enemy->getPosX()) < 20) {
-		if (abs(posY - enemy->getPosY()) < 35) {
+    if (posX > enemy->getPosX() && posX < enemy->getPosX()+enemy->getWidth()) {
+        if (posY > enemy->getPosY() && posY < enemy->getPosY()+enemy->getHeight()) {
 			takeDamage();
-			//			if (posX > enemy->getPosX())
-			//				posX += 50;
-			//			else if (posX >= 50) {
-			//				posX -= 50;
-			//			} else {
-			//				posX = 0;
-			//			}
+
 			return true;
 		}
 	}
