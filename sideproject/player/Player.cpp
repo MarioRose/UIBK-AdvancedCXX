@@ -234,6 +234,7 @@ bool Player::collisionDetection(Sprite *sprite, bool& flameCollision)
 					setPosX(lastSavePoint.x);
 					setPosY(lastSavePoint.y);
 					flameCollision = true;
+					return true;
 				}
 			}
 		}
