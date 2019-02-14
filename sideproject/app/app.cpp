@@ -493,6 +493,8 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 				y = event.motion.y;
 				for (int i = 0; i < NUMMENU; i += 1) {
 					if (x >= pos[i].x && x <= pos[i].x + pos[i].w && y >= pos[i].y && y <= pos[i].y + pos[i].h) {
+						if (i == 0)
+							continue;
 						if (!selected[i]) {
 							selected[i] = 1;
 							SDL_FreeSurface(menus[i]);
@@ -885,15 +887,15 @@ int main(int argc, char *args[])
 				if (index > 3) {
 					break;
 				} else if (index == 1) {
-                    for(auto room : rooms){
-                        room->resetRoom();
-                    }
-                    player.resetPlayer();
-                    currentRoom = rooms.at(0);
-                    currentRoom->enter();
-                    //Um Hud zu updaten
-                    newGame = true;
-                } else if (index == 2) {
+					for (auto room : rooms) {
+						room->resetRoom();
+					}
+					player.resetPlayer();
+					currentRoom = rooms.at(0);
+					currentRoom->enter();
+					// Um Hud zu updaten
+					newGame = true;
+				} else if (index == 2) {
 					int currentRoomIndex = loadGame(player, rooms, mapPath);
 					currentRoom = rooms.at(currentRoomIndex);
 					currentRoom->enter();
@@ -1010,7 +1012,7 @@ int main(int argc, char *args[])
 
 			if (player.getHealth() == 0) {
 				gameOver = true;
-                continue;
+				continue;
 			}
 
 			// Increase Player health when at 4 points
@@ -1030,12 +1032,12 @@ int main(int argc, char *args[])
 			// Render objects
 			currentRoom->moveEnemies(&player);
 			player.render(gRenderer);
-            currentRoom->renderEnemies(gRenderer);
+			currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture[currentRoom->level]);
 			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 			currentRoom->fireball.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
-            hud.render(&player, collision || newGame);
+			hud.render(&player, collision || newGame);
 
 			// Update screen
 			SDL_RenderPresent(gRenderer);
