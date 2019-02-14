@@ -18,6 +18,7 @@ public:
     void setStartPosition(int x, int y, int force, bool direction);
 
     void reset() override;
+    bool isProjectile() const override;
 
 private:
     bool outOfBounds = true;

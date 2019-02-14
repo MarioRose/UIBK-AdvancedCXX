@@ -156,10 +156,13 @@ void Boss::setStartPos()
     startHealth = health;
 }
 
-void Boss::reset()
-{
-    status = CharacterStatus::IDLE;
-    posX = startX;
-    posY = startY;
-    health = startHealth;
+void Boss::reset() {
+	status = CharacterStatus::IDLE;
+	posX = startX;
+	posY = startY;
+	health = startHealth;
+}
+
+bool Boss::isProjectile() const {
+	return false;
 }

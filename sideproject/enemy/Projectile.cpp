@@ -76,8 +76,11 @@ void Projectile::setStartPosition(int x, int y, int force, bool shootLeft)
     this->shootLeft = shootLeft;
 }
 
-void Projectile::reset()
-{
-    outOfBounds = true;
-    status = CharacterStatus::DEAD;
+void Projectile::reset() {
+	outOfBounds = true;
+	status = CharacterStatus::DEAD;
+}
+
+bool Projectile::isProjectile() const {
+	return true;
 }

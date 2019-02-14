@@ -27,6 +27,7 @@ public:
 
     void setStartPos();
     void reset() override;
+    bool isProjectile() const override;
 
 private:
     void attackOne();

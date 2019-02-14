@@ -116,10 +116,13 @@ void Enemy::setStartPos()
     startHealth = health;
 }
 
-void Enemy::reset()
-{
+void Enemy::reset() {
     status = CharacterStatus::IDLE;
     posX = startX;
     posY = startY;
     health = startHealth;
+}
+
+bool Enemy::isProjectile() const {
+    return false;
 }
