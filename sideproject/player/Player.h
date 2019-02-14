@@ -60,6 +60,9 @@ class Player : public Character {
 	int getMaxHealth() const;
 	void increaseMaxHealth();
 
+    void setFallingDown(bool);
+    bool getFallingDown() const;
+
 	EquippedItem getEquippedItem() const;
 	void setEquippedItem(EquippedItem);
 	EquippedAbility getEquippedAbility() const;
@@ -69,11 +72,13 @@ class Player : public Character {
 	SavePoint lastSavePoint;
 
   private:
+    bool fallingDown = false;
+
 	bool hasBow = false;
 	bool hasSilverBow = false;
 	bool hasGoldenBow = false;
 
-	bool hasDoubleJumpItem = false;
+	bool hasDoubleJumpItem = true;
 	bool hasFireImmunity = false;
 
 	int keypressCount = 0;

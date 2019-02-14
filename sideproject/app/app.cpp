@@ -957,11 +957,11 @@ int main(int argc, char *args[])
 				}
 			}
 
-			if (player.inSkyHole()) {
-				player.takeDamage();
-				player.setPosX(15);
-				player.setPosY(5);
-			}
+//			if (player.inSkyHole()) {
+//				player.takeDamage();
+//				player.setPosX(15);
+//				player.setPosY(5);
+//			}
 
 			collision = player.collisionDetectionEnemies(currentRoom->enemies);
 			if (collision) {
@@ -971,11 +971,6 @@ int main(int argc, char *args[])
 				player.setPosY(player.lastSavePoint.y);
 			}
 
-			if (player.getHealth() == 0) {
-				quit = true;
-				showmenu(font, "Game Over", GameStatus::GAME_OVER);
-			}
-
 			//To enter the correct room when character dies in flames
 			bool flameCollision = false;
 			collision |= player.collisionDetectionSprites(currentRoom->sprites, flameCollision);
@@ -983,6 +978,19 @@ int main(int argc, char *args[])
 				currentRoom = rooms.at(player.lastSavePoint.roomIndex);
 				currentRoom->enter();
 			}
+
+			if(player.getFallingDown()){
+                currentRoom = rooms.at(player.lastSavePoint.roomIndex);
+                currentRoom->enter();
+                player.setFallingDown(false);
+                collision = true;
+			}
+
+
+            if (player.getHealth() == 0) {
+                quit = true;
+                showmenu(font, "Game Over", GameStatus::GAME_OVER);
+            }
 
 			// Increase Player health when at 4 points
 			if (player.getPoints() == 4) {

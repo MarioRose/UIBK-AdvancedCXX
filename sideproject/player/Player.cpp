@@ -107,7 +107,7 @@ void Player::move()
 	}
 
 	// Falling
-	if (!contactPlatform && forceY == 0 && posY <= SCREEN_HEIGHT - object_height) {
+	if (!contactPlatform && forceY == 0 && posY <= SCREEN_HEIGHT) {
 		status = CharacterStatus::FALLING;
 		posY += 5;
 	}
@@ -123,8 +123,12 @@ void Player::move()
 		posX -= velX;
 	}
 
-	if (posY > SCREEN_HEIGHT - object_height) {
-		posY = SCREEN_HEIGHT - object_height;
+	if (posY > SCREEN_HEIGHT) {
+        takeDamage();
+        fallingDown = true;
+        posX = lastSavePoint.x;
+        posY = lastSavePoint.y;
+//		posY = SCREEN_HEIGHT - object_height;
 	}
 
 	// Jumping or Falling
@@ -415,4 +419,14 @@ int Player::getMaxHealth() const
 void Player::increaseMaxHealth()
 {
 	maxHealth++;
+}
+
+bool Player::getFallingDown() const
+{
+    return fallingDown;
+}
+
+void Player::setFallingDown(bool val)
+{
+    fallingDown = val;
 }
