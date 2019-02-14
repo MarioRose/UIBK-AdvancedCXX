@@ -24,7 +24,6 @@ void Projectile_vert::moveAI(Character *character)
         }
         forceX -= 2;
     } else {
-        outOfBounds = true;
         status = CharacterStatus::DEAD;
     }
 }
@@ -37,14 +36,12 @@ void Projectile_vert::setStartPosition(int x, int y, int force, bool direction)
     forceY = 0;
     forceX = force;
 
-    outOfBounds = false;
     status = CharacterStatus::RUNNING;
     shoot_direction = direction;
 }
 
 void Projectile_vert::reset()
 {
-    outOfBounds = true;
     status = CharacterStatus::DEAD;
     forceX = 0;
 }

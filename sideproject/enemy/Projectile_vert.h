@@ -21,7 +21,6 @@ public:
     bool isProjectile() const override;
 
 private:
-    bool outOfBounds = true;
     bool shoot_direction;
 
 };

@@ -84,7 +84,7 @@ void Enemy::range(Character *character)
         }
         if (abs(character->getPosX() - posX) <= 100) {
 
-            int force = 75;
+            int force = 40;
 
             for(Projectile_vert *p : *projectiles){
                 if(p->getStatus() != CharacterStatus::DEAD){
