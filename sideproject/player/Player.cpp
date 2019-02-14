@@ -99,11 +99,11 @@ void Player::move()
 		posX -= velX;
 	}
 
-    // If the character went too far to the top
-    if (posY < 0) {
-        // Move back
-        posY += 5;
-    }
+	// If the character went too far to the top
+	if (posY < 0) {
+		// Move back
+		posY += 5;
+	}
 
 	// Jumping
 	if (forceY > 0) {
@@ -130,11 +130,11 @@ void Player::move()
 	}
 
 	if (posY > SCREEN_HEIGHT) {
-        takeDamage();
-        fallingDown = true;
-        posX = lastSavePoint.x;
-        posY = lastSavePoint.y;
-//		posY = SCREEN_HEIGHT - object_height;
+		takeDamage();
+		fallingDown = true;
+		posX = lastSavePoint.x;
+		posY = lastSavePoint.y;
+		//		posY = SCREEN_HEIGHT - object_height;
 	}
 
 	// Jumping or Falling
@@ -200,7 +200,7 @@ bool Player::collisionDetectionEnemies(std::vector<IEnemy *> enemies)
 	return collision;
 }
 
-bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites, bool& flameCollision)
+bool Player::collisionDetectionSprites(std::vector<Sprite *> sprites, bool &flameCollision)
 {
 
 	bool collision = false;
@@ -218,17 +218,20 @@ bool Player::collisionDetection(IEnemy *enemy)
 	if (enemy->getStatus() == CharacterStatus::DEAD) {
 		return false;
 	}
-    if (posX > enemy->getPosX() && posX < enemy->getPosX()+enemy->getWidth()) {
-        if (posY > enemy->getPosY() && posY < enemy->getPosY()+enemy->getHeight()) {
-			takeDamage();
+        if (((posX+posX+object_width)/2 > enemy->getPosX()-15) && ((posX+posX+object_width)/2 < enemy->getPosX() + enemy->getWidth() +15))
+		{
+			if ((posY >= enemy->getPosY() && posY <= enemy->getPosY() + enemy->getHeight()) ||
+                    (posY + object_height >= enemy->getPosY() &&
+			        posY + object_height <= enemy->getPosY() + enemy->getHeight())) {
+				takeDamage();
 
-			return true;
+				return true;
+			}
 		}
-	}
 	return false;
 }
 
-bool Player::collisionDetection(Sprite *sprite, bool& flameCollision)
+bool Player::collisionDetection(Sprite *sprite, bool &flameCollision)
 {
 	if (sprite->getSpriteType() == SpriteType::FLAME) {
 		if (abs((posY + object_height) - sprite->getPosY()) < 15) {
@@ -379,7 +382,7 @@ bool Player::hasDoubleJump() const
 
 bool Player::hasFireItem() const
 {
-    return hasFireImmunity;
+	return hasFireImmunity;
 }
 
 void Player::setDoubleJumpItem(bool hasItem)
@@ -389,7 +392,7 @@ void Player::setDoubleJumpItem(bool hasItem)
 
 void Player::setFireItem(bool hasItem)
 {
-    hasFireImmunity = hasItem;
+	hasFireImmunity = hasItem;
 }
 
 EquippedItem Player::getEquippedItem() const
@@ -423,30 +426,30 @@ void Player::increaseMaxHealth()
 
 bool Player::getFallingDown() const
 {
-    return fallingDown;
+	return fallingDown;
 }
 
 void Player::setFallingDown(bool val)
 {
-    fallingDown = val;
+	fallingDown = val;
 }
 
 void Player::resetPlayer()
 {
-    posX = 20;
-    posY = 400;
+	posX = 20;
+	posY = 400;
 
-    fallingDown = false;
+	fallingDown = false;
 
-    hasBow = false;
-    hasSilverBow = false;
-    hasGoldenBow = false;
+	hasBow = false;
+	hasSilverBow = false;
+	hasGoldenBow = false;
 
-    hasDoubleJumpItem = false;
-    hasFireImmunity = false;
+	hasDoubleJumpItem = false;
+	hasFireImmunity = false;
 
-    keypressCount = 0;
-    points = 0;
-    maxHealth = 5;
-    health = maxHealth;
+	keypressCount = 0;
+	points = 0;
+	maxHealth = 5;
+	health = maxHealth;
 }
