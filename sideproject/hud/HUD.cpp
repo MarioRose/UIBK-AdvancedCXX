@@ -47,8 +47,8 @@ bool HUD::loadTextures()
 	doubleJump.loadFromFile("assets/images/sprites/chest.png", renderer);
 	doubleJump.scaleToHeight(SCREEN_HEIGHT * 0.04);
 
-    fireItem.loadFromFile("assets/images/sprites/chest.png", renderer);
-    fireItem.scaleToHeight(SCREEN_HEIGHT * 0.02);
+    fireItem.loadFromFile("assets/images/sprites/fireItem.png", renderer);
+    fireItem.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
     return success;
 }

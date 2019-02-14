@@ -64,7 +64,7 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
 	flameTexture.loadFromFile("assets/images/sprites/firewall.png", renderer);
 	flyingItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
-    fireItemTexture.loadFromFile("assets/images/sprites/chest.png", renderer);
+    fireItemTexture.loadFromFile("assets/images/sprites/fireItem.png", renderer);
 
 	spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
 	spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
