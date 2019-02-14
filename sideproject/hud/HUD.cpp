@@ -44,8 +44,8 @@ bool HUD::loadTextures()
 	goldenBow.loadFromFile("assets/images/sprites/goldenBow.png", renderer);
 	goldenBow.scaleToHeight(SCREEN_HEIGHT * 0.1);
 
-	doubleJump.loadFromFile("assets/images/sprites/chest.png", renderer);
-	doubleJump.scaleToHeight(SCREEN_HEIGHT * 0.04);
+	doubleJump.loadFromFile("assets/images/sprites/shoes.png", renderer);
+	doubleJump.scaleToHeight(SCREEN_HEIGHT * 0.045);
 
     fireItem.loadFromFile("assets/images/sprites/fireItem.png", renderer);
     fireItem.scaleToHeight(SCREEN_HEIGHT * 0.05);

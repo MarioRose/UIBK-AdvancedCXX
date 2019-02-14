@@ -192,8 +192,8 @@ void showInventory(TTF_Font *font, Player *player)
 	golden_bow_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
 
 	Texture doubleJump_texture;
-	doubleJump_texture.loadFromFile("assets/images/sprites/chest.png", gRenderer);
-	doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.2);
+	doubleJump_texture.loadFromFile("assets/images/sprites/shoes.png", gRenderer);
+	doubleJump_texture.scaleToHeight(SCREEN_HEIGHT * 0.14);
 
 	Texture fireItem_texture;
 	fireItem_texture.loadFromFile("assets/images/sprites/fireItem.png", gRenderer);
@@ -405,14 +405,19 @@ void showInventory(TTF_Font *font, Player *player)
 			}
 		}
 
-        for (int i = 3; i < 5; i++) {
-            inventoryBoxes[i].texture->render(inventoryBoxes[i].x, inventoryBoxes[i].y, gRenderer, NULL, 0, NULL,
-                                              SDL_FLIP_NONE);
-            if (inventoryBoxes[i].itemTexture != NULL) {
-                inventoryBoxes[i].itemTexture->render(inventoryBoxes[i].x + 10, inventoryBoxes[i].y + 5, gRenderer, NULL, 0,
-                                                      NULL, SDL_FLIP_NONE);
-            }
-        }
+		inventoryBoxes[3].texture->render(inventoryBoxes[3].x, inventoryBoxes[3].y, gRenderer, NULL, 0, NULL,
+		                                  SDL_FLIP_NONE);
+		if (inventoryBoxes[3].itemTexture != NULL) {
+			inventoryBoxes[3].itemTexture->render(inventoryBoxes[3].x + 15, inventoryBoxes[3].y + 10, gRenderer, NULL, 0,
+			                                      NULL, SDL_FLIP_NONE);
+		}
+
+		inventoryBoxes[4].texture->render(inventoryBoxes[4].x, inventoryBoxes[4].y, gRenderer, NULL, 0, NULL,
+		                                  SDL_FLIP_NONE);
+		if (inventoryBoxes[4].itemTexture != NULL) {
+			inventoryBoxes[4].itemTexture->render(inventoryBoxes[4].x + 10, inventoryBoxes[4].y + 5, gRenderer, NULL, 0,
+			                                      NULL, SDL_FLIP_NONE);
+		}
 
 		for (int i = 0; i < numLabels; i++) {
 			SDL_RenderCopy(gRenderer, textureMenus[i], NULL, &pos[i]);
