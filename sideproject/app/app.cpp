@@ -1030,12 +1030,12 @@ int main(int argc, char *args[])
 			// Render objects
 			currentRoom->moveEnemies(&player);
 			player.render(gRenderer);
-            hud.render(&player, collision || newGame);
             currentRoom->renderEnemies(gRenderer);
 			currentRoom->renderSprites(gRenderer);
 			currentRoom->renderTiles(gRenderer, tileTexture[currentRoom->level]);
 			currentRoom->arrows.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
 			currentRoom->fireball.render(gRenderer, player.getPosX(), player.getPosY(), player.getFlipType());
+            hud.render(&player, collision || newGame);
 
 			// Update screen
 			SDL_RenderPresent(gRenderer);
