@@ -74,12 +74,12 @@ class Player : public Character {
   private:
     bool fallingDown = false;
 
-	bool hasBow = false;
-	bool hasSilverBow = false;
-	bool hasGoldenBow = false;
+	bool hasBow = true;
+	bool hasSilverBow = true;
+	bool hasGoldenBow = true;
 
 	bool hasDoubleJumpItem = true;
-	bool hasFireImmunity = false;
+	bool hasFireImmunity = true;
 
 	int keypressCount = 0;
 	int points = 0;

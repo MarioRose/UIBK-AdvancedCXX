@@ -99,6 +99,12 @@ void Player::move()
 		posX -= velX;
 	}
 
+    // If the character went too far to the top
+    if (posY < 0) {
+        // Move back
+        posY += 5;
+    }
+
 	// Jumping
 	if (forceY > 0) {
 		status = CharacterStatus::JUMPING;
