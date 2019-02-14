@@ -63,18 +63,22 @@ void Player::control(SDL_Event &e)
 		// Adjust the velocity
 		switch (e.key.keysym.sym) {
 		case SDLK_UP:
-			keypressCount--;
+			if(keypressCount > 0)
+			    keypressCount--;
 			break;
 		case SDLK_DOWN:
-			keypressCount--;
+            if(keypressCount > 0)
+                keypressCount--;
 			velY -= max_vel;
 			break;
 		case SDLK_LEFT:
-			keypressCount--;
+            if(keypressCount > 0)
+                keypressCount--;
 			velX += max_vel;
 			break;
 		case SDLK_RIGHT:
-			keypressCount--;
+            if(keypressCount > 0)
+                keypressCount--;
 			velX -= max_vel;
 			break;
 		default:
@@ -340,11 +344,6 @@ bool Player::onBottomBorder()
 	return posY >= (SCREEN_HEIGHT - object_height - 5);
 }
 
-bool Player::inSkyHole() const
-{
-	return posY >= (SCREEN_HEIGHT - 34);
-}
-
 bool Player::getHasBow() const
 {
 	return hasBow;
@@ -415,10 +414,6 @@ void Player::setEquippedAbility(EquippedAbility ability)
 	this->equippedAbility = ability;
 }
 
-int Player::getMaxHealth() const
-{
-	return maxHealth;
-}
 void Player::increaseMaxHealth()
 {
 	maxHealth++;
@@ -452,4 +447,16 @@ void Player::resetPlayer()
 	points = 0;
 	maxHealth = 5;
 	health = maxHealth;
+
+	velX = 0;
+	velY = 0;
+}
+
+void Player::setKeypressCount(int count){
+    this->keypressCount = count;
+}
+
+void Player::setStatus(CharacterStatus status)
+{
+    this->status = status;
 }

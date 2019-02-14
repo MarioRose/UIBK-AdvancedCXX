@@ -897,7 +897,10 @@ int main(int argc, char *args[])
 		while (!quit) {
 
 			if (pause) {
-				int index = showmenu(font, "Pause", GameStatus::PAUSE);
+			    player.setVelX(0);
+			    player.setKeypressCount(0);
+                player.setStatus(CharacterStatus::IDLE);
+                int index = showmenu(font, "Pause", GameStatus::PAUSE);
 				if (index > 4) {
 					break;
 				} else if (index == 2) {
@@ -910,7 +913,10 @@ int main(int argc, char *args[])
 				pause = false;
 			}
 			if (gameOver) {
-				int index = showmenu(font, "Game Over", GameStatus::GAME_OVER);
+                player.setVelX(0);
+                player.setKeypressCount(0);
+                player.setStatus(CharacterStatus::IDLE);
+                int index = showmenu(font, "Game Over", GameStatus::GAME_OVER);
 				if (index > 3) {
 					break;
 				} else if (index == 1) {

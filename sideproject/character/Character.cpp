@@ -447,3 +447,8 @@ void Character::setSpeed(float speed)
     this->speed = speed;
 }
 
+void Character::setVelX(int vel)
+{
+    this->velX = vel;
+}
+

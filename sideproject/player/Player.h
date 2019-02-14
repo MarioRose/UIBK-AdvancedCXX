@@ -72,6 +72,8 @@ class Player : public Character {
 	SavePoint lastSavePoint;
 
 	void resetPlayer();
+	void setKeypressCount(int count);
+	void setStatus(CharacterStatus);
 
   private:
     bool fallingDown = false;

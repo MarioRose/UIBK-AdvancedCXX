@@ -65,6 +65,7 @@ class Character : public GameObject {
 	int getHealth();
     void setRange(int isRange);
     void setSpeed(float speed);
+    void setVelX(int vel);
 
 protected:
 	// The velocity of the moveable Object
