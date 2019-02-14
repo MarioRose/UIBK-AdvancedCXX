@@ -702,9 +702,8 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, std::string mapPath)
 {
 	std::cout << "Saving ..." << '\n';
-	std::ofstream file;
+	std::ofstream file("assets/games/01.txt",std::ios::out);
 	// TODO Generate unique filename
-	file.open("assets/games/01.txt");
 	file << "MAP " << mapPath << '\n';
 	file << "POINTS " << player.getPoints() << '\n';
 	file << "HEALTH " << player.getHealth() << '\n';
@@ -731,7 +730,7 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, 
 			}
 		}
 	}
-
+	file.flush();
 	file.close();
 }
 
@@ -766,7 +765,7 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 				std::vector<std::string> coords;
 				coords = util::getValues(value);
 				player.setPosX(std::stoi(coords.at(0)));
-				player.setPosY(std::stoi(coords.at(1)));
+				player.setPosY(std::stoi(coords.at(1))-10);
 			} else if (key == "POINTS") {
 				player.setPoints(std::stoi(value));
 			} else if (key == "HEALTH") {

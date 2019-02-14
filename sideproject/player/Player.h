@@ -69,19 +69,19 @@ class Player : public Character {
 	SavePoint lastSavePoint;
 
   private:
-	bool hasBow = true;
-    bool hasSilverBow = true;
-    bool hasGoldenBow = true;
+	bool hasBow = false;
+    bool hasSilverBow = false;
+    bool hasGoldenBow = false;
 
-	bool hasDoubleJumpItem = true;
-	bool hasFireImmunity = true;
+	bool hasDoubleJumpItem = false;
+	bool hasFireImmunity = false;
 
 	int keypressCount = 0;
 	int points = 0;
     int maxHealth = 5;
 
 	EquippedItem equippedItem = EquippedItem::NONE;
-    EquippedAbility equippedAbility = EquippedAbility::JUMP;
+    EquippedAbility equippedAbility = EquippedAbility::NONE;
 
 	bool collisionDetection(IEnemy *enemy);
 	bool collisionDetection(Sprite *sprite);
