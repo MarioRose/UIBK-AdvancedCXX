@@ -481,7 +481,6 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 
 	background_surface = IMG_Load("assets/images/menu.jpg");
 	background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
-
 	SDL_FreeSurface(background_surface);
 
 	bool selected[NUMMENU] = {0, 0};
@@ -722,7 +721,7 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 			std::string key, value;
 			if (!(iss >> key >> value)) {
 				continue;
-			} // error
+			}
 
 			if (key == "MAP") {
 				mapName = value;
@@ -1136,6 +1135,9 @@ int main(int argc, char *args[])
 		TTF_CloseFont(font);
 		// hud.free();
 		// player.free();
+		for(int i = 0; i < 3; i++){
+            SDL_DestroyTexture(tileTexture[i]);
+        }
 		for (auto &room : rooms) {
 			room->free();
 			delete room;
