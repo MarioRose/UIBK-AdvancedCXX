@@ -192,11 +192,9 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 	enemy->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - enemy->getHeight() - 350);
 	if (enemy->loadFromFile(result.at(0), renderer)) {
 		std::shared_ptr<std::vector<Projectile_vert *>> projectiles(new std::vector<Projectile_vert *>());
-		//        for(int i = 0; i < 3; i++){
 		Projectile_vert *project = new Projectile_vert("assets/profiles/skull.txt", renderer);
 		projectiles->emplace_back(project);
 		enemies.emplace_back(project);
-		//        }
 
 		enemy->setProjectiles(projectiles);
 	}
@@ -455,21 +453,6 @@ void Room::moveEnemies(Player *player)
 	}
 }
 
-// void Room::setEnemyPos(std::string value)
-//{
-//	std::stringstream ss(value);
-//	std::vector<std::string> result;
-//
-//	while (ss.good()) {
-//		std::string substr;
-//		getline(ss, substr, ',');
-//		result.push_back(substr);
-//	}
-//
-//	enemy.setPosX(std::stoi(result.at(0)));
-//	enemy.setPosY(SCREEN_HEIGHT + std::stoi(result.at(1)) - enemy.getHeight() - 350);
-//}
-
 void Room::renderSprites(SDL_Renderer *renderer)
 {
 	for (auto &sprite : sprites) {
@@ -483,12 +466,6 @@ void Room::renderEnemies(SDL_Renderer *renderer)
 	for (auto &enemy : enemies) {
 		enemy->render(renderer);
 	}
-}
-
-bool Room::checkIfEnemiesInRoom()
-{
-	// TODO check positions
-	return true;
 }
 
 void Room::renderTiles(SDL_Renderer *renderer, SDL_Texture *texture)
@@ -621,8 +598,8 @@ void Room::free()
 	spriteSoundHeart = NULL;
 
 	// Free the music
-	// if( music != nullptr ) {
-	//	Mix_FreeMusic(music);
-	//	music = NULL;
-	//}
+	 if( music != nullptr ) {
+		Mix_FreeMusic(music);
+		music = NULL;
+	}
 }

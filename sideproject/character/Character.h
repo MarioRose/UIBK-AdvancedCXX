@@ -26,11 +26,7 @@ class Character : public GameObject {
 	// Lets the Character move
 	virtual void move();
 
-	bool contactsPlatform();
 	void setContactPlatform(bool);
-
-	bool contactsWall();
-	void setContactWall(bool b);
 
 	void changeDirection();
 

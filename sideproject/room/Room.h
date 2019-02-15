@@ -86,27 +86,19 @@ class Room {
 	void loadMusic(std::string path, RoomSoundType sound_type);
 	void loadBackground(std::string path, SDL_Renderer *renderer);
 	void setRGB(std::string value);
-	void setSavePoint(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
 	void addFirstBoss(std::string path, SDL_Renderer *renderer);
     void addSecondBoss(std::string path, SDL_Renderer *renderer);
     void addThirdBoss(std::string path, SDL_Renderer *renderer);
-    Projectile* addProjectile(std::string path, SDL_Renderer *renderer);
 	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
 	void addTile(std::string value, int type);
-	void setEnemyPos(std::string value);
-	bool checkIfEnemiesInRoom();
 	void initTiles();
 	void removeTile(std::string value);
 	void removeSkyTile(std::string value);
     void addDoorRight(std::string value);
     void addDoorLeft(std::string value);
 
-	std::vector<std::string> getValues(std::string value);
-
 	std::vector<Tile> tiles;
-
-	Sprite flag;
 
 	Texture starTexture;
     Texture heartTexture;

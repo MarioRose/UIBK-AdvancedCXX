@@ -25,9 +25,6 @@ bool Texture::loadFromFile(std::string path, SDL_Renderer *gRenderer)
 	// Get rid of preexisting texture
 	free();
 
-	// TODO Debug only
-	filePath = path;
-
 	// The final texture
 	SDL_Texture *newTexture = NULL;
 
@@ -57,37 +54,6 @@ bool Texture::loadFromFile(std::string path, SDL_Renderer *gRenderer)
 	return mTexture != NULL;
 }
 
-#ifdef _SDL_TTF_H
-bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor)
-{
-	// Get rid of preexisting texture
-	free();
-
-	// Render text surface
-	SDL_Surface *textSurface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);
-	if (textSurface != NULL) {
-		// Create texture from surface pixels
-		mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
-
-		if (mTexture == NULL) {
-			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-		} else {
-			// Get image dimensions
-			mWidth = textSurface->w;
-			mHeight = textSurface->h;
-		}
-
-		// Get rid of old surface
-		SDL_FreeSurface(textSurface);
-	} else {
-		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-	}
-
-	// Return success
-	return mTexture != NULL;
-}
-#endif
-
 void Texture::free()
 {
 	// Free texture if it exists
@@ -97,24 +63,6 @@ void Texture::free()
 		mWidth = 0;
 		mHeight = 0;
 	}
-}
-
-void Texture::setColor(Uint8 red, Uint8 green, Uint8 blue)
-{
-	// Modulate texture rgb
-	SDL_SetTextureColorMod(mTexture, red, green, blue);
-}
-
-void Texture::setBlendMode(SDL_BlendMode blending)
-{
-	// Set blending function
-	SDL_SetTextureBlendMode(mTexture, blending);
-}
-
-void Texture::setAlpha(Uint8 alpha)
-{
-	// Modulate texture alpha
-	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
 void Texture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect *clip, double angle, SDL_Point *center,
@@ -138,10 +86,6 @@ int Texture::getWidth()
 	return mWidth;
 }
 
-int Texture::getHeight()
-{
-	return mHeight;
-}
 
 void Texture::scaleToWidth(int width){
     double factor = ((double)width)/this->mWidth;

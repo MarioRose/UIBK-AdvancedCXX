@@ -21,7 +21,6 @@ class Boss : public IEnemy {
 	void setIsGoingRight(bool right);
 	void setItem(Sprite *sprite);
 	void setProjectiles(std::shared_ptr<std::vector<Projectile *>> projectiles);
-	void addProjectile(Projectile *projectile);
 	void shootProjectiles();
 
 	void setStartPos();

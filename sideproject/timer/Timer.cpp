@@ -4,10 +4,6 @@
 #include <stdio.h>
 #include <string>
 
-
-
-
-
 Timer::Timer() {
 	//Initialize the variables
 	mStartTicks = 0;
@@ -27,44 +23,6 @@ void Timer::start() {
 	//Get the current clock time
 	mStartTicks = SDL_GetTicks();
 	mPausedTicks = 0;
-}
-
-void Timer::stop() {
-	//Stop the timer
-	mStarted = false;
-
-	//Unpause the timer
-	mPaused = false;
-
-	//Clear tick variables
-	mStartTicks = 0;
-	mPausedTicks = 0;
-}
-
-void Timer::pause() {
-	//If the timer is running and isn't already paused
-	if( mStarted && !mPaused ) {
-		//Pause the timer
-		mPaused = true;
-
-		//Calculate the paused ticks
-		mPausedTicks = SDL_GetTicks() - mStartTicks;
-		mStartTicks = 0;
-	}
-}
-
-void Timer::unpause() {
-	//If the timer is running and paused
-	if (mStarted && mPaused) {
-		//Unpause the timer
-		mPaused = false;
-
-		//Reset the starting ticks
-		mStartTicks = SDL_GetTicks() - mPausedTicks;
-
-		//Reset the paused ticks
-		mPausedTicks = 0;
-	}
 }
 
 Uint32 Timer::getTicks() {

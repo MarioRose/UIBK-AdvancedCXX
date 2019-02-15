@@ -40,7 +40,6 @@ class Player : public Character {
 	bool onRightBorder();
 	bool onTopBorder();
 	bool onBottomBorder();
-	bool inSkyHole() const;
 
 	bool getHasBow() const;
 	void setHasBow(bool hasBow);
@@ -57,7 +56,6 @@ class Player : public Character {
 	bool hasFireItem() const;
 	void setFireItem(bool hasItem);
 
-	int getMaxHealth() const;
 	void increaseMaxHealth();
 
     void setFallingDown(bool);

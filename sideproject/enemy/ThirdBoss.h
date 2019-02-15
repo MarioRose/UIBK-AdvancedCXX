@@ -38,7 +38,6 @@ class ThirdBoss : public IEnemy {
 	int startHealth;
 
 	bool goingRight;
-	bool itemNotShowed = true;
 	void goBackAndForth();
 	int frameCount = 0;
 };

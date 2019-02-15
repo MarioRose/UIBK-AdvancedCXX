@@ -31,9 +31,6 @@ enum class GameStatus { NEW, PAUSE, GAME_OVER, GAME_BEAT };
 // Starts up SDL and creates window
 bool init();
 
-// Loads media
-bool loadMedia();
-
 // Frees media and shuts down SDL
 void close();
 
@@ -46,8 +43,6 @@ SDL_Renderer *gRenderer = NULL;
 SDL_Texture *tileTexture[3];
 
 bool pause = false;
-
-std::string mapName;
 
 // RECURSIVELY BUILD MAP
 void renderMapRoom(std::vector<Room *> rooms, int i, int current, int x, int y, int w, int h)
@@ -680,8 +675,6 @@ bool init()
 		return false;
 	}
 
-	// Initialize renderer color
-	// SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 	// Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags)) {
@@ -745,7 +738,6 @@ void initRooms(std::string path, std::vector<Room *> &rooms)
 			}
 
 			if (key == "MAP") {
-				mapName = value;
 				continue;
 			}
 
@@ -769,7 +761,6 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, 
 {
 	std::cout << "Saving ..." << '\n';
 	std::ofstream file("assets/games/01.txt", std::ios::out);
-	// TODO Generate unique filename
 	file << "MAP " << mapPath << '\n';
 	file << "POINTS " << player.getPoints() << '\n';
 	file << "HEALTH " << player.getHealth() << '\n';

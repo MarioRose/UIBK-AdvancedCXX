@@ -34,12 +34,6 @@ void Boss::setProjectiles(std::shared_ptr<std::vector<Projectile*>> projectiles)
     this->projectiles = projectiles;
 }
 
-
-void Boss::addProjectile(Projectile *projectile)
-{
-    this->projectiles->push_back(projectile);
-}
-
 void Boss::goBackAndForth()
 {
 	status = CharacterStatus::RUNNING;

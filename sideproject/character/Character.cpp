@@ -234,26 +234,18 @@ void Character::render(SDL_Renderer *renderer)
 	switch (status) {
 
 	case CharacterStatus::RUNNING:
-		// runningTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-		// std::cout << "File Path: " << runningTextures[spriteNumber]->filePath << "\n";
 		runningTextures[spriteIndexRunning]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::IDLE:
-		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
 		idleTextures[spriteIndexIdle]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::DEAD:
-		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
 		dyingTextures[dyingTextures.size() - 1]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::DYING:
-		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
 		dyingTextures[spriteIndexDying]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 
 		if (spriteIndexDying + 1 == dyingTextures.size()) {
@@ -262,8 +254,6 @@ void Character::render(SDL_Renderer *renderer)
 		break;
 
 	case CharacterStatus::ATTACK:
-		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
 		attackTextures[spriteIndexAttack]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 
 		if (spriteIndexAttack + 1 == attackTextures.size()) {
@@ -273,14 +263,10 @@ void Character::render(SDL_Renderer *renderer)
 		break;
 
 	case CharacterStatus::FALLING:
-		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
 		fallingTextures[spriteIndexFalling]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
 	case CharacterStatus::JUMPING:
-		// idleTextures.at(spriteNumber).render( mPosX, mPosY, renderer );
-		// std::cout << "File Path: " << idleTextures[spriteNumber]->filePath << "\n";
 		jumpingTextures[spriteIndexJumping]->render(posX, posY, renderer, clip, 0, NULL, flipType);
 		break;
 
@@ -304,7 +290,6 @@ void Character::shout()
 	// Load music
 	if (shout_sound != nullptr) {
 		Mix_VolumeMusic(MIX_MAX_VOLUME);
-		// Mix_PlayMusic( shout_sound, 1 );
 		Mix_PlayChannel(-1, shout_sound, 0);
 	}
 }
@@ -367,7 +352,6 @@ void Character::loseHealth(int strength)
 	if (health <= 0) {
         shout();
         status = CharacterStatus::DYING;
-		// setHeight(1);
 	}
 }
 
@@ -392,26 +376,11 @@ void Character::setDeath()
         status = CharacterStatus::DEAD;
 }
 
-bool Character::contactsPlatform()
-{
-	return contactPlatform;
-}
-
 void Character::setContactPlatform(bool b)
 {
     if(b)
         jumpCount = 0;
 	contactPlatform = b;
-}
-
-bool Character::contactsWall()
-{
-	return contactWall;
-}
-
-void Character::setContactWall(bool b)
-{
-	contactWall = b;
 }
 
 void Character::changeDirection()
