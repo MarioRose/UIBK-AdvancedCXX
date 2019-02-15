@@ -369,9 +369,12 @@ void Character::free()
 
 void Character::loseHealth(int strength)
 {
+    if(status == CharacterStatus::DYING || status == CharacterStatus::DEAD)
+        return;
 	this->health -= strength;
 	if (health <= 0) {
-		status = CharacterStatus::DYING;
+        shout();
+        status = CharacterStatus::DYING;
 		// setHeight(1);
 	}
 }

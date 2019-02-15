@@ -1,7 +1,8 @@
 CHARACTER SwampMonster
+SOUND_SHOUT assets/music/scary-shout.mp3
 HEIGHT 16
 WIDTH 16
-HEALTH 3
+HEALTH 2
 RANGE 1
 IDLE assets/images/characters/swampMonster/idle/1.png
 IDLE assets/images/characters/swampMonster/idle/2.png

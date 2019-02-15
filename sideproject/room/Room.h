@@ -125,6 +125,8 @@ class Room {
 
 	Mix_Chunk *spriteSound1;
 	Mix_Chunk *spriteSound2;
+    Mix_Chunk *spriteSoundHeart;
+
 };
 
 #endif

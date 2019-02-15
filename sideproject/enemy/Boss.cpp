@@ -76,7 +76,7 @@ void Boss::attackOne()
             posX += 5;
         }
     } else {
-        if (posX < 0) {
+        if (posX < 50) {
             setIsGoingRight(true);
         } else {
             posX -= 8;

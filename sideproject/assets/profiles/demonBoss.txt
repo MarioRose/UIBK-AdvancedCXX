@@ -1,7 +1,8 @@
 CHARACTER Devil
+SOUND_SHOUT assets/music/monster.wav
 HEIGHT 144
 WIDTH 160
-HEALTH 3
+HEALTH 30
 RANGE 0
 IDLE assets/images/characters/demonBoss/idle/1.png
 RUNNING assets/images/characters/demonBoss/running/1.png

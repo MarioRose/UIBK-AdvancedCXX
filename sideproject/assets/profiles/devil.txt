@@ -1,7 +1,8 @@
 CHARACTER Devil
+SOUND_SHOUT assets/music/scary-shout.mp3
 HEIGHT 33
 WIDTH 22
-HEALTH 5
+HEALTH 3
 RANGE 0
 SPEED 1
 IDLE assets/images/characters/devil/idle/1.png

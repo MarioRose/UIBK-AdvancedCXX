@@ -1,7 +1,8 @@
 CHARACTER Demon
+SOUND_SHOUT assets/music/scary-shout.mp3
 HEIGHT 36
 WIDTH 32
-HEALTH 3
+HEALTH 5
 RANGE 0
 SPEED 1.5
 IDLE assets/images/characters/demon/idle/1.png

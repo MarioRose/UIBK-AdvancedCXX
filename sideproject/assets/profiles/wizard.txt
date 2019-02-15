@@ -1,7 +1,8 @@
 CHARACTER Wizard
+SOUND_SHOUT assets/music/scary-shout.mp3
 HEIGHT 28
 WIDTH 16
-HEALTH 3
+HEALTH 4
 RANGE 1
 IDLE assets/images/characters/wizard/idle/1.png
 IDLE assets/images/characters/wizard/idle/2.png

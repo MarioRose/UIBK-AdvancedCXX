@@ -67,7 +67,8 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
     fireItemTexture.loadFromFile("assets/images/sprites/fireItem.png", renderer);
 
 	spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
-	spriteSound2 = Mix_LoadWAV("assets/music/406244.wav");
+	spriteSound2 = Mix_LoadWAV("assets/music/powerup.wav");
+    spriteSoundHeart = Mix_LoadWAV("assets/music/heart.ogg");
 
 	arrows.loadTexture(renderer);
 	fireball.loadTexture(renderer);
@@ -272,7 +273,7 @@ void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
 		sprites.emplace_back(new Sprite(x, y, starTexture, renderer, type, spriteSound1, roomIndex));
 		break;
 	case SpriteType::HEART:
-		sprites.emplace_back(new Sprite(x, y, heartTexture, renderer, type, spriteSound1, roomIndex));
+		sprites.emplace_back(new Sprite(x, y, heartTexture, renderer, type, spriteSoundHeart, roomIndex));
 		break;
 	case SpriteType::BOW:
 		sprites.emplace_back(new Sprite(x, y, bowTexture, renderer, type, spriteSound2, roomIndex));
@@ -585,7 +586,11 @@ void Room::free()
 
 	Mix_FreeChunk(spriteSound2);
 	spriteSound2 = NULL;
-	// Free the music
+
+    Mix_FreeChunk(spriteSoundHeart);
+    spriteSoundHeart = NULL;
+
+    // Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);
 	//	music = NULL;

@@ -1,4 +1,5 @@
 CHARACTER Devil
+SOUND_SHOUT assets/music/monster.wav
 HEIGHT 108
 WIDTH 60
 HEALTH 20

@@ -1,7 +1,8 @@
 CHARACTER Cat
+SOUND_SHOUT assets/music/scary-shout.mp3
 HEIGHT 65
 WIDTH 37
-HEALTH 5
+HEALTH 6
 RANGE 1
 IDLE assets/images/characters/ghost/idle/1.png
 RUNNING assets/images/characters/ghost/running/1.png
