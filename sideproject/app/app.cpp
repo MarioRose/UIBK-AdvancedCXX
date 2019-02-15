@@ -45,11 +45,7 @@ SDL_Renderer *gRenderer = NULL;
 
 SDL_Texture *tileTexture[3];
 
-// pause
 bool pause = false;
-
-// game over
-bool gameOver = false;
 
 std::string mapName;
 
@@ -452,8 +448,8 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	}
 
 	const char *labels[4] = {title.c_str(), "Start Game", "Load Game", "Exit Game"};
-	const char *labels_gameover[4] = {title.c_str(), "New Game", "Load Game", "Exit Game"};
-	const char *labels_pause[6] = {title.c_str(), "Continue", "Inventory", "Show Map", "Save Game", "Exit Game"};
+	const char *labels_gameover[4] = {title.c_str(), "New Game", "Load Game", "Back To Main Menu"};
+	const char *labels_pause[6] = {title.c_str(), "Continue", "Inventory", "Show Map", "Save Game", "Back To Main Menu"};
 
 	SDL_Surface *menus[NUMMENU];
 	SDL_Surface *background_surface;
@@ -851,8 +847,9 @@ int main(int argc, char *args[])
 
 		// Main loop flag
 		bool quit = false;
-
 		bool newGame = false;
+		bool mainMenu = true;
+        bool gameOver = false;
 
 		player.loadFromFile("assets/profiles/main.txt", gRenderer);
 
@@ -872,29 +869,41 @@ int main(int argc, char *args[])
 
 		TTF_Font *font;
 		font = TTF_OpenFont("assets/fonts/menuFont.ttf", 30);
-		int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
-		if (index > 3) {
-			quit = true;
-		} else if (index == 1) {
-			initRooms(mapPath, rooms);
-			currentRoom = rooms.at(0);
-			currentRoom->enter();
-		} else if (index == 2) {
-			int currentRoomIndex = loadGame(player, rooms, mapPath);
-			if(currentRoomIndex != -1) {
-				currentRoom = rooms.at(currentRoomIndex);
-				currentRoom->enter();
-			} else {
-				initRooms(mapPath, rooms);
-				currentRoom = rooms.at(0);
-				currentRoom->enter();
-			}
-		}
+
+        initRooms(mapPath, rooms);
 
 		// quit = true;
 		// While application is running
 
 		while (!quit) {
+
+		    if(mainMenu){
+                int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
+                if (index >= 3) {
+                    break;
+                } else if (index == 1) {
+                    mainMenu = false;
+                    for (auto room : rooms) {
+                        room->resetRoom();
+                    }
+                    player.resetPlayer();
+                    currentRoom = rooms.at(0);
+                    currentRoom->enter();
+                    // Um Hud zu updaten
+                    newGame = true;
+                } else if (index == 2) {
+                    mainMenu = false;
+                    int currentRoomIndex = loadGame(player, rooms, mapPath);
+                    if(currentRoomIndex != -1) {
+                        currentRoom = rooms.at(currentRoomIndex);
+                        currentRoom->enter();
+                    } else {
+                        initRooms(mapPath, rooms);
+                        currentRoom = rooms.at(0);
+                        currentRoom->enter();
+                    }
+                }
+		    }
 
 			if (pause) {
 			    player.setVelX(0);
@@ -902,7 +911,9 @@ int main(int argc, char *args[])
                 player.setStatus(CharacterStatus::IDLE);
                 int index = showmenu(font, "Pause", GameStatus::PAUSE);
 				if (index > 4) {
-					break;
+				    mainMenu = true;
+                    pause = false;
+                    continue;
 				} else if (index == 2) {
 					showInventory(font, &player);
 				} else if (index == 3) {
@@ -917,8 +928,11 @@ int main(int argc, char *args[])
                 player.setKeypressCount(0);
                 player.setStatus(CharacterStatus::IDLE);
                 int index = showmenu(font, "Game Over", GameStatus::GAME_OVER);
-				if (index > 3) {
-					break;
+				if (index >= 3) {
+                    mainMenu = true;
+                    pause = false;
+                    gameOver = false;
+                    continue;
 				} else if (index == 1) {
 					for (auto room : rooms) {
 						room->resetRoom();
@@ -932,8 +946,6 @@ int main(int argc, char *args[])
 					int currentRoomIndex = loadGame(player, rooms, mapPath);
 					currentRoom = rooms.at(currentRoomIndex);
 					currentRoom->enter();
-				} else if (index == 3) {
-					break;
 				}
 				gameOver = false;
 			}
