@@ -10,6 +10,11 @@ SecondBoss::SecondBoss()
     posY = 200;
 }
 
+SecondBoss::~SecondBoss() {
+	item->free();
+	delete item;
+}
+
 bool SecondBoss::isGoingUp()
 {
     return goingUp;

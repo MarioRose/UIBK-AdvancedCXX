@@ -363,6 +363,8 @@ void Character::free()
 		}
 	}
 
+	delete clip;
+
 	Mix_FreeChunk(shout_sound);
 	shout_sound = NULL;
 }

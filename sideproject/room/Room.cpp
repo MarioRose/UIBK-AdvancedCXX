@@ -255,9 +255,9 @@ void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
 	boss->loadFromFile(result.at(0), renderer);
 
-    boss->setStartPos();
+    	boss->setStartPos();
 
-    enemies.emplace_back(boss);
+    	enemies.emplace_back(boss);
 }
 
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)

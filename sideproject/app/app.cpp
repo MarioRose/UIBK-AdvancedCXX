@@ -1104,11 +1104,11 @@ int main(int argc, char *args[])
 
 		// Free resources
 		TTF_CloseFont(font);
-		hud.free();
-		player.free();
-		currentRoom->free();
+		//hud.free();
+		//player.free();
 		for (auto &room : rooms) {
-			room->free();
+			//room->free();
+			delete room;
 		}
 	}
 
