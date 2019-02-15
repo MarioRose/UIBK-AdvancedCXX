@@ -2,31 +2,31 @@
 
 ## BUGS
 
-- [ ] Characters can move on Ground under platform
-- [ ] Load Game: Enemies are immortal when set to death
+- [x] Characters can move on Ground under platform
+- [x] Load Game: Enemies are immortal when set to death
 - [X] Map ignored when loading game
 
 ## TODO
 
-- [ ] 3 consecutive areas, each:
-    - [ ] with its own tone (architecture, sprites, music, enemies etc)
-    - [ ] with a handful of rooms each
-    - [ ] a boss guarding an item / ability
-    - [ ] more difficult than the previous area
-    - [ ] containing save points
-- [ ] basic movement
-    - [ ] dropping from platforms
-    - [ ] interacting with game entities (save points, doors etc)
-- [ ] player character
-    - [ ] gets stronger over the course of the game (XP / level-up) (maye use playerPoints as XP)
-    - [ ] can equip found items to further increase stats
-- [ ] Game over screen (back to main menu ...)
+- [x] 3 consecutive areas, each:
+    - [x] with its own tone (architecture, sprites, music, enemies etc)
+    - [x] with a handful of rooms each
+    - [x] a boss guarding an item / ability
+    - [x] more difficult than the previous area
+    - [x] containing save points
+- [x] basic movement
+    - [x] dropping from platforms
+    - [x] interacting with game entities (save points, doors etc)
+- [x] player character
+    - [x] gets stronger over the course of the game (XP / level-up) (maye use playerPoints as XP)
+    - [x] can equip found items to further increase stats
+- [x] Game over screen (back to main menu ...)
 - [x] Walls
-- [ ] Skills (e.g. get more live every 20 stars)
-- [ ] don't allow to walk on ground under platform
+- [x] Skills (e.g. get more live every 20 stars)
+- [x] don't allow to walk on ground under platform
 - [x] pfeile counter (max 10)
-- [ ] cap the frame-rate at a reasonable number
-- [ ] timing related logic should be independent of the frame-rate, use a *time delta*
+- [x] cap the frame-rate at a reasonable number
+- [x] timing related logic should be independent of the frame-rate, use a *time delta*
 
 ## Mario
 - [X] 1 secondary combat mechanic
@@ -42,7 +42,6 @@
 
 ## Christoph
 - [x] Boss attack
-- [ ] Boss healthbar
 - [x] Enemies with range attacks
 - [x] Double jump unlocking
 
