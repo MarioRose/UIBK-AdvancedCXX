@@ -450,6 +450,14 @@ void Player::resetPlayer()
 
 	velX = 0;
 	velY = 0;
+
+    hasBow = true;
+    hasSilverBow = true;
+    hasGoldenBow = true;
+
+    hasDoubleJumpItem = true;
+    hasFireImmunity = true;
+
 }
 
 void Player::setKeypressCount(int count){

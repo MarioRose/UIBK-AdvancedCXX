@@ -986,6 +986,8 @@ int main(int argc, char *args[])
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_v) {
 					if (currentRoom->fireball.getState() == FireballState::INACTIVE &&
 					    player.getEquippedAbility() == EquippedAbility::FIRE) {
+                        player.loseHealth(1);
+                        newGame = true;
 						currentRoom->fireball.shoot(player.getPosX(), player.getPosY(), player.getFlipType());
 					}
 				}
