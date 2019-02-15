@@ -560,6 +560,8 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 				x = event.button.x;
 				y = event.button.y;
 				for (int i = 0; i < NUMMENU; i += 1) {
+                    if (i == 0)
+                        continue;
 					if (x >= pos[i].x && x <= pos[i].x + pos[i].w && y >= pos[i].y && y <= pos[i].y + pos[i].h) {
 						for (int i = 0; i < NUMMENU; i++) {
 							SDL_FreeSurface(menus[i]);
