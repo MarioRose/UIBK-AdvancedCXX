@@ -209,7 +209,7 @@ void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new Boss();
 
-	auto *item = new Sprite(50, 50, flyingItemTexture, renderer, SpriteType::JUMP, spriteSound2, roomIndex);
+	auto *item = new Sprite(SCREEN_WIDTH, SCREEN_HEIGHT, flyingItemTexture, renderer, SpriteType::JUMP, spriteSound2, roomIndex);
 	item->visible = false;
 	sprites.emplace_back(item);
 
@@ -238,7 +238,7 @@ void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
 {
 	auto boss = new SecondBoss();
 
-	auto *item = new Sprite(50, 50, fireItemTexture, renderer, SpriteType::FIREITEM, spriteSound2, roomIndex);
+	auto *item = new Sprite(SCREEN_WIDTH, SCREEN_HEIGHT, fireItemTexture, renderer, SpriteType::FIREITEM, spriteSound2, roomIndex);
 	item->visible = false;
 	sprites.emplace_back(item);
 
