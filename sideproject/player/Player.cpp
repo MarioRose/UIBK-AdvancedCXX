@@ -441,7 +441,7 @@ void Player::resetPlayer()
 	hasGoldenBow = true;
 
 	hasDoubleJumpItem = true;
-	hasFireImmunity = false;
+	hasFireImmunity = true;
 
 	keypressCount = 0;
 	points = 0;

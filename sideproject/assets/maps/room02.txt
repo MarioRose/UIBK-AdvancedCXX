@@ -27,3 +27,6 @@ ENEMY assets/profiles/devil.txt,600,300
 
 # SPRITES
 STAR 455,400
+FLAME 190,30
+FLAME 210,30
+

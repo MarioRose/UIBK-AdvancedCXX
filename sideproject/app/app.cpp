@@ -892,7 +892,7 @@ int main(int argc, char *args[])
 		while (!quit) {
 
 			if (mainMenu) {
-				int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
+				int index = showmenu(font, "Jungle Adventure 3000", GameStatus::NEW);
 				if (index >= 3) {
 					break;
 				} else if (index == 1) {

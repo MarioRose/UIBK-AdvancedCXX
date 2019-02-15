@@ -17,7 +17,7 @@ DOORRIGHT 380,448
 HOLE 0,320
 
 # ENTITIES
-ENEMY assets/profiles/cat.txt,320,0
+ENEMY assets/profiles/cat.txt,320,200
 
 # SPRITES
 FLAME 0,30
