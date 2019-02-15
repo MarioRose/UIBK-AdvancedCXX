@@ -26,7 +26,7 @@ and may not be redistributed without written permission.*/
 
 #include <algorithm>
 
-enum class GameStatus { NEW, PAUSE, GAME_OVER };
+enum class GameStatus { NEW, PAUSE, GAME_OVER, GAME_BEAT };
 
 // Starts up SDL and creates window
 bool init();
@@ -404,8 +404,8 @@ void showInventory(TTF_Font *font, Player *player)
 		inventoryBoxes[3].texture->render(inventoryBoxes[3].x, inventoryBoxes[3].y, gRenderer, NULL, 0, NULL,
 		                                  SDL_FLIP_NONE);
 		if (inventoryBoxes[3].itemTexture != NULL) {
-			inventoryBoxes[3].itemTexture->render(inventoryBoxes[3].x + 15, inventoryBoxes[3].y + 10, gRenderer, NULL, 0,
-			                                      NULL, SDL_FLIP_NONE);
+			inventoryBoxes[3].itemTexture->render(inventoryBoxes[3].x + 15, inventoryBoxes[3].y + 10, gRenderer, NULL,
+			                                      0, NULL, SDL_FLIP_NONE);
 		}
 
 		inventoryBoxes[4].texture->render(inventoryBoxes[4].x, inventoryBoxes[4].y, gRenderer, NULL, 0, NULL,
@@ -436,6 +436,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	case GameStatus::GAME_OVER:
 		NUMMENU = 4;
 		break;
+	case GameStatus::GAME_BEAT:
+		NUMMENU = 2;
+		break;
 	case GameStatus::NEW:
 		NUMMENU = 4;
 		break;
@@ -449,7 +452,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 
 	const char *labels[4] = {title.c_str(), "Start Game", "Load Game", "Exit Game"};
 	const char *labels_gameover[4] = {title.c_str(), "New Game", "Load Game", "Back To Main Menu"};
-	const char *labels_pause[6] = {title.c_str(), "Continue", "Inventory", "Show Map", "Save Game", "Back To Main Menu"};
+	const char *labels_pause[6] = {title.c_str(), "Continue",  "Inventory",
+	                               "Show Map",    "Save Game", "Back To Main Menu"};
+	const char *labels_gameBeat[2] = {title.c_str(), "Back To Main Menu"};
 
 	SDL_Surface *menus[NUMMENU];
 	SDL_Surface *background_surface;
@@ -472,6 +477,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 			break;
 		case GameStatus::GAME_OVER:
 			menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]);
+			break;
+		case GameStatus::GAME_BEAT:
+			menus[i] = TTF_RenderText_Solid(font, labels_gameBeat[i], color[0]);
 			break;
 		}
 
@@ -518,6 +526,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 							case GameStatus::GAME_OVER:
 								menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[1]);
 								break;
+							case GameStatus::GAME_BEAT:
+								menus[i] = TTF_RenderText_Solid(font, labels_gameBeat[i], color[1]);
+								break;
 							}
 							textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
 						}
@@ -534,6 +545,9 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 								break;
 							case GameStatus::GAME_OVER:
 								menus[i] = TTF_RenderText_Solid(font, labels_gameover[i], color[0]);
+								break;
+							case GameStatus::GAME_BEAT:
+								menus[i] = TTF_RenderText_Solid(font, labels_gameBeat[i], color[0]);
 								break;
 							}
 							textureMenus[i] = SDL_CreateTextureFromSurface(gRenderer, menus[i]);
@@ -737,7 +751,7 @@ void saveGame(Player &player, std::vector<Room *> &rooms, int currentRoomIndex, 
 		if (room->isVisited()) {
 			file << "ROOM " << i << '\n';
 			for (auto &enemy : room->enemies) {
-				if(!enemy->isProjectile()) {
+				if (!enemy->isProjectile()) {
 					file << "ENEMY " << enemy->isAlive() << '\n';
 				}
 			}
@@ -810,10 +824,10 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 				spriteCounter = 0;
 				enemyCounter = 0;
 			} else if (key == "ENEMY") {
-				while(tmpRoom->enemies.at(enemyCounter)->isProjectile()) {
+				while (tmpRoom->enemies.at(enemyCounter)->isProjectile()) {
 					enemyCounter++;
 				}
-				if(!std::stoi(value))
+				if (!std::stoi(value))
 					tmpRoom->enemies.at(enemyCounter)->setDeath();
 				enemyCounter++;
 			} else if (key == "SPRITE") {
@@ -849,7 +863,7 @@ int main(int argc, char *args[])
 		bool quit = false;
 		bool newGame = false;
 		bool mainMenu = true;
-        bool gameOver = false;
+		bool gameOver = false;
 
 		player.loadFromFile("assets/profiles/main.txt", gRenderer);
 
@@ -870,50 +884,50 @@ int main(int argc, char *args[])
 		TTF_Font *font;
 		font = TTF_OpenFont("assets/fonts/menuFont.ttf", 30);
 
-        initRooms(mapPath, rooms);
+		initRooms(mapPath, rooms);
 
 		// quit = true;
 		// While application is running
 
 		while (!quit) {
 
-		    if(mainMenu){
-                int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
-                if (index >= 3) {
-                    break;
-                } else if (index == 1) {
-                    mainMenu = false;
-                    for (auto room : rooms) {
-                        room->resetRoom();
-                    }
-                    player.resetPlayer();
-                    currentRoom = rooms.at(0);
-                    currentRoom->enter();
-                    // Um Hud zu updaten
-                    newGame = true;
-                } else if (index == 2) {
-                    mainMenu = false;
-                    int currentRoomIndex = loadGame(player, rooms, mapPath);
-                    if(currentRoomIndex != -1) {
-                        currentRoom = rooms.at(currentRoomIndex);
-                        currentRoom->enter();
-                    } else {
-                        initRooms(mapPath, rooms);
-                        currentRoom = rooms.at(0);
-                        currentRoom->enter();
-                    }
-                }
-		    }
+			if (mainMenu) {
+				int index = showmenu(font, "Best Game Ever", GameStatus::NEW);
+				if (index >= 3) {
+					break;
+				} else if (index == 1) {
+					mainMenu = false;
+					for (auto room : rooms) {
+						room->resetRoom();
+					}
+					player.resetPlayer();
+					currentRoom = rooms.at(0);
+					currentRoom->enter();
+					// Um Hud zu updaten
+					newGame = true;
+				} else if (index == 2) {
+					mainMenu = false;
+					int currentRoomIndex = loadGame(player, rooms, mapPath);
+					if (currentRoomIndex != -1) {
+						currentRoom = rooms.at(currentRoomIndex);
+						currentRoom->enter();
+					} else {
+						initRooms(mapPath, rooms);
+						currentRoom = rooms.at(0);
+						currentRoom->enter();
+					}
+				}
+			}
 
 			if (pause) {
-			    player.setVelX(0);
-			    player.setKeypressCount(0);
-                player.setStatus(CharacterStatus::IDLE);
-                int index = showmenu(font, "Pause", GameStatus::PAUSE);
+				player.setVelX(0);
+				player.setKeypressCount(0);
+				player.setStatus(CharacterStatus::IDLE);
+				int index = showmenu(font, "Pause", GameStatus::PAUSE);
 				if (index > 4) {
-				    mainMenu = true;
-                    pause = false;
-                    continue;
+					mainMenu = true;
+					pause = false;
+					continue;
 				} else if (index == 2) {
 					showInventory(font, &player);
 				} else if (index == 3) {
@@ -924,15 +938,15 @@ int main(int argc, char *args[])
 				pause = false;
 			}
 			if (gameOver) {
-                player.setVelX(0);
-                player.setKeypressCount(0);
-                player.setStatus(CharacterStatus::IDLE);
-                int index = showmenu(font, "Game Over", GameStatus::GAME_OVER);
+				player.setVelX(0);
+				player.setKeypressCount(0);
+				player.setStatus(CharacterStatus::IDLE);
+				int index = showmenu(font, "Game Over", GameStatus::GAME_OVER);
 				if (index >= 3) {
-                    mainMenu = true;
-                    pause = false;
-                    gameOver = false;
-                    continue;
+					mainMenu = true;
+					pause = false;
+					gameOver = false;
+					continue;
 				} else if (index == 1) {
 					for (auto room : rooms) {
 						room->resetRoom();
@@ -948,6 +962,19 @@ int main(int argc, char *args[])
 					currentRoom->enter();
 				}
 				gameOver = false;
+			}
+
+			if (player.hasBeatGame()) {
+				player.setVelX(0);
+				player.setKeypressCount(0);
+				player.setStatus(CharacterStatus::IDLE);
+				int index = showmenu(font, "You beat the Game", GameStatus::GAME_BEAT);
+				if (index >= 1) {
+					mainMenu = true;
+					pause = false;
+					player.setBeatGame(false);
+					continue;
+				}
 			}
 
 			// Start the frame timer
@@ -986,8 +1013,8 @@ int main(int argc, char *args[])
 				if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_v) {
 					if (currentRoom->fireball.getState() == FireballState::INACTIVE &&
 					    player.getEquippedAbility() == EquippedAbility::FIRE) {
-                        player.loseHealth(1);
-                        newGame = true;
+						player.loseHealth(1);
+						newGame = true;
 						currentRoom->fireball.shoot(player.getPosX(), player.getPosY(), player.getFlipType());
 					}
 				}
@@ -1060,7 +1087,6 @@ int main(int argc, char *args[])
 			if (player.getHealth() == 0) {
 				gameOver = true;
 				continue;
-
 			}
 
 			// Increase Player health when at 4 points

@@ -93,40 +93,6 @@ void Character::move()
         loseHealth(5);
         posY = SCREEN_HEIGHT;
     }
-
-	// Jumping or Falling
-	//    if(forceY != 0 || posY != SCREEN_HEIGHT - object_height) {
-	//
-	//        //Calculate Force
-	//        if( posY + object_height < SCREEN_HEIGHT ) {
-	//            forceY = forceY + GRAVITATION + ((SCREEN_HEIGHT - object_height) - posY)/4.5;
-	//        }
-	//
-	//        //Calculate acceleration
-	//        float a = forceY + velY;
-	//
-	//        //Calculate velocity
-	//        velY = velY + a;
-	//
-	//        //Move the character up or down
-	//        posY += velY;
-	//
-	//
-	//        //Maximum Velocity downwards
-	//        if(velY >= MAX_VELOCITY_DOWN) {
-	//            velY = MAX_VELOCITY_DOWN;
-	//        }
-	//
-	//        //If the character went too far up or down
-	//        if( ( posY < 0 ) || ( posY + object_height >= SCREEN_HEIGHT ) ) {
-	//            //Move back
-	//            //mPosY -= mVelY;
-	//            velY = 0;
-	//            posY = SCREEN_HEIGHT - object_height;
-	//        }
-	//
-	//        forceY = 0;
-	//    }
 }
 
 CharacterStatus Character::getStatus()
@@ -455,3 +421,12 @@ void Character::setVelX(int vel)
     this->velX = vel;
 }
 
+void Character::setBeatGame(bool val)
+{
+    this->beatGame = val;
+}
+
+bool Character::hasBeatGame()
+{
+    return beatGame;
+}

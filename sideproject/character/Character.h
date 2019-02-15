@@ -66,6 +66,8 @@ class Character : public GameObject {
     void setRange(int isRange);
     void setSpeed(float speed);
     void setVelX(int vel);
+    void setBeatGame(bool val);
+    bool hasBeatGame();
 
 protected:
 	// The velocity of the moveable Object
@@ -80,6 +82,8 @@ protected:
     double forceX;
     //double speed
     double speed;
+
+    bool beatGame = false;
 
     bool isRangeEnemy = false;
 

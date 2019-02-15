@@ -13,6 +13,7 @@ HOLE 0,200
 HOLE 475,671
 
 # ENTITIES
+BOSS3 assets/profiles/thirdBoss.txt,250,200
 
 # SPRITES
 HEART 120,155

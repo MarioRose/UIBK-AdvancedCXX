@@ -19,7 +19,7 @@ DOORLEFT 60,128
 DOORRIGHT 380,448
 
 # ENTITIES
-ENEMY assets/profiles/cat.txt,160,120
+ENEMY assets/profiles/cat.txt,100,120
 ENEMY assets/profiles/ghost.txt,450,50
 
 # SPRITES

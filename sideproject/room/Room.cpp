@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <ThirdBoss.h>
 
 Room::Room() : background_texture(nullptr), music(nullptr), danger_music(nullptr)
 {
@@ -111,7 +112,9 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 				addFirstBoss(value, renderer);
 			} else if (key == "BOSS2") {
 				addSecondBoss(value, renderer);
-			} else if (key == "STAR") {
+            } else if (key == "BOSS3") {
+                addThirdBoss(value, renderer);
+            } else if (key == "STAR") {
 				addSprite(value, renderer, SpriteType::STAR);
 			} else if (key == "HEART") {
 				addSprite(value, renderer, SpriteType::HEART);
@@ -254,6 +257,30 @@ void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
 	boss->setPosX(std::stoi(result.at(1)));
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
 	boss->loadFromFile(result.at(0), renderer);
+
+    boss->setStartPos();
+
+    enemies.emplace_back(boss);
+}
+
+
+void Room::addThirdBoss(std::string value, SDL_Renderer *renderer)
+{
+    auto boss = new ThirdBoss();
+
+    std::shared_ptr<std::vector<Projectile *>> projectiles(new std::vector<Projectile *>());
+    for (int i = 0; i < 8; i++) {
+        Projectile *project = new Projectile("assets/profiles/fireball.txt", renderer);
+        projectiles->emplace_back(project);
+        enemies.emplace_back(project);
+    }
+
+    boss->setProjectiles(projectiles);
+
+    std::vector<std::string> result = util::getValues(value);
+    boss->setPosX(std::stoi(result.at(1)));
+    boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
+    boss->loadFromFile(result.at(0), renderer);
 
     boss->setStartPos();
 
