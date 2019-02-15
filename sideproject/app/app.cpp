@@ -154,7 +154,6 @@ struct inventoryBox {
 
 void showInventory(TTF_Font *font, Player *player)
 {
-
 	// Clear winow
 	SDL_RenderClear(gRenderer);
 
@@ -162,7 +161,6 @@ void showInventory(TTF_Font *font, Player *player)
 	Uint32 time;
 	int x, y;
 
-	// TODO: Outsource texture loading stuff
 	SDL_Surface *background_surface = IMG_Load("assets/images/menu.jpg");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 	SDL_FreeSurface(background_surface);
@@ -293,7 +291,21 @@ void showInventory(TTF_Font *font, Player *player)
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_KEYDOWN:
+				for (int i = 0; i < numLabels; i++) {
+					SDL_FreeSurface(menus[i]);
+					SDL_DestroyTexture(textureMenus[i]);
+				}
+
+				box_texture.free();
+				box_white_texture.free();
+				bow_texture.free();
+				silver_bow_texture.free();
+				golden_bow_texture.free();
+				doubleJump_texture.free();
+				fireItem_texture.free();
+
 				SDL_DestroyTexture(background_texture);
+				SDL_FreeSurface(screen);
 				return;
 			case SDL_MOUSEMOTION:
 				x = event.motion.x;
@@ -362,8 +374,18 @@ void showInventory(TTF_Font *font, Player *player)
 					}
 					for (int i = 0; i < numLabels; i++) {
 						SDL_FreeSurface(menus[i]);
-						// TODO: free rest
+						SDL_DestroyTexture(textureMenus[i]);
 					}
+					box_texture.free();
+					box_white_texture.free();
+					bow_texture.free();
+					silver_bow_texture.free();
+					golden_bow_texture.free();
+					doubleJump_texture.free();
+					fireItem_texture.free();
+
+					SDL_DestroyTexture(background_texture);
+					SDL_FreeSurface(screen);
 					return;
 				}
 				for (int i = 0; i < 5; i++) {
@@ -460,6 +482,8 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	background_surface = IMG_Load("assets/images/menu.jpg");
 	background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 
+	SDL_FreeSurface(background_surface);
+
 	bool selected[NUMMENU] = {0, 0};
 	SDL_Color color[2] = {{240, 0, 0, 100}, {255, 255, 255, 100}};
 
@@ -497,7 +521,10 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 			case SDL_QUIT:
 				for (int i = 0; i < NUMMENU; i++) {
 					SDL_FreeSurface(menus[i]);
+					SDL_DestroyTexture(textureMenus[i]);
 				}
+				SDL_DestroyTexture(background_texture);
+				SDL_FreeSurface(screen);
 				return 1;
 			case SDL_MOUSEMOTION:
 				x = event.motion.x;
@@ -549,7 +576,10 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 					if (x >= pos[i].x && x <= pos[i].x + pos[i].w && y >= pos[i].y && y <= pos[i].y + pos[i].h) {
 						for (int i = 0; i < NUMMENU; i++) {
 							SDL_FreeSurface(menus[i]);
+							SDL_DestroyTexture(textureMenus[i]);
 						}
+						SDL_FreeSurface(screen);
+						SDL_DestroyTexture(background_texture);
 
 						return i;
 					}
@@ -1104,8 +1134,8 @@ int main(int argc, char *args[])
 
 		// Free resources
 		TTF_CloseFont(font);
-		//hud.free();
-		//player.free();
+		// hud.free();
+		// player.free();
 		for (auto &room : rooms) {
 			room->free();
 			delete room;
