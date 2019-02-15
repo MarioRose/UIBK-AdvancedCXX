@@ -137,3 +137,6 @@ void ThirdBoss::reset() {
 bool ThirdBoss::isProjectile() const {
     return false;
 }
+
+void ThirdBoss::freeItem() {
+}
