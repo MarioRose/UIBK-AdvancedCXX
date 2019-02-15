@@ -986,8 +986,16 @@ int main()
 					newGame = true;
 				} else if (index == 2) {
 					int currentRoomIndex = loadGame(player, rooms, mapPath);
-					currentRoom = rooms.at(currentRoomIndex);
-					currentRoom->enter();
+					if (currentRoomIndex != -1) {
+						currentRoom = rooms.at(currentRoomIndex);
+						currentRoom->enter();
+						newGame = true;
+					} else {
+						initRooms(mapPath, rooms);
+						currentRoom = rooms.at(0);
+						currentRoom->enter();
+						newGame = true;
+					}
 				}
 				gameOver = false;
 			}
