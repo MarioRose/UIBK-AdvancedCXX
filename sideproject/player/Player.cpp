@@ -129,9 +129,9 @@ void Player::move()
 			status = CharacterStatus::IDLE;
 	}
 
-	if (contactWall) {
-		posX -= velX;
-	}
+	//if (contactWall) {
+		//posX -= velX;
+	//}
 
 	if (posY > SCREEN_HEIGHT) {
 		takeDamage();

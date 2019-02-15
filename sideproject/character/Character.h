@@ -27,6 +27,7 @@ class Character : public GameObject {
 	virtual void move();
 
 	void setContactPlatform(bool);
+	void setContactWall(bool b);
 
 	void changeDirection();
 

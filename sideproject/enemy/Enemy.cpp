@@ -1,6 +1,6 @@
-#include <iostream>
 #include "Enemy.h"
 #include "Settings.h"
+#include <iostream>
 
 Enemy::Enemy() {}
 
@@ -8,124 +8,133 @@ Enemy::~Enemy() {}
 
 void Enemy::moveAI(Character *character)
 {
-	if(isRangeEnemy){
-	    range(character);
+	if (isRangeEnemy) {
+		range(character);
 	} else {
-	    melee(character);
+		melee(character);
 	}
 }
 
 void Enemy::melee(Character *character)
 {
-    if (status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
-        return;
-    }
-    status = CharacterStatus::RUNNING;
+	if (status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
+		return;
+	}
+	status = CharacterStatus::RUNNING;
 
-    if (posX < 0) {
-        direction = Direction::RIGHT;
-    } else if (this->posX > SCREEN_WIDTH) {
-        direction = Direction::LEFT;
-    }
+	if (posX < 0) {
+		direction = Direction::RIGHT;
+	} else if (this->posX > SCREEN_WIDTH) {
+		direction = Direction::LEFT;
+	}
 
-    if (std::abs(character->getPosY()+character->getHeight() - (posY+object_height)) < 4) {
-        if (character->getPosX() > posX) {
-            direction = Direction::RIGHT;
-            flipType = SDL_FLIP_NONE;
-        } else {
-            direction = Direction::LEFT;
-            flipType = SDL_FLIP_HORIZONTAL;
-        }
-        if (abs(character->getPosX() - posX) <= 25) {
-            if(direction == Direction::LEFT) {
-                posX -= 20;
-            } else {
-                posX += 20;
-            }
+	if (std::abs(character->getPosY() + character->getHeight() - (posY + object_height)) < 4) {
+		if (!dontFollowPlayer) {
+			if (character->getPosX() > posX) {
+				direction = Direction::RIGHT;
+				flipType = SDL_FLIP_NONE;
+			} else {
+				direction = Direction::LEFT;
+				flipType = SDL_FLIP_HORIZONTAL;
+			}
+		}
+		if (abs(character->getPosX() - posX) <= 25) {
+			if (!dontFollowPlayer) {
+				if (direction == Direction::LEFT) {
+					posX -= 20;
+				} else {
+					posX += 20;
+				}
+			}
+			status = CharacterStatus::ATTACK;
+		}
+	}
 
-            status = CharacterStatus::ATTACK;
-        }
-    }
+	if(dontFollowPlayer) dontFollowCount++;
+	if (dontFollowCount > 10) {
+		dontFollowCount = 0;
+		dontFollowPlayer = false;
+	}
 
-    if (contactWall) {
-        changeDirection();
-    }
+	if (contactWall) {
+		changeDirection();
+		dontFollowPlayer = true;
+		dontFollowCount = 0;
+	}
 
-    switch (direction) {
-        case Direction::RIGHT:
-            posX += speed;
-            break;
-        case Direction::LEFT:
-            posX -= speed;
-            break;
-    }
+	switch (direction) {
+	case Direction::RIGHT:
+		posX += speed;
+		break;
+	case Direction::LEFT:
+		posX -= speed;
+		break;
+	}
 }
 
 void Enemy::range(Character *character)
 {
-    if (status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
-        return;
-    }
-    status = CharacterStatus::RUNNING;
+	if (status == CharacterStatus::DEAD || status == CharacterStatus::DYING || status == CharacterStatus::ATTACK) {
+		return;
+	}
+	status = CharacterStatus::RUNNING;
 
-    if (posX < 0) {
-        direction = Direction::RIGHT;
-    } else if (this->posX > SCREEN_WIDTH) {
-        direction = Direction::LEFT;
-    }
+	if (posX < 0) {
+		direction = Direction::RIGHT;
+	} else if (this->posX > SCREEN_WIDTH) {
+		direction = Direction::LEFT;
+	}
 
-    if (std::abs(character->getPosY()+character->getHeight() - (posY+object_height)) < 4) {
-        if (character->getPosX() > posX) {
-            direction = Direction::RIGHT;
-            flipType = SDL_FLIP_NONE;
-        } else {
-            direction = Direction::LEFT;
-            flipType = SDL_FLIP_HORIZONTAL;
-        }
-        if (abs(character->getPosX() - posX) <= 100) {
+	if (std::abs(character->getPosY() + character->getHeight() - (posY + object_height)) < 4) {
+		if (character->getPosX() > posX) {
+			direction = Direction::RIGHT;
+			flipType = SDL_FLIP_NONE;
+		} else {
+			direction = Direction::LEFT;
+			flipType = SDL_FLIP_HORIZONTAL;
+		}
+		if (abs(character->getPosX() - posX) <= 100) {
 
-            int force = 40;
+			int force = 40;
 
-            for(Projectile_vert *p : *projectiles){
-                if(p->getStatus() != CharacterStatus::DEAD){
-                    continue;
-                }
-                if(direction == Direction::RIGHT){
-                    p->setStartPosition(this->posX, this->posY, force, true);
-                } else{
-                    p->setStartPosition(this->posX, this->posY, force, false);
-                }
-                force += force;
-            }
-
-        }
-    }
-
-
+			for (Projectile_vert *p : *projectiles) {
+				if (p->getStatus() != CharacterStatus::DEAD) {
+					continue;
+				}
+				if (direction == Direction::RIGHT) {
+					p->setStartPosition(this->posX, this->posY, force, true);
+				} else {
+					p->setStartPosition(this->posX, this->posY, force, false);
+				}
+				force += force;
+			}
+		}
+	}
 }
 
-void Enemy::setProjectiles(std::shared_ptr<std::vector<Projectile_vert*>> projectiles)
+void Enemy::setProjectiles(std::shared_ptr<std::vector<Projectile_vert *>> projectiles)
 {
-    this->projectiles = projectiles;
+	this->projectiles = projectiles;
 }
 
 void Enemy::setStartPos()
 {
-    startX = posX;
-    startY = posY;
-    startHealth = health;
+	startX = posX;
+	startY = posY;
+	startHealth = health;
 }
 
-void Enemy::reset() {
-    status = CharacterStatus::IDLE;
-    posX = startX;
-    posY = startY;
-    health = startHealth;
+void Enemy::reset()
+{
+	status = CharacterStatus::IDLE;
+	posX = startX;
+	posY = startY;
+	health = startHealth;
 }
 
-bool Enemy::isProjectile() const {
-    return false;
+bool Enemy::isProjectile() const
+{
+	return false;
 }
 
-void Enemy::freeItem() {
-}
+void Enemy::freeItem() {}
