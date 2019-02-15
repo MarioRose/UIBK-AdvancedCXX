@@ -84,3 +84,6 @@ void Projectile::reset() {
 bool Projectile::isProjectile() const {
 	return true;
 }
+
+void Projectile::freeItem() {
+}

@@ -19,19 +19,19 @@ class HUD {
 	// Shows the Character on the screen
 	void render(Player *player, bool updateHud);
 
-    void updatePoints(Player *player);
-    void updateLiveCount(Player *player);
+	void updatePoints(Player *player);
+	void updateLiveCount(Player *player);
 
 	SDL_Renderer *renderer;
 	// Scene textures
 	Texture hearthTexture;
 	Texture starTexture;
 	Texture itemHolder;
-    Texture bow;
-    Texture silverBow;
-    Texture goldenBow;
-    Texture doubleJump;
-    Texture fireItem;
+	Texture bow;
+	Texture silverBow;
+	Texture goldenBow;
+	Texture doubleJump;
+	Texture fireItem;
 
   protected:
 	// The force of the Character
@@ -39,17 +39,16 @@ class HUD {
 	bool loadTextures();
 
   private:
-     SDL_Texture* pointsTexture = NULL;
-     SDL_Texture* pointsTextureBlack = NULL;
+	SDL_Texture *pointsTexture = NULL;
+	SDL_Texture *pointsTextureBlack = NULL;
 
-     SDL_Texture* liveCountTexture = NULL;
-     SDL_Texture* liveCountTextureBlack = NULL;
+	SDL_Texture *liveCountTexture = NULL;
+	SDL_Texture *liveCountTextureBlack = NULL;
 
-    bool firstRender = false;
+	bool firstRender = false;
 
-    void renderEquippedItem(Player* player);
-    void renderEquippedAbility(Player* player);
-
+	void renderEquippedItem(Player *player);
+	void renderEquippedAbility(Player *player);
 };
 
 #endif

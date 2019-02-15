@@ -311,23 +311,49 @@ void Character::shout()
 
 void Character::free()
 {
-	for (auto texture = idleTextures.begin(); texture != idleTextures.end(); ++texture) {
-		if ((*texture) != NULL) {
-			(*texture)->free();
+	for(auto texture : idleTextures) {
+		if(texture != NULL) {
+			texture->free();
+			delete texture;
 		}
 	}
 
-	for (auto texture = runningTextures.begin(); texture != runningTextures.end(); ++texture) {
-		if ((*texture) != NULL) {
-			(*texture)->free();
+	for(auto texture : runningTextures) {
+		if(texture != NULL) {
+			texture->free();
+			delete texture;
 		}
 	}
 
-	for (auto texture = dyingTextures.begin(); texture != dyingTextures.end(); ++texture) {
-		if ((*texture) != NULL) {
-			(*texture)->free();
+	for(auto texture : dyingTextures) {
+		if(texture != NULL) {
+			texture->free();
+			delete texture;
 		}
 	}
+
+	for(auto texture : attackTextures) {
+		if(texture != NULL) {
+			texture->free();
+			delete texture;
+		}
+	}
+
+	for(auto texture : fallingTextures) {
+		if(texture != NULL) {
+			texture->free();
+			delete texture;
+		}
+	}
+
+	for(auto texture : jumpingTextures) {
+		if(texture != NULL) {
+			texture->free();
+			delete texture;
+		}
+	}
+
+	delete clip;
 
 	Mix_FreeChunk(shout_sound);
 	shout_sound = NULL;

@@ -12,6 +12,7 @@ class IEnemy : public Character {
 	virtual void moveAI(Character *character) = 0;
 	virtual void reset() = 0;
 	virtual bool isProjectile() const = 0;
+	virtual void freeItem() = 0;
 };
 
 #endif // SIDESCROLLER_IENEMY_H

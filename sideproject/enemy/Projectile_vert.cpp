@@ -49,3 +49,6 @@ void Projectile_vert::reset()
 bool Projectile_vert::isProjectile() const {
     return true;
 }
+
+void Projectile_vert::freeItem() {
+}

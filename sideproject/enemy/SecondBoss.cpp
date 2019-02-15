@@ -10,6 +10,9 @@ SecondBoss::SecondBoss()
     posY = 200;
 }
 
+SecondBoss::~SecondBoss() {
+}
+
 bool SecondBoss::isGoingUp()
 {
     return goingUp;
@@ -208,4 +211,9 @@ void SecondBoss::reset() {
 
 bool SecondBoss::isProjectile() const {
     return false;
+}
+
+void SecondBoss::freeItem() {
+	item->free();
+	delete item;
 }

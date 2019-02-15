@@ -8,6 +8,12 @@ Boss::Boss()
 	clip = new SDL_Rect{0, 0, 60, 108};
 }
 
+Boss::~Boss()
+{
+	item->free();
+	delete item;
+}
+
 bool Boss::isGoingRight()
 {
 	return goingRight;
@@ -165,4 +171,9 @@ void Boss::reset() {
 
 bool Boss::isProjectile() const {
 	return false;
+}
+
+void Boss::freeItem() {
+	item->free();
+	delete item;
 }

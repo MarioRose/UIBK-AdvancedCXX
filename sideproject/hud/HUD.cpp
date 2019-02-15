@@ -47,10 +47,10 @@ bool HUD::loadTextures()
 	doubleJump.loadFromFile("assets/images/sprites/shoes.png", renderer);
 	doubleJump.scaleToHeight(SCREEN_HEIGHT * 0.045);
 
-    fireItem.loadFromFile("assets/images/sprites/fireItem.png", renderer);
-    fireItem.scaleToHeight(SCREEN_HEIGHT * 0.05);
+	fireItem.loadFromFile("assets/images/sprites/fireItem.png", renderer);
+	fireItem.scaleToHeight(SCREEN_HEIGHT * 0.05);
 
-    return success;
+	return success;
 }
 
 void HUD::render(Player *player, bool updateHud)
@@ -124,6 +124,7 @@ void HUD::updatePoints(Player *player)
 		exit(1);
 	}
 
+	TTF_CloseFont(font);
 	SDL_FreeSurface(pointsSurface);
 	SDL_FreeSurface(pointsSurfaceBlack);
 }
@@ -165,13 +166,21 @@ void HUD::updateLiveCount(Player *player)
 		exit(1);
 	}
 
+	TTF_CloseFont(font);
 	SDL_FreeSurface(liveCountSurface);
 	SDL_FreeSurface(liveCountSurfaceBlack);
 }
 
 void HUD::free()
 {
+	hearthTexture.free();
 	starTexture.free();
+	itemHolder.free();
+	bow.free();
+	silverBow.free();
+	goldenBow.free();
+	doubleJump.free();
+	fireItem.free();
 	SDL_DestroyTexture(pointsTexture);
 	SDL_DestroyTexture(pointsTextureBlack);
 
