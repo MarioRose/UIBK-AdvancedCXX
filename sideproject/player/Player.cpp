@@ -440,7 +440,7 @@ void Player::resetPlayer()
 	hasSilverBow = false;
 	hasGoldenBow = false;
 
-	hasDoubleJumpItem = false;
+	hasDoubleJumpItem = true;
 	hasFireImmunity = false;
 
 	keypressCount = 0;
