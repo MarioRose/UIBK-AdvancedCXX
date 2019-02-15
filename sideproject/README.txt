@@ -51,7 +51,7 @@ Available Item:
 Build with:
 	$ mkdir build
 	$ cd build
-	$ cmake -GNinja 
+	$ cmake -GNinja ..
 	$ ninja
 	$ cd app
 	$ ./sidescroller
