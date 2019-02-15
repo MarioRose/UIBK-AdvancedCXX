@@ -1,7 +1,6 @@
 MAP Room11
 BACKGROUND assets/images/rooms/hell.png
 MUSIC assets/music/level3.mp3
-DANGER_MUSIC assets/music/inquisitiveness.ogg
 
 COLOR 255,0,0
 

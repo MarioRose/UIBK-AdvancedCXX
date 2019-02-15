@@ -1,7 +1,6 @@
 MAP Room12
 BACKGROUND assets/images/rooms/hell.png
 MUSIC assets/music/bossfight.mp3
-DANGER_MUSIC assets/music/inquisitiveness.ogg
 
 COLOR 255,0,0
 

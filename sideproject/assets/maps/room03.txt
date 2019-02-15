@@ -1,7 +1,6 @@
 MAP Room03
 BACKGROUND assets/images/rooms/plx.png
 MUSIC assets/music/bossfight.mp3
-DANGER_MUSIC assets/music/inquisitiveness.ogg
 
 COLOR 0,255,0
 

@@ -47,3 +47,11 @@ Available Item:
 		Makes the player invulnerable against flames (might be useful to discover new areas...) (but watch out, falling damage still exitst!)
 		Also gives the player the ability to use a powerful special attack, which also drains his health, so better use it 
 		carefully
+
+Build with:
+	$ mkdir build
+	$ cd build
+	$ cmake -GNinja 
+	$ ninja
+	$ cd app
+	$ ./sidescroller
