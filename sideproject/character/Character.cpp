@@ -85,9 +85,9 @@ void Character::move()
 		status = CharacterStatus::RUNNING;
 	}
 
-	//if (contactWall) {
-		//posX -= velX;
-	//}
+//	if (contactWall) {
+//		posX -= velX;
+//	}
 
 	if (posY > SCREEN_HEIGHT - object_height) {
         loseHealth(5);
@@ -388,9 +388,11 @@ void Character::changeDirection()
 	switch (direction) {
 	case Direction::RIGHT:
 		direction = Direction::LEFT;
+		flipType = SDL_FLIP_HORIZONTAL;
 		break;
 	case Direction::LEFT:
 		direction = Direction::RIGHT;
+		flipType = SDL_FLIP_NONE;
 		break;
 	}
 	contactWall = false;
