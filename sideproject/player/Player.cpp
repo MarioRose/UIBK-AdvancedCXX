@@ -438,10 +438,10 @@ void Player::resetPlayer()
 
 	hasBow = false;
 	hasSilverBow = false;
-	hasGoldenBow = true;
+	hasGoldenBow = false;
 
-	hasDoubleJumpItem = true;
-	hasFireImmunity = true;
+	hasDoubleJumpItem = false;
+	hasFireImmunity = false;
 
 	keypressCount = 0;
 	points = 0;

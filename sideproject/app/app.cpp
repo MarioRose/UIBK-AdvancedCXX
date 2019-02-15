@@ -331,13 +331,16 @@ void showInventory(TTF_Font *font, Player *player)
 						if (inventoryBoxes[i].selected == true) {
 							switch (i) {
 							case 0:
-								player->setEquippedItem(EquippedItem::BOW);
+							    if(player->getHasBow())
+								    player->setEquippedItem(EquippedItem::BOW);
 								break;
 							case 1:
-								player->setEquippedItem(EquippedItem::SILVERBOW);
+                                if(player->getHasSilverBow())
+                                    player->setEquippedItem(EquippedItem::SILVERBOW);
 								break;
 							case 2:
-								player->setEquippedItem(EquippedItem::GOLDENBOW);
+                                if(player->getHasGoldenBow())
+                                    player->setEquippedItem(EquippedItem::GOLDENBOW);
 								break;
 							}
 							break;
@@ -348,13 +351,12 @@ void showInventory(TTF_Font *font, Player *player)
 						if (inventoryBoxes[i].selected == true) {
 							switch (i) {
 							case 3:
-								player->setEquippedAbility(EquippedAbility::JUMP);
+							    if(player->hasDoubleJump())
+								    player->setEquippedAbility(EquippedAbility::JUMP);
 								break;
 							case 4:
-								player->setEquippedAbility(EquippedAbility::FIRE);
-								break;
-							case 5:
-								player->setEquippedAbility(EquippedAbility::NONE);
+                                if(player->hasFireItem())
+                                    player->setEquippedAbility(EquippedAbility::FIRE);
 								break;
 							}
 							break;
