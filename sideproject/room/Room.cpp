@@ -516,7 +516,7 @@ void Room::collisionWall(Character *character)
 				if (character->getFlipType() == SDL_FLIP_HORIZONTAL) {
 					character->setPosX(tile.getX() + Tile::TILE_WIDTH + 1);
 				} else {
-					character->setPosX(tile.getX() - Tile::TILE_WIDTH - 1);
+					character->setPosX(tile.getX() - Tile::TILE_WIDTH - 5);
 				}
 				return;
 			}
