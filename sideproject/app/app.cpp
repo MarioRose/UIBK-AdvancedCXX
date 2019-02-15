@@ -115,13 +115,13 @@ int showmap(std::vector<Room *> rooms, int currentRoomIndex)
 	// Clear winow
 	SDL_RenderClear(gRenderer);
 
-	SDL_Surface *background_surface = IMG_Load("assets/images/menu.jpg");
+	SDL_Surface *background_surface = IMG_Load("assets/images/menu.png");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 	SDL_FreeSurface(background_surface);
 
 	SDL_RenderCopy(gRenderer, background_texture, nullptr, nullptr);
 	std::for_each(rooms.begin(), rooms.end(), &clearMapRoom);
-	renderMapRoom(rooms, 0, currentRoomIndex, 50, 100, 50, 50);
+	renderMapRoom(rooms, 0, currentRoomIndex, 50, 300, 50, 50);
 
 	// Render the rect to the screen
 	SDL_RenderPresent(gRenderer);
@@ -163,7 +163,7 @@ void showInventory(TTF_Font *font, Player *player)
 	int x, y;
 
 	// TODO: Outsource texture loading stuff
-	SDL_Surface *background_surface = IMG_Load("assets/images/menu.jpg");
+	SDL_Surface *background_surface = IMG_Load("assets/images/menu.png");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 	SDL_FreeSurface(background_surface);
 
@@ -272,7 +272,7 @@ void showInventory(TTF_Font *font, Player *player)
 	SDL_Surface *menus[numLabels];
 	SDL_Texture *textureMenus[numLabels];
 
-	SDL_Color color[2] = {{240, 0, 0, 100}, {255, 255, 255, 100}};
+	SDL_Color color[2] = {{180, 180, 80, 100}, {255, 255, 255, 100}};
 
 	for (int i = 0; i < numLabels; i++) {
 		menus[i] = TTF_RenderText_Solid(font, labels[i], color[0]);
@@ -331,13 +331,16 @@ void showInventory(TTF_Font *font, Player *player)
 						if (inventoryBoxes[i].selected == true) {
 							switch (i) {
 							case 0:
-								player->setEquippedItem(EquippedItem::BOW);
+							    if(player->getHasBow())
+								    player->setEquippedItem(EquippedItem::BOW);
 								break;
 							case 1:
-								player->setEquippedItem(EquippedItem::SILVERBOW);
+                                if(player->getHasSilverBow())
+                                    player->setEquippedItem(EquippedItem::SILVERBOW);
 								break;
 							case 2:
-								player->setEquippedItem(EquippedItem::GOLDENBOW);
+                                if(player->getHasGoldenBow())
+                                    player->setEquippedItem(EquippedItem::GOLDENBOW);
 								break;
 							}
 							break;
@@ -348,13 +351,12 @@ void showInventory(TTF_Font *font, Player *player)
 						if (inventoryBoxes[i].selected == true) {
 							switch (i) {
 							case 3:
-								player->setEquippedAbility(EquippedAbility::JUMP);
+							    if(player->hasDoubleJump())
+								    player->setEquippedAbility(EquippedAbility::JUMP);
 								break;
 							case 4:
-								player->setEquippedAbility(EquippedAbility::FIRE);
-								break;
-							case 5:
-								player->setEquippedAbility(EquippedAbility::NONE);
+                                if(player->hasFireItem())
+                                    player->setEquippedAbility(EquippedAbility::FIRE);
 								break;
 							}
 							break;
@@ -461,11 +463,11 @@ int showmenu(TTF_Font *font, std::string title, GameStatus status)
 	SDL_Texture *textureMenus[NUMMENU];
 	SDL_Texture *background_texture;
 
-	background_surface = IMG_Load("assets/images/menu.jpg");
+	background_surface = IMG_Load("assets/images/menu.png");
 	background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 
 	bool selected[NUMMENU] = {0, 0};
-	SDL_Color color[2] = {{240, 0, 0, 100}, {255, 255, 255, 100}};
+	SDL_Color color[2] = {{180, 180, 80, 100}, {255, 255, 255, 100}};
 
 	for (int i = 0; i < NUMMENU; i++) {
 		switch (status) {
