@@ -11,8 +11,6 @@ SecondBoss::SecondBoss()
 }
 
 SecondBoss::~SecondBoss() {
-	item->free();
-	delete item;
 }
 
 bool SecondBoss::isGoingUp()
@@ -213,4 +211,9 @@ void SecondBoss::reset() {
 
 bool SecondBoss::isProjectile() const {
     return false;
+}
+
+void SecondBoss::freeItem() {
+	item->free();
+	delete item;
 }

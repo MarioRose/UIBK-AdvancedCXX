@@ -63,11 +63,11 @@ class Character : public GameObject {
 	void setDeath();
 	bool isAlive();
 	int getHealth();
-    void setRange(int isRange);
-    void setSpeed(float speed);
-    void setVelX(int vel);
+	void setRange(int isRange);
+	void setSpeed(float speed);
+	void setVelX(int vel);
 
-protected:
+  protected:
 	// The velocity of the moveable Object
 	double velX;
 	// The velocity of the moveable Object
@@ -76,17 +76,17 @@ protected:
 	const double max_vel = 5;
 	// The velocity of the moveable Object
 	double forceY;
-    // The velocity of the moveable Object
-    double forceX;
-    //double speed
-    double speed;
+	// The velocity of the moveable Object
+	double forceX;
+	// double speed
+	double speed;
 
-    bool isRangeEnemy = false;
+	bool isRangeEnemy = false;
 
-    //used for double jumps
-    int jumpCount = 0;
+	// used for double jumps
+	int jumpCount = 0;
 
-    // Flip type (for flipping objects when facing left)
+	// Flip type (for flipping objects when facing left)
 	SDL_RendererFlip flipType;
 	SDL_Rect *clip = NULL;
 

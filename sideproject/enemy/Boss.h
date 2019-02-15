@@ -28,6 +28,7 @@ class Boss : public IEnemy {
 	void reset() override;
 
 	bool isProjectile() const override;
+	void freeItem() override;
 
   private:
 	void attackOne();

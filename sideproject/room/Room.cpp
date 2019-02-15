@@ -64,11 +64,11 @@ void Room::loadFromFile(std::string path, SDL_Renderer *renderer)
 	flagTexture.loadFromFile("assets/images/sprites/flag.png", renderer);
 	flameTexture.loadFromFile("assets/images/sprites/firewall.png", renderer);
 	flyingItemTexture.loadFromFile("assets/images/sprites/shoes.png", renderer);
-    fireItemTexture.loadFromFile("assets/images/sprites/fireItem.png", renderer);
+	fireItemTexture.loadFromFile("assets/images/sprites/fireItem.png", renderer);
 
 	spriteSound1 = Mix_LoadWAV("assets/music/money-001.wav");
 	spriteSound2 = Mix_LoadWAV("assets/music/powerup.wav");
-    spriteSoundHeart = Mix_LoadWAV("assets/music/heart.ogg");
+	spriteSoundHeart = Mix_LoadWAV("assets/music/heart.ogg");
 
 	arrows.loadTexture(renderer);
 	fireball.loadTexture(renderer);
@@ -198,8 +198,8 @@ void Room::addEnemy(std::string value, SDL_Renderer *renderer)
 		enemy->setProjectiles(projectiles);
 	}
 
-    enemy->setStartPos();
-    enemies.emplace_back(enemy);
+	enemy->setStartPos();
+	enemies.emplace_back(enemy);
 }
 
 void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
@@ -226,9 +226,9 @@ void Room::addFirstBoss(std::string value, SDL_Renderer *renderer)
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
 	boss->loadFromFile(result.at(0), renderer);
 
-    boss->setStartPos();
+	boss->setStartPos();
 
-    enemies.emplace_back(boss);
+	enemies.emplace_back(boss);
 }
 
 void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
@@ -255,9 +255,9 @@ void Room::addSecondBoss(std::string value, SDL_Renderer *renderer)
 	boss->setPosY(SCREEN_HEIGHT + std::stoi(result.at(2)) - boss->getHeight() - 350);
 	boss->loadFromFile(result.at(0), renderer);
 
-    	boss->setStartPos();
+	boss->setStartPos();
 
-    	enemies.emplace_back(boss);
+	enemies.emplace_back(boss);
 }
 
 void Room::addSprite(std::string value, SDL_Renderer *renderer, SpriteType type)
@@ -547,12 +547,12 @@ Room::~Room()
 }
 void Room::resetRoom()
 {
-    for(auto &enemy : enemies){
-        enemy->reset();
-    }
-    for(auto &sprite : sprites){
-        sprite->reset();
-    }
+	for (auto &enemy : enemies) {
+		enemy->reset();
+	}
+	for (auto &sprite : sprites) {
+		sprite->reset();
+	}
 }
 void Room::free()
 {
@@ -561,10 +561,13 @@ void Room::free()
 
 	for (auto &enemy : enemies) {
 		enemy->free();
+		enemy->freeItem();
+		delete enemy;
 	}
 
 	for (auto &sprite : sprites) {
 		sprite->free();
+		delete sprite;
 	}
 
 	for (auto &tile : tiles) {
@@ -587,14 +590,12 @@ void Room::free()
 	Mix_FreeChunk(spriteSound2);
 	spriteSound2 = NULL;
 
-    Mix_FreeChunk(spriteSoundHeart);
-    spriteSoundHeart = NULL;
+	Mix_FreeChunk(spriteSoundHeart);
+	spriteSoundHeart = NULL;
 
-    // Free the music
+	// Free the music
 	// if( music != nullptr ) {
 	//	Mix_FreeMusic(music);
 	//	music = NULL;
 	//}
 }
-
-

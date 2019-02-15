@@ -172,3 +172,8 @@ void Boss::reset() {
 bool Boss::isProjectile() const {
 	return false;
 }
+
+void Boss::freeItem() {
+	item->free();
+	delete item;
+}

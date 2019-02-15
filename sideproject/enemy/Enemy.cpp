@@ -126,3 +126,6 @@ void Enemy::reset() {
 bool Enemy::isProjectile() const {
     return false;
 }
+
+void Enemy::freeItem() {
+}

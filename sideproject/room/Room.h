@@ -3,9 +3,9 @@
 
 #include "Boss.h"
 #include "Enemy.h"
-#include "Projectile.h"
 #include "IEnemy.h"
 #include "Player.h"
+#include "Projectile.h"
 #include "Sprite.h"
 #include "Tile.h"
 #include <Arrows.h>
@@ -46,9 +46,9 @@ class Room {
 
 	void collisionTiles(Character *character);
 
-    void collisionWall(Character *character);
+	void collisionWall(Character *character);
 
-    void collisionTilesEnemies();
+	void collisionTilesEnemies();
 
 	void moveEnemies(Player *player);
 
@@ -89,8 +89,8 @@ class Room {
 	void setSavePoint(std::string value);
 	void addEnemy(std::string path, SDL_Renderer *renderer);
 	void addFirstBoss(std::string path, SDL_Renderer *renderer);
-    void addSecondBoss(std::string path, SDL_Renderer *renderer);
-    Projectile* addProjectile(std::string path, SDL_Renderer *renderer);
+	void addSecondBoss(std::string path, SDL_Renderer *renderer);
+	Projectile *addProjectile(std::string path, SDL_Renderer *renderer);
 	void addSprite(std::string path, SDL_Renderer *renderer, SpriteType type);
 	void addTile(std::string value, int type);
 	void setEnemyPos(std::string value);
@@ -98,8 +98,8 @@ class Room {
 	void initTiles();
 	void removeTile(std::string value);
 	void removeSkyTile(std::string value);
-    void addDoorRight(std::string value);
-    void addDoorLeft(std::string value);
+	void addDoorRight(std::string value);
+	void addDoorLeft(std::string value);
 
 	std::vector<std::string> getValues(std::string value);
 
@@ -108,14 +108,14 @@ class Room {
 	Sprite flag;
 
 	Texture starTexture;
-    Texture heartTexture;
-    Texture bowTexture;
-    Texture silverBowTexture;
-    Texture goldenBowTexture;
-    Texture flagTexture;
-    Texture flameTexture;
-    Texture flyingItemTexture;
-    Texture fireItemTexture;
+	Texture heartTexture;
+	Texture bowTexture;
+	Texture silverBowTexture;
+	Texture goldenBowTexture;
+	Texture flagTexture;
+	Texture flameTexture;
+	Texture flyingItemTexture;
+	Texture fireItemTexture;
 
 	int roomIndex;
 	bool visited = false;
@@ -125,8 +125,7 @@ class Room {
 
 	Mix_Chunk *spriteSound1;
 	Mix_Chunk *spriteSound2;
-    Mix_Chunk *spriteSoundHeart;
-
+	Mix_Chunk *spriteSoundHeart;
 };
 
 #endif

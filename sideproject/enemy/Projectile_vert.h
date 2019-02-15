@@ -19,6 +19,7 @@ public:
 
     void reset() override;
     bool isProjectile() const override;
+    void freeItem() override;
 
 private:
     bool shoot_direction;

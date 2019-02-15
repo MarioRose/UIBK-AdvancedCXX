@@ -1107,7 +1107,7 @@ int main(int argc, char *args[])
 		//hud.free();
 		//player.free();
 		for (auto &room : rooms) {
-			//room->free();
+			room->free();
 			delete room;
 		}
 	}
