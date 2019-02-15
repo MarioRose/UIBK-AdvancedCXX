@@ -154,7 +154,6 @@ struct inventoryBox {
 
 void showInventory(TTF_Font *font, Player *player)
 {
-
 	// Clear winow
 	SDL_RenderClear(gRenderer);
 
@@ -162,7 +161,6 @@ void showInventory(TTF_Font *font, Player *player)
 	Uint32 time;
 	int x, y;
 
-	// TODO: Outsource texture loading stuff
 	SDL_Surface *background_surface = IMG_Load("assets/images/menu.png");
 	SDL_Texture *background_texture = SDL_CreateTextureFromSurface(gRenderer, background_surface);
 	SDL_FreeSurface(background_surface);
@@ -290,7 +288,8 @@ void showInventory(TTF_Font *font, Player *player)
 
 	SDL_Event event;
 	while (true) {
-		while (SDL_PollEvent(&event)) {
+        time = SDL_GetTicks();
+        while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_KEYDOWN:
 				SDL_DestroyTexture(background_texture);
@@ -846,7 +845,7 @@ int loadGame(Player &player, std::vector<Room *> &rooms, std::string &mapPath)
 	return currentRoomIndex;
 }
 
-int main(int argc, char *args[])
+int main()
 {
 
 	// The Character that will be moving around on the screen
