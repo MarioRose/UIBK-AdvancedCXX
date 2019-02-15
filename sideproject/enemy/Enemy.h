@@ -13,12 +13,15 @@ class Enemy : public IEnemy {
 	~Enemy();
 
 	void moveAI(Character *character) override;
-    void setProjectiles(std::shared_ptr<std::vector<Projectile_vert*>> projectiles);
-    void setStartPos();
-    void reset() override;
+   	void setProjectiles(std::shared_ptr<std::vector<Projectile_vert*>> projectiles);
+    	void setStartPos();
+    	void reset() override;
 
-    bool isProjectile() const override;
-    void freeItem() override;
+    	bool isProjectile() const override;
+    	void freeItem() override;
+
+    	bool dontFollowPlayer = false;
+    	int dontFollowCount = 0;
 
 private:
     int startX;

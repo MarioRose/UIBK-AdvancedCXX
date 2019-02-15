@@ -85,9 +85,9 @@ void Character::move()
 		status = CharacterStatus::RUNNING;
 	}
 
-	if (contactWall) {
-		posX -= velX;
-	}
+	//if (contactWall) {
+		//posX -= velX;
+	//}
 
 	if (posY > SCREEN_HEIGHT - object_height) {
         loseHealth(5);
@@ -424,4 +424,8 @@ void Character::setBeatGame(bool val)
 bool Character::hasBeatGame()
 {
     return beatGame;
+}
+
+void Character::setContactWall(bool b) {
+	contactWall = b;
 }

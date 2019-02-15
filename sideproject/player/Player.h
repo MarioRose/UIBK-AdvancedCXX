@@ -80,15 +80,15 @@ class Player : public Character {
 	bool hasSilverBow = false;
 	bool hasGoldenBow = false;
 
-	bool hasDoubleJumpItem = false;
-	bool hasFireImmunity = false;
+	bool hasDoubleJumpItem = true;
+	bool hasFireImmunity = true;
 
 	int keypressCount = 0;
 	int points = 0;
 	int maxHealth = 5;
 
 	EquippedItem equippedItem = EquippedItem::NONE;
-	EquippedAbility equippedAbility = EquippedAbility::NONE;
+	EquippedAbility equippedAbility = EquippedAbility::JUMP;
 
 	bool collisionDetection(IEnemy *enemy);
 	bool collisionDetection(Sprite *sprite, bool& flameCollision);
